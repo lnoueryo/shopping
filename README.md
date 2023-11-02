@@ -25,6 +25,19 @@ Provide web engineers, programmers, and technicians with the latest books and re
 - **Database**: MYSQL
 - **Containerization**: Docker
 
+### Install Guide
+#### Frontend
+1. ```$ docker-compose up -d``` start a container
+#### Backend
+1. ```$ docker-compose up -d``` start a container
+2. ```$ docker-compose exec api-server poetry run python manage.py migrate``` migrate
+
+### Install Library
+#### Frontend
+```$ docker-compose exec backend-for-frontend pnpm install ${library}```
+#### Backend
+```docker-compose exec api-server poetry add ${library}```
+
 ---
 
 ## 日本語
@@ -46,15 +59,19 @@ Web系エンジニア、プログラマー、そして技術者向けの最新�
 5. ブックマーク機能
 
 ### 使用技術
-- フロントエンド: Nuxt.js
-- バックエンド: Python+Django
-- データベース: MYSQL
+- **フロントエンド**: Nuxt.js
+- **バックエンド**: Python+Django
+- **データベース**: MYSQL
 
 ### インストールガイド
 #### Frontend
 1. ```$ docker-compose up -d``` コンテナを立ち上げる
-2. ```$ docker-compose exec backend-for-frontend pnpm install``` node_modulesを作成
 #### Backend
 1. ```$ docker-compose up -d``` コンテナを立ち上げる
-2. ```$ docker-compose exec api-server poetry install``` コンテナに入る
-3. ```$ docker-compose exec api-server poetry run python manage.py migrate``` マイグレート
+2. ```$ docker-compose exec api-server poetry run python manage.py migrate``` マイグレート
+
+### ライブラリーインストール
+#### Frontend
+```$ docker-compose exec backend-for-frontend pnpm install ${library}```
+#### Backend
+```docker-compose exec api-server poetry add ${library}```

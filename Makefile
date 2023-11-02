@@ -1,27 +1,13 @@
-start-front:
-	docker-compose exec -d backend-for-frontend pnpm dev -o
-
-start-api:
-	docker-compose exec api-server poetry install
-	docker-compose exec -d api-server poetry run python manage.py runserver 0.0.0.0:8000
-
-start-all:
-	make start-front
-	make start-api
-
 start:
-	docker-compose up -d
-	make start-all
+	docker-compose up
 
 restart:
 	docker-compose down
-	docker-compose up -d
-	make start-all
+	docker-compose up
 
 rebuild:
 	docker-compose down
-	docker-compose up -d --build
-	make start-all
+	docker-compose up --build
 
 stop:
 	docker-compose down
