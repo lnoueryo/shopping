@@ -53,6 +53,8 @@ Web系エンジニア、プログラマー、そして技術者向けの最新�
 ### インストールガイド
 #### Frontend
 1. ```$ docker-compose up -d``` コンテナを立ち上げる
-2. ```$ docker-compose exec backend-for-frontend sh``` コンテナに入る
-3. ```$ pnpm install``` node_modulesを作成
-4. ```$ pnpm dev -o``` サーバーを起動
+2. ```$ docker-compose exec backend-for-frontend pnpm install``` node_modulesを作成
+#### Backend
+1. ```$ docker-compose up -d``` コンテナを立ち上げる
+2. ```$ docker-compose exec api-server poetry install``` コンテナに入る
+3. ```$ docker-compose exec api-server poetry run python manage.py migrate``` マイグレート
