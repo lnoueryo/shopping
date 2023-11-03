@@ -1,6 +1,6 @@
 ---
 name: Parent-task
-about: 
+about: about: Use this template to propose a larger feature request which can be broken down into smaller child tasks. Provide a comprehensive description of the feature, its goals, and how it can benefit the project.
 title: ''
 labels: 'enhancement'
 assignees: ''
