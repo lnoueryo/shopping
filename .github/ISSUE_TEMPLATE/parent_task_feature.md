@@ -4,14 +4,10 @@ about: Use this template to propose a larger feature request which can be broken
 title: ''
 labels: 'enhancement'
 assignees: ''
-projects: 'webtech-bookstore'
 ---
 
 ## Details:
 
 
 ## Acceptance Criteria:
--
-
-## Sub Tasks:
-- [x] #1
+- [ ] #
