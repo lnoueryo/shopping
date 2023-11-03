@@ -4,7 +4,6 @@ about: Use this template to create a sub-task stemming from a larger feature req
 title: ''
 labels: 'enhancement'
 assignees: ''
-projects: 'webtech-bookstore'
 ---
 
 ## Details:
