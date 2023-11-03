@@ -11,7 +11,8 @@ projects: 'webtech-bookstore'
 
 
 ## Acceptance Criteria:
--
+
+- [ ] #
 
 ## Reference Materials:
 - [Example](https://example.com)
