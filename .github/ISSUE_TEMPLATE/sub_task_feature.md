@@ -10,4 +10,7 @@ projects: 'webtech-bookstore'
 ## Details:
 
 ## Acceptance Criteria:
+-
 
+## Reference Materials:
+- [Example](https://example.com)
