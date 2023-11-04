@@ -1,6 +1,6 @@
 ---
 name: Implementation
-about: Use this template to create a task stemming from a larger feature request to break down complex enhancements into smaller, manageable tasks.
+about: Detailed tasks necessary to develop a portion or the entirety of a feature .
 title: ''
 labels: 'feature'
 assignees: ''
