@@ -1,5 +1,5 @@
 ---
-name: Feature
+name: Epic
 about: A broad scope of work focusing on a particular functionality.
 title: ''
 labels: 'feature'
