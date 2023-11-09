@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram name="English" id="DvPqym5OB1aarvQmk7BX">
-        <mxGraphModel dx="196" dy="1502" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+        <mxGraphModel dx="877" dy="1502" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
             <root>
                 <mxCell id="tT1hSwi77yDQ5uo9Nfx5-0"/>
                 <mxCell id="tT1hSwi77yDQ5uo9Nfx5-1" parent="tT1hSwi77yDQ5uo9Nfx5-0"/>
@@ -44,21 +44,12 @@
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="tT1hSwi77yDQ5uo9Nfx5-11" value="&amp;nbsp;Want to know where to start learning&amp;nbsp;&amp;nbsp;" style="rounded=1;whiteSpace=wrap;html=1;" parent="tT1hSwi77yDQ5uo9Nfx5-1" vertex="1">
-                    <mxGeometry x="600" y="-160" width="160" height="40" as="geometry"/>
+                    <mxGeometry x="600" y="-140" width="160" height="40" as="geometry"/>
                 </mxCell>
                 <mxCell id="tT1hSwi77yDQ5uo9Nfx5-12" value="" style="endArrow=none;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;" parent="tT1hSwi77yDQ5uo9Nfx5-1" source="tT1hSwi77yDQ5uo9Nfx5-11" target="tT1hSwi77yDQ5uo9Nfx5-3" edge="1">
                     <mxGeometry width="50" height="50" relative="1" as="geometry">
                         <mxPoint x="1020" y="-140" as="sourcePoint"/>
                         <mxPoint x="1070" y="-190" as="targetPoint"/>
-                    </mxGeometry>
-                </mxCell>
-                <mxCell id="tT1hSwi77yDQ5uo9Nfx5-13" value="&amp;nbsp;Want to know how to study to get a job&amp;nbsp;&amp;nbsp;" style="rounded=1;whiteSpace=wrap;html=1;" parent="tT1hSwi77yDQ5uo9Nfx5-1" vertex="1">
-                    <mxGeometry x="600" y="-120" width="160" height="40" as="geometry"/>
-                </mxCell>
-                <mxCell id="tT1hSwi77yDQ5uo9Nfx5-14" value="" style="endArrow=none;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="tT1hSwi77yDQ5uo9Nfx5-1" source="tT1hSwi77yDQ5uo9Nfx5-3" target="tT1hSwi77yDQ5uo9Nfx5-13" edge="1">
-                    <mxGeometry width="50" height="50" relative="1" as="geometry">
-                        <mxPoint x="850" y="-90" as="sourcePoint"/>
-                        <mxPoint x="900" y="-140" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="tT1hSwi77yDQ5uo9Nfx5-15" value="&amp;nbsp;Want to find beginner-friendly books&amp;nbsp;&amp;nbsp;" style="rounded=1;whiteSpace=wrap;html=1;" parent="tT1hSwi77yDQ5uo9Nfx5-1" vertex="1">
@@ -155,7 +146,7 @@
         </mxGraphModel>
     </diagram>
     <diagram id="XsVFiZa3EoWCr3_tqCPk" name="Japanese">
-        <mxGraphModel dx="196" dy="1502" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+        <mxGraphModel dx="877" dy="1502" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -199,21 +190,12 @@
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="17" value="学習の出発点を知りたい" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-                    <mxGeometry x="600" y="-160" width="160" height="40" as="geometry"/>
+                    <mxGeometry x="600" y="-140" width="160" height="40" as="geometry"/>
                 </mxCell>
                 <mxCell id="18" value="" style="endArrow=none;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;" parent="1" source="17" target="3" edge="1">
                     <mxGeometry width="50" height="50" relative="1" as="geometry">
                         <mxPoint x="1020" y="-140" as="sourcePoint"/>
                         <mxPoint x="1070" y="-190" as="targetPoint"/>
-                    </mxGeometry>
-                </mxCell>
-                <mxCell id="19" value="&amp;nbsp;就職につながる勉強法を知りたい&amp;nbsp;&amp;nbsp;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-                    <mxGeometry x="600" y="-120" width="160" height="40" as="geometry"/>
-                </mxCell>
-                <mxCell id="20" value="" style="endArrow=none;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="3" target="19" edge="1">
-                    <mxGeometry width="50" height="50" relative="1" as="geometry">
-                        <mxPoint x="850" y="-90" as="sourcePoint"/>
-                        <mxPoint x="900" y="-140" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="22" value="&amp;nbsp;初心者向けの書籍を探す&amp;nbsp;&amp;nbsp;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
