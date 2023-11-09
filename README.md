@@ -27,16 +27,16 @@ Provide web engineers, programmers, and technicians with the latest books and re
 
 ### Install Guide
 #### Frontend
-1. ```$ docker-compose up -d``` start a container
+1. ```$ docker-compose up -d``` to start a container
 #### Backend
-1. ```$ docker-compose up -d``` start a container
-2. ```$ docker-compose exec api-server poetry run python manage.py migrate``` migrate
+1. ```$ docker-compose up -d``` to start a container
+2. ```$ docker-compose exec api-server poetry run python manage.py migrate``` to migrate
 
 ### Install Library
 #### Frontend
-```$ docker-compose exec backend-for-frontend pnpm install ${library}```
+    $ docker-compose exec backend-for-frontend pnpm install ${library}
 #### Backend
-```docker-compose exec api-server poetry add ${library}```
+    $ docker-compose exec api-server poetry add ${library}
 
 ---
 
@@ -72,6 +72,6 @@ Web系エンジニア、プログラマー、そして技術者向けの最新�
 
 ### ライブラリーインストール
 #### Frontend
-```$ docker-compose exec backend-for-frontend pnpm install ${library}```
+    $ docker-compose exec backend-for-frontend pnpm install ${library}
 #### Backend
-```docker-compose exec api-server poetry add ${library}```
+    docker-compose exec api-server poetry add ${library}
