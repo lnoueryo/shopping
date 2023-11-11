@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
-    <diagram name="English" id="DvPqym5OB1aarvQmk7BX">
-        <mxGraphModel dx="877" dy="1502" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <diagram name="As Client(en)" id="DvPqym5OB1aarvQmk7BX">
+        <mxGraphModel dx="1032" dy="1573" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
             <root>
                 <mxCell id="tT1hSwi77yDQ5uo9Nfx5-0"/>
                 <mxCell id="tT1hSwi77yDQ5uo9Nfx5-1" parent="tT1hSwi77yDQ5uo9Nfx5-0"/>
@@ -145,8 +145,8 @@
             </root>
         </mxGraphModel>
     </diagram>
-    <diagram id="XsVFiZa3EoWCr3_tqCPk" name="Japanese">
-        <mxGraphModel dx="877" dy="1502" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <diagram id="XsVFiZa3EoWCr3_tqCPk" name="As Client(jp)">
+        <mxGraphModel dx="1754" dy="1904" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -189,7 +189,7 @@
                         <mxPoint x="410" y="250" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="17" value="学習の出発点を知りたい" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                <mxCell id="17" value="学習の出発点を知りたい" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1ba1e2;fontColor=#ffffff;strokeColor=#006EAF;" parent="1" vertex="1">
                     <mxGeometry x="600" y="-140" width="160" height="40" as="geometry"/>
                 </mxCell>
                 <mxCell id="18" value="" style="endArrow=none;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;" parent="1" source="17" target="3" edge="1">
@@ -204,10 +204,10 @@
                 <mxCell id="23" value="&amp;nbsp;分野別の書籍を検索する&amp;nbsp;&amp;nbsp;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
                     <mxGeometry x="600" y="80" width="160" height="40" as="geometry"/>
                 </mxCell>
-                <mxCell id="24" value="&amp;nbsp;読んだ書籍の内容をメモする&amp;nbsp;&amp;nbsp;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                <mxCell id="24" value="&amp;nbsp;読んだ書籍の内容をメモする&amp;nbsp;&amp;nbsp;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1ba1e2;strokeColor=#006EAF;fontColor=#ffffff;" parent="1" vertex="1">
                     <mxGeometry x="600" y="120" width="160" height="40" as="geometry"/>
                 </mxCell>
-                <mxCell id="25" value="&amp;nbsp;ロードマップに沿って書籍を購入する&amp;nbsp;&amp;nbsp;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                <mxCell id="25" value="&amp;nbsp;ロードマップに沿って書籍を購入する&amp;nbsp;&amp;nbsp;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1ba1e2;fontColor=#ffffff;strokeColor=#006EAF;" parent="1" vertex="1">
                     <mxGeometry x="600" y="160" width="160" height="40" as="geometry"/>
                 </mxCell>
                 <mxCell id="26" value="" style="endArrow=none;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="5" target="22" edge="1">
@@ -243,16 +243,16 @@
                         <mxPoint x="710" y="330" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="33" value="&amp;nbsp;書籍にレビューをつける&amp;nbsp;&amp;nbsp;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                <mxCell id="33" value="&amp;nbsp;書籍にレビューをつける&amp;nbsp;&amp;nbsp;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1ba1e2;fontColor=#ffffff;strokeColor=#006EAF;" parent="1" vertex="1">
                     <mxGeometry x="600" y="500" width="160" height="40" as="geometry"/>
                 </mxCell>
-                <mxCell id="34" value="&amp;nbsp;コミュニティを作成する&amp;nbsp;&amp;nbsp;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                <mxCell id="34" value="&amp;nbsp;コミュニティを作成する&amp;nbsp;&amp;nbsp;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1ba1e2;fontColor=#ffffff;strokeColor=#006EAF;" parent="1" vertex="1">
                     <mxGeometry x="600" y="540" width="160" height="40" as="geometry"/>
                 </mxCell>
                 <mxCell id="35" value="&amp;nbsp;書籍を購入する&amp;nbsp;&amp;nbsp;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
                     <mxGeometry x="600" y="620" width="160" height="40" as="geometry"/>
                 </mxCell>
-                <mxCell id="36" value="&amp;nbsp;お気に入り機能を使用する&amp;nbsp;&amp;nbsp;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                <mxCell id="36" value="&amp;nbsp;お気に入り機能を使用する&amp;nbsp;&amp;nbsp;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1ba1e2;fontColor=#ffffff;strokeColor=#006EAF;" parent="1" vertex="1">
                     <mxGeometry x="600" y="660" width="160" height="40" as="geometry"/>
                 </mxCell>
                 <mxCell id="37" value="" style="endArrow=none;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" target="33" edge="1">
@@ -286,6 +286,172 @@
                     <mxGeometry width="50" height="50" relative="1" as="geometry">
                         <mxPoint x="660" y="550" as="sourcePoint"/>
                         <mxPoint x="710" y="500" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+    <diagram name="As Staff(en)" id="wJj3dB3Y7bt2-rTthnLT">
+        <mxGraphModel dx="1032" dy="473" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+            <root>
+                <mxCell id="ee1R6s4NXUJSYOKHHzN_-0"/>
+                <mxCell id="ee1R6s4NXUJSYOKHHzN_-1" parent="ee1R6s4NXUJSYOKHHzN_-0"/>
+                <mxCell id="ee1R6s4NXUJSYOKHHzN_-2" value="User Stories&amp;nbsp;&amp;nbsp;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="ee1R6s4NXUJSYOKHHzN_-1">
+                    <mxGeometry x="200" y="170" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="ee1R6s4NXUJSYOKHHzN_-3" value="Bookstore Staff&amp;nbsp;&amp;nbsp;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="ee1R6s4NXUJSYOKHHzN_-1">
+                    <mxGeometry x="360" y="160" width="160" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="ee1R6s4NXUJSYOKHHzN_-4" value="" style="endArrow=none;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="ee1R6s4NXUJSYOKHHzN_-1" source="ee1R6s4NXUJSYOKHHzN_-2" target="ee1R6s4NXUJSYOKHHzN_-3">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="300" y="210" as="sourcePoint"/>
+                        <mxPoint x="410" y="250" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="ee1R6s4NXUJSYOKHHzN_-5" value="Want to filter inappropriate content&amp;nbsp;&amp;nbsp;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1ba1e2;fontColor=#ffffff;strokeColor=#006EAF;" vertex="1" parent="ee1R6s4NXUJSYOKHHzN_-1">
+                    <mxGeometry x="640" y="100" width="160" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="ee1R6s4NXUJSYOKHHzN_-6" value="Want to resolve customer queries and issues" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1ba1e2;fontColor=#ffffff;strokeColor=#006EAF;" vertex="1" parent="ee1R6s4NXUJSYOKHHzN_-1">
+                    <mxGeometry x="640" y="60" width="160" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="ee1R6s4NXUJSYOKHHzN_-7" value="Want to update the book inventory status online in real-time&amp;nbsp;&amp;nbsp;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1ba1e2;fontColor=#ffffff;strokeColor=#006EAF;" vertex="1" parent="ee1R6s4NXUJSYOKHHzN_-1">
+                    <mxGeometry x="640" y="180" width="160" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="ee1R6s4NXUJSYOKHHzN_-8" value="Want to manage promotions and discount campaigns&amp;nbsp;&amp;nbsp;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="ee1R6s4NXUJSYOKHHzN_-1">
+                    <mxGeometry x="640" y="220" width="160" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="ee1R6s4NXUJSYOKHHzN_-9" value="" style="endArrow=none;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="ee1R6s4NXUJSYOKHHzN_-1" source="ee1R6s4NXUJSYOKHHzN_-3" target="ee1R6s4NXUJSYOKHHzN_-5">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="610" y="170" as="sourcePoint"/>
+                        <mxPoint x="780" y="160" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="ee1R6s4NXUJSYOKHHzN_-10" value="" style="endArrow=none;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="ee1R6s4NXUJSYOKHHzN_-1" source="ee1R6s4NXUJSYOKHHzN_-3" target="ee1R6s4NXUJSYOKHHzN_-6">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="610" y="170" as="sourcePoint"/>
+                        <mxPoint x="640" y="-50" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="ee1R6s4NXUJSYOKHHzN_-11" value="" style="endArrow=none;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="ee1R6s4NXUJSYOKHHzN_-1" source="ee1R6s4NXUJSYOKHHzN_-3" target="ee1R6s4NXUJSYOKHHzN_-7">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="610" y="170" as="sourcePoint"/>
+                        <mxPoint x="640" y="190" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="ee1R6s4NXUJSYOKHHzN_-12" value="" style="endArrow=none;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="ee1R6s4NXUJSYOKHHzN_-1" source="ee1R6s4NXUJSYOKHHzN_-3" target="ee1R6s4NXUJSYOKHHzN_-8">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="610" y="170" as="sourcePoint"/>
+                        <mxPoint x="660" y="200" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="ee1R6s4NXUJSYOKHHzN_-13" value="Want to understand customer preferences and demands&amp;nbsp;&amp;nbsp;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1ba1e2;fontColor=#ffffff;strokeColor=#006EAF;" vertex="1" parent="ee1R6s4NXUJSYOKHHzN_-1">
+                    <mxGeometry x="640" y="140" width="160" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="ee1R6s4NXUJSYOKHHzN_-14" value="" style="endArrow=none;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="ee1R6s4NXUJSYOKHHzN_-1" source="ee1R6s4NXUJSYOKHHzN_-3" target="ee1R6s4NXUJSYOKHHzN_-13">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="660" y="550" as="sourcePoint"/>
+                        <mxPoint x="710" y="500" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="ee1R6s4NXUJSYOKHHzN_-15" value="Want to ensure delivery to customers&amp;nbsp;&amp;nbsp;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1ba1e2;fontColor=#ffffff;strokeColor=#006EAF;" vertex="1" parent="ee1R6s4NXUJSYOKHHzN_-1">
+                    <mxGeometry x="640" y="260" width="160" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="ee1R6s4NXUJSYOKHHzN_-16" value="" style="endArrow=none;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="ee1R6s4NXUJSYOKHHzN_-1" source="ee1R6s4NXUJSYOKHHzN_-3" target="ee1R6s4NXUJSYOKHHzN_-15">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="530" y="210" as="sourcePoint"/>
+                        <mxPoint x="670" y="210" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="ee1R6s4NXUJSYOKHHzN_-17" value="Want to analyze website traffic and customer behavior&amp;nbsp;&amp;nbsp;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1ba1e2;fontColor=#ffffff;strokeColor=#006EAF;" vertex="1" parent="ee1R6s4NXUJSYOKHHzN_-1">
+                    <mxGeometry x="640" y="300" width="160" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="ee1R6s4NXUJSYOKHHzN_-18" value="" style="endArrow=none;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="ee1R6s4NXUJSYOKHHzN_-1" source="ee1R6s4NXUJSYOKHHzN_-3" target="ee1R6s4NXUJSYOKHHzN_-17">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="540" y="220" as="sourcePoint"/>
+                        <mxPoint x="680" y="220" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+    <diagram name="As Staff(jp)" id="av87NiFDwyVXs2OJf6NG">
+        <mxGraphModel dx="877" dy="402" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+            <root>
+                <mxCell id="p9Z04uB1Lwd0KdcjkP07-0"/>
+                <mxCell id="p9Z04uB1Lwd0KdcjkP07-1" parent="p9Z04uB1Lwd0KdcjkP07-0"/>
+                <mxCell id="p9Z04uB1Lwd0KdcjkP07-2" value="ユーザーストーリー" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="p9Z04uB1Lwd0KdcjkP07-1">
+                    <mxGeometry x="200" y="170" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="p9Z04uB1Lwd0KdcjkP07-9" value="書店スタッフ" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="p9Z04uB1Lwd0KdcjkP07-1">
+                    <mxGeometry x="360" y="160" width="160" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="p9Z04uB1Lwd0KdcjkP07-10" value="" style="endArrow=none;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="p9Z04uB1Lwd0KdcjkP07-1" source="p9Z04uB1Lwd0KdcjkP07-2" target="p9Z04uB1Lwd0KdcjkP07-9">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="300" y="210" as="sourcePoint"/>
+                        <mxPoint x="410" y="250" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="p9Z04uB1Lwd0KdcjkP07-23" value="&lt;span id=&quot;docs-internal-guid-1c265091-7fff-8db6-374c-b9c74151a744&quot;&gt;&lt;span style=&quot;font-family: Arial, sans-serif; background-color: transparent; font-variant-numeric: normal; font-variant-east-asian: normal; font-variant-alternates: normal; vertical-align: baseline;&quot;&gt;&lt;font style=&quot;font-size: 12px;&quot;&gt;レビューの不適切な内容を削除したい&lt;/font&gt;&lt;/span&gt;&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1ba1e2;fontColor=#ffffff;strokeColor=#006EAF;" vertex="1" parent="p9Z04uB1Lwd0KdcjkP07-1">
+                    <mxGeometry x="640" y="100" width="160" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="p9Z04uB1Lwd0KdcjkP07-24" value="&lt;span id=&quot;docs-internal-guid-a889c8f9-7fff-3ec6-12c0-b445c80477e1&quot;&gt;&lt;span style=&quot;font-family: Arial, sans-serif; background-color: transparent; font-variant-numeric: normal; font-variant-east-asian: normal; font-variant-alternates: normal; vertical-align: baseline;&quot;&gt;&lt;font style=&quot;font-size: 12px;&quot;&gt;顧客の疑問や問題を解決したい&lt;/font&gt;&lt;/span&gt;&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1ba1e2;fontColor=#ffffff;strokeColor=#006EAF;" vertex="1" parent="p9Z04uB1Lwd0KdcjkP07-1">
+                    <mxGeometry x="640" y="60" width="160" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="p9Z04uB1Lwd0KdcjkP07-25" value="&lt;span id=&quot;docs-internal-guid-5f919f91-7fff-5203-4867-4eac01b4df5b&quot;&gt;&lt;span style=&quot;font-family: Arial, sans-serif; background-color: transparent; font-variant-numeric: normal; font-variant-east-asian: normal; font-variant-alternates: normal; vertical-align: baseline;&quot;&gt;&lt;font style=&quot;font-size: 12px;&quot; color=&quot;#ffffff&quot;&gt;書籍の在庫状況をリアルタイムで更新したい&lt;/font&gt;&lt;/span&gt;&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1ba1e2;fontColor=#ffffff;strokeColor=#006EAF;" vertex="1" parent="p9Z04uB1Lwd0KdcjkP07-1">
+                    <mxGeometry x="640" y="180" width="160" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="p9Z04uB1Lwd0KdcjkP07-26" value="&lt;span id=&quot;docs-internal-guid-aff961d9-7fff-928c-5c14-c1d1aec3c583&quot;&gt;&lt;span style=&quot;font-family: Arial, sans-serif; background-color: transparent; font-variant-numeric: normal; font-variant-east-asian: normal; font-variant-alternates: normal; vertical-align: baseline;&quot;&gt;&lt;font style=&quot;font-size: 12px;&quot;&gt;プロモーションや割引キャンペーンを管理したい&lt;/font&gt;&lt;/span&gt;&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="p9Z04uB1Lwd0KdcjkP07-1">
+                    <mxGeometry x="640" y="220" width="160" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="p9Z04uB1Lwd0KdcjkP07-27" value="" style="endArrow=none;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="p9Z04uB1Lwd0KdcjkP07-1" target="p9Z04uB1Lwd0KdcjkP07-23" source="p9Z04uB1Lwd0KdcjkP07-9">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="610" y="170" as="sourcePoint"/>
+                        <mxPoint x="780" y="160" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="p9Z04uB1Lwd0KdcjkP07-28" value="" style="endArrow=none;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="p9Z04uB1Lwd0KdcjkP07-1" target="p9Z04uB1Lwd0KdcjkP07-24" source="p9Z04uB1Lwd0KdcjkP07-9">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="610" y="170" as="sourcePoint"/>
+                        <mxPoint x="640" y="-50" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="p9Z04uB1Lwd0KdcjkP07-29" value="" style="endArrow=none;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="p9Z04uB1Lwd0KdcjkP07-1" target="p9Z04uB1Lwd0KdcjkP07-25" source="p9Z04uB1Lwd0KdcjkP07-9">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="610" y="170" as="sourcePoint"/>
+                        <mxPoint x="640" y="190" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="p9Z04uB1Lwd0KdcjkP07-30" value="" style="endArrow=none;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="p9Z04uB1Lwd0KdcjkP07-1" target="p9Z04uB1Lwd0KdcjkP07-26" source="p9Z04uB1Lwd0KdcjkP07-9">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="610" y="170" as="sourcePoint"/>
+                        <mxPoint x="660" y="200" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="p9Z04uB1Lwd0KdcjkP07-31" value="&lt;span id=&quot;docs-internal-guid-5fd68b9a-7fff-de15-78f4-3dbbde56e0ae&quot;&gt;&lt;span style=&quot;font-family: Arial, sans-serif; background-color: transparent; font-variant-numeric: normal; font-variant-east-asian: normal; font-variant-alternates: normal; vertical-align: baseline;&quot;&gt;&lt;font style=&quot;font-size: 12px;&quot; color=&quot;#ffffff&quot;&gt;顧客の好みや需要を理解したい&lt;/font&gt;&lt;/span&gt;&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1ba1e2;fontColor=#ffffff;strokeColor=#006EAF;" vertex="1" parent="p9Z04uB1Lwd0KdcjkP07-1">
+                    <mxGeometry x="640" y="140" width="160" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="p9Z04uB1Lwd0KdcjkP07-32" value="" style="endArrow=none;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="p9Z04uB1Lwd0KdcjkP07-1" source="p9Z04uB1Lwd0KdcjkP07-9" target="p9Z04uB1Lwd0KdcjkP07-31">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="660" y="550" as="sourcePoint"/>
+                        <mxPoint x="710" y="500" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="nm4NGE_FvqxM2GPLtEXD-0" value="&lt;span id=&quot;docs-internal-guid-3eeca335-7fff-1c70-7288-4a3f90bf2ba1&quot;&gt;&lt;span style=&quot;font-family: Arial, sans-serif; background-color: transparent; font-variant-numeric: normal; font-variant-east-asian: normal; font-variant-alternates: normal; vertical-align: baseline;&quot;&gt;&lt;font style=&quot;font-size: 12px;&quot;&gt;顧客への配送を確実に行いたい&lt;/font&gt;&lt;/span&gt;&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1ba1e2;fontColor=#ffffff;strokeColor=#006EAF;" vertex="1" parent="p9Z04uB1Lwd0KdcjkP07-1">
+                    <mxGeometry x="640" y="260" width="160" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="nm4NGE_FvqxM2GPLtEXD-1" value="" style="endArrow=none;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="p9Z04uB1Lwd0KdcjkP07-1" target="nm4NGE_FvqxM2GPLtEXD-0" source="p9Z04uB1Lwd0KdcjkP07-9">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="530" y="210" as="sourcePoint"/>
+                        <mxPoint x="670" y="210" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="nm4NGE_FvqxM2GPLtEXD-2" value="&lt;span id=&quot;docs-internal-guid-d7cc0019-7fff-93f6-67f1-67ae342bc42a&quot;&gt;&lt;span style=&quot;font-family: Arial, sans-serif; background-color: transparent; font-variant-numeric: normal; font-variant-east-asian: normal; font-variant-alternates: normal; vertical-align: baseline;&quot;&gt;&lt;font style=&quot;font-size: 12px;&quot;&gt;サイトのトラフィックと顧客の行動を分析したい&lt;/font&gt;&lt;/span&gt;&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1ba1e2;fontColor=#ffffff;strokeColor=#006EAF;" vertex="1" parent="p9Z04uB1Lwd0KdcjkP07-1">
+                    <mxGeometry x="640" y="300" width="160" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="nm4NGE_FvqxM2GPLtEXD-3" value="" style="endArrow=none;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="p9Z04uB1Lwd0KdcjkP07-1" target="nm4NGE_FvqxM2GPLtEXD-2" source="p9Z04uB1Lwd0KdcjkP07-9">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="540" y="220" as="sourcePoint"/>
+                        <mxPoint x="680" y="220" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
             </root>
