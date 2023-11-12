@@ -38,6 +38,11 @@ Provide web engineers, programmers, and technicians with the latest books and re
 #### Backend
     $ docker-compose exec api-server poetry add ${library}
 
+### Directory Structure
+**./backend**: This is where the backend part is located.
+**./documents**: Documents created during the design phase are placed here.
+**./frontend**: This is where the frontend part is located.
+
 ---
 
 ## 日本語
@@ -75,3 +80,8 @@ Web系エンジニア、プログラマー、そして技術者向けの最新�
     $ docker-compose exec backend-for-frontend pnpm install ${library}
 #### Backend
     docker-compose exec api-server poetry add ${library}
+
+### ディレクトリ構成
+**./backend**: バックエンド部分が配置されている。
+**./documents**: 設計時に作成したドキュメントが配置されている。
+**./frontend**: フロントエンド部分が配置されている。
