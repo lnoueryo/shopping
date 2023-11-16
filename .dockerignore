@@ -1,0 +1,36 @@
+# ノードモジュール
+node_modules/
+
+# ビルド出力
+.nuxt/
+dist/
+
+# キャッシュ
+.npm/
+.cache/
+
+# ログファイル
+*.log
+
+# システムファイル
+.DS_Store
+Thumbs.db
+
+# エディタ設定
+.editorconfig
+.vscode/
+
+# ローカル環境設定
+.env
+.env.local
+.env.*.local
+
+# テストファイル
+__tests__/
+*.spec.*
+*.test.*
+
+# その他
+README.md
+LICENSE
+*.md
