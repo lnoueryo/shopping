@@ -1,11 +1,13 @@
 FROM node:20.9
 
-WORKDIR /usr/src/app/frontend
+WORKDIR /app
 
-COPY ./frontend/package.json /usr/src/app/frontend/package.json
-
-COPY ./frontend/pnpm-lock.yaml /usr/src/app/frontend/pnpm-lock.yaml
+COPY ./frontend/package*.json ./
 
 RUN npm install -g pnpm
 
 RUN pnpm install
+
+COPY ./frontend .
+
+EXPOSE 3000
