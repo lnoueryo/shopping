@@ -1,0 +1,20 @@
+# ディレクトリ
+node_modules
+dist
+.nuxt
+public
+
+# 特定のファイル
+yarn.lock
+package-lock.json
+
+# 特定のファイル拡張子
+*.min.js
+*.min.css
+
+# 静的ファイル
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.svg
