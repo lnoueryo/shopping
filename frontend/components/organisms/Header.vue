@@ -25,9 +25,7 @@
   <header id="header">
     <div class="header-top-container flex">
       <TriSectionLayout
-        :left="headerTopSwitch.left"
-        :center="headerTopSwitch.center"
-        :right="headerTopSwitch.right"
+        v-bind="headerTopSwitch"
       >
         <template #left>
           <Logo />
@@ -36,9 +34,7 @@
     </div>
     <div class="header-middle-container">
       <TriSectionLayout
-        :left="headerMiddleSwitch.left"
-        :center="headerMiddleSwitch.center"
-        :right="headerMiddleSwitch.right"
+        v-bind="headerMiddleSwitch"
       >
         <template #left>
           <Logo />
@@ -50,9 +46,7 @@
     </div>
     <div class="nav-container">
       <TriSectionLayout
-        :left="headerMiddleSwitch.left"
-        :center="headerMiddleSwitch.center"
-        :right="headerMiddleSwitch.right"
+        v-bind="headerMiddleSwitch"
       >
         <template #center>
           <NavigationBar
