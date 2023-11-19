@@ -19,7 +19,13 @@
     "eslint-plugin-vue": "^9.18.1",
     "nuxt": "^3.8.1",
     "prettier": "3.1.0",
+    "sass": "^1.69.5",
     "vue": "^3.3.8",
     "vue-router": "^4.2.5"
+  },
+  "dependencies": {
+    "@jamescoyle/vue-icon": "^0.1.2",
+    "@mdi/js": "^7.3.67",
+    "normalize.css": "^8.0.1"
   }
 }
