@@ -2,60 +2,65 @@
   import MainSearchBar from '../molecules/MainSearchBar.vue';
   import NavigationBar from '../molecules/NavigationBar.vue';
   import Logo from '../atoms/Logo.vue';
-  import { ref, onMounted, onBeforeUnmount } from 'vue';
+  import TriSectionLayout from '../wrappers/TriSectionLayout.vue';
+  import { ref, watch } from 'vue';
   import { deviceSize } from '@/assets/js/device-size.js';
-  const searchWord = ref('');
-  const headerRef = ref(null);
-  const isPCSize = ref(true);
-  const observer = ref(null);
-
-  onMounted(() => {
-    if (headerRef.value) {
-      observer.value = new ResizeObserver(entries => {
-        for (const entry of entries) {
-          const { width } = entry.contentRect;
-          const { height } = entry.contentRect;
-          console.log(
-            `Element size changed: width: ${width}, height: ${height}`
-          );
-          if (width < deviceSize.smallDesktop) {
-            isPCSize.value = false;
-            return;
-          }
-          isPCSize.value = true;
-        }
-      });
-
-      observer.value.observe(headerRef.value);
+  import { useViewport } from '@/composables/viewport';
+  const headerMiddleSwitch = ref({ right: true, center: true, left: true });
+  const headerTopSwitch = ref({ right: false, center: false, left: false });
+  const viewport = useViewport();
+  const width = ref(viewport.width);
+  watch(width, newWidth => {
+    if (newWidth < deviceSize.smallDesktop) {
+      headerTopSwitch.value = { left: true, center: false, right: false };
+      headerMiddleSwitch.value = { left: false, center: true, right: false };
+      return;
     }
+    headerTopSwitch.value = { left: false, center: false, right: false };
+    headerMiddleSwitch.value = { left: true, center: true, right: true };
   });
-
-  onBeforeUnmount(() => observer.value && observer.value.disconnect());
 </script>
 
 <template>
-  <header id="header" ref="headerRef">
-    <div class="header-top-container container flex align-center">
-      <div class="align-left side-space" v-if="!isPCSize">
-        <Logo />
-      </div>
-      <div class="align-right side-space" v-if="!isPCSize"> </div>
+  <header id="header">
+    <div class="header-top-container flex">
+      <TriSectionLayout
+        :left="headerTopSwitch.left"
+        :center="headerTopSwitch.center"
+        :right="headerTopSwitch.right"
+      >
+        <template #left>
+          <Logo />
+        </template>
+      </TriSectionLayout>
     </div>
-    <div class="header-middle-container container flex align-center">
-      <div class="align-left side-space" v-if="isPCSize">
-        <Logo />
-      </div>
-      <div class="mr-a w100">
-        <MainSearchBar class="margin-adjust" v-model="searchWord" />
-      </div>
-      <div class="align-right side-space" v-if="isPCSize"> </div>
+    <div class="header-middle-container">
+      <TriSectionLayout
+        :left="headerMiddleSwitch.left"
+        :center="headerMiddleSwitch.center"
+        :right="headerMiddleSwitch.right"
+      >
+        <template #left>
+          <Logo />
+        </template>
+        <template #center>
+          <MainSearchBar class="margin-adjust" />
+        </template>
+      </TriSectionLayout>
     </div>
-    <div class="nav-container container flex align-center">
-      <div class="align-left side-space" v-if="isPCSize"> </div>
-      <div class="mr-a w100 scroll-nav">
-        <NavigationBar class="margin-adjust" :navHeight="48" />
-      </div>
-      <div class="align-right side-space" v-if="isPCSize"> </div>
+    <div class="nav-container">
+      <TriSectionLayout
+        :left="headerMiddleSwitch.left"
+        :center="headerMiddleSwitch.center"
+        :right="headerMiddleSwitch.right"
+      >
+        <template #center>
+          <NavigationBar
+            class="margin-adjust scrollbar-adjust"
+            :navHeight="48"
+          />
+        </template>
+      </TriSectionLayout>
     </div>
   </header>
 </template>
@@ -68,6 +73,7 @@
   .header-top-container {
     height: 48px;
     padding-bottom: 4px;
+    margin: auto 0;
   }
 
   .header-middle-container {
@@ -80,9 +86,7 @@
     padding-top: 4px;
   }
 
-  .scroll-nav {
-    white-space: nowrap;
-    overflow-x: auto;
+  .scrollbar-adjust {
     padding-bottom: 6px;
   }
 </style>

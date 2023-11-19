@@ -1,6 +1,7 @@
 <script setup lang="ts">
-  import { ref, onMounted, onBeforeUnmount } from 'vue';
+  import { ref, watch, onMounted } from 'vue';
   import SearchButton from '../atoms/SearchButton.vue';
+  import { useViewport } from '@/composables/viewport';
 
   const wrapperRef = ref(null);
   const promptRef = ref(null);
@@ -10,30 +11,27 @@
   const isInputSizeBelowLimit = ref(false);
   const user = ref('guest');
   const searchWord = ref('');
-  const observer = ref(null);
+  const viewport = useViewport();
+  const width = ref(viewport.width);
+
+  watch(width, newWidth => {
+    const { left: wrapperLeft } = wrapperRef.value.getBoundingClientRect();
+    const { left: promptLeft, width: promptWidthValue } =
+      promptRef.value.getBoundingClientRect();
+
+    if (newWidth < 560) {
+      const leftMargin = promptLeft - wrapperLeft;
+      promptWidth.value = leftMargin;
+      isInputSizeBelowLimit.value = true;
+      return;
+    }
+
+    const bothSidesMargin = (promptLeft - wrapperLeft) * 2;
+    promptWidth.value = promptWidthValue + bothSidesMargin;
+    isInputSizeBelowLimit.value = false;
+  });
+
   onMounted(() => {
-    observer.value = new ResizeObserver(entries => {
-      for (const entry of entries) {
-        const { width } = entry.contentRect;
-        const { left: wrapperLeft } = wrapperRef.value.getBoundingClientRect();
-        const { left: promptLeft, width: promptWidthValue } =
-          promptRef.value.getBoundingClientRect();
-
-        if (width < 560) {
-          const leftMargin = promptLeft - wrapperLeft;
-          promptWidth.value = leftMargin;
-          isInputSizeBelowLimit.value = true;
-          return;
-        }
-
-        const bothSidesMargin = (promptLeft - wrapperLeft) * 2;
-        promptWidth.value = promptWidthValue + bothSidesMargin;
-        isInputSizeBelowLimit.value = false;
-      }
-    });
-
-    if (wrapperRef.value) observer.value.observe(wrapperRef.value);
-
     if (promptRef.value) {
       const { left: wrapperLeft } = wrapperRef.value.getBoundingClientRect();
       const { left: promptLeft, width: promptWidthValue } =
@@ -50,8 +48,6 @@
       magnifyWidth.value = magnifyBound.width + bothSidesMargin;
     }
   });
-
-  onBeforeUnmount(() => observer.value && observer.value.disconnect());
 
   const searchBooks = () => {
     console.log(searchWord.value);
