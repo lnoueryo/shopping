@@ -6,6 +6,7 @@
   import { ref, watch } from 'vue';
   import { deviceSize } from '@/assets/js/device-size.js';
   import { useViewport } from '@/composables/viewport';
+  const router = useRouter();
   const headerMiddleSwitch = ref({ right: true, center: true, left: true });
   const headerTopSwitch = ref({ right: false, center: false, left: false });
   const viewport = useViewport();
@@ -19,35 +20,33 @@
     headerTopSwitch.value = { left: false, center: false, right: false };
     headerMiddleSwitch.value = { left: true, center: true, right: true };
   });
+
+  const searchBooks = word => {
+    router.push({ path: '/books', query: { keyword: word } });
+  };
 </script>
 
 <template>
   <header id="header">
     <div class="header-top-container flex">
-      <TriSectionLayout
-        v-bind="headerTopSwitch"
-      >
+      <TriSectionLayout v-bind="headerTopSwitch">
         <template #left>
           <Logo />
         </template>
       </TriSectionLayout>
     </div>
     <div class="header-middle-container">
-      <TriSectionLayout
-        v-bind="headerMiddleSwitch"
-      >
+      <TriSectionLayout v-bind="headerMiddleSwitch">
         <template #left>
           <Logo />
         </template>
         <template #center>
-          <MainSearchBar class="margin-adjust" />
+          <MainSearchBar class="margin-adjust" @onSearchClicked="searchBooks" />
         </template>
       </TriSectionLayout>
     </div>
     <div class="nav-container">
-      <TriSectionLayout
-        v-bind="headerMiddleSwitch"
-      >
+      <TriSectionLayout v-bind="headerMiddleSwitch">
         <template #center>
           <NavigationBar
             class="margin-adjust scrollbar-adjust"
@@ -65,18 +64,18 @@
   }
 
   .header-top-container {
-    height: 48px;
+    height: var(--height-content);
     padding-bottom: 4px;
     margin: auto 0;
   }
 
   .header-middle-container {
-    height: 48px;
+    height: var(--height-content);
     padding: 4px 0;
   }
 
   .nav-container {
-    height: 48px;
+    height: var(--height-content);
     padding-top: 4px;
   }
 

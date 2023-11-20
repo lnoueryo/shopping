@@ -48,10 +48,6 @@
       magnifyWidth.value = magnifyBound.width + bothSidesMargin;
     }
   });
-
-  const searchBooks = () => {
-    console.log(searchWord.value);
-  };
 </script>
 
 <template>
@@ -75,9 +71,10 @@
         }"
         autocomplete="off"
         v-model="searchWord"
+        @keyup.enter="$emit('onSearchClicked', searchWord)"
       />
       <div class="search-button" ref="searchButton">
-        <SearchButton @onSearchClicked="searchBooks" />
+        <SearchButton @onSearchClicked="$emit('onSearchClicked', searchWord)" />
       </div>
     </div>
   </div>
@@ -96,7 +93,7 @@
     border-radius: 3px;
     border: 2px solid #ddd;
     box-sizing: border-box;
-    height: 48px;
+    height: var(--height-content);
     width: 100%;
     padding: 0 16px;
     z-index: 0;

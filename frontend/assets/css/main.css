@@ -4,10 +4,13 @@
   --space-sm: 8px;
   --space-md: 12px;
   --space-lg: 16px;
+  --color-row-number: #858585;
+  --color-row-selected-number: #c6c6c6;
   --color-primary: #9cdcfe;
   --color-class: #569cd6;
   --color-define: #4fc1ff;
   --color-class-name: #4ec9b0;
+  --color-class-method: #dcdcaa;
   --color-parentheses: #ffd700;
   --color-import: #c586c0;
   --color-string: #ce9178;
@@ -15,11 +18,18 @@
   --color-back-slash: #d7ba7d;
   --color-comment-out: #6a9955;
   --color-ubuntu-terminal: #36ce77;
+  --color-equal: #d4d4d4;
+  --color-tag: #808080;
   --hover-opacity: 0.6;
   --hover-transition: all 0.3s;
+  --height-content: 48px;
 }
 
 #body {
+  background-color: #f5f5f5;
+}
+
+body {
   background-color: #f5f5f5;
 }
 
@@ -101,4 +111,35 @@ li {
 
 .wrap {
   flex-wrap: wrap;
+}
+
+.card {
+  overflow: hidden;
+  overflow-wrap: break-word;
+  position: relative;
+  padding: 0;
+  text-decoration: none;
+  transition-duration: 0.28s;
+  transition-property: box-shadow, opacity, background;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 0;
+  border-color: rgba(var(--v-border-color), var(--v-border-opacity));
+  border-style: solid;
+  border-width: 0;
+  background-color: white;
+  border-radius: 3px;
+  width: 100%;
+}
+
+.title {
+  font-size: 1rem;
+  color: rgba(0, 0, 0, 0.54);
+  font-weight: 500;
+  padding: 0 24px;
+}
+
+.title-container {
+  background: #fff;
+  height: 48px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }

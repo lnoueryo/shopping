@@ -15,7 +15,7 @@
 
 <style lang="scss" scoped>
   .page-container {
-    margin-top: 48px;
-    margin-bottom: 48px;
+    margin-top: var(--height-content);
+    margin-bottom: var(--height-content);
   }
 </style>
