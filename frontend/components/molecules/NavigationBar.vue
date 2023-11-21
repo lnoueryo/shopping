@@ -55,7 +55,7 @@
         }
 
         a:not(.nuxt-active-class):hover {
-          background-color: #00695c;
+          background-color: var(--color-hover-green);
           text-decoration: underline; /* アンダーラインを追加 */
           transition: var(--hover-transition);
         }

@@ -60,7 +60,7 @@
 
 <style lang="scss" scoped>
   #header {
-    background-color: #222222;
+    background-color: var(--color-base-black);
   }
 
   .header-top-container {

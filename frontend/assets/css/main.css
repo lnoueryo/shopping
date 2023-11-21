@@ -6,6 +6,8 @@
   --space-lg: 16px;
   --color-row-number: #858585;
   --color-row-selected-number: #c6c6c6;
+  --color-base-black: #222222;
+  --color-hover-green: #00695c;
   --color-primary: #9cdcfe;
   --color-class: #569cd6;
   --color-define: #4fc1ff;
@@ -129,6 +131,10 @@ li {
   background-color: white;
   border-radius: 3px;
   width: 100%;
+}
+
+.content-container {
+  margin-bottom: var(--height-content);
 }
 
 .title {
