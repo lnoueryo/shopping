@@ -13,6 +13,7 @@
     language: String,
     author: String,
     price: Number,
+    rating: Number,
   });
 
   const viewport = useViewport();
@@ -38,6 +39,16 @@
       >
       <p class="description" v-if="descriptionSwitch">{{ book.description }}</p>
       <p class="price">¥{{ book.price }}</p>
+      <div class="book-ratings flex align-center">
+        <p
+          v-for="star in 5"
+          :key="star"
+          class="star"
+          :class="{ filled: star <= book.rating }"
+          >★</p
+        >
+        <p class="rating-value">{{ book.rating }}</p>
+      </div>
     </div>
   </div>
 </template>
@@ -82,6 +93,7 @@
 
     .description {
       font-size: 12px;
+      margin: 0;
       margin-bottom: 12px;
     }
 
@@ -89,7 +101,25 @@
       font-size: 20px;
       font-weight: bold;
       color: var(--color-primary);
+      margin: 0;
+      margin-bottom: 12px;
     }
+  }
+
+  .star {
+    color: #ddd;
+    margin: 0;
+    margin-bottom: 12px;
+    &.filled {
+      color: #fc0;
+    }
+  }
+
+  .rating-value {
+    margin: 0;
+    margin-left: 8px;
+    margin-bottom: 12px;
+    font-size: 12px;
   }
 
   @media screen and (max-width: 768px) {

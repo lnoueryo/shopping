@@ -25,6 +25,7 @@
         'https://thumbnail.image.rakuten.co.jp/@0_mall/book/cabinet/7831/9784297127831_1_5.jpg?_ex=200x200',
       publisher: '"技術評論社',
       author: '仙塲 大也',
+      rating: 4.26,
     },
     {
       isbn: '9784297127831',
@@ -38,6 +39,7 @@
         'https://thumbnail.image.rakuten.co.jp/@0_mall/book/cabinet/7831/9784297127831_1_5.jpg?_ex=200x200',
       publisher: '"技術評論社',
       author: '仙塲 大也',
+      rating: 4.26,
     },
     {
       isbn: '9784297127831',
@@ -51,6 +53,7 @@
         'https://thumbnail.image.rakuten.co.jp/@0_mall/book/cabinet/7831/9784297127831_1_5.jpg?_ex=200x200',
       publisher: '"技術評論社',
       author: '仙塲 大也',
+      rating: 4.26,
     },
     {
       isbn: '9784297127831',
@@ -64,6 +67,7 @@
         'https://thumbnail.image.rakuten.co.jp/@0_mall/book/cabinet/7831/9784297127831_1_5.jpg?_ex=200x200',
       publisher: '"技術評論社',
       author: '仙塲 大也',
+      rating: 4.26,
     },
   ]);
 </script>
