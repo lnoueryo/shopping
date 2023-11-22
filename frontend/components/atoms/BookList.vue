@@ -73,17 +73,19 @@
     h2 {
       font-size: 24px;
       margin-bottom: 12px;
+      color: var(--color-class);
     }
 
     .author {
       font-size: 20px;
       margin-bottom: 12px;
-      font-weight: normal;
+      font-weight: bold;
+      color: var(--color-class-name);
     }
 
     .publisher {
       font-size: 16px;
-      color: var(--color-text-secondary);
+      color: var(--color-sub-black);
       margin-bottom: 12px;
 
       .publish-date {
@@ -95,23 +97,24 @@
       font-size: 12px;
       margin: 0;
       margin-bottom: 12px;
+      color: var(--color-sub-black);
     }
 
     .price {
       font-size: 20px;
       font-weight: bold;
-      color: var(--color-primary);
+      color: var(--color-string);
       margin: 0;
       margin-bottom: 12px;
     }
   }
 
   .star {
-    color: #ddd;
+    color: var(--color-row-number);
     margin: 0;
     margin-bottom: 12px;
     &.filled {
-      color: #fc0;
+      color: var(--color-parentheses);
     }
   }
 
@@ -119,7 +122,9 @@
     margin: 0;
     margin-left: 8px;
     margin-bottom: 12px;
-    font-size: 12px;
+    font-size: 14px;
+    font-weight: bold;
+    color: var(--color-sub-black);
   }
 
   @media screen and (max-width: 768px) {
@@ -137,11 +142,11 @@
       }
 
       .author {
-        font-size: 16px;
+        font-size: 14px;
       }
 
       .publisher {
-        font-size: 16px;
+        font-size: 14px;
       }
 
       .description {
