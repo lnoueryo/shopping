@@ -36,7 +36,6 @@
     <template #center>
       <div class="flex justify-start align-center wrap">
         <GenreSelector
-          class="genre-selector"
           v-for="genre in genres"
           :key="genre.title"
           v-bind="genre"

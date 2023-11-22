@@ -49,7 +49,7 @@
       <TriSectionLayout v-bind="headerMiddleSwitch">
         <template #center>
           <NavigationBar
-            class="margin-adjust scrollbar-adjust"
+            class="margin-adjust"
             :navHeight="48"
           />
         </template>
@@ -79,7 +79,4 @@
     padding-top: 4px;
   }
 
-  .scrollbar-adjust {
-    padding-bottom: 6px;
-  }
 </style>

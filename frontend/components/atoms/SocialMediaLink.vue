@@ -30,7 +30,7 @@
     min-width: 75px;
     transition: var(--hover-transition);
     border-radius: 3px;
-    padding: 0 16px;
+    padding: 0 12px;
   }
 
   .sns-content {
