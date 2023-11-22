@@ -4,11 +4,13 @@
 
 <template>
   <div>
-    <div class="card title-container flex align-center">
-      <div class="title"> Genres </div>
-    </div>
-    <div class="card">
-      <GenreContent />
+    <div class="content-container">
+      <div class="card title-container flex align-center">
+        <div class="title"> Genres </div>
+      </div>
+      <div class="card">
+        <GenreContent />
+      </div>
     </div>
   </div>
 </template>

@@ -48,10 +48,7 @@
     <div class="nav-container">
       <TriSectionLayout v-bind="headerMiddleSwitch">
         <template #center>
-          <NavigationBar
-            class="margin-adjust"
-            :navHeight="48"
-          />
+          <NavigationBar class="margin-adjust" :navHeight="48" />
         </template>
       </TriSectionLayout>
     </div>
@@ -78,5 +75,4 @@
     height: var(--height-content);
     padding-top: 4px;
   }
-
 </style>

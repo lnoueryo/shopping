@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import GenreSelector from '@/components/atoms/GenreSelector.vue';
   import { genreData } from '@/assets/js/genres.js';
-  import { onMounted } from 'vue';
+  import { ref, onMounted } from 'vue';
   const genreRef = ref(null);
   let heightContent = 0;
   let headerHeight = 0;
@@ -17,10 +17,10 @@
   const moveGenreContent = () => {
     try {
       if (window.scrollY > headerHeight) {
-        genreRef.value.style.top = window.scrollY + heightContent + 'px';
+        genreRef.value.style.top = `${window.scrollY + heightContent}px`;
         return;
       }
-      genreRef.value.style.top = headerHeight + heightContent + 'px';
+      genreRef.value.style.top = `${headerHeight + heightContent}px`;
     } catch (error) {
       console.debug(error);
     }

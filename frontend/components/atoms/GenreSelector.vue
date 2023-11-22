@@ -21,12 +21,20 @@
     :to="{ path: '/books', query: { genre: genre.to } }"
     class="genre flex justify-center align-center"
     :style="{
-      backgroundColor: selectedGenre === genre.to ? 'var(--color-sub-black)' : 'var(--color-sub-white)',
+      backgroundColor:
+        selectedGenre === genre.to
+          ? 'var(--color-sub-black)'
+          : 'var(--color-sub-white)',
     }"
   >
     <div
       class="genre-content"
-      :style="{ color: selectedGenre === genre.to ? 'var(--color-sub-white)' : 'var(--color-sub-black)' }"
+      :style="{
+        color:
+          selectedGenre === genre.to
+            ? 'var(--color-sub-white)'
+            : 'var(--color-sub-black)',
+      }"
     >
       <div class="text-center">
         <svg-icon type="mdi" :path="genre.icon"></svg-icon>
