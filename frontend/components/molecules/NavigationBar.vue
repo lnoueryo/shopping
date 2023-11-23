@@ -8,12 +8,12 @@
 </script>
 
 <template>
-  <nav class="navigation">
-    <ul class="flex">
-      <li v-for="link in navigationLinks" :key="link.id">
+  <nav class="navigation h100">
+    <ul class="flex h100">
+      <li class="h100" v-for="link in navigationLinks" :key="link.id">
         <NuxtLink
           :id="link.id"
-          class="letter"
+          class="letter h100"
           :style="{ color: link.color, height: props.navHeight + 'px' }"
           :to="link.to"
           activeClass="nuxt-active-class"

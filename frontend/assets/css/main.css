@@ -116,6 +116,10 @@ li {
   width: 100%;
 }
 
+.h100 {
+  height: 100%;
+}
+
 .text-center {
   text-align: center;
 }
@@ -184,4 +188,5 @@ li {
 * {
   scrollbar-width: thin;
   scrollbar-color: #ccc #f0f0f0;
+  box-sizing: border-box;
 }

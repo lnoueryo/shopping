@@ -60,7 +60,6 @@
     min-height: 240px;
     background-color: var(--color-base-white);
     border: 16px solid var(--color-sub-white);
-    box-sizing: border-box;
     img {
       width: 100%;
       padding: 12px;

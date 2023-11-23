@@ -1,7 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
-  <NuxtLink class="title" to="/">
+  <NuxtLink id="title" to="/">
     <span id="webtech" class="letter">Webtech </span>
     <span id="bookstore" class="letter">Bookstore</span>
     <span id="parentheses" class="parentheses">()</span>
@@ -9,7 +9,7 @@
 </template>
 
 <style lang="scss" scoped>
-  .title {
+  #title {
     font-size: 20px;
     text-align: center;
     display: block;

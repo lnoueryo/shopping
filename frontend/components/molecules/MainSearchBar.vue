@@ -51,31 +51,30 @@
 </script>
 
 <template>
-  <div>
-    <div class="input-wrapper letter" ref="wrapperRef">
-      <label
-        for="main-search-bar"
-        class="prompt"
-        ref="promptRef"
-        v-show="!isInputSizeBelowLimit"
-        ><span style="color: var(--color-ubuntu-terminal)"
-          >WBstore@{{ user }}</span
-        ><span>:~ $ </span></label
-      >
-      <input
-        id="main-search-bar"
-        type="text"
-        :style="{
-          paddingLeft: promptWidth + 'px',
-          paddingRight: magnifyWidth + 'px',
-        }"
-        autocomplete="off"
-        v-model="searchWord"
-        @keyup.enter="$emit('onSearchClicked', searchWord)"
-      />
-      <div class="search-button" ref="searchButton">
-        <SearchButton @onSearchClicked="$emit('onSearchClicked', searchWord)" />
-      </div>
+  <div class="input-wrapper letter h100" ref="wrapperRef">
+    <label
+      for="main-search-bar"
+      class="prompt"
+      ref="promptRef"
+      v-show="!isInputSizeBelowLimit"
+      ><span style="color: var(--color-ubuntu-terminal)"
+        >WBstore@{{ user }}</span
+      ><span>:~ $ </span></label
+    >
+    <input
+      id="main-search-bar"
+      class="h100"
+      type="text"
+      :style="{
+        paddingLeft: promptWidth + 'px',
+        paddingRight: magnifyWidth + 'px',
+      }"
+      autocomplete="off"
+      v-model="searchWord"
+      @keyup.enter="$emit('onSearchClicked', searchWord)"
+    />
+    <div class="search-button w100 h100" ref="searchButton">
+      <SearchButton size="24" @onSearchClicked="$emit('onSearchClicked', searchWord)" />
     </div>
   </div>
 </template>
@@ -92,11 +91,14 @@
     caret-color: white;
     border-radius: 3px;
     border: 2px solid #ddd;
-    box-sizing: border-box;
-    height: var(--height-content);
     width: 100%;
     padding: 0 16px;
     z-index: 0;
+  }
+
+  #main-search-bar:focus-visible {
+    border: 2px solid var(--color-class);
+    outline: 1px solid var(--color-class);
   }
 
   .prompt {
@@ -115,5 +117,7 @@
     right: 12px;
     transform: translateY(-50%) translateX(0%);
     color: white;
+    padding: 6px 0;
+    max-width: 68px;
   }
 </style>

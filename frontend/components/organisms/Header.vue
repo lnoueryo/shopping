@@ -31,17 +31,17 @@
     <div class="header-top-container flex">
       <TriSectionLayout v-bind="headerTopSwitch">
         <template #left>
-          <Logo />
+          <Logo class="margin-adjust" />
         </template>
       </TriSectionLayout>
     </div>
     <div class="header-middle-container">
       <TriSectionLayout v-bind="headerMiddleSwitch">
         <template #left>
-          <Logo />
+          <Logo class="margin-adjust" />
         </template>
         <template #center>
-          <MainSearchBar class="margin-adjust" @onSearchClicked="searchBooks" />
+          <MainSearchBar class="margin-adjust h100" @onSearchClicked="searchBooks" />
         </template>
       </TriSectionLayout>
     </div>
@@ -62,17 +62,13 @@
 
   .header-top-container {
     height: var(--height-content);
-    padding-bottom: 4px;
-    margin: auto 0;
   }
 
   .header-middle-container {
     height: var(--height-content);
-    padding: 4px 0;
   }
 
   .nav-container {
     height: var(--height-content);
-    padding-top: 4px;
   }
 </style>
