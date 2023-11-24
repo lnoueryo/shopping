@@ -74,7 +74,10 @@
       @keyup.enter="$emit('onSearchClicked', searchWord)"
     />
     <div class="search-button w100 h100" ref="searchButton">
-      <SearchButton size="24" @onSearchClicked="$emit('onSearchClicked', searchWord)" />
+      <SearchButton
+        :size="24"
+        @onSearchClicked="$emit('onSearchClicked', searchWord)"
+      />
     </div>
   </div>
 </template>

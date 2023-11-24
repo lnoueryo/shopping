@@ -2,8 +2,10 @@
   import { useViewport } from '@/composables/viewport';
   import { deviceSize } from '@/assets/js/device-size.js';
   import { ref, watch } from 'vue';
+  import Rating from '@/components/atoms/Rating.vue';
 
   const book = defineProps({
+    id: Number,
     isbn: String,
     title: String,
     publish_date: String,
@@ -26,7 +28,7 @@
 </script>
 
 <template>
-  <div class="card flex align-center">
+  <div class="flex align-center">
     <div class="flex justify-center align-center book-image-container">
       <img :src="book.thumbnail" :alt="book.title" />
     </div>
@@ -40,13 +42,7 @@
       <p class="description" v-if="descriptionSwitch">{{ book.description }}</p>
       <p class="price">¥{{ book.price }}</p>
       <div class="book-ratings flex align-center">
-        <p
-          v-for="star in 5"
-          :key="star"
-          class="star"
-          :class="{ filled: star <= book.rating }"
-          >★</p
-        >
+        <Rating :rate="book.rating" read-only />
         <p class="rating-value">{{ book.rating }}</p>
       </div>
     </div>
@@ -108,22 +104,16 @@
     }
   }
 
-  .star {
-    color: var(--color-row-number);
-    margin: 0;
-    margin-bottom: 12px;
-    &.filled {
-      color: var(--color-parentheses);
-    }
-  }
-
   .rating-value {
     margin: 0;
     margin-left: 8px;
-    margin-bottom: 12px;
     font-size: 14px;
     font-weight: bold;
     color: var(--color-sub-black);
+  }
+
+  .book-ratings {
+    margin-bottom: 8px;
   }
 
   @media screen and (max-width: 768px) {

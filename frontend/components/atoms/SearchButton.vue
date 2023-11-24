@@ -2,13 +2,21 @@
   import SvgIcon from '@jamescoyle/vue-icon';
   import { mdiMagnify } from '@mdi/js';
   const props = defineProps({
-    size: Number
-  })
+    size: Number,
+  });
 </script>
 
 <template>
-  <button class="magnify h100 w100 flex justify-center" @click="$emit('onSearchClicked')">
-    <svg-icon :size="props.size || 24" type="mdi" :path="mdiMagnify" color="black"></svg-icon>
+  <button
+    class="magnify h100 w100 flex justify-center"
+    @click="$emit('onSearchClicked')"
+  >
+    <svg-icon
+      :size="props.size || 24"
+      type="mdi"
+      :path="mdiMagnify"
+      color="black"
+    ></svg-icon>
   </button>
 </template>
 
