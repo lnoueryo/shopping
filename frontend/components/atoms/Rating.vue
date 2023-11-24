@@ -79,7 +79,7 @@
   @media (hover: hover) and (pointer: fine) {
     .rate-form label:not(.read-only):hover,
     .rate-form label:not(.read-only):hover ~ label {
-      color: var(--color-parentheses);
+      color: #ffd9008b;
     }
   }
 
