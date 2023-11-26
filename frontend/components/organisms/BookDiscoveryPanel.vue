@@ -1,19 +1,23 @@
 <script setup lang="ts">
   import GenreFloatingSideBar from '@/components/molecules/GenreFloatingSideBar.vue';
+  import BookFilter from '@/components/molecules/BookFilter.vue';
+  import FilterAccordion from '@/components/molecules/FilterAccordion.vue';
   import BookList from '@/components/atoms/BookList.vue';
+  import FloatFilter from '@/components/wrappers/FloatFilter.vue';
   import { useViewport } from '@/composables/viewport';
   import { deviceSize } from '@/assets/js/device-size.js';
-  import { ref, watch } from 'vue';
+  import { ref, watch, onMounted } from 'vue';
   const viewport = useViewport();
   const width = ref(viewport.width);
-  const sidebarSwitch = ref(true);
+  const sidebarSwitch = ref(false);
+  const selectedSkillLevels = ref([]);
+  const rate = ref(0);
   watch(width, newWidth => {
-    if (newWidth < deviceSize.smallDesktop)
-      return (sidebarSwitch.value = false);
-    sidebarSwitch.value = true;
+    sidebarSwitch.value = deviceSize.smallDesktop <= newWidth;
   });
   const books = ref([
     {
+      id: 1,
       isbn: '9784297127831',
       title: '良いコード／悪いコードで学ぶ設計入門',
       description:
@@ -28,6 +32,7 @@
       rating: 4.26,
     },
     {
+      id: 2,
       isbn: '9784297127831',
       title: '良いコード／悪いコードで学ぶ設計入門',
       description:
@@ -42,6 +47,7 @@
       rating: 4.26,
     },
     {
+      id: 3,
       isbn: '9784297127831',
       title: '良いコード／悪いコードで学ぶ設計入門',
       description:
@@ -56,6 +62,7 @@
       rating: 4.26,
     },
     {
+      id: 4,
       isbn: '9784297127831',
       title: '良いコード／悪いコードで学ぶ設計入門',
       description:
@@ -70,16 +77,43 @@
       rating: 4.26,
     },
   ]);
+
+  onMounted(
+    () => (sidebarSwitch.value = deviceSize.smallDesktop <= width.value)
+  );
 </script>
 
 <template>
-  <div class="flex" @scroll="moveGenreContent">
+  <div class="flex">
+    <FloatFilter v-if="!sidebarSwitch">
+      <FilterAccordion
+        :rate="rate"
+        :selectedSkillLevels="selectedSkillLevels"
+        @update:rate="rate = $event"
+        @update:selectedSkillLevels="selectedSkillLevels = $event"
+      />
+    </FloatFilter>
     <div class="sidebar-container" v-if="sidebarSwitch">
       <GenreFloatingSideBar class="sidebar" />
     </div>
     <div class="w100">
-      <div class="content-container" v-for="book in books" :key="book.isbn">
-        <BookList v-bind="book" />
+      <div class="content-container rel">
+        <div
+          class="card title-container flex align-center"
+          v-if="sidebarSwitch"
+        >
+          <BookFilter
+            :rate="rate"
+            :selectedSkillLevels="selectedSkillLevels"
+            @update:rate="rate = $event"
+            @update:selectedSkillLevels="selectedSkillLevels = $event"
+          />
+        </div>
+      </div>
+      <div class="content-container" v-for="book in books" :key="book.id">
+        <div class="card">
+          <BookList v-bind="book" :key="book.id" />
+        </div>
       </div>
     </div>
   </div>
@@ -89,9 +123,11 @@
   .sidebar-container {
     min-width: 240px;
   }
+
   .sidebar {
     width: 200px;
   }
+
   .content-container:last-child {
     margin-bottom: 0;
   }

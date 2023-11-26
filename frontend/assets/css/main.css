@@ -10,6 +10,7 @@
   --color-sub-black: #333;
   --color-base-white: #f5f5f5;
   --color-sub-white: #ffffff;
+  --color-border-bottom: #0000001a;
   --color-hover-green: #00695c;
   --color-hover-white: #ddd;
   --color-primary: #9cdcfe;
@@ -31,6 +32,7 @@
   --height-content: 48px;
   --height-book: 240px;
   --width-side-space: 240px;
+  --margin-side: 16px;
 }
 
 #body {
@@ -46,9 +48,14 @@ body {
   margin: auto;
 }
 
-.margin-adjust {
-  margin-left: 16px;
-  margin-right: 16px;
+.margin-side {
+  margin-left: var(--margin-side);
+  margin-right: var(--margin-side);
+}
+
+.padding-side {
+  padding-left: var(--margin-side);
+  padding-right: var(--margin-side);
 }
 
 .letter {
@@ -59,6 +66,10 @@ body {
     'calt' 0;
   font-variation-settings: normal;
   letter-spacing: 0px;
+}
+
+.bold {
+  font-weight: bold;
 }
 
 .flex {
@@ -151,18 +162,19 @@ li {
 }
 
 .title {
-  font-size: 1rem;
-  color: #333333;
-  /* color: rgba(0, 0, 0, 0.54); */
+  font-size: 16px;
+  color: var(--color-sub-black);
   font-weight: bold;
-  padding: 0 24px;
+}
+
+.title-bottom {
+  border-bottom: 1px solid var(--color-border-bottom);
 }
 
 .title-container {
-  background: #fff;
+  background: var(--color-sub-white);
   height: var(--height-content);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-  box-sizing: border-box;
+  border-bottom: 1px solid var(--color-border-bottom);
 }
 
 /* WebKitベースのブラウザ用 */

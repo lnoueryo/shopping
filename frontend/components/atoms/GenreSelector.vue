@@ -5,6 +5,8 @@
     title: String,
     to: String,
     icon: String,
+    disabled: Boolean,
+    size: Number,
   });
   const route = useRoute();
   const selectedGenre = ref('genre' in route.query && route.query.genre);
@@ -25,6 +27,8 @@
         selectedGenre === genre.to
           ? 'var(--color-sub-black)'
           : 'var(--color-sub-white)',
+      minHeight: size + 'px',
+      minWidth: size + 'px',
     }"
   >
     <div

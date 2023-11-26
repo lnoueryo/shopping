@@ -1,14 +1,17 @@
 <script setup lang="ts">
   import { ref, defineEmits, watch } from 'vue';
   const props = defineProps({
-    rate: Number,
+    modelValue: {
+      type: Number,
+      default: 0,
+    },
     size: Number,
     readOnly: Boolean,
     lastStarOnly: Boolean,
   });
-  const emit = defineEmits(['update:rate']);
+  const emit = defineEmits(['update:modelValue']);
   const uniqueId = Math.random().toString(36).substr(2, 9);
-  const rate = ref(Math.round(props.rate));
+  const rate = ref(Math.round(props.modelValue));
 
   watch(
     () => props.rate,
@@ -18,7 +21,7 @@
   );
 
   watch(rate, newRate => {
-    emit('update:rate', newRate);
+    emit('update:modelValue', newRate);
   });
 
   const calculateRate = index => 6 - index;

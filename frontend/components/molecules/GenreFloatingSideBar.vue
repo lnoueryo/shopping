@@ -1,36 +1,21 @@
 <script setup lang="ts">
   import GenreSelector from '@/components/atoms/GenreSelector.vue';
   import { genreData } from '@/assets/js/genres.js';
-  import { ref, onMounted } from 'vue';
-  const genreRef = ref(null);
-  let heightContent = 0;
-  let headerHeight = 0;
-  onMounted(() => {
-    window.addEventListener('scroll', moveGenreContent);
-    const style = getComputedStyle(document.documentElement);
-    heightContent = Number(
-      style.getPropertyValue('--height-content').trim().replace('px', '')
-    );
-    const header = document.getElementById('header');
-    headerHeight = header.getBoundingClientRect().height;
-  });
-  const moveGenreContent = () => {
-    try {
-      if (window.scrollY > headerHeight) {
-        genreRef.value.style.top = `${window.scrollY + heightContent}px`;
-        return;
-      }
-      genreRef.value.style.top = `${headerHeight + heightContent}px`;
-    } catch (error) {
-      console.debug(error);
-    }
-  };
+  import { ref } from 'vue';
+  import { useDOMHeight } from '@/composables/dom-height';
+  import { useScroll } from '@/composables/scroll';
+  const isFixed = ref(false);
+  const domHeight = useDOMHeight();
+  const { headerHeight } = domHeight;
+  const moveGenreContent = () =>
+    (isFixed.value = window.scrollY > headerHeight.value);
+  useScroll(moveGenreContent);
 </script>
 
 <template>
-  <div ref="genreRef" class="floating-sidebar">
+  <div class="floating-sidebar" :class="{ fixed: isFixed }">
     <div class="card title-container flex align-center">
-      <div class="title"> Genres </div>
+      <div class="title padding-side"> Genres </div>
     </div>
     <div class="card flex justify-start align-center wrap">
       <GenreSelector
@@ -46,6 +31,11 @@
 <style lang="scss" scoped>
   .floating-sidebar {
     position: absolute;
+    top: 0;
+  }
+  .floating-sidebar.fixed {
+    position: fixed;
+    top: var(--height-content);
   }
   .genre-selector {
     width: 50%;

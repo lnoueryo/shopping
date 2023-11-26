@@ -11,5 +11,5 @@ export default defineNuxtConfig({
   },
   devtools: { enabled: true },
   css: ['normalize.css/normalize.css', '/assets/css/main.css'],
-  plugins: [],
+  plugins: ['~/plugins/shared-ref.js'],
 });

@@ -95,7 +95,7 @@
     border-radius: 3px;
     border: 2px solid #ddd;
     width: 100%;
-    padding: 0 16px;
+    padding: 0 var(--margin-side);
     z-index: 0;
   }
 

@@ -6,7 +6,7 @@
   <div>
     <div class="content-container">
       <div class="card title-container flex align-center">
-        <div class="title"> Genres </div>
+        <div class="title padding-side"> Genres </div>
       </div>
       <div class="card">
         <GenreContent />

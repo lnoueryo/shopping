@@ -7,7 +7,7 @@
   <div>
     <Header />
     <div class="container">
-      <div class="page-container margin-adjust rel">
+      <div class="page-container margin-side rel">
         <NuxtPage />
       </div>
     </div>

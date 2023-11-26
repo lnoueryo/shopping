@@ -21,6 +21,7 @@
   const viewport = useViewport();
   const width = ref(viewport.width);
   const descriptionSwitch = ref(true);
+  const rate = ref(book.rating);
   watch(width, newWidth => {
     if (newWidth < deviceSize.mobile) return (descriptionSwitch.value = false);
     descriptionSwitch.value = true;
@@ -42,7 +43,7 @@
       <p class="description" v-if="descriptionSwitch">{{ book.description }}</p>
       <p class="price">¥{{ book.price }}</p>
       <div class="book-ratings flex align-center">
-        <Rating :rate="book.rating" read-only />
+        <Rating v-model="rate" read-only />
         <p class="rating-value">{{ book.rating }}</p>
       </div>
     </div>
@@ -55,7 +56,7 @@
     min-width: 200px;
     min-height: 240px;
     background-color: var(--color-base-white);
-    border: 16px solid var(--color-sub-white);
+    border: var(--margin-side) solid var(--color-sub-white);
     img {
       width: 100%;
       padding: 12px;
@@ -63,7 +64,7 @@
   }
 
   .book-details {
-    padding-right: 16px;
+    padding-right: var(--margin-side);
 
     h2 {
       font-size: 24px;
