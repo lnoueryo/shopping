@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { ref, watch, onMounted } from 'vue';
+  import { ref, watch, onMounted, nextTick } from 'vue';
   import SearchButton from '../atoms/SearchButton.vue';
   import { useViewport } from '@/composables/viewport';
   const route = useRoute();
@@ -15,20 +15,23 @@
   const width = ref(viewport.width);
 
   watch(width, newWidth => {
-    const { left: wrapperLeft } = wrapperRef.value.getBoundingClientRect();
-    const { left: promptLeft, width: promptWidthValue } =
-      promptRef.value.getBoundingClientRect();
-
-    if (newWidth < 560) {
-      const leftMargin = promptLeft - wrapperLeft;
-      promptWidth.value = leftMargin;
-      isInputSizeBelowLimit.value = true;
-      return;
-    }
-
-    const bothSidesMargin = (promptLeft - wrapperLeft) * 2;
-    promptWidth.value = promptWidthValue + bothSidesMargin;
     isInputSizeBelowLimit.value = false;
+    nextTick(() => {
+      const { left: wrapperLeft } = wrapperRef.value.getBoundingClientRect();
+      const { left: promptLeft, width: promptWidthValue } =
+        promptRef.value.getBoundingClientRect();
+
+      if (newWidth < 560) {
+        const leftMargin = promptLeft - wrapperLeft;
+        promptWidth.value = leftMargin;
+        isInputSizeBelowLimit.value = true;
+        return;
+      }
+
+      const bothSidesMargin = (promptLeft - wrapperLeft) * 2;
+      promptWidth.value = promptWidthValue + bothSidesMargin;
+      isInputSizeBelowLimit.value = false;
+    });
   });
 
   onMounted(() => {
