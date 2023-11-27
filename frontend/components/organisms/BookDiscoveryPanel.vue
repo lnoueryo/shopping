@@ -7,13 +7,31 @@
   import { useViewport } from '@/composables/viewport';
   import { deviceSize } from '@/assets/js/device-size.js';
   import { ref, watch, onMounted } from 'vue';
+  const route = useRoute();
+  const router = useRouter();
   const viewport = useViewport();
   const width = ref(viewport.width);
   const sidebarSwitch = ref(false);
-  const selectedSkillLevels = ref([]);
-  const rate = ref(0);
+  const selectedSkillLevels = ref(
+    !route.query.levels
+      ? []
+      : Array.isArray(route.query.levels)
+        ? route.query.levels
+        : [route.query.levels]
+  );
+  const selectedGenre = ref(route.query.genre);
+  const selectedRate = ref(Number(route.query.rate) || 0);
   watch(width, newWidth => {
     sidebarSwitch.value = deviceSize.smallDesktop <= newWidth;
+  });
+  watch([selectedRate, selectedSkillLevels, selectedGenre], () => {
+    const query = {
+      ...route.query,
+      rate: selectedRate.value,
+      genre: selectedGenre.value,
+      levels: selectedSkillLevels.value,
+    };
+    router.push({ path: '/books', query: query });
   });
   const books = ref([
     {
@@ -87,14 +105,18 @@
   <div class="flex">
     <FloatFilter v-if="!sidebarSwitch">
       <FilterAccordion
-        :rate="rate"
+        :selectedRate="selectedRate"
         :selectedSkillLevels="selectedSkillLevels"
-        @update:rate="rate = $event"
+        @update:selectedRate="selectedRate = $event"
         @update:selectedSkillLevels="selectedSkillLevels = $event"
+        @update:selectedGenre="selectedGenre = $event"
       />
     </FloatFilter>
     <div class="sidebar-container" v-if="sidebarSwitch">
-      <GenreFloatingSideBar class="sidebar" />
+      <GenreFloatingSideBar
+        class="sidebar"
+        @update:selectedGenre="selectedGenre = $event"
+      />
     </div>
     <div class="w100">
       <div class="content-container rel">
@@ -103,9 +125,9 @@
           v-if="sidebarSwitch"
         >
           <BookFilter
-            :rate="rate"
+            :selectedRate="selectedRate"
             :selectedSkillLevels="selectedSkillLevels"
-            @update:rate="rate = $event"
+            @update:selectedRate="selectedRate = $event"
             @update:selectedSkillLevels="selectedSkillLevels = $event"
           />
         </div>

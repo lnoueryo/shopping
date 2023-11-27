@@ -10,7 +10,7 @@
   import { genreData } from '@/assets/js/genres.js';
   import { ref, watch, onMounted, onUnmounted } from 'vue';
   const props = defineProps({
-    rate: Number,
+    selectedRate: Number,
     selectedSkillLevels: Array,
   });
   const viewport = useViewport();
@@ -24,8 +24,8 @@
     fontSize: '16px',
     fontWeight: 'bold',
   });
-  const localSelectedSkillLevels = ref([]);
-  const localRate = ref(0);
+  const localSelectedSkillLevels = ref(props.selectedSkillLevels);
+  const localRate = ref(props.selectedRate || 0);
   const filterContentHeight = ref({
     minHeight: 'calc(var(--height-content) + var(--height-content) / 2)',
   });
@@ -70,6 +70,10 @@
     unLockPage();
   });
 
+  const selectGenre = selectedGenre => {
+    emit('update:selectedGenre', selectedGenre && selectedGenre.to);
+  };
+
   onMounted(() => {
     isFixed.value = window.scrollY > headerHeight.value - heightContent.value;
     mobileSwitch.value = deviceSize.mobile > width.value;
@@ -77,9 +81,13 @@
   });
 
   onUnmounted(() => unLockPage());
-  const emit = defineEmits(['update:rate', 'update:selectedSkillLevels']);
+  const emit = defineEmits([
+    'update:selectedRate',
+    'update:selectedSkillLevels',
+    'update:selectedGenre',
+  ]);
   watch(
-    () => props.rate,
+    () => props.selectedRate,
     newRate => {
       localRate.value = Math.round(newRate);
     }
@@ -91,7 +99,7 @@
     }
   );
   watch(localRate, newRate => {
-    emit('update:rate', newRate);
+    emit('update:selectedRate', newRate);
   });
   watch(localSelectedSkillLevels, newSelectedSkillLevels => {
     emit('update:selectedSkillLevels', newSelectedSkillLevels);
@@ -152,6 +160,7 @@
             v-for="genre in genreData"
             :key="genre.title"
             v-bind="genre"
+            @update:genre="selectGenre"
           />
         </div>
       </template>

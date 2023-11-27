@@ -9,7 +9,11 @@
   const { headerHeight } = domHeight;
   const moveGenreContent = () =>
     (isFixed.value = window.scrollY > headerHeight.value);
+  const emit = defineEmits(['update:selectedGenre']);
   useScroll(moveGenreContent);
+  const selectGenre = newGenre => {
+    emit('update:selectedGenre', newGenre && newGenre.to);
+  };
 </script>
 
 <template>
@@ -23,6 +27,7 @@
         v-for="genre in genreData"
         :key="genre.title"
         v-bind="genre"
+        @update:genre="selectGenre"
       />
     </div>
   </div>

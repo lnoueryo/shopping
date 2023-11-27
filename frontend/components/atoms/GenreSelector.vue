@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { ref, watch } from 'vue';
+  import { ref, watch, defineEmits } from 'vue';
   import SvgIcon from '@jamescoyle/vue-icon';
   const genre = defineProps({
     title: String,
@@ -8,8 +8,21 @@
     disabled: Boolean,
     size: Number,
   });
+  const router = useRouter();
   const route = useRoute();
-  const selectedGenre = ref('genre' in route.query && route.query.genre);
+  const selectedGenre = ref(route.query.genre);
+  const emit = defineEmits(['update:genre']);
+
+  const selectGenre = () => {
+    if (selectedGenre.value === genre.to) {
+      const newQuery = { ...route.query };
+      delete newQuery.genre;
+      router.push({ path: '/books', query: newQuery });
+      return emit('update:genre', null);
+    }
+    router.push({ path: '/books', query: { ...route.query, genre: genre.to } });
+    emit('update:genre', genre);
+  };
   watch(
     () => route.query.genre,
     newGenre => {
@@ -30,6 +43,7 @@
       minHeight: size + 'px',
       minWidth: size + 'px',
     }"
+    @click.prevent="selectGenre"
   >
     <div
       class="genre-content"

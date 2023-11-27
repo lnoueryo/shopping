@@ -11,6 +11,7 @@
   import { useScroll } from '@/composables/scroll';
 
   const router = useRouter();
+  const route = useRoute();
   const headerMiddleSwitch = ref({ right: true, center: true, left: true });
   const headerTopSwitch = ref({ right: false, center: false, left: false });
   const viewport = useViewport();
@@ -26,7 +27,7 @@
   });
 
   const searchBooks = word => {
-    router.push({ path: '/books', query: { keyword: word } });
+    router.push({ path: '/books', query: { ...route.query, keyword: word } });
   };
 
   const isFixed = ref(false);

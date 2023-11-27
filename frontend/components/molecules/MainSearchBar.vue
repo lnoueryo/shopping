@@ -2,7 +2,7 @@
   import { ref, watch, onMounted } from 'vue';
   import SearchButton from '../atoms/SearchButton.vue';
   import { useViewport } from '@/composables/viewport';
-
+  const route = useRoute();
   const wrapperRef = ref(null);
   const promptRef = ref(null);
   const promptWidth = ref(0);
@@ -10,7 +10,7 @@
   const magnifyWidth = ref(0);
   const isInputSizeBelowLimit = ref(false);
   const user = ref('guest');
-  const searchWord = ref('');
+  const searchWord = ref(route.query.keyword);
   const viewport = useViewport();
   const width = ref(viewport.width);
 
