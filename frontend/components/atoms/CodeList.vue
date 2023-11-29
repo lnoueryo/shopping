@@ -5,7 +5,7 @@
 </script>
 
 <template>
-  <ul class="letter reset-ul">
+  <ul class="monospace-font reset-ul">
     <li class="code flex" v-for="(html, i) in props.htmlArray" :key="i">
       <div class="number-color">{{ i + 1 }}&nbsp;&nbsp;</div>
       <div class="flex" v-html="html"></div>

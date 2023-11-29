@@ -10,27 +10,20 @@
     lastStarOnly: Boolean,
   });
   const emit = defineEmits(['update:modelValue']);
-  const uniqueId = Math.random().toString(36).substr(2, 9);
+  const ratingInputId = Math.random().toString(36).substr(2, 9);
   const rate = ref(Math.round(props.modelValue));
-
-  watch(
-    () => props.rate,
-    newRate => {
-      rate.value = Math.round(newRate);
-    }
-  );
 
   watch(rate, newRate => {
     emit('update:modelValue', newRate);
   });
 
-  const calculateRate = index => 6 - index;
+  const getRatingFromIndex = index => 6 - index;
 
   const isDisabled = index => {
-    return props.readOnly || (props.lastStarOnly && calculateRate(index) === 5);
+    return props.readOnly || (props.lastStarOnly && getRatingFromIndex(index) === 5);
   };
 
-  const toggleRate = newRate => {
+  const setOrResetRate = newRate => {
     if (rate.value === newRate) return (rate.value = 0);
     rate.value = newRate;
   };
@@ -40,15 +33,15 @@
   <div class="rate-form">
     <template v-for="star in 5" :key="`star${star}`">
       <input
-        :id="`star-${uniqueId}-${star}`"
+        :id="`star-${ratingInputId}-${star}`"
         type="radio"
-        :value="calculateRate(star)"
+        :value="getRatingFromIndex(star)"
         v-model="rate"
         :disabled="isDisabled(star)"
-        @click="toggleRate(calculateRate(star))"
+        @click="setOrResetRate(getRatingFromIndex(star))"
       />
       <label
-        :for="`star-${uniqueId}-${star}`"
+        :for="`star-${ratingInputId}-${star}`"
         :class="[
           { 'read-only': isDisabled(star) },
           { disabled: props.lastStarOnly },

@@ -27,16 +27,12 @@
   --color-ubuntu-terminal: #36ce77;
   --color-equal: #d4d4d4;
   --color-tag: #808080;
-  --hover-opacity: 0.6;
+  --opacity-light: 0.6;
   --hover-transition: all 0.3s;
   --height-content: 48px;
   --height-book: 240px;
   --width-side-space: 240px;
-  --margin-side: 16px;
-}
-
-#body {
-  background-color: var(--color-base-white);
+  --margin-horizontal: 16px;
 }
 
 body {
@@ -48,17 +44,17 @@ body {
   margin: auto;
 }
 
-.margin-side {
-  margin-left: var(--margin-side);
-  margin-right: var(--margin-side);
+.margin-horizontal {
+  margin-left: var(--margin-horizontal);
+  margin-right: var(--margin-horizontal);
 }
 
-.padding-side {
-  padding-left: var(--margin-side);
-  padding-right: var(--margin-side);
+.padding-horizontal {
+  padding-left: var(--margin-horizontal);
+  padding-right: var(--margin-horizontal);
 }
 
-.letter {
+.monospace-font {
   font-family: Consolas, 'Courier New', monospace;
   font-weight: normal;
   font-feature-settings:
@@ -115,7 +111,7 @@ li {
   max-width: var(--width-side-space);
 }
 
-.rel {
+.relative {
   position: relative;
 }
 
@@ -200,5 +196,12 @@ li {
 * {
   scrollbar-width: thin;
   scrollbar-color: #ccc #f0f0f0;
+  scrollbar-base-color: #ccc;
+  scrollbar-3dlight-color: #f0f0f0;
+  scrollbar-highlight-color: #f0f0f0;
+  scrollbar-track-color: #f0f0f0;
+  scrollbar-arrow-color: black;
+  scrollbar-shadow-color: #bbb;
+  scrollbar-dark-shadow-color: #aaa;
   box-sizing: border-box;
 }

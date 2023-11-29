@@ -8,7 +8,7 @@
   import { useScroll } from '@/composables/scroll';
   import { deviceSize } from '@/assets/js/device-size.js';
   import { genreData } from '@/assets/js/genres.js';
-  import { ref, watch, onMounted, onUnmounted } from 'vue';
+  import { ref, watch, onMounted, onUnmounted, computed } from 'vue';
   const props = defineProps({
     selectedRate: Number,
     selectedSkillLevels: Array,
@@ -71,7 +71,7 @@
   });
 
   const selectGenre = selectedGenre => {
-    emit('update:selectedGenre', selectedGenre && selectedGenre.to);
+    emit('update:selectedGenre', selectedGenre && selectedGenre.id);
   };
 
   onMounted(() => {
@@ -107,7 +107,7 @@
 </script>
 
 <template>
-  <div class="card flex align-center rel">
+  <div class="card flex align-center relative">
     <Accordion
       v-model="isOpen"
       :labelStyle="labelStyle"
@@ -115,7 +115,7 @@
     >
       <template #label>
         <div class="h100 title-bottom">
-          <div class="flex justify-between align-center h100 margin-side">
+          <div class="flex justify-between align-center h100 margin-horizontal">
             <div class="flex align-center h100">Filter</div>
             <div class="arrow-box" :class="{ toggle: isOpen }">
               <div :class="{ open: isOpen, close: !isOpen }"
@@ -129,7 +129,7 @@
         <div class="card flex justify-start wrap content-header title-bottom">
           <div class="flex align-center" :style="filterContentHeight">
             <div
-              class="align-center title padding-side"
+              class="align-center title padding-horizontal"
               :class="{ flex: !mobileSwitch }"
             >
               <div>Review:&ensp;</div>
@@ -141,7 +141,7 @@
           </div>
           <div class="flex align-center" :style="filterContentHeight">
             <div
-              class="align-center title padding-side"
+              class="align-center title padding-horizontal"
               :class="{ flex: !mobileSwitch }"
             >
               <div>Skill Level:&ensp;</div>
@@ -153,7 +153,7 @@
           </div>
         </div>
         <div
-          class="card flex justify-start align-center wrap title padding-side"
+          class="card flex justify-start align-center wrap title padding-horizontal"
         >
           <GenreSelector
             class="genre-selector"

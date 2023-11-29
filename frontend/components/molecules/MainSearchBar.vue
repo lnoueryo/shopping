@@ -54,7 +54,7 @@
 </script>
 
 <template>
-  <div class="input-wrapper letter h100" ref="wrapperRef">
+  <div class="input-wrapper monospace-font h100" ref="wrapperRef">
     <label
       for="main-search-bar"
       class="prompt"
@@ -98,7 +98,7 @@
     border-radius: 3px;
     border: 2px solid #ddd;
     width: 100%;
-    padding: 0 var(--margin-side);
+    padding: 0 var(--margin-horizontal);
     z-index: 0;
   }
 

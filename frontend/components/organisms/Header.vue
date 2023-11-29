@@ -57,7 +57,7 @@
     <div class="header-top-container flex">
       <TriSectionLayout v-bind="headerTopSwitch">
         <template #left>
-          <Logo class="margin-side" />
+          <Logo class="margin-horizontal" />
         </template>
       </TriSectionLayout>
     </div>
@@ -65,10 +65,10 @@
       <div class="h100 float-header" :class="{ fixed: isFixed }">
         <TriSectionLayout v-bind="headerMiddleSwitch">
           <template #left>
-            <Logo class="margin-side" />
+            <Logo class="margin-horizontal" />
           </template>
           <template #center>
-            <div class="margin-side h100">
+            <div class="margin-horizontal h100">
               <MainSearchBar class="h100" @onSearchClicked="searchBooks" />
             </div>
           </template>
@@ -78,7 +78,7 @@
     <div class="nav-container">
       <TriSectionLayout v-bind="headerMiddleSwitch">
         <template #center>
-          <NavigationBar class="margin-side" :navHeight="48" />
+          <NavigationBar class="margin-horizontal" :navHeight="48" />
         </template>
       </TriSectionLayout>
     </div>

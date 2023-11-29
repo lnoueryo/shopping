@@ -1,7 +1,8 @@
 <script setup lang="ts">
-  import { ref, watch, defineEmits } from 'vue';
+  import { ref, watch, defineEmits, computed } from 'vue';
   import SvgIcon from '@jamescoyle/vue-icon';
   const genre = defineProps({
+    id: String,
     title: String,
     to: String,
     icon: String,
@@ -10,34 +11,29 @@
   });
   const router = useRouter();
   const route = useRoute();
-  const selectedGenre = ref(route.query.genre);
+  const selectedGenre = computed(() => route.query.genre);
   const emit = defineEmits(['update:genre']);
 
   const selectGenre = () => {
-    if (selectedGenre.value === genre.to) {
+    if (selectedGenre.value === genre.id) {
       const newQuery = { ...route.query };
       delete newQuery.genre;
       router.push({ path: '/books', query: newQuery });
       return emit('update:genre', null);
     }
-    router.push({ path: '/books', query: { ...route.query, genre: genre.to } });
+    router.push({ path: '/books', query: { ...route.query, genre: genre.id } });
     emit('update:genre', genre);
   };
-  watch(
-    () => route.query.genre,
-    newGenre => {
-      selectedGenre.value = newGenre;
-    }
-  );
+
 </script>
 
 <template>
   <NuxtLink
-    :to="{ path: '/books', query: { genre: genre.to } }"
+    :to="{ path: '/books', query: { genre: genre.id } }"
     class="genre flex justify-center align-center"
     :style="{
       backgroundColor:
-        selectedGenre === genre.to
+        selectedGenre === genre.id
           ? 'var(--color-sub-black)'
           : 'var(--color-sub-white)',
       minHeight: size + 'px',
@@ -49,7 +45,7 @@
       class="genre-content"
       :style="{
         color:
-          selectedGenre === genre.to
+          selectedGenre === genre.id
             ? 'var(--color-sub-white)'
             : 'var(--color-sub-black)',
       }"
@@ -83,7 +79,7 @@
 
   @media (hover: hover) and (pointer: fine) {
     .genre:hover {
-      opacity: var(--hover-opacity);
+      opacity: var(--opacity-light);
       transition: var(--hover-transition);
       background-color: var(--color-hover-white);
     }

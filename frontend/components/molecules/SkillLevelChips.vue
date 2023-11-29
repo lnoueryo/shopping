@@ -47,7 +47,7 @@
 </script>
 
 <template>
-  <div class="skill-level-form flex letter bold">
+  <div class="skill-level-form flex monospace-font bold">
     <div v-for="level in skillLevels" :key="level" class="chip text-center">
       <input
         :id="uniqueId + level"
@@ -85,7 +85,7 @@
 
   @media (hover: hover) and (pointer: fine) {
     .skill-level-form label:hover {
-      opacity: var(--hover-opacity);
+      opacity: var(--opacity-light);
       transition: var(--hover-transition);
     }
   }

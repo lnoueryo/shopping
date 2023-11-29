@@ -20,11 +20,11 @@
 
   const viewport = useViewport();
   const width = ref(viewport.width);
-  const descriptionSwitch = ref(true);
+  const isDescriptionShownOnMobile = ref(true);
   const rate = ref(book.rating);
   watch(width, newWidth => {
-    if (newWidth < deviceSize.mobile) return (descriptionSwitch.value = false);
-    descriptionSwitch.value = true;
+    if (newWidth < deviceSize.mobile) return (isDescriptionShownOnMobile.value = false);
+    isDescriptionShownOnMobile.value = true;
   });
 </script>
 
@@ -40,7 +40,7 @@
         >{{ book.publisher }},
         <span class="publish-date">{{ book.publish_date }}</span></p
       >
-      <p class="description" v-if="descriptionSwitch">{{ book.description }}</p>
+      <p class="description" v-if="isDescriptionShownOnMobile">{{ book.description }}</p>
       <p class="price">¥{{ book.price }}</p>
       <div class="book-ratings flex align-center">
         <Rating v-model="rate" read-only />
@@ -56,7 +56,7 @@
     min-width: 200px;
     min-height: 240px;
     background-color: var(--color-base-white);
-    border: var(--margin-side) solid var(--color-sub-white);
+    border: var(--margin-horizontal) solid var(--color-sub-white);
     img {
       width: 100%;
       padding: 12px;
@@ -64,7 +64,7 @@
   }
 
   .book-details {
-    padding-right: var(--margin-side);
+    padding-right: var(--margin-horizontal);
 
     h2 {
       font-size: 24px;

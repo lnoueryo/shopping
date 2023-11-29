@@ -13,7 +13,7 @@
       <li class="h100" v-for="link in navigationLinks" :key="link.id">
         <NuxtLink
           :id="link.id"
-          class="letter h100"
+          class="monospace-font h100"
           :style="{ color: link.color, height: props.navHeight + 'px' }"
           :to="link.to"
           activeClass="nuxt-active-class"
@@ -31,7 +31,7 @@
   }
 
   .nuxt-active-class:hover {
-    opacity: var(--hover-opacity);
+    opacity: var(--opacity-light);
     transition: var(--hover-transition);
   }
 

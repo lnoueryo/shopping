@@ -1,7 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
-  <NuxtLink id="title padding-side" to="/">
+  <NuxtLink id="title padding-horizontal" to="/">
     <span id="webtech" class="letter">Webtech </span>
     <span id="bookstore" class="letter">Bookstore</span>
     <span id="parentheses" class="parentheses">()</span>

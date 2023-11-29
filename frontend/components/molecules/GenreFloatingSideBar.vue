@@ -12,14 +12,14 @@
   const emit = defineEmits(['update:selectedGenre']);
   useScroll(moveGenreContent);
   const selectGenre = newGenre => {
-    emit('update:selectedGenre', newGenre && newGenre.to);
+    emit('update:selectedGenre', newGenre && newGenre.id);
   };
 </script>
 
 <template>
-  <div class="floating-sidebar" :class="{ fixed: isFixed }">
+  <div class="floating-sidebar" :class="{ 'sidebar-fixed': isFixed }">
     <div class="card title-container flex align-center">
-      <div class="title padding-side"> Genres </div>
+      <div class="title padding-horizontal"> Genres </div>
     </div>
     <div class="card flex justify-start align-center wrap">
       <GenreSelector
@@ -38,7 +38,7 @@
     position: absolute;
     top: 0;
   }
-  .floating-sidebar.fixed {
+  .floating-sidebar.sidebar-fixed {
     position: fixed;
     top: var(--height-content);
   }
