@@ -3,9 +3,7 @@
 </script>
 
 <template>
-  <div>
-    <BookDiscoveryPanel />
-  </div>
+  <BookDiscoveryPanel />
 </template>
 
 <style lang="scss" scoped></style>

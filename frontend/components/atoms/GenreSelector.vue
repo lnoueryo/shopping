@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { ref, watch, defineEmits, computed } from 'vue';
+  import { defineEmits, computed } from 'vue';
   import SvgIcon from '@jamescoyle/vue-icon';
   const genre = defineProps({
     id: String,
@@ -24,7 +24,6 @@
     router.push({ path: '/books', query: { ...route.query, genre: genre.id } });
     emit('update:genre', genre);
   };
-
 </script>
 
 <template>

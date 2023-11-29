@@ -20,7 +20,9 @@
   const getRatingFromIndex = index => 6 - index;
 
   const isDisabled = index => {
-    return props.readOnly || (props.lastStarOnly && getRatingFromIndex(index) === 5);
+    return (
+      props.readOnly || (props.lastStarOnly && getRatingFromIndex(index) === 5)
+    );
   };
 
   const setOrResetRate = newRate => {

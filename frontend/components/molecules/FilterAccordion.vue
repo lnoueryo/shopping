@@ -8,7 +8,7 @@
   import { useScroll } from '@/composables/scroll';
   import { deviceSize } from '@/assets/js/device-size.js';
   import { genreData } from '@/assets/js/genres.js';
-  import { ref, watch, onMounted, onUnmounted, computed } from 'vue';
+  import { ref, watch, onMounted, onUnmounted } from 'vue';
   const props = defineProps({
     selectedRate: Number,
     selectedSkillLevels: Array,

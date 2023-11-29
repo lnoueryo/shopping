@@ -7,6 +7,7 @@
   import { useViewport } from '@/composables/viewport';
   import { deviceSize } from '@/assets/js/device-size.js';
   import { ref, watch, onMounted } from 'vue';
+
   const route = useRoute();
   const router = useRouter();
   const viewport = useViewport();
@@ -95,31 +96,35 @@
       rating: 4.26,
     },
   ]);
-
-  onMounted(
-    () => (sidebarSwitch.value = deviceSize.smallDesktop <= width.value)
-  );
+  const selectGenre = async newGenre => {
+    selectedGenre.value = newGenre;
+  };
+  const isLoading = ref(false);
+  const hasError = ref(false);
+  onMounted(async () => {
+    sidebarSwitch.value = deviceSize.smallDesktop <= width.value;
+  });
 </script>
 
 <template>
-  <div class="flex">
+  <div class="flex w100">
     <FloatFilter v-if="!sidebarSwitch">
       <FilterAccordion
         :selectedRate="selectedRate"
         :selectedSkillLevels="selectedSkillLevels"
         @update:selectedRate="selectedRate = $event"
         @update:selectedSkillLevels="selectedSkillLevels = $event"
-        @update:selectedGenre="selectedGenre = $event"
+        @update:selectedGenre="selectGenre"
       />
     </FloatFilter>
     <div class="sidebar-container" v-if="sidebarSwitch">
       <GenreFloatingSideBar
         class="sidebar"
-        @update:selectedGenre="selectedGenre = $event"
+        @update:selectedGenre="selectGenre"
       />
     </div>
-    <div class="w100">
-      <div class="content-container rel">
+    <div class="w100 relative">
+      <div class="content-container relative">
         <div
           class="card title-container flex align-center"
           v-if="sidebarSwitch"
@@ -132,16 +137,114 @@
           />
         </div>
       </div>
-      <div class="content-container" v-for="book in books" :key="book.id">
-        <div class="card">
-          <BookList v-bind="book" :key="book.id" />
+      <template v-if="isLoading">
+        <div class="spinner-container">
+          <div class="spinner-border"></div>
         </div>
-      </div>
+      </template>
+      <template v-else>
+        <template v-if="books.length != 0">
+          <div
+            class="content-container"
+            v-for="book in books"
+            :key="book.id"
+          >
+            <div class="card">
+              <BookList v-bind="book" :key="book.id" />
+            </div>
+          </div>
+        </template>
+        <template v-else>
+          <div class="content-container">
+            <div class="card">
+              <div class="code-editor-error">
+                <p
+                  ><span class="error-code">ERROR:</span> No books found based
+                  on your search criteria.</p
+                >
+                <p class="console-text">> Search Parameters:</p>
+                <ul class="console-text">
+                  <li v-if="route.query.keyword"
+                    >Keyword: "{{ route.query.keyword }}"</li
+                  >
+                  <li v-if="route.query.genre"
+                    >Genre: "{{ route.query.genre }}"</li
+                  >
+                  <li v-if="route.query.rate"
+                    >Minimum Rating: "{{ route.query.rate }}"</li
+                  >
+                  <li v-if="route.query.levels"
+                    >Skill Levels: "{{ route.query.levels }}"</li
+                  >
+                </ul>
+                <br />
+                <p class="console-text">> Suggestions:</p>
+                <ul class="console-text">
+                  <li>Check for typos in your keywords or genre.</li>
+                  <li>Try using different keywords or genres.</li>
+                  <li>Consider broadening your search criteria.</li>
+                  <li>Adjust the rating filter for more inclusive results.</li>
+                  <li>Modify the skill level filter to include more levels.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </template>
+      </template>
     </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
+  .spinner-container {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .spinner-border {
+    display: inline-block;
+    width: 2rem;
+    height: 2rem;
+    vertical-align: text-bottom;
+    border: 0.25em solid currentColor;
+    border-right-color: transparent;
+    border-radius: 50%;
+    animation: spinner-border 0.75s linear infinite;
+  }
+
+  @keyframes spinner-border {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .code-editor-error {
+    background-color: #ffffff;
+    color: #333;
+    padding: 15px;
+    font-family: 'Courier New', monospace;
+    border-left: 4px solid var(--color-error);
+  }
+
+  .error-code {
+    color: var(--color-error);
+  }
+
+  .console-text {
+    margin: 0;
+    color: #8ec07c;
+  }
+
+  ul.console-text {
+    margin-top: 5px;
+    padding-left: 20px;
+  }
+
   .sidebar-container {
     min-width: 240px;
   }

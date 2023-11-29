@@ -3,8 +3,7 @@
   import NavigationBar from '../molecules/NavigationBar.vue';
   import Logo from '../atoms/Logo.vue';
   import TriSectionLayout from '../wrappers/TriSectionLayout.vue';
-  import { ref, watch, onMounted, onUnmounted } from 'vue';
-  import { useNuxtApp } from '#app';
+  import { ref, watch } from 'vue';
   import { deviceSize } from '@/assets/js/device-size.js';
   import { useViewport } from '@/composables/viewport';
   import { useDOMHeight } from '@/composables/dom-height';
@@ -38,18 +37,6 @@
     isFixed.value = window.scrollY > heightContent.value;
   };
   useScroll(moveSearchBar);
-  const headerRef = ref(null);
-  const nuxtApp = useNuxtApp();
-
-  onMounted(() => {
-    nuxtApp.$headerRef.value = headerRef.value;
-  });
-
-  onUnmounted(() => {
-    if (nuxtApp.$headerRef.value === headerRef.value) {
-      nuxtApp.$headerRef.value = null;
-    }
-  });
 </script>
 
 <template>

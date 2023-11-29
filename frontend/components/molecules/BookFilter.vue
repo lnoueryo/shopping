@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import Rating from '@/components/atoms/Rating.vue';
   import SkillLevelChips from '@/components/molecules/SkillLevelChips.vue';
-  import { ref, watch, computed } from 'vue';
+  import { ref, watch } from 'vue';
   const props = defineProps({
     selectedRate: Number,
     selectedSkillLevels: Array,

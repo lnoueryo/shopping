@@ -23,7 +23,8 @@
   const isDescriptionShownOnMobile = ref(true);
   const rate = ref(book.rating);
   watch(width, newWidth => {
-    if (newWidth < deviceSize.mobile) return (isDescriptionShownOnMobile.value = false);
+    if (newWidth < deviceSize.mobile)
+      return (isDescriptionShownOnMobile.value = false);
     isDescriptionShownOnMobile.value = true;
   });
 </script>
@@ -40,7 +41,9 @@
         >{{ book.publisher }},
         <span class="publish-date">{{ book.publish_date }}</span></p
       >
-      <p class="description" v-if="isDescriptionShownOnMobile">{{ book.description }}</p>
+      <p class="description" v-if="isDescriptionShownOnMobile">{{
+        book.description
+      }}</p>
       <p class="price">¥{{ book.price }}</p>
       <div class="book-ratings flex align-center">
         <Rating v-model="rate" read-only />
