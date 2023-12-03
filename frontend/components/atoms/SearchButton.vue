@@ -25,12 +25,12 @@
     display: flex;
     align-items: center;
     text-decoration: none;
-    background: linear-gradient(to top, #e5e5e5, #ffffff);
+    background: linear-gradient(to top, var(--color-base-white), var(--color-sub-white));
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     -webkit-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     transition: var(--hover-transition);
     border-radius: 3px;
-    border: 2px solid #ddd;
+    border: 2px solid var(--color-row-selected-number);
     cursor: pointer;
   }
 

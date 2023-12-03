@@ -24,16 +24,20 @@
 
 <template>
   <div id="default-layout">
-    <div ref="headerRef">
-      <Header />
-    </div>
-    <div class="container">
-      <div class="page-container margin-horizontal relative">
-        <NuxtPage />
+    <div class="header-footer-color">
+      <div class="container" ref="headerRef">
+        <Header />
       </div>
     </div>
-    <div ref="footerRef">
-      <Footer />
+    <div class="container stretch-height">
+      <div class="page-container margin-horizontal relative">
+        <NuxtPage class="w100" />
+      </div>
+    </div>
+    <div class="header-footer-color">
+      <div class="container" ref="footerRef">
+        <Footer />
+      </div>
     </div>
   </div>
 </template>
@@ -50,8 +54,14 @@
     max-width: 1200px;
     width: 100%;
     margin: auto;
+  }
+  .stretch-height {
     display: flex;
     flex: 1;
+  }
+  .header-footer-color {
+    background-color: var(--color-base-black);
+    width: 100%;
   }
   .page-container {
     display: flex;

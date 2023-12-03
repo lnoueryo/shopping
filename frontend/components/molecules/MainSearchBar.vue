@@ -10,7 +10,7 @@
   const magnifyWidth = ref(0);
   const isInputSizeBelowLimit = ref(false);
   const user = ref('guest');
-  const searchWord = ref(route.query.keyword);
+  const searchKeyword = ref(route.query.keyword);
   const viewport = useViewport();
   const width = ref(viewport.width);
 
@@ -73,13 +73,13 @@
         paddingRight: magnifyWidth + 'px',
       }"
       autocomplete="off"
-      v-model="searchWord"
-      @keyup.enter="$emit('onSearchClicked', searchWord)"
+      v-model="searchKeyword"
+      @keyup.enter="$emit('onSearchClicked', searchKeyword)"
     />
     <div class="search-button w100 h100" ref="searchButton">
       <SearchButton
         :size="24"
-        @onSearchClicked="$emit('onSearchClicked', searchWord)"
+        @onSearchClicked="$emit('onSearchClicked', searchKeyword)"
       />
     </div>
   </div>
@@ -96,15 +96,17 @@
     color: yellow;
     caret-color: white;
     border-radius: 3px;
-    border: 2px solid #ddd;
+    border: 2px solid var(--color-base-white);
     width: 100%;
     padding: 0 var(--margin-horizontal);
     z-index: 0;
+    transition: var(--hover-transition);
   }
 
   #main-search-bar:focus-visible {
     border: 2px solid var(--color-class);
     outline: 1px solid var(--color-class);
+    transition: var(--hover-transition);
   }
 
   .prompt {

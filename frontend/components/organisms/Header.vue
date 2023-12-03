@@ -26,6 +26,7 @@
   });
 
   const searchBooks = word => {
+    if (!word && route.path != '/books') return;
     router.push({ path: '/books', query: { ...route.query, keyword: word } });
   };
 
@@ -75,6 +76,7 @@
 <style lang="scss" scoped>
   #header {
     background-color: var(--color-base-black);
+    width: 100%;
   }
 
   .header-top-container {
