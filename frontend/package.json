@@ -9,15 +9,19 @@
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "lint": "eslint .",
-    "format": "exec prettier . --write"
+    "format": "exec prettier . --write",
+    "test": "vitest"
   },
   "devDependencies": {
     "@nuxt/devtools": "latest",
     "@typescript-eslint/eslint-plugin": "^6.11.0",
     "@typescript-eslint/parser": "^6.11.0",
+    "@vue/test-utils": "^2.4.3",
     "eslint": "^8.53.0",
     "eslint-plugin-vue": "^9.18.1",
+    "jsdom": "^23.0.1",
     "nuxt": "^3.8.1",
+    "playwright": "^1.40.1",
     "prettier": "3.1.0",
     "sass": "^1.69.5",
     "vue": "^3.3.8",
@@ -26,6 +30,8 @@
   "dependencies": {
     "@jamescoyle/vue-icon": "^0.1.2",
     "@mdi/js": "^7.3.67",
-    "normalize.css": "^8.0.1"
+    "@vitejs/plugin-vue": "^4.5.1",
+    "normalize.css": "^8.0.1",
+    "vitest": "^1.0.0"
   }
 }
