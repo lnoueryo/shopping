@@ -63,7 +63,7 @@ describe('SkillLevelChips', () => {
 });
 
 interface SkillLevelChipsData {
-  modelValue?: string[]
+  modelValue?: string[];
 }
 
 const createSkillLevelChips = (skillLevelChipsData: SkillLevelChipsData) => {

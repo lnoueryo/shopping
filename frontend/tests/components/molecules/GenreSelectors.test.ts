@@ -91,9 +91,9 @@ describe('GenreSelectors', () => {
 });
 
 interface GenreSelectorsData {
-  modelValue?: string,
-  genreData?: typeof genreData,
-};
+  modelValue?: string;
+  genreData?: typeof genreData;
+}
 
 const createGenreSelectors = (genreSelectorsData: GenreSelectorsData) => {
   return mount(GenreSelectors, {
