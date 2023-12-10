@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import Rating from '@/components/atoms/Rating.vue';
+  import Rating from '@/components/molecules/Rating.vue';
   import SkillLevelChips from '@/components/molecules/SkillLevelChips.vue';
   import { ref, watch } from 'vue';
   const props = defineProps({
@@ -8,7 +8,6 @@
   });
   const localRate = ref(props.selectedRate);
   const selectedSkillLevels = ref(props.selectedSkillLevels);
-  const isFixed = ref(true);
   const emit = defineEmits([
     'update:selectedRate',
     'update:selectedSkillLevels',
@@ -34,7 +33,7 @@
 </script>
 
 <template>
-  <div class="w100" :class="{ fixed: isFixed }" style="z-index: 1">
+  <div class="w100">
     <div class="flex align-center wrap">
       <div class="title padding-horizontal"> Filter </div>
       <div class="flex align-center title">

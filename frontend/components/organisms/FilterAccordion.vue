@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import SkillLevelChips from '@/components/molecules/SkillLevelChips.vue';
-  import Rating from '@/components/atoms/Rating.vue';
-  import GenreSelector from '@/components/atoms/GenreSelector.vue';
+  import Rating from '@/components/molecules/Rating.vue';
+  import GenreSelectors from '@/components/molecules/GenreSelectors.vue';
   import Accordion from '@/components/wrappers/Accordion.vue';
   import { useViewport } from '@/composables/viewport';
   import { useDOMHeight } from '@/composables/dom-height';
@@ -12,6 +12,7 @@
   const props = defineProps({
     selectedRate: Number,
     selectedSkillLevels: Array,
+    genreId: String,
   });
   const viewport = useViewport();
   const width = ref(viewport.width);
@@ -26,12 +27,15 @@
   });
   const localSelectedSkillLevels = ref(props.selectedSkillLevels);
   const localRate = ref(props.selectedRate || 0);
+  const localGenreId = ref(props.genreId);
   const filterContentHeight = ref({
     minHeight: 'calc(var(--height-content) + var(--height-content) / 2)',
   });
   watch(width, newWidth => {
     mobileSwitch.value = deviceSize.mobile > newWidth;
-    skillLevelStyle.value = mobileSwitch.value ? { size: 10, width: 88 } : {};
+    skillLevelStyle.value = mobileSwitch.value
+      ? { fontSize: 10, width: 88 }
+      : {};
     filterContentHeight.value.minHeight = mobileSwitch.value
       ? 'calc(var(--height-content) + var(--height-content) / 2)'
       : 'var(--height-content)';
@@ -70,10 +74,6 @@
     unLockPage();
   });
 
-  const selectGenre = selectedGenre => {
-    emit('update:selectedGenre', selectedGenre && selectedGenre.id);
-  };
-
   onMounted(() => {
     isFixed.value = window.scrollY > headerHeight.value - heightContent.value;
     mobileSwitch.value = deviceSize.mobile > width.value;
@@ -85,7 +85,14 @@
     'update:selectedRate',
     'update:selectedSkillLevels',
     'update:selectedGenre',
+    'update:genreId',
   ]);
+  watch(
+    () => props.genreId,
+    newGenreId => {
+      localGenreId.value = newGenreId;
+    }
+  );
   watch(
     () => props.selectedRate,
     newRate => {
@@ -98,6 +105,10 @@
       localSelectedSkillLevels.value = newSelectedSkillLevels;
     }
   );
+  watch(localGenreId, newGenreId => {
+    emit('update:genreId', newGenreId);
+    emit('update:selectedGenre', newGenreId);
+  });
   watch(localRate, newRate => {
     emit('update:selectedRate', newRate);
   });
@@ -152,15 +163,11 @@
             </div>
           </div>
         </div>
-        <div
-          class="card flex justify-start align-center wrap title padding-horizontal"
-        >
-          <GenreSelector
-            class="genre-selector"
-            v-for="genre in genreData"
-            :key="genre.title"
-            v-bind="genre"
-            @update:genre="selectGenre"
+        <div class="card title padding-horizontal">
+          <GenreSelectors
+            v-model="localGenreId"
+            v-bind="{ mobile: 50, tablet: 50 }"
+            :genreData="genreData"
           />
         </div>
       </template>

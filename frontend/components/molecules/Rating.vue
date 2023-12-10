@@ -1,5 +1,7 @@
 <script setup lang="ts">
-  import { ref, defineEmits, watch } from 'vue';
+  import { ref, defineEmits, watch, watchEffect } from 'vue';
+  const MIN_RATING = 0;
+  const MAX_RATING = 5;
   const props = defineProps({
     modelValue: {
       type: Number,
@@ -10,30 +12,43 @@
     lastStarOnly: Boolean,
   });
   const emit = defineEmits(['update:modelValue']);
-  const ratingInputId = Math.random().toString(36).substr(2, 9);
-  const rate = ref(Math.round(props.modelValue));
 
+  const normalizeRating = () => {
+    let rate = props.modelValue;
+    if (props.modelValue <= MIN_RATING || MAX_RATING < props.modelValue) {
+      rate = MIN_RATING;
+    }
+    if (props.lastStarOnly && rate === MAX_RATING) {
+      rate = MIN_RATING;
+    }
+    emit('update:modelValue', rate);
+    return Math.floor(rate);
+  };
+  const rate = ref(normalizeRating());
+  const ratingInputId = Math.random().toString(36).substr(2, 9);
+  watchEffect(() => (rate.value = normalizeRating()));
   watch(rate, newRate => {
     emit('update:modelValue', newRate);
   });
 
-  const getRatingFromIndex = index => 6 - index;
+  const getRatingFromIndex = index => 1 + MAX_RATING - index;
 
   const isDisabled = index => {
     return (
-      props.readOnly || (props.lastStarOnly && getRatingFromIndex(index) === 5)
+      props.readOnly ||
+      (props.lastStarOnly && getRatingFromIndex(index) === MAX_RATING)
     );
   };
 
   const setOrResetRate = newRate => {
-    if (rate.value === newRate) return (rate.value = 0);
+    if (rate.value === newRate) return (rate.value = MIN_RATING);
     rate.value = newRate;
   };
 </script>
 
 <template>
   <div class="rate-form">
-    <template v-for="star in 5" :key="`star${star}`">
+    <template v-for="star in MAX_RATING" :key="`star${star}`">
       <input
         :id="`star-${ratingInputId}-${star}`"
         type="radio"

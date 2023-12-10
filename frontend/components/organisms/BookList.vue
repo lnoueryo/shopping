@@ -2,20 +2,41 @@
   import { useViewport } from '@/composables/viewport';
   import { deviceSize } from '@/assets/js/device-size.js';
   import { ref, watch } from 'vue';
-  import Rating from '@/components/atoms/Rating.vue';
+  import Rating from '@/components/molecules/Rating.vue';
 
   const book = defineProps({
-    id: Number,
-    isbn: String,
-    title: String,
-    publish_date: String,
-    publisher: String,
+    id: {
+      type: Number,
+      required: true,
+    },
+    title: {
+      type: String,
+      required: true,
+    },
+    publish_date: {
+      type: String,
+      required: true,
+    },
+    publisher: {
+      type: String,
+      required: true,
+    },
+    author: {
+      type: String,
+      required: true,
+    },
+    price: {
+      type: Number,
+      required: true,
+    },
+    rating: {
+      type: Number,
+      required: true,
+    },
     description: String,
     thumbnail: String,
     language: String,
-    author: String,
-    price: Number,
-    rating: Number,
+    isbn: String,
   });
 
   const viewport = useViewport();
@@ -30,7 +51,10 @@
 </script>
 
 <template>
-  <div class="flex align-center">
+  <div
+    class="flex align-center"
+    v-if="book.title && book.author && book.publisher && book.publish_date"
+  >
     <div class="flex justify-center align-center book-image-container">
       <img :src="book.thumbnail" :alt="book.title" />
     </div>
@@ -44,7 +68,7 @@
       <p class="description" v-if="isDescriptionShownOnMobile">{{
         book.description
       }}</p>
-      <p class="price">¥{{ book.price }}</p>
+      <p class="price" v-if="book.price">¥{{ book.price }}</p>
       <div class="book-ratings flex align-center">
         <Rating v-model="rate" read-only />
         <p class="rating-value">{{ book.rating }}</p>
