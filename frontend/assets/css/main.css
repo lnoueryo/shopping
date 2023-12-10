@@ -1,0 +1,214 @@
+/* 基本単位 */
+:root {
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 12px;
+  --space-lg: 16px;
+  --color-row-number: #858585;
+  --color-row-selected-number: #c6c6c6;
+  --color-base-black: #222222;
+  --color-sub-black: #333;
+  --color-base-white: #f5f5f5;
+  --color-sub-white: #ffffff;
+  --color-border-bottom: #0000001a;
+  --color-hover-green: #00695c;
+  --color-hover-white: #ddd;
+  --color-primary: #9cdcfe;
+  --color-class: #569cd6;
+  --color-define: #4fc1ff;
+  --color-class-name: #4ec9b0;
+  --color-class-method: #dcdcaa;
+  --color-parentheses: #ffd700;
+  --color-import: #c586c0;
+  --color-string: #ce9178;
+  --color-text-selection: #9cdcfe85;
+  --color-back-slash: #d7ba7d;
+  --color-comment-out: #6a9955;
+  --color-ubuntu-terminal: #36ce77;
+  --color-equal: #d4d4d4;
+  --color-tag: #808080;
+  --color-error: #ff1212cc;
+  --opacity-light: 0.6;
+  --opacity-disabled: 0.3;
+  --hover-transition: all 0.3s;
+  --height-content: 48px;
+  --height-book: 240px;
+  --width-side-space: 240px;
+  --margin-horizontal: 16px;
+}
+
+html {
+  height: 100%;
+  min-height: 100%;
+}
+
+body {
+  position: relative;
+  background-color: var(--color-base-white);
+  height: 100%;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.margin-horizontal {
+  margin-left: var(--margin-horizontal);
+  margin-right: var(--margin-horizontal);
+}
+
+.padding-horizontal {
+  padding-left: var(--margin-horizontal);
+  padding-right: var(--margin-horizontal);
+}
+
+.monospace-font {
+  font-family: Consolas, 'Courier New', monospace;
+  font-weight: normal;
+  font-feature-settings:
+    'liga' 0,
+    'calt' 0;
+  font-variation-settings: normal;
+  letter-spacing: 0px;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.flex {
+  display: flex;
+}
+
+.align-center {
+  align-items: center;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:visited {
+  color: initial;
+}
+
+li {
+  list-style: none;
+}
+
+.align-left {
+  margin-right: auto;
+  margin-left: 0;
+}
+
+.align-right {
+  margin-right: 0;
+  margin-left: auto;
+}
+
+.side-space {
+  min-width: var(--width-side-space);
+  max-width: var(--width-side-space);
+}
+
+.relative {
+  position: relative;
+}
+
+.mr-a {
+  margin: auto;
+}
+
+.w100 {
+  width: 100%;
+}
+
+.h100 {
+  height: 100%;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.wrap {
+  flex-wrap: wrap;
+}
+
+.card {
+  overflow: hidden;
+  overflow-wrap: break-word;
+  position: relative;
+  padding: 0;
+  text-decoration: none;
+  transition-duration: 0.28s;
+  transition-property: box-shadow, opacity, background;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 0;
+  border-color: rgba(var(--v-border-color), var(--v-border-opacity));
+  border-style: solid;
+  border-width: 0;
+  background-color: var(--color-sub-white);
+  border-radius: 3px;
+  width: 100%;
+}
+
+.content-container {
+  margin-bottom: var(--height-content);
+}
+
+.title {
+  font-size: 16px;
+  color: var(--color-sub-black);
+  font-weight: bold;
+}
+
+.title-bottom {
+  border-bottom: 1px solid var(--color-border-bottom);
+}
+
+.title-container {
+  background: var(--color-sub-white);
+  height: var(--height-content);
+  border-bottom: 1px solid var(--color-border-bottom);
+}
+
+/* WebKitベースのブラウザ用 */
+::-webkit-scrollbar {
+  width: 0px;
+  height: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f0f0f0;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #bbb;
+}
+
+/* Firefox用 */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #ccc #f0f0f0;
+  scrollbar-base-color: #ccc;
+  scrollbar-3dlight-color: #f0f0f0;
+  scrollbar-highlight-color: #f0f0f0;
+  scrollbar-track-color: #f0f0f0;
+  scrollbar-arrow-color: black;
+  scrollbar-shadow-color: #bbb;
+  scrollbar-dark-shadow-color: #aaa;
+  box-sizing: border-box;
+}
