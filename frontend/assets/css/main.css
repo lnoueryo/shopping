@@ -29,6 +29,7 @@
   --color-tag: #808080;
   --color-error: #ff1212cc;
   --opacity-light: 0.6;
+  --opacity-disabled: 0.3;
   --hover-transition: all 0.3s;
   --height-content: 48px;
   --height-book: 240px;

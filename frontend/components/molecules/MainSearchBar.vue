@@ -1,55 +1,79 @@
 <script setup lang="ts">
-  import { ref, watch, onMounted, nextTick } from 'vue';
-  import SearchButton from '../atoms/SearchButton.vue';
+  import {
+    ref,
+    watch,
+    watchEffect,
+    onMounted,
+    computed,
+    defineProps,
+    defineEmits,
+  } from 'vue';
+  import SearchButton from '@/components/atoms/SearchButton.vue';
   import { useViewport } from '@/composables/viewport';
-  const route = useRoute();
+  import { deviceSize } from '@/assets/js/device-size';
+  const props = defineProps({
+    modelValue: {
+      type: String,
+    },
+    userName: String,
+  });
+  const emit = defineEmits(['update:modelValue']);
   const wrapperRef = ref(null);
   const promptRef = ref(null);
-  const promptWidth = ref(0);
+  const promptPadding = ref(0);
   const searchButton = ref(null);
-  const magnifyWidth = ref(0);
+  const magnifyPadding = ref(0);
   const isInputSizeBelowLimit = ref(false);
-  const user = ref('guest');
-  const searchKeyword = ref(route.query.keyword);
+  const user = ref(props.userName || 'guest');
+  const searchKeyword = ref(props.modelValue);
   const viewport = useViewport();
   const width = ref(viewport.width);
+  const wrapperLeft = ref(0);
+  const promptLeft = ref(0);
+  const promptWidth = ref(0);
+  const leftMargin = computed(() => promptLeft.value - wrapperLeft.value);
+  const promptBothSidesMargin = computed(
+    () => (promptLeft.value - wrapperLeft.value) * 2
+  );
+  const hidePrompt = () => {
+    promptPadding.value = leftMargin.value;
+    isInputSizeBelowLimit.value = true;
+  };
+  const showPrompt = () => {
+    promptPadding.value = promptWidth.value + promptBothSidesMargin.value;
+  };
+  const updateRefSize = () => {
+    const { left: wrapperLeftValue } = wrapperRef.value.getBoundingClientRect();
+    const { left: promptLeftValue, width: promptWidthValue } =
+      promptRef.value.getBoundingClientRect();
+    wrapperLeft.value = wrapperLeftValue;
+    promptLeft.value = promptLeftValue;
+    promptWidth.value = promptWidthValue;
+  };
 
-  watch(width, newWidth => {
+  const adjustPromptVisibility = width => {
     isInputSizeBelowLimit.value = false;
-    nextTick(() => {
-      const { left: wrapperLeft } = wrapperRef.value.getBoundingClientRect();
-      const { left: promptLeft, width: promptWidthValue } =
-        promptRef.value.getBoundingClientRect();
+    updateRefSize();
+    if (width < deviceSize.tablet) return hidePrompt();
+    showPrompt();
+  };
 
-      if (newWidth < 560) {
-        const leftMargin = promptLeft - wrapperLeft;
-        promptWidth.value = leftMargin;
-        isInputSizeBelowLimit.value = true;
-        return;
-      }
+  const adjustMagnifyVisibility = () => {
+    const wrapperBound = wrapperRef.value.getBoundingClientRect();
+    const magnifyBound = searchButton.value.children[0].getBoundingClientRect();
+    const bothSidesMargin = (wrapperBound.right - magnifyBound.right) * 2;
+    magnifyPadding.value = magnifyBound.width + bothSidesMargin;
+  };
 
-      const bothSidesMargin = (promptLeft - wrapperLeft) * 2;
-      promptWidth.value = promptWidthValue + bothSidesMargin;
-      isInputSizeBelowLimit.value = false;
-    });
-  });
-
+  watch(width, newWidth => adjustPromptVisibility(newWidth));
+  watchEffect(() => (searchKeyword.value = props.modelValue));
+  watch(searchKeyword, newSearchKeyword =>
+    emit('update:modelValue', newSearchKeyword)
+  );
   onMounted(() => {
-    if (promptRef.value) {
-      const { left: wrapperLeft } = wrapperRef.value.getBoundingClientRect();
-      const { left: promptLeft, width: promptWidthValue } =
-        promptRef.value.getBoundingClientRect();
-      const bothSidesMargin = (promptLeft - wrapperLeft) * 2;
-      promptWidth.value = promptWidthValue + bothSidesMargin;
-    }
+    if (promptRef.value) adjustPromptVisibility(width.value);
 
-    if (searchButton.value) {
-      const wrapperBound = wrapperRef.value.getBoundingClientRect();
-      const magnifyBound =
-        searchButton.value.children[0].getBoundingClientRect();
-      const bothSidesMargin = (wrapperBound.right - magnifyBound.right) * 2;
-      magnifyWidth.value = magnifyBound.width + bothSidesMargin;
-    }
+    if (searchButton.value) adjustMagnifyVisibility();
   });
 </script>
 
@@ -69,8 +93,8 @@
       class="h100"
       type="text"
       :style="{
-        paddingLeft: promptWidth + 'px',
-        paddingRight: magnifyWidth + 'px',
+        paddingLeft: promptPadding + 'px',
+        paddingRight: magnifyPadding + 'px',
       }"
       autocomplete="off"
       v-model="searchKeyword"

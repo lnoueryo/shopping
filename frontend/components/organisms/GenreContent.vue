@@ -1,17 +1,16 @@
 <script setup lang="ts">
   import { ref, watch } from 'vue';
-  import { genreData } from '@/assets/js/genres.js';
   import TriSectionLayout from '../components/wrappers/TriSectionLayout.vue';
-  import GenreSelector from '../components/atoms/GenreSelector.vue';
+  import GenreSelectors from '@/components/molecules/GenreSelectors.vue';
   import CodeList from '../components/atoms/CodeList.vue';
+  import { genreData } from '@/assets/js/genres.js';
   import { deviceSize } from '@/assets/js/device-size.js';
   import { selectGenreFunc, genreSelectorHTML } from '@/assets/js/codes.js';
   import { useViewport } from '@/composables/viewport';
-  const SIX_CARD_GRID_WIDTH = '16.37%';
-  const THREE_CARD_GRID_WIDTH = '33.333%';
+  const SIX_CARD_GRID_WIDTH = 16.37;
+  const router = useRouter();
   const viewport = useViewport();
   const width = ref(viewport.width);
-  const genres = ref(genreData);
   const contentSwitch = ref({ right: true, center: true, left: true });
   watch(width, newWidth => {
     if (newWidth < deviceSize.smallDesktop)
@@ -24,6 +23,10 @@
   });
   const selectGenreArr = ref(selectGenreFunc);
   const genreSelectorArr = ref(genreSelectorHTML);
+  const localGenreId = ref('');
+  watch(localGenreId, newValue => {
+    router.push({ path: '/books', query: { genre: newValue } });
+  });
 </script>
 
 <template>
@@ -34,19 +37,11 @@
       </div>
     </template>
     <template #center>
-      <div class="flex justify-start align-center wrap">
-        <GenreSelector
-          v-for="genre in genres"
-          :key="genre.title"
-          v-bind="genre"
-          :style="{
-            width:
-              width > deviceSize.smallDesktop
-                ? SIX_CARD_GRID_WIDTH
-                : THREE_CARD_GRID_WIDTH,
-          }"
-        />
-      </div>
+      <GenreSelectors
+        v-model="localGenreId"
+        v-bind="{ desktop: SIX_CARD_GRID_WIDTH }"
+        :genreData="genreData"
+      />
     </template>
     <template #right>
       <div class="flex">

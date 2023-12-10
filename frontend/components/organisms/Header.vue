@@ -13,6 +13,7 @@
   const route = useRoute();
   const headerMiddleSwitch = ref({ right: true, center: true, left: true });
   const headerTopSwitch = ref({ right: false, center: false, left: false });
+  const searchKeyword = ref(route.query.keyword);
   const viewport = useViewport();
   const width = ref(viewport.width);
   watch(width, newWidth => {
@@ -26,7 +27,7 @@
   });
 
   const searchBooks = word => {
-    if (!word && route.path != '/books') return;
+    if (!word && route.path !== '/books') return;
     router.push({ path: '/books', query: { ...route.query, keyword: word } });
   };
 
@@ -57,7 +58,11 @@
           </template>
           <template #center>
             <div class="margin-horizontal h100">
-              <MainSearchBar class="h100" @onSearchClicked="searchBooks" />
+              <MainSearchBar
+                v-model="searchKeyword"
+                class="h100"
+                @onSearchClicked="searchBooks"
+              />
             </div>
           </template>
         </TriSectionLayout>

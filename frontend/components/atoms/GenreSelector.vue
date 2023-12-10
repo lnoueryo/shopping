@@ -1,59 +1,56 @@
 <script setup lang="ts">
-  import { defineEmits, computed } from 'vue';
+  import { defineEmits, computed, watch, watchEffect, ref } from 'vue';
   import SvgIcon from '@jamescoyle/vue-icon';
-  const genre = defineProps({
+  const props = defineProps({
+    modelValue: {
+      type: String,
+      default: '',
+    },
     id: String,
     title: String,
-    to: String,
     icon: String,
     disabled: Boolean,
     size: Number,
   });
-  const router = useRouter();
-  const route = useRoute();
-  const selectedGenre = computed(() => route.query.genre);
-  const emit = defineEmits(['update:genre']);
+  const selectedGenreId = ref(props.modelValue);
+  const emit = defineEmits(['update:modelValue', 'genre']);
+
+  watchEffect(() => (selectedGenreId.value = props.modelValue));
+
+  watch(selectedGenreId, newValue => {
+    emit('update:modelValue', newValue);
+  });
 
   const selectGenre = () => {
-    if (selectedGenre.value === genre.id) {
-      const newQuery = { ...route.query };
-      delete newQuery.genre;
-      router.push({ path: '/books', query: newQuery });
-      return emit('update:genre', null);
+    if (props.disabled) return;
+    if (isSelected.value) {
+      selectedGenreId.value = '';
+      return emit('genre', null);
     }
-    router.push({ path: '/books', query: { ...route.query, genre: genre.id } });
-    emit('update:genre', genre);
+    emit('genre', props);
+    selectedGenreId.value = props.id;
   };
+
+  const isSelected = computed(() => selectedGenreId.value === props.id);
 </script>
 
 <template>
   <NuxtLink
-    :to="{ path: '/books', query: { genre: genre.id } }"
     class="genre flex justify-center align-center"
+    :class="[{ disabled: props.disabled }, isSelected ? 'active' : 'inactive']"
     :style="{
-      backgroundColor:
-        selectedGenre === genre.id
-          ? 'var(--color-sub-black)'
-          : 'var(--color-sub-white)',
       minHeight: size + 'px',
       minWidth: size + 'px',
     }"
     @click.prevent="selectGenre"
+    v-if="props.id && (props.title || props.icon)"
   >
-    <div
-      class="genre-content"
-      :style="{
-        color:
-          selectedGenre === genre.id
-            ? 'var(--color-sub-white)'
-            : 'var(--color-sub-black)',
-      }"
-    >
+    <div class="genre-content">
       <div class="text-center">
-        <svg-icon type="mdi" :path="genre.icon"></svg-icon>
+        <SvgIcon type="mdi" :path="props.icon"></SvgIcon>
       </div>
       <div class="genre-title text-center">
-        {{ genre.title }}
+        {{ props.title }}
       </div>
     </div>
   </NuxtLink>
@@ -70,19 +67,36 @@
     min-width: 75px;
     transition: var(--hover-transition);
     border-radius: 3px;
+    cursor: pointer;
   }
 
   .genre-content {
     transition: var(--hover-transition);
   }
 
+  .active {
+    background-color: var(--color-sub-black);
+    color: var(--color-sub-white);
+  }
+
+  .inactive {
+    background-color: var(var(--color-sub-white));
+    color: var(--color-sub-black);
+  }
+
+  .disabled {
+    background-color: var(--color-row-number);
+    opacity: var(--opacity-disabled);
+    cursor: default;
+  }
+
   @media (hover: hover) and (pointer: fine) {
-    .genre:hover {
+    .genre:not(.disabled):not(.active):hover {
       opacity: var(--opacity-light);
       transition: var(--hover-transition);
       background-color: var(--color-hover-white);
     }
-    .genre:hover .genre-content {
+    .genre:not(.disabled):hover .genre-content {
       transform: scale(1.15);
       transition: var(--hover-transition);
     }

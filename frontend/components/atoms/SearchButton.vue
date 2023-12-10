@@ -25,7 +25,11 @@
     display: flex;
     align-items: center;
     text-decoration: none;
-    background: linear-gradient(to top, var(--color-base-white), var(--color-sub-white));
+    background: linear-gradient(
+      to top,
+      var(--color-base-white),
+      var(--color-sub-white)
+    );
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     -webkit-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     transition: var(--hover-transition);
