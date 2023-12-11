@@ -86,6 +86,7 @@
     'update:selectedSkillLevels',
     'update:selectedGenre',
     'update:genreId',
+    'update:isOpen',
   ]);
   watch(
     () => props.genreId,
@@ -114,6 +115,9 @@
   });
   watch(localSelectedSkillLevels, newSelectedSkillLevels => {
     emit('update:selectedSkillLevels', newSelectedSkillLevels);
+  });
+  watch(isOpen, isOpen => {
+    emit('update:isOpen', isOpen);
   });
 </script>
 

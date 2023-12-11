@@ -7,7 +7,6 @@
   const book = defineProps({
     id: {
       type: Number,
-      required: true,
     },
     title: {
       type: String,
@@ -48,6 +47,10 @@
       return (isDescriptionShownOnMobile.value = false);
     isDescriptionShownOnMobile.value = true;
   });
+  watch(
+    () => book.rating,
+    newRating => (rate.value = newRating)
+  );
 </script>
 
 <template>
@@ -173,6 +176,11 @@
       .price {
         font-size: 20px;
       }
+    }
+  }
+  @media screen and (max-width: 340px) {
+    .book-image-container {
+      min-width: 90px;
     }
   }
 </style>

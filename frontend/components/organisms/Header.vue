@@ -8,7 +8,9 @@
   import { useViewport } from '@/composables/viewport';
   import { useDOMHeight } from '@/composables/dom-height';
   import { useScroll } from '@/composables/scroll';
+  import { useBooksStore } from '@/stores/books';
 
+  const booksStore = useBooksStore();
   const router = useRouter();
   const route = useRoute();
   const headerMiddleSwitch = ref({ right: true, center: true, left: true });
@@ -27,8 +29,10 @@
   });
 
   const searchBooks = word => {
+    const query = { ...route.query, keyword: word };
     if (!word && route.path !== '/books') return;
-    router.push({ path: '/books', query: { ...route.query, keyword: word } });
+    if (route.path === '/books') booksStore.fetchBooksData(query);
+    router.push({ path: '/books', query: query });
   };
 
   const isFixed = ref(false);
@@ -42,7 +46,7 @@
 </script>
 
 <template>
-  <header id="header" ref="headerRef">
+  <header id="header">
     <div class="header-top-container flex">
       <TriSectionLayout v-bind="headerTopSwitch">
         <template #left>

@@ -1,9 +1,12 @@
 <script setup lang="ts">
+  import Spinner from '@/components/atoms/Spinner.vue';
   import GenreFloatingSideBar from '@/components/organisms/GenreFloatingSideBar.vue';
   import BookFilter from '@/components/organisms/BookFilter.vue';
   import FilterAccordion from '@/components/organisms/FilterAccordion.vue';
   import BookList from '@/components/organisms/BookList.vue';
   import FloatFilter from '@/components/wrappers/FloatFilter.vue';
+  import ErrorBookResult from '@/components/organisms/ErrorBookResult.vue';
+  import { useBooksStore } from '@/stores/books';
   import { useViewport } from '@/composables/viewport';
   import { deviceSize } from '@/assets/js/device-size.js';
   import { ref, watch, onMounted } from 'vue';
@@ -13,6 +16,7 @@
   const viewport = useViewport();
   const width = ref(viewport.width);
   const sidebarSwitch = ref(false);
+  const isOpen = ref(false);
   const selectedSkillLevels = ref(
     !route.query.levels
       ? []
@@ -25,6 +29,9 @@
   watch(width, newWidth => {
     sidebarSwitch.value = deviceSize.smallDesktop <= newWidth;
   });
+  watch(isOpen, async newValue => {
+    newValue || booksStore.fetchBooksData(route.query);
+  });
   watch([selectedRate, selectedSkillLevels, selectedGenre], () => {
     const query = {
       ...route.query,
@@ -34,72 +41,20 @@
     };
     router.push({ path: '/books', query: query });
   });
-  const books = ref([
-    {
-      id: 1,
-      isbn: '9784297127831',
-      title: '良いコード／悪いコードで学ぶ設計入門',
-      description:
-        '本書は、より成長させやすいコードの書き方と設計を学ぶ入門書です。システム開発では、ソフトウェアの変更が難しくなる事態が頻発します。コードの可読性が低く調査に時間がかかる、コードの影響範囲が不明で変更すると動かなくなる、新機能を追加したいがどこに実装すればいいかわからない…。変更しづらいコードは、成長できないコードです。ビジネスの進化への追随や、機能の改善が難しくなります。成長できないコードの問題を、設計で解決します。',
-      price: 3278,
-      publish_date: '2022/04/30',
-      url: 'https://books.rakuten.co.jp/rb/17083126/',
-      thumbnail:
-        'https://thumbnail.image.rakuten.co.jp/@0_mall/book/cabinet/7831/9784297127831_1_5.jpg?_ex=200x200',
-      publisher: '"技術評論社',
-      author: '仙塲 大也',
-      rating: 4.26,
-    },
-    {
-      id: 2,
-      isbn: '9784297127831',
-      title: '良いコード／悪いコードで学ぶ設計入門',
-      description:
-        '本書は、より成長させやすいコードの書き方と設計を学ぶ入門書です。システム開発では、ソフトウェアの変更が難しくなる事態が頻発します。コードの可読性が低く調査に時間がかかる、コードの影響範囲が不明で変更すると動かなくなる、新機能を追加したいがどこに実装すればいいかわからない…。変更しづらいコードは、成長できないコードです。ビジネスの進化への追随や、機能の改善が難しくなります。成長できないコードの問題を、設計で解決します。',
-      price: 3278,
-      publish_date: '2022/04/30',
-      url: 'https://books.rakuten.co.jp/rb/17083126/',
-      thumbnail:
-        'https://thumbnail.image.rakuten.co.jp/@0_mall/book/cabinet/7831/9784297127831_1_5.jpg?_ex=200x200',
-      publisher: '"技術評論社',
-      author: '仙塲 大也',
-      rating: 4.26,
-    },
-    {
-      id: 3,
-      isbn: '9784297127831',
-      title: '良いコード／悪いコードで学ぶ設計入門',
-      description:
-        '本書は、より成長させやすいコードの書き方と設計を学ぶ入門書です。システム開発では、ソフトウェアの変更が難しくなる事態が頻発します。コードの可読性が低く調査に時間がかかる、コードの影響範囲が不明で変更すると動かなくなる、新機能を追加したいがどこに実装すればいいかわからない…。変更しづらいコードは、成長できないコードです。ビジネスの進化への追随や、機能の改善が難しくなります。成長できないコードの問題を、設計で解決します。',
-      price: 3278,
-      publish_date: '2022/04/30',
-      url: 'https://books.rakuten.co.jp/rb/17083126/',
-      thumbnail:
-        'https://thumbnail.image.rakuten.co.jp/@0_mall/book/cabinet/7831/9784297127831_1_5.jpg?_ex=200x200',
-      publisher: '"技術評論社',
-      author: '仙塲 大也',
-      rating: 4.26,
-    },
-    {
-      id: 4,
-      isbn: '9784297127831',
-      title: '良いコード／悪いコードで学ぶ設計入門',
-      description:
-        '本書は、より成長させやすいコードの書き方と設計を学ぶ入門書です。システム開発では、ソフトウェアの変更が難しくなる事態が頻発します。コードの可読性が低く調査に時間がかかる、コードの影響範囲が不明で変更すると動かなくなる、新機能を追加したいがどこに実装すればいいかわからない…。変更しづらいコードは、成長できないコードです。ビジネスの進化への追随や、機能の改善が難しくなります。成長できないコードの問題を、設計で解決します。',
-      price: 3278,
-      publish_date: '2022/04/30',
-      url: 'https://books.rakuten.co.jp/rb/17083126/',
-      thumbnail:
-        'https://thumbnail.image.rakuten.co.jp/@0_mall/book/cabinet/7831/9784297127831_1_5.jpg?_ex=200x200',
-      publisher: '"技術評論社',
-      author: '仙塲 大也',
-      rating: 4.26,
-    },
-  ]);
+
   const selectGenre = async newGenre => {
     selectedGenre.value = newGenre;
   };
-  const isLoading = ref(false);
+
+  const booksStore = useBooksStore();
+  booksStore.fetchBooksData(route.query);
+
+  watch(
+    () => route.query,
+    async newQuery => {
+      if (sidebarSwitch.value) booksStore.fetchBooksData(newQuery);
+    }
+  );
   onMounted(async () => {
     sidebarSwitch.value = deviceSize.smallDesktop <= width.value;
   });
@@ -115,6 +70,7 @@
         @update:selectedRate="selectedRate = $event"
         @update:selectedSkillLevels="selectedSkillLevels = $event"
         @update:selectedGenre="selectGenre"
+        @update:isOpen="isOpen = $event"
       />
     </FloatFilter>
     <div class="sidebar-container" v-if="sidebarSwitch">
@@ -138,56 +94,33 @@
           />
         </div>
       </div>
-      <template v-if="isLoading">
-        <div class="spinner-container">
-          <div class="spinner-border"></div>
-        </div>
-      </template>
-      <template v-else>
-        <template v-if="books.length != 0">
-          <div class="content-container" v-for="book in books" :key="book.id">
-            <div class="card">
-              <BookList v-bind="book" :key="book.id" />
-            </div>
+      <ClientOnly>
+        <template v-if="booksStore.isLoading">
+          <div class="spinner-container">
+            <Spinner />
           </div>
         </template>
         <template v-else>
-          <div class="content-container">
-            <div class="card">
-              <div class="code-editor-error">
-                <p
-                  ><span class="error-code">ERROR:</span> No books found based
-                  on your search criteria.</p
-                >
-                <p class="console-text">> Search Parameters:</p>
-                <ul class="console-text">
-                  <li v-if="route.query.keyword"
-                    >Keyword: "{{ route.query.keyword }}"</li
-                  >
-                  <li v-if="route.query.genre"
-                    >Genre: "{{ route.query.genre }}"</li
-                  >
-                  <li v-if="route.query.rate"
-                    >Minimum Rating: "{{ route.query.rate }}"</li
-                  >
-                  <li v-if="route.query.levels"
-                    >Skill Levels: "{{ route.query.levels }}"</li
-                  >
-                </ul>
-                <br />
-                <p class="console-text">> Suggestions:</p>
-                <ul class="console-text">
-                  <li>Check for typos in your keywords or genre.</li>
-                  <li>Try using different keywords or genres.</li>
-                  <li>Consider broadening your search criteria.</li>
-                  <li>Adjust the rating filter for more inclusive results.</li>
-                  <li>Modify the skill level filter to include more levels.</li>
-                </ul>
+          <template v-if="booksStore.booksData.length != 0">
+            <div
+              class="content-container"
+              v-for="book in booksStore.booksData"
+              :key="book.id"
+            >
+              <div class="card">
+                <BookList v-bind="book" :key="book.id" />
               </div>
             </div>
-          </div>
+          </template>
+          <template v-else>
+            <div class="content-container">
+              <div class="card">
+                <ErrorBookResult v-model="booksStore.errorType" v-bind="route.query" />
+              </div>
+            </div>
+          </template>
         </template>
-      </template>
+      </ClientOnly>
     </div>
   </div>
 </template>
@@ -202,44 +135,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-  }
-  .spinner-border {
-    display: inline-block;
-    width: 2rem;
-    height: 2rem;
-    vertical-align: text-bottom;
-    border: 0.25em solid currentColor;
-    border-right-color: transparent;
-    border-radius: 50%;
-    animation: spinner-border 0.75s linear infinite;
-  }
-
-  @keyframes spinner-border {
-    to {
-      transform: rotate(360deg);
-    }
-  }
-
-  .code-editor-error {
-    background-color: #ffffff;
-    color: #333;
-    padding: 15px;
-    font-family: 'Courier New', monospace;
-    border-left: 4px solid var(--color-error);
-  }
-
-  .error-code {
-    color: var(--color-error);
-  }
-
-  .console-text {
-    margin: 0;
-    color: #8ec07c;
-  }
-
-  ul.console-text {
-    margin-top: 5px;
-    padding-left: 20px;
   }
 
   .sidebar-container {

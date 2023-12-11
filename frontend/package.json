@@ -30,8 +30,10 @@
   "dependencies": {
     "@jamescoyle/vue-icon": "^0.1.2",
     "@mdi/js": "^7.3.67",
+    "@pinia/nuxt": "^0.5.1",
     "@vitejs/plugin-vue": "^4.5.1",
     "normalize.css": "^8.0.1",
+    "pinia": "^2.1.7",
     "vitest": "^1.0.0"
   }
 }

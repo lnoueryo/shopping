@@ -70,7 +70,13 @@ Web系エンジニア、プログラマー、そして技術者向けの最新�
 
 ### インストールガイド
 #### Frontend
-1. ```$ docker-compose up -d``` コンテナを立ち上げる
+1. `.env`ファイルを作成
+    ##### 環境変数
+    - **RAKUTEN_APP_ID:** 楽天APIのID
+    - **RAKUTEN_API_ENDPOINT:** 楽天BookAPIのエンドポイント
+
+2. ```$ docker-compose up -d``` コンテナを立ち上げる
+
 #### Backend
 1. ```$ docker-compose up -d``` コンテナを立ち上げる
 2. ```$ docker-compose exec api-server poetry run python manage.py migrate``` マイグレート

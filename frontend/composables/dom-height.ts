@@ -8,7 +8,7 @@ export function useDOMHeight() {
     heightContent.value = Number(
       style.getPropertyValue('--height-content').trim().replace('px', '')
     );
-    const header = document.getElementById('header');
+    const header = document.getElementById('header') as HTMLElement;
     headerHeight.value = header.getBoundingClientRect().height;
   });
 

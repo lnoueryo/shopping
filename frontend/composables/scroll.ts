@@ -1,6 +1,6 @@
 import { ref, onMounted, onUnmounted } from 'vue';
 
-export function useScroll(moveContent) {
+export function useScroll(moveContent: () => void) {
   const currentScrollTop = ref(0);
   const lastScrollTop = ref(0);
 
