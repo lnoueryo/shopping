@@ -1,0 +1,49 @@
+name: Deploy to Google Cloud Run - Staging
+
+on:
+  pull_request:
+    branches:
+      - develop
+
+jobs:
+  setup-build-test-publish-deploy:
+    name: Setup, Build, Test, Publish, and Deploy to Staging
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Google Cloud SDK
+        uses: google-github-actions/setup-gcloud@master
+        with:
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+          service_account_key: ${{ secrets.GCP_SA_KEY }}
+          export_default_credentials: true
+
+      - name: Authorize Docker push
+        run: gcloud auth configure-docker
+
+      - name: Install dependencies and run tests
+        run: |
+          cd ./frontend
+          npm install -g pnpm
+          pnpm install
+          pnpm test
+
+      - name: Build and Push Docker image
+        run: |
+          docker build -f frontend/docker/production/Dockerfile -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/webtech-bookstore-bff:${{ github.sha }} frontend
+          docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/webtech-bookstore-bff:${{ github.sha }}
+
+      - name: Deploy to Google Cloud Run - Staging
+        run: |
+          PR_NUMBER=${{ github.event.pull_request.number }}
+          TAG="pr-${PR_NUMBER}"
+          gcloud run deploy webtech-bookstore-bff-stage \
+            --image gcr.io/${{ secrets.GCP_PROJECT_ID }}/webtech-bookstore-bff:${{ github.sha }} \
+            --tag $TAG \
+            --platform managed \
+            --region asia-northeast1 \
+            --allow-unauthenticated \
+            --set-env-vars=PR_NUMBER=${PR_NUMBER}
