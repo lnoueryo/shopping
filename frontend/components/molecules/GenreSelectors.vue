@@ -28,7 +28,7 @@
   });
   const viewport = useViewport();
   const width = ref(viewport.width);
-  const size = ref(100);
+  const size = ref(50);
   watch(width, newWidth => {
     if (deviceSize.mobile > newWidth) {
       size.value = props.mobile;
@@ -36,7 +36,7 @@
       size.value = props.tablet;
     } else if (deviceSize.smallDesktop > newWidth) {
       size.value = props.smallDesktop;
-    } else if (deviceSize.desktop > newWidth) {
+    } else {
       size.value = props.desktop;
     }
   });

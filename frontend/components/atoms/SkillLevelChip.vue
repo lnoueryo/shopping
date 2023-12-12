@@ -1,5 +1,7 @@
 <script setup lang="ts">
   import { ref, defineEmits, watch, watchEffect, computed } from 'vue';
+  import { useViewport } from '@/composables/viewport';
+  import { deviceSize } from '@/assets/js/device-size.js';
   const props = defineProps({
     modelValue: {
       type: Array,
@@ -16,6 +18,19 @@
     fontSize: Number,
     width: Number,
   });
+  const defaultFonstSize = ref(12);
+  const defaultWidth = ref(100);
+  const viewport = useViewport();
+  const width = ref(viewport.width);
+  watch(width, newWidth => {
+    if (newWidth < deviceSize.mobile) {
+      defaultFonstSize.value = 10;
+      defaultWidth.value = 90;
+      return;
+    }
+    defaultFonstSize.value = 12;
+    defaultWidth.value = 100;
+  });
   const emit = defineEmits(['update:modelValue']);
   const uniqueId = Math.random().toString(36).substr(2, 9) + props.title;
   const selectedSkillLevels = ref(props.modelValue);
@@ -29,13 +44,13 @@
 
   const labelStyle = computed(() => {
     return {
-      fontSize: `${props.fontSize || 12}px`,
+      fontSize: `${props.fontSize || defaultFonstSize.value}px`,
       backgroundColor: isSelected.value ? props.color : 'transparent',
       color: isSelected.value ? 'white' : props.color,
       border: `2px solid  ${props.color}`,
       borderRadius: '10px',
       display: 'block',
-      width: `${props.width || 100}px`,
+      width: `${props.width || defaultWidth.value}px`,
     };
   });
 

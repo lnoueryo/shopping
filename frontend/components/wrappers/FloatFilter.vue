@@ -3,7 +3,7 @@
   import { useDOMHeight } from '@/composables/dom-height';
   import { useScroll } from '@/composables/scroll';
   import { deviceSize } from '@/assets/js/device-size.js';
-  import { ref, onMounted } from 'vue';
+  import { ref, onMounted, watch } from 'vue';
   const viewport = useViewport();
   const width = ref(viewport.width);
 
@@ -72,7 +72,7 @@
     position: absolute;
     top: calc(var(--height-content) * -1);
     width: 100vw;
-    left: calc(-50vw + 50%);
+    left: calc(var(--margin-horizontal) * -1);
     z-index: 1;
   }
 
