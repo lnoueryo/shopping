@@ -4,13 +4,11 @@ export const useBooksStore = defineStore('books', {
   state: (): BooksState => ({
     booksData: [],
     isLoading: false,
-    hasError: false,
     errorType: '',
   }),
   actions: {
     async fetchBooksData(query: { [key: string]: any }) {
       this.isLoading = true;
-      this.hasError = false;
       this.errorType = '';
 
       try {
@@ -27,7 +25,6 @@ export const useBooksStore = defineStore('books', {
           this.errorType = 'server'
           console.error('An error occurred:', err);
         }
-        this.hasError = true;
         this.booksData = [];
       } finally {
         this.isLoading = false;
@@ -68,7 +65,6 @@ interface Book {
   publish_date: string;
   description: string;
   rating: number;
-  // 他に必要なプロパティがあればここに追加
 }
 
 interface BooksState {

@@ -1,4 +1,5 @@
 import { defineEventHandler } from 'h3';
+import { genreData } from '@/assets/js/genres'
 
 export default defineEventHandler(async event => {
   try {
@@ -17,7 +18,14 @@ function buildQuery(event) {
     applicationId: process.env.RAKUTEN_APP_ID,
   };
   if (keyword) query['title'] = keyword;
-  if (genre) query['booksGenreId'] = genre;
+  if (genre) {
+    const isRightId = genreData.some(genreObj => genreObj.id === genre)
+    if (isRightId) {
+      query['booksGenreId'] = genre;
+    } else {
+      console.warn('get wrong genre id:', genre)
+    }
+  }
   return query;
 }
 
@@ -41,6 +49,10 @@ function transformBooksData(bookData: RakutenBooksAPIResponse) {
       itemCaption: description,
       reviewAverage: ratingStr,
     } = book.Item;
+    if(!(title && author && publisher && publish_date)) {
+      console.warn('missing important key:', book.Item)
+      return;
+    }
     const rating = Number(ratingStr);
     return {
       title,
@@ -53,7 +65,7 @@ function transformBooksData(bookData: RakutenBooksAPIResponse) {
       description,
       rating,
     };
-  });
+  }).filter(book => book);
 }
 
 function handleApiError(error) {
