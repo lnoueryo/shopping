@@ -10,7 +10,10 @@
     "postinstall": "nuxt prepare",
     "lint": "eslint .",
     "format": "exec prettier . --write",
-    "test": "vitest"
+    "test:vitest": "vitest run",
+    "test:vitest:watch": "vitest",
+    "test:e2e": "playwright test",
+    "test": "npm-run-all --parallel test:*"
   },
   "devDependencies": {
     "@nuxt/devtools": "latest",

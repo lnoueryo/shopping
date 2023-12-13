@@ -17,7 +17,7 @@ jobs:
         run: |
           npm install -g pnpm
           pnpm install
-          pnpm test
+          pnpm test:vitest
         working-directory: ./frontend
 
   playwright:
@@ -38,7 +38,7 @@ jobs:
           npm install -g pnpm
           pnpm install
           pnpm playwright install --with-deps
-          pnpm playwright test
+          pnpm test:e2e
         working-directory: ./frontend
 
       - uses: actions/upload-artifact@v3
