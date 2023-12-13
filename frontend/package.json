@@ -14,6 +14,8 @@
   },
   "devDependencies": {
     "@nuxt/devtools": "latest",
+    "@playwright/test": "^1.40.1",
+    "@types/node": "^20.10.4",
     "@typescript-eslint/eslint-plugin": "^6.11.0",
     "@typescript-eslint/parser": "^6.11.0",
     "@vue/test-utils": "^2.4.3",
