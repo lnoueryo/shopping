@@ -1,0 +1,84 @@
+name: Deploy to Google Cloud Run - Staging
+
+on:
+  pull_request:
+    branches:
+      - develop
+
+jobs:
+  vitest:
+    name: Run Vitest Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install dependencies and run tests
+        run: |
+          npm install -g pnpm
+          pnpm install
+          pnpm test:vitest
+        working-directory: ./frontend
+
+  playwright:
+    name: Run Playwright Tests
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20.9
+
+      - name: Install dependencies and run Playwright tests
+        run: |
+          npm install -g pnpm
+          pnpm install
+          pnpm playwright install --with-deps
+          pnpm test:e2e
+        working-directory: ./frontend
+
+      - uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30
+
+  build-and-deploy:
+    name: Build and Deploy
+    needs: [vitest, playwright]  # このジョブは vitest と playwright ジョブが成功する必要があります
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Google Cloud SDK
+        uses: google-github-actions/setup-gcloud@v0.2.0
+        with:
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+          service_account_key: ${{ secrets.GCP_SA_KEY }}
+          export_default_credentials: true
+
+      - name: Authorize Docker push
+        run: gcloud auth configure-docker
+
+      - name: Build and Push Docker image
+        run: |
+          docker build -f frontend/docker/production/Dockerfile -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/webtech-bookstore-bff:${{ github.sha }} frontend
+          docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/webtech-bookstore-bff:${{ github.sha }}
+
+      - name: Deploy to Google Cloud Run - Staging
+        run: |
+          PR_NUMBER=${{ github.event.pull_request.number }}
+          TAG="pr-${PR_NUMBER}"
+          gcloud run deploy webtech-bookstore-bff-stage \
+            --image gcr.io/${{ secrets.GCP_PROJECT_ID }}/webtech-bookstore-bff:${{ github.sha }} \
+            --tag $TAG \
+            --platform managed \
+            --region asia-northeast1 \
+            --allow-unauthenticated \
+            --set-env-vars=PR_NUMBER=${PR_NUMBER}
