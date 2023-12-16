@@ -1,11 +1,11 @@
-import { setActivePinia, createPinia } from 'pinia'
+import { setActivePinia, createPinia } from 'pinia';
 import { describe, it, expect, beforeEach } from 'vitest';
-import { useBooksStore } from '@/stores/books'
+import { useBooksStore } from '@/stores/books';
 
 describe('Books Store', () => {
   beforeEach(() => {
-    setActivePinia(createPinia())
-  })
+    setActivePinia(createPinia());
+  });
 
   const books = [
     {
@@ -18,12 +18,10 @@ describe('Books Store', () => {
       publish_date: '2023/12/20',
       description: 'test test test',
       rating: 4.3,
-    }
-  ]
-
+    },
+  ];
 
   describe('fetchBooksData', () => {
-
     it('Verify Fetch Books', async () => {
       const mockFetch = (url, options) => {
         expect(store.errorType).toBe('');
@@ -42,7 +40,7 @@ describe('Books Store', () => {
 
     it('Verify Error by Timeout', async () => {
       const mockFetch = (url, options) => {
-        throw('timeout')
+        throw 'timeout';
         return Promise.resolve({
           books,
         });
@@ -57,7 +55,7 @@ describe('Books Store', () => {
 
     it('Verify Error by Offline', async () => {
       const mockFetch = (url, options) => {
-        throw('Internal Server Error')
+        throw 'Internal Server Error';
         return Promise.resolve({
           books,
         });
@@ -73,7 +71,7 @@ describe('Books Store', () => {
     it('Verify Error by Offline', async () => {
       Object.defineProperty(window, 'navigator', {
         value: { onLine: false },
-        writable: true
+        writable: true,
       });
       const store = useBooksStore();
       expect(store.isLoading).toBe(false);
@@ -81,5 +79,5 @@ describe('Books Store', () => {
       expect(store.isLoading).toBe(false);
       expect(store.errorType).toBe('offline');
     });
-  })
-})
+  });
+});

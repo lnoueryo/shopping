@@ -7,7 +7,7 @@ import MainSearchBar from '@/components/molecules/MainSearchBar.vue';
 
 describe('MainSearchBar', () => {
   describe('Display SkillLevelChips', () => {
-    const mainSearchBar = { modelValue: 'test' };
+    const mainSearchBar = { modelValue: 'test', width: deviceSize.tablet };
     it('Render Correctly', () => {
       const wrapper = createMainSearchBar(mainSearchBar);
       expect(wrapper.vm.searchKeyword).toBe(mainSearchBar.modelValue);
@@ -16,7 +16,7 @@ describe('MainSearchBar', () => {
     it('Verify Tablet Size', async () => {
       const wrapper = createMainSearchBar(mainSearchBar);
       const changeWidth = async (newWidth: number) => {
-        wrapper.vm.width = newWidth;
+        wrapper.setProps({ width: newWidth });
         return wrapper.vm.$nextTick();
       };
       expect(wrapper.vm.promptWidth).toBe(0);
@@ -35,7 +35,7 @@ describe('MainSearchBar', () => {
     it('Verify Below Tablet Size', async () => {
       const wrapper = createMainSearchBar(mainSearchBar);
       const changeWidth = async (newWidth: number) => {
-        wrapper.vm.width = newWidth;
+        wrapper.setProps({ width: newWidth });
         return wrapper.vm.$nextTick();
       };
       expect(wrapper.vm.promptWidth).toBe(0);

@@ -1,10 +1,11 @@
-<script setup lang="ts">
-
-</script>
+<script setup lang="ts"></script>
 
 <template>
   <div class="code-editor-error">
-    <p><span class="error-code">CONNECTION ERROR:</span> Offline - No Internet Connection.</p>
+    <p
+      ><span class="error-code">CONNECTION ERROR:</span> Offline - No Internet
+      Connection.</p
+    >
     <p class="console-text">> System.Diagnostics:</p>
     <ul class="console-text">
       <li>Network interface not connected. Check your internet connection.</li>
@@ -19,7 +20,6 @@
     </ul>
   </div>
 </template>
-
 
 <style lang="scss" scoped>
   .code-editor-error {
@@ -43,5 +43,4 @@
     margin-top: 5px;
     padding-left: 20px;
   }
-
 </style>

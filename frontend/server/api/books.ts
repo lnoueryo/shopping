@@ -1,12 +1,12 @@
 import { defineEventHandler } from 'h3';
-import { genreData } from '@/assets/js/genres'
+import { genreData } from '@/assets/js/genres';
 
 export default defineEventHandler(async event => {
   try {
     const query = buildQuery(event);
     const data = await fetchBooksData(query);
     const books = transformBooksData(data);
-    return {books};
+    return { books };
   } catch (error) {
     return handleApiError(error);
   }
@@ -19,11 +19,11 @@ function buildQuery(event) {
   };
   if (keyword) query['title'] = keyword;
   if (genre) {
-    const isRightId = genreData.some(genreObj => genreObj.id === genre)
+    const isRightId = genreData.some(genreObj => genreObj.id === genre);
     if (isRightId) {
       query['booksGenreId'] = genre;
     } else {
-      console.warn('get wrong genre id:', genre)
+      console.warn('get wrong genre id:', genre);
     }
   }
   return query;
@@ -37,7 +37,7 @@ function transformBooksData(bookData: RakutenBooksAPIResponse) {
   if (!bookData || !Array.isArray(bookData.Items)) {
     throw new Error('Invalid API response format');
   }
-  return  bookData.Items.map(book => {
+  return bookData.Items.map(book => {
     const {
       title,
       author,
@@ -49,8 +49,8 @@ function transformBooksData(bookData: RakutenBooksAPIResponse) {
       itemCaption: description,
       reviewAverage: ratingStr,
     } = book.Item;
-    if(!(title && author && publisher && publish_date)) {
-      console.warn('missing important key:', book.Item)
+    if (!(title && author && publisher && publish_date)) {
+      console.warn('missing important key:', book.Item);
       return;
     }
     const rating = Number(ratingStr);
@@ -90,12 +90,9 @@ function handleApiError(error) {
   return createError({
     statusCode: statusCode,
     statusMessage: 'API Error',
-    data: { books: [], message }
+    data: { books: [], message },
   });
 }
-
-
-
 
 interface RakutenBooksAPIRequest {
   title?: string;

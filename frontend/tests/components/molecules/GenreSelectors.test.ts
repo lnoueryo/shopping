@@ -71,7 +71,7 @@ describe('GenreSelectors', () => {
       const wrapper = createGenreSelectors(genreSelectors);
 
       const changeWidth = (newWidth: number) => {
-        wrapper.vm.width = newWidth;
+        wrapper.setProps({ width: newWidth });
         return wrapper.vm.$nextTick();
       };
 

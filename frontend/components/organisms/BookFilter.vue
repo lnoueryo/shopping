@@ -6,12 +6,12 @@
     selectedRate: Number,
     selectedSkillLevels: Array,
   });
-  const localRate = ref(props.selectedRate);
-  const selectedSkillLevels = ref(props.selectedSkillLevels);
   const emit = defineEmits([
     'update:selectedRate',
     'update:selectedSkillLevels',
   ]);
+  const localRate = ref(props.selectedRate);
+  const selectedSkillLevels = ref(props.selectedSkillLevels);
   watch(
     () => props.selectedRate,
     newRate => {

@@ -1,7 +1,6 @@
 <script setup lang="ts">
   import GenreSelector from '@/components/atoms/GenreSelector.vue';
-  import { ref, watch, watchEffect } from 'vue';
-  import { useViewport } from '@/composables/viewport';
+  import { ref, watch, watchEffect, onMounted } from 'vue';
   import { deviceSize } from '@/assets/js/device-size.js';
   const props = defineProps({
     modelValue: String,
@@ -25,11 +24,13 @@
       type: Number,
       default: 33,
     },
+    width: {
+      type: Number,
+      default: 0,
+    },
   });
-  const viewport = useViewport();
-  const width = ref(viewport.width);
-  const size = ref(50);
-  watch(width, newWidth => {
+  const size = ref(0);
+  const updateSize = newWidth => {
     if (deviceSize.mobile > newWidth) {
       size.value = props.mobile;
     } else if (deviceSize.tablet > newWidth) {
@@ -39,6 +40,15 @@
     } else {
       size.value = props.desktop;
     }
+  };
+  watch(
+    () => props.width,
+    newWidth => {
+      updateSize(newWidth);
+    }
+  );
+  onMounted(() => {
+    updateSize(props.width);
   });
   const localGenreId = ref(props.modelValue);
 

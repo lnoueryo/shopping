@@ -1,6 +1,4 @@
-<script setup lang="ts">
-
-</script>
+<script setup lang="ts"></script>
 
 <template>
   <div class="spinner-border"></div>
@@ -23,5 +21,4 @@
       transform: rotate(360deg);
     }
   }
-
 </style>

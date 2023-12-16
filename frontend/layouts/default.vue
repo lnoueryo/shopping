@@ -1,18 +1,21 @@
 <script setup lang="ts">
+  import SkeltonScreen from '@/components/atoms/SkeltonScreen.vue';
   import Header from '@/components/organisms/Header.vue';
   import Footer from '@/components/organisms/Footer.vue';
-  import { ref, onMounted, onUnmounted, nextTick } from 'vue';
+  import { ref, onMounted, onUnmounted, nextTick, watch } from 'vue';
   import { useNuxtApp } from '#app';
+  import { useStore } from '@/stores';
   const headerRef = ref(null);
   const footerRef = ref(null);
   const footerHeight = ref(0);
   const nuxtApp = useNuxtApp();
+  const store = useStore();
 
   onMounted(async () => {
+    store.updateDimensions();
+    window.addEventListener('resize', store.updateDimensions);
     nuxtApp.$headerRef.value = headerRef.value;
     await nextTick();
-    const { height } = footerRef.value.getBoundingClientRect();
-    footerHeight.value = height;
   });
 
   onUnmounted(() => {
@@ -20,11 +23,23 @@
       nuxtApp.$headerRef.value = null;
     }
   });
+
+  watch(
+    () => store.isHeaderReady,
+    () => {
+      store.initializeLayoutDimensions(headerRef.value);
+    }
+  );
 </script>
 
 <template>
   <div id="default-layout">
     <div class="header-footer-color">
+      <SkeltonScreen
+        width="100%"
+        height="calc(var(--height-content) * 3)"
+        v-if="!store.isReady"
+      />
       <div class="container" ref="headerRef">
         <Header />
       </div>
@@ -35,7 +50,12 @@
       </div>
     </div>
     <div class="header-footer-color">
-      <div class="container" ref="footerRef">
+      <SkeltonScreen
+        width="100%"
+        height="calc(var(--height-content) * 2)"
+        v-if="!store.isReady"
+      />
+      <div class="container" ref="footerRef" v-if="store.isReady">
         <Footer />
       </div>
     </div>

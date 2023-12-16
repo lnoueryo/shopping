@@ -6,15 +6,14 @@
   import BookList from '@/components/organisms/BookList.vue';
   import FloatFilter from '@/components/wrappers/FloatFilter.vue';
   import ErrorBookResult from '@/components/organisms/ErrorBookResult.vue';
+  import { useStore } from '@/stores';
   import { useBooksStore } from '@/stores/books';
-  import { useViewport } from '@/composables/viewport';
   import { deviceSize } from '@/assets/js/device-size.js';
   import { ref, watch, onMounted } from 'vue';
 
+  const store = useStore();
   const route = useRoute();
   const router = useRouter();
-  const viewport = useViewport();
-  const width = ref(viewport.width);
   const sidebarSwitch = ref(false);
   const isOpen = ref(false);
   const selectedSkillLevels = ref(
@@ -26,9 +25,12 @@
   );
   const selectedGenre = ref(route.query.genre);
   const selectedRate = ref(Number(route.query.rate) || 0);
-  watch(width, newWidth => {
-    sidebarSwitch.value = deviceSize.smallDesktop <= newWidth;
-  });
+  watch(
+    () => store.width,
+    newWidth => {
+      sidebarSwitch.value = deviceSize.smallDesktop <= newWidth;
+    }
+  );
   watch(isOpen, async newValue => {
     newValue || booksStore.fetchBooksData(route.query);
   });
@@ -56,7 +58,7 @@
     }
   );
   onMounted(async () => {
-    sidebarSwitch.value = deviceSize.smallDesktop <= width.value;
+    sidebarSwitch.value = deviceSize.smallDesktop <= store.width.value;
   });
 </script>
 
@@ -115,7 +117,10 @@
           <template v-else>
             <div class="content-container">
               <div class="card">
-                <ErrorBookResult v-model="booksStore.errorType" v-bind="route.query" />
+                <ErrorBookResult
+                  v-model="booksStore.errorType"
+                  v-bind="route.query"
+                />
               </div>
             </div>
           </template>

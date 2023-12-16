@@ -35,7 +35,12 @@
       :key="level.title"
       class="chip text-center"
     >
-      <SkillLevelChip v-model="selectedSkillLevels" v-bind="level" />
+      <SkillLevelChip
+        v-model="selectedSkillLevels"
+        v-bind="level"
+        :width="props.width"
+        :fontSize="props.fontSize"
+      />
     </div>
   </div>
 </template>

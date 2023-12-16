@@ -9,13 +9,16 @@
     defineEmits,
   } from 'vue';
   import SearchButton from '@/components/atoms/SearchButton.vue';
-  import { useViewport } from '@/composables/viewport';
   import { deviceSize } from '@/assets/js/device-size';
   const props = defineProps({
     modelValue: {
       type: String,
     },
     userName: String,
+    width: {
+      type: Number,
+      default: 0,
+    },
   });
   const emit = defineEmits(['update:modelValue']);
   const wrapperRef = ref(null);
@@ -26,8 +29,6 @@
   const isInputSizeBelowLimit = ref(false);
   const user = ref(props.userName || 'guest');
   const searchKeyword = ref(props.modelValue);
-  const viewport = useViewport();
-  const width = ref(viewport.width);
   const wrapperLeft = ref(0);
   const promptLeft = ref(0);
   const promptWidth = ref(0);
@@ -65,13 +66,16 @@
     magnifyPadding.value = magnifyBound.width + bothSidesMargin;
   };
 
-  watch(width, newWidth => adjustPromptVisibility(newWidth));
+  watch(
+    () => props.width,
+    newWidth => adjustPromptVisibility(newWidth)
+  );
   watchEffect(() => (searchKeyword.value = props.modelValue));
   watch(searchKeyword, newSearchKeyword =>
     emit('update:modelValue', newSearchKeyword)
   );
   onMounted(() => {
-    if (promptRef.value) adjustPromptVisibility(width.value);
+    if (promptRef.value) adjustPromptVisibility(props.width);
 
     if (searchButton.value) adjustMagnifyVisibility();
   });

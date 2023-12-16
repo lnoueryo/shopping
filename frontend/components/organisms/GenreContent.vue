@@ -6,21 +6,24 @@
   import { genreData } from '@/assets/js/genres.js';
   import { deviceSize } from '@/assets/js/device-size.js';
   import { selectGenreFunc, genreSelectorHTML } from '@/assets/js/codes.js';
-  import { useViewport } from '@/composables/viewport';
+  import { useStore } from '@/stores';
+
+  const store = useStore();
   const SIX_CARD_GRID_WIDTH = 16.37;
   const router = useRouter();
-  const viewport = useViewport();
-  const width = ref(viewport.width);
   const contentSwitch = ref({ right: true, center: true, left: true });
-  watch(width, newWidth => {
-    if (newWidth < deviceSize.smallDesktop)
-      return (contentSwitch.value = {
-        left: false,
-        center: true,
-        right: false,
-      });
-    contentSwitch.value = { left: true, center: true, right: true };
-  });
+  watch(
+    () => store.width,
+    newWidth => {
+      if (newWidth < deviceSize.smallDesktop)
+        return (contentSwitch.value = {
+          left: false,
+          center: true,
+          right: false,
+        });
+      contentSwitch.value = { left: true, center: true, right: true };
+    }
+  );
   const selectGenreArr = ref(selectGenreFunc);
   const genreSelectorArr = ref(genreSelectorHTML);
   const localGenreId = ref('');
@@ -30,7 +33,7 @@
 </script>
 
 <template>
-  <TriSectionLayout v-bind="contentSwitch">
+  <TriSectionLayout v-bind="contentSwitch" :width="store.width">
     <template #left>
       <div class="flex">
         <CodeList :htmlArray="selectGenreArr" />
@@ -41,6 +44,7 @@
         v-model="localGenreId"
         v-bind="{ desktop: SIX_CARD_GRID_WIDTH }"
         :genreData="genreData"
+        :width="store.width"
       />
     </template>
     <template #right>

@@ -5,28 +5,31 @@
   import TriSectionLayout from '../wrappers/TriSectionLayout.vue';
   import { ref, watch } from 'vue';
   import { deviceSize } from '@/assets/js/device-size.js';
-  import { useViewport } from '@/composables/viewport';
-  import { useDOMHeight } from '@/composables/dom-height';
   import { useScroll } from '@/composables/scroll';
+  import { useStore } from '@/stores';
   import { useBooksStore } from '@/stores/books';
 
+  const store = useStore();
   const booksStore = useBooksStore();
   const router = useRouter();
   const route = useRoute();
   const headerMiddleSwitch = ref({ right: true, center: true, left: true });
   const headerTopSwitch = ref({ right: false, center: false, left: false });
   const searchKeyword = ref(route.query.keyword);
-  const viewport = useViewport();
-  const width = ref(viewport.width);
-  watch(width, newWidth => {
-    if (newWidth < deviceSize.smallDesktop) {
-      headerTopSwitch.value = { left: true, center: false, right: false };
-      headerMiddleSwitch.value = { left: false, center: true, right: false };
-      return;
+
+  watch(
+    () => store.width,
+    newWidth => {
+      store.isHeaderReady = true;
+      if (newWidth < deviceSize.smallDesktop) {
+        headerTopSwitch.value = { left: true, center: false, right: false };
+        headerMiddleSwitch.value = { left: false, center: true, right: false };
+        return;
+      }
+      headerTopSwitch.value = { left: false, center: false, right: false };
+      headerMiddleSwitch.value = { left: true, center: true, right: true };
     }
-    headerTopSwitch.value = { left: false, center: false, right: false };
-    headerMiddleSwitch.value = { left: true, center: true, right: true };
-  });
+  );
 
   const searchBooks = word => {
     const query = { ...route.query, keyword: word };
@@ -36,19 +39,17 @@
   };
 
   const isFixed = ref(false);
-  const domHeight = useDOMHeight();
-  const { heightContent } = domHeight;
   const moveSearchBar = () => {
-    if (width.value > deviceSize.smallDesktop) return;
-    isFixed.value = window.scrollY > heightContent.value;
+    if (store.width > deviceSize.smallDesktop) return;
+    isFixed.value = window.scrollY > store.heightContent;
   };
   useScroll(moveSearchBar);
 </script>
 
 <template>
-  <header id="header">
+  <header id="header" v-if="store.isHeaderReady">
     <div class="header-top-container flex">
-      <TriSectionLayout v-bind="headerTopSwitch">
+      <TriSectionLayout v-bind="headerTopSwitch" :width="store.wwidth">
         <template #left>
           <Logo class="margin-horizontal" />
         </template>
@@ -56,7 +57,7 @@
     </div>
     <div class="header-middle-container">
       <div class="h100 float-header" :class="{ fixed: isFixed }">
-        <TriSectionLayout v-bind="headerMiddleSwitch">
+        <TriSectionLayout v-bind="headerMiddleSwitch" :width="store.wwidth">
           <template #left>
             <Logo class="margin-horizontal" />
           </template>
@@ -66,6 +67,7 @@
                 v-model="searchKeyword"
                 class="h100"
                 @onSearchClicked="searchBooks"
+                :width="store.width"
               />
             </div>
           </template>
@@ -73,7 +75,7 @@
       </div>
     </div>
     <div class="nav-container">
-      <TriSectionLayout v-bind="headerMiddleSwitch">
+      <TriSectionLayout v-bind="headerMiddleSwitch" :width="store.wwidth">
         <template #center>
           <NavigationBar class="margin-horizontal" :navHeight="48" />
         </template>

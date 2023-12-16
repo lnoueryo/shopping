@@ -1,8 +1,8 @@
 <script setup lang="ts">
-  import { useViewport } from '@/composables/viewport';
   import { deviceSize } from '@/assets/js/device-size.js';
   import { ref, watch } from 'vue';
   import Rating from '@/components/molecules/Rating.vue';
+  import { useStore } from '@/stores';
 
   const book = defineProps({
     id: {
@@ -38,11 +38,10 @@
     isbn: String,
   });
 
-  const viewport = useViewport();
-  const width = ref(viewport.width);
+  const store = useStore();
   const isDescriptionShownOnMobile = ref(true);
   const rate = ref(book.rating);
-  watch(width, newWidth => {
+  watch(store.width, newWidth => {
     if (newWidth < deviceSize.mobile)
       return (isDescriptionShownOnMobile.value = false);
     isDescriptionShownOnMobile.value = true;

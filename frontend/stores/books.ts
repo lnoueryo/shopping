@@ -12,17 +12,23 @@ export const useBooksStore = defineStore('books', {
       this.errorType = '';
 
       try {
-        const response: BookResponse = await fetchWithTimeout('/api/books', { query }, 5000);
+        const response: BookResponse = await fetchWithTimeout(
+          '/api/books',
+          { query },
+          5000
+        );
         this.booksData = response.books;
       } catch (err: any) {
         if (!navigator.onLine) {
           this.errorType = 'offline';
-          console.error('You are offline. Please check your internet connection.');
+          console.error(
+            'You are offline. Please check your internet connection.'
+          );
         } else if (err === 'timeout') {
           this.errorType = 'timeout';
           console.error('Network request failed. Please try again later.');
         } else {
-          this.errorType = 'server'
+          this.errorType = 'server';
           console.error('An error occurred:', err);
         }
         this.booksData = [];
@@ -49,11 +55,11 @@ const fetchWithTimeout = (url: string, options: any, timeout = 3000) => {
         reject(error);
       });
   });
-}
+};
 
 interface BookResponse {
-  books: Book[],
-  message?: string
+  books: Book[];
+  message?: string;
 }
 interface Book {
   title: string;

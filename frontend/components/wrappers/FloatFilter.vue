@@ -1,14 +1,9 @@
 <script setup lang="ts">
-  import { useViewport } from '@/composables/viewport';
-  import { useDOMHeight } from '@/composables/dom-height';
   import { useScroll } from '@/composables/scroll';
+  import { useStore } from '@/stores';
   import { deviceSize } from '@/assets/js/device-size.js';
   import { ref, onMounted, watch } from 'vue';
-  const viewport = useViewport();
-  const width = ref(viewport.width);
-
-  const domHeight = useDOMHeight();
-  const { heightContent, headerHeight } = domHeight;
+  const store = useStore();
 
   const isFixed = ref(true);
   const isOverMain = ref(true);
@@ -17,9 +12,9 @@
   const menuTopPosition = ref(`calc(var(--height-content) * -1)`);
   const moveFloatMenu = () => {
     try {
-      if (width.value > deviceSize.smallDesktop) return;
-      isFixed.value = window.scrollY > headerHeight.value - heightContent.value;
-      isOverMain.value = window.scrollY > headerHeight.value;
+      if (store.width > deviceSize.smallDesktop) return;
+      isFixed.value = window.scrollY > store.headerHeight - store.heightContent;
+      isOverMain.value = window.scrollY > store.headerHeight;
       isScrollActive.value = isScroll();
       isScrollingDown.value = isScrollDown();
 
@@ -45,9 +40,16 @@
   const { isScroll, isScrollDown } = useScroll(moveFloatMenu);
 
   onMounted(() => {
-    isFixed.value = window.scrollY > headerHeight.value - heightContent.value;
-    isOverMain.value = window.scrollY > headerHeight.value;
+    isFixed.value = window.scrollY > store.headerHeight - store.heightContent;
+    isOverMain.value = window.scrollY > store.headerHeight;
   });
+  watch(
+    () => store.headerHeight,
+    () => {
+      isFixed.value = window.scrollY > store.headerHeight - store.heightContent;
+      isOverMain.value = window.scrollY > store.headerHeight;
+    }
+  );
 </script>
 
 <template>

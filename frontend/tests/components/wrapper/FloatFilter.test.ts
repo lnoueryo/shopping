@@ -1,12 +1,20 @@
 import { describe, it, expect, vi } from 'vitest';
 import { mount } from '@vue/test-utils';
 import FloatFilter from '@/components/wrappers/FloatFilter.vue';
+import { setActivePinia, createPinia } from 'pinia';
+import { useStore } from '@/stores';
 
+setActivePinia(createPinia());
 describe('FloatFilter', () => {
   describe('Behavior', () => {
-    const searchBarHeight = 48;
-    const logoAndNavHeight = 96;
+    const heightContent = 48;
+    const searchBarHeight = heightContent * 1;
+    const logoAndNavHeight = heightContent * 2;
     const headerHeight = searchBarHeight + logoAndNavHeight;
+    const store = useStore();
+    store.width = 350;
+    store.headerHeight = headerHeight;
+    store.heightContent = searchBarHeight;
     const mockComputedStyle = {
       getPropertyValue: (propName: string) => {
         if (propName === '--height-content') {

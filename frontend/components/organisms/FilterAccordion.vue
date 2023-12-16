@@ -3,9 +3,8 @@
   import Rating from '@/components/molecules/Rating.vue';
   import GenreSelectors from '@/components/molecules/GenreSelectors.vue';
   import Accordion from '@/components/wrappers/Accordion.vue';
-  import { useViewport } from '@/composables/viewport';
-  import { useDOMHeight } from '@/composables/dom-height';
   import { useScroll } from '@/composables/scroll';
+  import { useStore } from '@/stores';
   import { deviceSize } from '@/assets/js/device-size.js';
   import { genreData } from '@/assets/js/genres.js';
   import { ref, watch, onMounted, onUnmounted } from 'vue';
@@ -14,8 +13,7 @@
     selectedSkillLevels: Array,
     genreId: String,
   });
-  const viewport = useViewport();
-  const width = ref(viewport.width);
+  const store = useStore();
   const mobileSwitch = ref(true);
   const skillLevelStyle = ref({});
   const labelStyle = ref({
@@ -31,22 +29,23 @@
   const filterContentHeight = ref({
     minHeight: 'calc(var(--height-content) + var(--height-content) / 2)',
   });
-  watch(width, newWidth => {
-    mobileSwitch.value = deviceSize.mobile > newWidth;
-    skillLevelStyle.value = mobileSwitch.value
-      ? { fontSize: 10, width: 88 }
-      : {};
-    filterContentHeight.value.minHeight = mobileSwitch.value
-      ? 'calc(var(--height-content) + var(--height-content) / 2)'
-      : 'var(--height-content)';
-  });
 
-  const domHeight = useDOMHeight();
-  const { heightContent, headerHeight } = domHeight;
+  watch(
+    () => store.width,
+    newWidth => {
+      mobileSwitch.value = deviceSize.mobile > newWidth;
+      skillLevelStyle.value = mobileSwitch.value
+        ? { fontSize: 10, width: 88 }
+        : {};
+      filterContentHeight.value.minHeight = mobileSwitch.value
+        ? 'calc(var(--height-content) + var(--height-content) / 2)'
+        : 'var(--height-content)';
+    }
+  );
 
   const isFixed = ref(true);
   const updateIsFixed = () =>
-    (isFixed.value = window.scrollY > headerHeight.value - heightContent.value);
+    (isFixed.value = window.scrollY > store.headerHeight - store.heightContent);
   useScroll(updateIsFixed);
   const lockPage = () => {
     const { body } = document;
@@ -61,8 +60,8 @@
   const contentStyle = ref({ maxHeight: '0' });
   const openAccordion = () => {
     contentStyle.value.maxHeight = isFixed.value
-      ? `calc(100vh - ${headerHeight.value}px)`
-      : `calc(100vh - ${headerHeight.value}px - ${heightContent.value}px)`;
+      ? `calc(100vh - ${store.headerHeight}px)`
+      : `calc(100vh - ${store.headerHeight}px - ${store.heightContent}px)`;
   };
   const closeAccordion = () => (contentStyle.value.maxHeight = '0');
   watch(isOpen, newIsOpen => {
@@ -75,8 +74,8 @@
   });
 
   onMounted(() => {
-    isFixed.value = window.scrollY > headerHeight.value - heightContent.value;
-    mobileSwitch.value = deviceSize.mobile > width.value;
+    isFixed.value = window.scrollY > store.headerHeight - store.heightContent;
+    mobileSwitch.value = deviceSize.mobile > store.width;
     skillLevelStyle.value = mobileSwitch.value ? { size: 10, width: 88 } : {};
   });
 
@@ -172,6 +171,7 @@
             v-model="localGenreId"
             v-bind="{ mobile: 50, tablet: 50 }"
             :genreData="genreData"
+            :width="store.width"
           />
         </div>
       </template>

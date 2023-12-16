@@ -1,20 +1,18 @@
 <script setup lang="ts">
-  import { useViewport } from '@/composables/viewport';
   import { deviceSize } from '@/assets/js/device-size.js';
   import { ref } from 'vue';
   const props = defineProps({
     left: Boolean,
     center: Boolean,
     right: Boolean,
+    width: Number,
   });
-  const viewport = useViewport();
-  const width = ref(viewport.width);
 </script>
 
 <template>
   <div
     class="flex align-center scroll h100"
-    :class="{ container: width >= deviceSize.smallDesktop }"
+    :class="{ container: props.width >= deviceSize.smallDesktop }"
   >
     <div class="align-left side-space" v-if="props.left">
       <slot name="left"></slot>

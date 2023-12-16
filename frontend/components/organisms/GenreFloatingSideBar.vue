@@ -2,17 +2,17 @@
   import GenreSelectors from '@/components/molecules/GenreSelectors.vue';
   import { genreData } from '@/assets/js/genres.js';
   import { ref, watch } from 'vue';
-  import { useDOMHeight } from '@/composables/dom-height';
   import { useScroll } from '@/composables/scroll';
+  import { useStore } from '@/stores';
   const props = defineProps({
     genreId: String,
   });
+  const store = useStore();
   const localGenreId = ref(props.genreId);
   const isFixed = ref(false);
-  const domHeight = useDOMHeight();
-  const { headerHeight } = domHeight;
-  const moveGenreContent = () =>
-    (isFixed.value = window.scrollY > headerHeight.value);
+  const moveGenreContent = () => {
+    isFixed.value = window.scrollY > store.headerHeight;
+  };
   const emit = defineEmits(['update:selectedGenre']);
   useScroll(moveGenreContent);
 
@@ -37,6 +37,7 @@
         v-model="localGenreId"
         v-bind="{ desktop: 50 }"
         :genreData="genreData"
+        :width="store.width"
       />
     </div>
   </div>
