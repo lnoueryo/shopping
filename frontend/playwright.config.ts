@@ -1,8 +1,9 @@
 import { defineConfig, devices } from '@playwright/test';
 import path from 'path'
 
-const PORT = process.env.PORT || 3000
+const PORT = process.env.PORT || 3001
 const baseURL = `http://127.0.0.1:${PORT}`
+console.log(baseURL)
 /**
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
@@ -17,7 +18,7 @@ export default defineConfig({
   fullyParallel: true,
   forbidOnly: !!process.env.CI, // CI環境ではtest.onlyを禁止
   retries: process.env.CI ? 2 : 1, // CI環境では2回リトライ
-  workers: process.env.CI ? 2 : 3, // CI環境ではワーカー数を2に制限
+  workers: process.env.CI ? 1 : 3, // CI環境ではワーカー数を2に制限
 
   reporter: 'html',
   use: {
