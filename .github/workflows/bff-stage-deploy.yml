@@ -93,4 +93,6 @@ jobs:
             --platform managed \
             --region asia-northeast1 \
             --allow-unauthenticated \
-            --set-env-vars=PR_NUMBER=${PR_NUMBER}
+            --set-env-vars=PR_NUMBER=${PR_NUMBER} \
+            --set-env-vars=RAKUTEN_APP_ID=${{ secrets.RAKUTEN_APP_ID }} \
+            --set-env-vars=RAKUTEN_API_ENDPOINT=${{ secrets.RAKUTEN_API_ENDPOINT }} \
