@@ -1,5 +1,8 @@
 import { defineConfig, devices } from '@playwright/test';
+import path from 'path'
 
+const PORT = process.env.PORT || 3000
+const baseURL = `http://127.0.0.1:${PORT}`
 /**
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
@@ -10,7 +13,7 @@ import { defineConfig, devices } from '@playwright/test';
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
-  testDir: './tests/e2e',
+  testDir: path.join(__dirname, 'tests/e2e'),
   fullyParallel: true,
   forbidOnly: !!process.env.CI, // CI環境ではtest.onlyを禁止
   retries: process.env.CI ? 2 : 1, // CI環境では2回リトライ
@@ -18,7 +21,7 @@ export default defineConfig({
 
   reporter: 'html',
   use: {
-    baseURL: 'http://127.0.0.1:3000',
+    baseURL,
     trace: 'on-first-retry',
   },
 
@@ -62,7 +65,7 @@ export default defineConfig({
 
   /* Run your local dev server before starting the tests */
   webServer: {
-    command: 'pnpm dev -o',
+    command: 'npm run dev',
     url: 'http://127.0.0.1:3000',
     timeout: 90000, // タイムアウトを60秒に延長
     reuseExistingServer: !process.env.CI,
