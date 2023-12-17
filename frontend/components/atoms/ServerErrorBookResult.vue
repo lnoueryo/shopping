@@ -1,7 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
-  <div class="code-editor-error">
+  <div id="server-error" class="code-editor-error">
     <p
       ><span class="error-code">SERVER ERROR:</span> Trouble accessing server
       resources.</p

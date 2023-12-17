@@ -1,5 +1,6 @@
 <script setup lang="ts">
   import SkillLevelChip from '@/components/atoms/SkillLevelChip.vue';
+  import { skillLevelsData } from '@/assets/js/skill-levels'
   import { ref, defineEmits, watch } from 'vue';
   const props = defineProps({
     modelValue: {
@@ -10,11 +11,7 @@
     width: Number,
   });
   const emit = defineEmits(['update:modelValue']);
-  const skillLevels = ref([
-    { title: 'beginner', color: 'var(--color-class)' },
-    { title: 'intermediate', color: 'var(--color-class-name)' },
-    { title: 'advanced', color: 'var(--color-import)' },
-  ]);
+  const skillLevels = ref(skillLevelsData);
 
   const selectedSkillLevels = ref(props.modelValue);
   watch(

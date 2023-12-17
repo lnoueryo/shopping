@@ -1,7 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
-  <div class="code-editor-error">
+  <div id="connection-error" class="code-editor-error">
     <p
       ><span class="error-code">NETWORK STABILITY ERROR:</span> Unstable
       Internet Connection Detected.</p

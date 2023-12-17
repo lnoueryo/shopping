@@ -1,7 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
-  <div class="code-editor-error">
+  <div id="offline" class="code-editor-error">
     <p
       ><span class="error-code">CONNECTION ERROR:</span> Offline - No Internet
       Connection.</p

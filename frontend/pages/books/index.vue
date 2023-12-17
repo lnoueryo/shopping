@@ -10,7 +10,9 @@
   import { useBooksStore } from '@/stores/books';
   import { deviceSize } from '@/assets/js/device-size.js';
   import { ref, watch, onMounted } from 'vue';
-
+  definePageMeta({
+    middleware: ['books'],
+  })
   const store = useStore();
   const route = useRoute();
   const router = useRouter();
@@ -24,7 +26,7 @@
         : [route.query.levels]
   );
   const selectedGenre = ref(route.query.genre);
-  const selectedRate = ref(Number(route.query.rate) || 0);
+  const selectedRate = ref(Number(route.query.rate));
   watch(
     () => store.width,
     newWidth => {
@@ -34,7 +36,8 @@
   watch(isOpen, async newValue => {
     newValue || booksStore.fetchBooksData(route.query);
   });
-  watch([selectedRate, selectedSkillLevels, selectedGenre], () => {
+  watch(selectedGenre, () => {
+    if (!selectedGenre.value) return;
     const query = {
       ...route.query,
       rate: selectedRate.value,
@@ -43,6 +46,17 @@
     };
     delete query['keyword'];
     router.push({ path: '/books', query: query });
+  });
+  watch([selectedRate, selectedSkillLevels], () => {
+    const query = {
+      ...route.query,
+      rate: selectedRate.value,
+      genre: selectedGenre.value,
+      levels: selectedSkillLevels.value,
+    };
+    if (!selectedGenre.value) delete query['genre'];
+    router.push({ path: '/books', query: query });
+    booksStore.fetchBooksData(query);
   });
 
   const selectGenre = async newGenre => {
@@ -55,7 +69,11 @@
   watch(
     () => route.query,
     async newQuery => {
-      if (sidebarSwitch.value) booksStore.fetchBooksData(newQuery);
+      if ('genre' in newQuery) {
+        if (sidebarSwitch.value) booksStore.fetchBooksData(newQuery);
+        return;
+      }
+      selectedGenre.value = '';
     }
   );
   onMounted(async () => {

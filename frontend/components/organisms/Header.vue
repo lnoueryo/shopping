@@ -46,8 +46,8 @@
     const query = { ...route.query, keyword: word };
     if (!word && route.path !== '/books') return;
     if (word.length > 100) return (isOpen.value = true);
-    if (route.path === '/books') booksStore.fetchBooksData(query);
     delete query['genre'];
+    if (route.path === '/books') booksStore.fetchBooksData(query);
     router.push({ path: '/books', query: query });
   };
 

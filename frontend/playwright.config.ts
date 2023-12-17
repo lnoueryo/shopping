@@ -11,22 +11,14 @@ import { defineConfig, devices } from '@playwright/test';
  */
 export default defineConfig({
   testDir: './tests/e2e',
-  /* Run tests in files in parallel */
   fullyParallel: true,
-  /* Fail the build on CI if you accidentally left test.only in the source code. */
-  forbidOnly: !!process.env.CI,
-  /* Retry on CI only */
-  retries: process.env.CI ? 2 : 0,
-  /* Opt out of parallel tests on CI. */
-  workers: process.env.CI ? 1 : undefined,
-  /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: 'html',
-  /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
-  use: {
-    /* Base URL to use in actions like `await page.goto('/')`. */
-    // baseURL: 'http://127.0.0.1:3000',
+  forbidOnly: !!process.env.CI, // CI環境ではtest.onlyを禁止
+  retries: process.env.CI ? 2 : 1, // CI環境では2回リトライ
+  workers: process.env.CI ? 2 : 3, // CI環境ではワーカー数を2に制限
 
-    /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
+  reporter: 'html',
+  use: {
+    baseURL: 'http://127.0.0.1:3000',
     trace: 'on-first-retry',
   },
 
@@ -69,37 +61,9 @@ export default defineConfig({
   ],
 
   /* Run your local dev server before starting the tests */
-  // webServer: {
-  //   command: 'npm run start',
-  //   url: 'http://127.0.0.1:3000',
-  //   reuseExistingServer: !process.env.CI,
-  // },
+  webServer: {
+    command: 'pnpm dev -o',
+    url: 'http://127.0.0.1:3000',
+    reuseExistingServer: !process.env.CI,
+  },
 });
-// Inside that directory, you can run several commands:
-
-//   pnpm exec playwright test
-//     Runs the end-to-end tests.
-
-//   pnpm exec playwright test --ui
-//     Starts the interactive UI mode.
-
-//   pnpm exec playwright test --project=chromium
-//     Runs the tests only on Desktop Chrome.
-
-//   pnpm exec playwright test example
-//     Runs the tests in a specific file.
-
-//   pnpm exec playwright test --debug
-//     Runs the tests in debug mode.
-
-//   pnpm exec playwright codegen
-//     Auto generate tests with Codegen.
-
-// We suggest that you begin by typing:
-
-//     pnpm exec playwright test
-
-// And check out the following files:
-//   - ./e2e/example.spec.ts - Example end-to-end test
-//   - ./tests-examples/demo-todo-app.spec.ts - Demo Todo App end-to-end tests
-//   - ./playwright.config.ts - Playwright Test configuration

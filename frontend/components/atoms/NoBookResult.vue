@@ -15,7 +15,7 @@
 </script>
 
 <template>
-  <div class="code-editor-error">
+  <div id="no-book-result" class="code-editor-error">
     <p
       ><span class="error-code">ERROR:</span> No books found based on your
       search criteria.</p
