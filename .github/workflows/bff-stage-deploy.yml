@@ -33,12 +33,20 @@ jobs:
         with:
           node-version: 20.9
 
+      - name: Install pnpm
+        run: npm install -g pnpm
+
+      - name: Cache pnpm modules
+        uses: actions/cache@v3
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: ${{ runner.os }}-pnpm-
+
       - name: Install dependencies and run Playwright tests
         run: |
-          npm install -g pnpm
           pnpm install
           pnpm playwright install --with-deps
-          pnpm dev -o
           pnpm test:e2e
         working-directory: ./frontend
 

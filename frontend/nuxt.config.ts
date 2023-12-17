@@ -10,7 +10,7 @@ export default defineNuxtConfig({
       },
     },
   },
-  devtools: { enabled: true },
+  devtools: { enabled: false },
   css: ['normalize.css/normalize.css', '/assets/css/main.css'],
   plugins: ['~/plugins/shared-ref.js'],
 });
