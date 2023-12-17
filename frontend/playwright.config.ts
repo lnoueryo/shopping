@@ -1,7 +1,7 @@
 import { defineConfig, devices } from '@playwright/test';
 import path from 'path'
 
-const PORT = process.env.PORT || 3001
+const PORT = process.env.PORT || 3000
 const baseURL = `http://127.0.0.1:${PORT}`
 console.log(baseURL)
 /**
@@ -66,7 +66,7 @@ export default defineConfig({
 
   /* Run your local dev server before starting the tests */
   webServer: {
-    command: 'npm run dev',
+    command: 'pnpm build && node ./.output/server/index.mjs',
     url: baseURL,
     timeout: 90000, // タイムアウトを60秒に延長
     reuseExistingServer: !process.env.CI,
