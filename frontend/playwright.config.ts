@@ -64,6 +64,7 @@ export default defineConfig({
   webServer: {
     command: 'pnpm dev -o',
     url: 'http://127.0.0.1:3000',
+    timeout: 120000, // タイムアウトを120秒に延長
     reuseExistingServer: !process.env.CI,
   },
 });
