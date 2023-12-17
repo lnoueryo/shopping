@@ -49,6 +49,9 @@ jobs:
           pnpm playwright install --with-deps
           pnpm test:e2e
         working-directory: ./frontend
+        env:
+          RAKUTEN_APP_ID: ${{ secrets.RAKUTEN_APP_ID }}
+          RAKUTEN_API_ENDPOINT: ${{ secrets.RAKUTEN_API_ENDPOINT }}
 
       - uses: actions/upload-artifact@v3
         if: always()
