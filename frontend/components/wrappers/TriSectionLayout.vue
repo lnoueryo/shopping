@@ -1,6 +1,5 @@
 <script setup lang="ts">
   import { deviceSize } from '@/assets/js/device-size.js';
-  import { ref } from 'vue';
   const props = defineProps({
     left: Boolean,
     center: Boolean,
@@ -17,7 +16,7 @@
     <div class="align-left side-space" v-if="props.left">
       <slot name="left"></slot>
     </div>
-    <div class="mr-a w100 h100" v-if="props.center">
+    <div class="mr-a w100 h100 flex" v-if="props.center">
       <slot name="center"></slot>
     </div>
     <div class="align-right side-space" v-if="props.right">
@@ -28,7 +27,6 @@
 
 <style lang="scss" scoped>
   .scroll {
-    white-space: nowrap;
     overflow-x: auto;
   }
 </style>

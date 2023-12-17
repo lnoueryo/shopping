@@ -41,6 +41,7 @@
       genre: selectedGenre.value,
       levels: selectedSkillLevels.value,
     };
+    delete query['keyword'];
     router.push({ path: '/books', query: query });
   });
 
@@ -58,7 +59,7 @@
     }
   );
   onMounted(async () => {
-    sidebarSwitch.value = deviceSize.smallDesktop <= store.width.value;
+    sidebarSwitch.value = deviceSize.smallDesktop <= store.width;
   });
 </script>
 
@@ -75,14 +76,14 @@
         @update:isOpen="isOpen = $event"
       />
     </FloatFilter>
-    <div class="sidebar-container" v-if="sidebarSwitch">
+    <div id="sidebar" class="sidebar-container" v-if="sidebarSwitch">
       <GenreFloatingSideBar
         class="sidebar"
         :genreId="selectedGenre"
         @update:selectedGenre="selectGenre"
       />
     </div>
-    <div class="w100 relative">
+    <div id="main-content" class="w100 relative">
       <div class="content-container relative">
         <div
           class="card title-container flex align-center"
@@ -97,34 +98,36 @@
         </div>
       </div>
       <ClientOnly>
-        <template v-if="booksStore.isLoading">
-          <div class="spinner-container">
-            <Spinner />
-          </div>
-        </template>
-        <template v-else>
-          <template v-if="booksStore.booksData.length != 0">
-            <div
-              class="content-container"
-              v-for="book in booksStore.booksData"
-              :key="book.id"
-            >
-              <div class="card">
-                <BookList v-bind="book" :key="book.id" />
-              </div>
+        <div id="book-result">
+          <template v-if="booksStore.isLoading">
+            <div class="spinner-container">
+              <Spinner />
             </div>
           </template>
           <template v-else>
-            <div class="content-container">
-              <div class="card">
-                <ErrorBookResult
-                  v-model="booksStore.errorType"
-                  v-bind="route.query"
-                />
+            <template v-if="booksStore.booksData.length != 0">
+              <div
+                class="content-container"
+                v-for="book in booksStore.booksData"
+                :key="book.id"
+              >
+                <div class="card">
+                  <BookList v-bind="book" :key="book.id" />
+                </div>
               </div>
-            </div>
+            </template>
+            <template v-else>
+              <div class="content-container">
+                <div class="card">
+                  <ErrorBookResult
+                    v-model="booksStore.errorType"
+                    v-bind="route.query"
+                  />
+                </div>
+              </div>
+            </template>
           </template>
-        </template>
+        </div>
       </ClientOnly>
     </div>
   </div>

@@ -11,6 +11,7 @@
     icon: String,
     disabled: Boolean,
     size: Number,
+    radio: Boolean,
   });
   const selectedGenreId = ref(props.modelValue);
   const emit = defineEmits(['update:modelValue', 'genre']);
@@ -23,7 +24,7 @@
 
   const selectGenre = () => {
     if (props.disabled) return;
-    if (isSelected.value) {
+    if (isSelected.value && !props.radio) {
       selectedGenreId.value = '';
       return emit('genre', null);
     }
@@ -65,7 +66,6 @@
   .genre {
     min-height: 75px;
     min-width: 75px;
-    transition: var(--hover-transition);
     border-radius: 3px;
     cursor: pointer;
   }

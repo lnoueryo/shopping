@@ -8,7 +8,7 @@
 </script>
 
 <template>
-  <nav class="navigation h100">
+  <nav class="navigation h100 w100">
     <ul class="flex h100">
       <li class="h100" v-for="link in navigationLinks" :key="link.id">
         <NuxtLink

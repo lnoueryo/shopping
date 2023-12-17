@@ -41,11 +41,14 @@
   const store = useStore();
   const isDescriptionShownOnMobile = ref(true);
   const rate = ref(book.rating);
-  watch(store.width, newWidth => {
-    if (newWidth < deviceSize.mobile)
-      return (isDescriptionShownOnMobile.value = false);
-    isDescriptionShownOnMobile.value = true;
-  });
+  watch(
+    () => store.width,
+    newWidth => {
+      if (newWidth < deviceSize.mobile)
+        return (isDescriptionShownOnMobile.value = false);
+      isDescriptionShownOnMobile.value = true;
+    }
+  );
   watch(
     () => book.rating,
     newRating => (rate.value = newRating)

@@ -38,6 +38,7 @@
         v-bind="{ desktop: 50 }"
         :genreData="genreData"
         :width="store.width"
+        radio
       />
     </div>
   </div>

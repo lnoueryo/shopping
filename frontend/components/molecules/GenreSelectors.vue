@@ -28,6 +28,10 @@
       type: Number,
       default: 0,
     },
+    radio: {
+      type: Boolean,
+      default: false,
+    },
   });
   const size = ref(0);
   const updateSize = newWidth => {
@@ -69,6 +73,7 @@
       v-bind="genre"
       v-model="localGenreId"
       :style="{ width: `${size}%` }"
+      :radio="props.radio"
     />
   </div>
 </template>

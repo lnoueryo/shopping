@@ -19,7 +19,7 @@
 
 <template>
   <div
-    class="skeleton js-skeleton"
+    class="skeleton js-skeleton w100 h100"
     :style="{
       '--skeleton-width': props.width,
       '--skeleton-height': props.height,
@@ -80,5 +80,4 @@
   .skeleton__title {
     @include skeleton-mixin();
   }
-
 </style>

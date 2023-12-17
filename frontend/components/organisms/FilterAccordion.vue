@@ -172,6 +172,7 @@
             v-bind="{ mobile: 50, tablet: 50 }"
             :genreData="genreData"
             :width="store.width"
+            radio
           />
         </div>
       </template>

@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code&display=swap');
 /* 基本単位 */
 :root {
   --space-xs: 4px;
@@ -35,6 +36,8 @@
   --height-book: 240px;
   --width-side-space: 240px;
   --margin-horizontal: 16px;
+  --font-family-consolas: Consolas, 'Courier New', monospace;
+  --font-family-fira-code: 'Fira Code', monospace;
 }
 
 html {
@@ -49,6 +52,12 @@ body {
   min-height: 100%;
   display: flex;
   flex-direction: column;
+}
+
+.container {
+  max-width: 1200px;
+  width: 100%;
+  margin: auto;
 }
 
 .margin-horizontal {

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { ref, watch } from 'vue';
+  import { ref, watch, onMounted } from 'vue';
   import TriSectionLayout from '../components/wrappers/TriSectionLayout.vue';
   import GenreSelectors from '@/components/molecules/GenreSelectors.vue';
   import CodeList from '../components/atoms/CodeList.vue';
@@ -15,20 +15,26 @@
   watch(
     () => store.width,
     newWidth => {
-      if (newWidth < deviceSize.smallDesktop)
-        return (contentSwitch.value = {
-          left: false,
-          center: true,
-          right: false,
-        });
-      contentSwitch.value = { left: true, center: true, right: true };
+      changeContentSwitch(newWidth);
     }
   );
   const selectGenreArr = ref(selectGenreFunc);
   const genreSelectorArr = ref(genreSelectorHTML);
   const localGenreId = ref('');
+  const changeContentSwitch = newWidth => {
+    if (newWidth < deviceSize.smallDesktop)
+      return (contentSwitch.value = {
+        left: false,
+        center: true,
+        right: false,
+      });
+    contentSwitch.value = { left: true, center: true, right: true };
+  };
   watch(localGenreId, newValue => {
     router.push({ path: '/books', query: { genre: newValue } });
+  });
+  onMounted(() => {
+    changeContentSwitch(store.width);
   });
 </script>
 
@@ -45,6 +51,7 @@
         v-bind="{ desktop: SIX_CARD_GRID_WIDTH }"
         :genreData="genreData"
         :width="store.width"
+        radio
       />
     </template>
     <template #right>

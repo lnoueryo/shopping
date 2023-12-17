@@ -1,9 +1,10 @@
 <script setup lang="ts">
-  import MainSearchBar from '../molecules/MainSearchBar.vue';
-  import NavigationBar from '../molecules/NavigationBar.vue';
-  import Logo from '../atoms/Logo.vue';
-  import TriSectionLayout from '../wrappers/TriSectionLayout.vue';
-  import { ref, watch } from 'vue';
+  import Modal from '@/components/atoms/Modal.vue';
+  import MainSearchBar from '@/components/molecules/MainSearchBar.vue';
+  import NavigationBar from '@/components/molecules/NavigationBar.vue';
+  import Logo from '@/components/atoms/Logo.vue';
+  import TriSectionLayout from '@/components/wrappers/TriSectionLayout.vue';
+  import { ref, watch, computed } from 'vue';
   import { deviceSize } from '@/assets/js/device-size.js';
   import { useScroll } from '@/composables/scroll';
   import { useStore } from '@/stores';
@@ -13,9 +14,17 @@
   const booksStore = useBooksStore();
   const router = useRouter();
   const route = useRoute();
+  const emit = defineEmits(['isReady']);
   const headerMiddleSwitch = ref({ right: true, center: true, left: true });
   const headerTopSwitch = ref({ right: false, center: false, left: false });
-  const searchKeyword = ref(route.query.keyword);
+  const searchKeyword = ref(route.query.keyword || '');
+  const isReady = ref(false);
+  const isOpen = ref(false);
+  const errorTitle = ref('Input Error');
+  const errorMessage = computed(
+    () =>
+      `The input exceeds the maximum allowed character limit of 100. Please shorten your input.You have currently entered ${searchKeyword.value.length} characters.`
+  );
 
   watch(
     () => store.width,
@@ -31,10 +40,14 @@
     }
   );
 
+  watch(isReady, newValue => emit('isReady', newValue));
+
   const searchBooks = word => {
     const query = { ...route.query, keyword: word };
     if (!word && route.path !== '/books') return;
+    if (word.length > 100) return (isOpen.value = true);
     if (route.path === '/books') booksStore.fetchBooksData(query);
+    delete query['genre'];
     router.push({ path: '/books', query: query });
   };
 
@@ -47,9 +60,9 @@
 </script>
 
 <template>
-  <header id="header" v-if="store.isHeaderReady">
+  <div class="w100" v-if="store.isHeaderReady">
     <div class="header-top-container flex">
-      <TriSectionLayout v-bind="headerTopSwitch" :width="store.wwidth">
+      <TriSectionLayout v-bind="headerTopSwitch" :width="store.width">
         <template #left>
           <Logo class="margin-horizontal" />
         </template>
@@ -57,15 +70,15 @@
     </div>
     <div class="header-middle-container">
       <div class="h100 float-header" :class="{ fixed: isFixed }">
-        <TriSectionLayout v-bind="headerMiddleSwitch" :width="store.wwidth">
+        <TriSectionLayout v-bind="headerMiddleSwitch" :width="store.width">
           <template #left>
             <Logo class="margin-horizontal" />
           </template>
           <template #center>
-            <div class="margin-horizontal h100">
+            <div class="margin-horizontal w100 h100">
               <MainSearchBar
                 v-model="searchKeyword"
-                class="h100"
+                class="h100 w100"
                 @onSearchClicked="searchBooks"
                 :width="store.width"
               />
@@ -75,21 +88,24 @@
       </div>
     </div>
     <div class="nav-container">
-      <TriSectionLayout v-bind="headerMiddleSwitch" :width="store.wwidth">
+      <TriSectionLayout v-bind="headerMiddleSwitch" :width="store.width">
         <template #center>
           <NavigationBar class="margin-horizontal" :navHeight="48" />
         </template>
       </TriSectionLayout>
     </div>
-  </header>
+    <Modal v-model="isOpen" :width="store.width">
+      <template #title>
+        <h4 class="error-title">{{ errorTitle }}</h4>
+      </template>
+      <template #message>
+        <p class="error-message">{{ errorMessage }}</p>
+      </template>
+    </Modal>
+  </div>
 </template>
 
 <style lang="scss" scoped>
-  #header {
-    background-color: var(--color-base-black);
-    width: 100%;
-  }
-
   .header-top-container {
     height: var(--height-content);
   }
@@ -113,5 +129,14 @@
 
   .nav-container {
     height: var(--height-content);
+  }
+
+  .error-title {
+    font-size: 24px;
+    color: var(--color-error);
+  }
+
+  .error-message {
+    color: var(--color-comment-out);
   }
 </style>

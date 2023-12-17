@@ -20,7 +20,7 @@
       default: 0,
     },
   });
-  const emit = defineEmits(['update:modelValue']);
+  const emit = defineEmits(['update:modelValue', 'onSearchClicked']);
   const wrapperRef = ref(null);
   const promptRef = ref(null);
   const promptPadding = ref(0);
@@ -47,6 +47,7 @@
     const { left: wrapperLeftValue } = wrapperRef.value.getBoundingClientRect();
     const { left: promptLeftValue, width: promptWidthValue } =
       promptRef.value.getBoundingClientRect();
+    if (promptLeftValue === 0) return;
     wrapperLeft.value = wrapperLeftValue;
     promptLeft.value = promptLeftValue;
     promptWidth.value = promptWidthValue;
@@ -76,7 +77,6 @@
   );
   onMounted(() => {
     if (promptRef.value) adjustPromptVisibility(props.width);
-
     if (searchButton.value) adjustMagnifyVisibility();
   });
 </script>

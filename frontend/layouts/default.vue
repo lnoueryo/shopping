@@ -7,12 +7,13 @@
   import { useStore } from '@/stores';
   const headerRef = ref(null);
   const footerRef = ref(null);
-  const footerHeight = ref(0);
   const nuxtApp = useNuxtApp();
   const store = useStore();
+  const isHeaderReady = ref(false);
 
   onMounted(async () => {
     store.updateDimensions();
+    store.initializeLayoutDimensions();
     window.addEventListener('resize', store.updateDimensions);
     nuxtApp.$headerRef.value = headerRef.value;
     await nextTick();
@@ -27,29 +28,32 @@
   watch(
     () => store.isHeaderReady,
     () => {
-      store.initializeLayoutDimensions(headerRef.value);
+      store.initializeLayoutDimensions();
     }
   );
 </script>
 
 <template>
   <div id="default-layout">
-    <div class="header-footer-color">
+    <header id="header" class="header-footer-color">
       <SkeltonScreen
         width="100%"
         height="calc(var(--height-content) * 3)"
         v-if="!store.isReady"
       />
       <div class="container" ref="headerRef">
-        <Header />
+        <Header @isReady="isHeaderReady = $event" />
       </div>
-    </div>
-    <div class="container stretch-height">
+    </header>
+    <main class="container stretch-height">
       <div class="page-container margin-horizontal relative">
-        <NuxtPage class="w100" />
+        <div class="card stretch-height" v-if="!store.isReady">
+          <SkeltonScreen width="100%" height="100%" />
+        </div>
+        <NuxtPage class="w100" v-if="store.isReady" />
       </div>
-    </div>
-    <div class="header-footer-color">
+    </main>
+    <footer class="header-footer-color">
       <SkeltonScreen
         width="100%"
         height="calc(var(--height-content) * 2)"
@@ -58,7 +62,7 @@
       <div class="container" ref="footerRef" v-if="store.isReady">
         <Footer />
       </div>
-    </div>
+    </footer>
   </div>
 </template>
 
@@ -70,11 +74,7 @@
     flex-direction: column;
     min-height: 100vh;
   }
-  .container {
-    max-width: 1200px;
-    width: 100%;
-    margin: auto;
-  }
+
   .stretch-height {
     display: flex;
     flex: 1;

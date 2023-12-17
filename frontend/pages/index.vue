@@ -1,15 +1,17 @@
 <script setup lang="ts">
-  import GenreContent from '../components/organisms/GenreContent.vue';
+  import GenreContent from '@/components/organisms/GenreContent.vue';
+  import { useStore } from '@/stores';
+  const store = useStore();
 </script>
 
 <template>
   <div>
     <div class="content-container">
-      <div class="card title-container flex align-center">
+      <div class="card title-container flex align-center" v-if="store.isReady">
         <div class="title padding-horizontal"> Genres </div>
       </div>
       <div class="card">
-        <GenreContent />
+        <GenreContent v-if="store.isReady" />
       </div>
     </div>
   </div>

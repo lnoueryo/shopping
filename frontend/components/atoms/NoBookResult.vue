@@ -46,6 +46,7 @@
     padding: 15px;
     font-family: 'Courier New', monospace;
     border-left: 4px solid var(--color-error);
+    word-break: break-all;
   }
 
   .error-code {

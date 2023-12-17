@@ -59,6 +59,7 @@ describe('GenreSelector', () => {
       modelValue: '',
       disabled: false,
       size: 24,
+      radio: false,
     };
 
     it('Verify v-model', async () => {

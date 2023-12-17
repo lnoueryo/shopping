@@ -4,7 +4,7 @@
 </script>
 
 <template>
-  <footer id="footer">
+  <div class="w100">
     <div class="footer-middle-container">
       <div class="flex justify-center">
         <SocialMediaLinks
@@ -19,14 +19,10 @@
         >
       </div>
     </div>
-  </footer>
+  </div>
 </template>
 
 <style lang="scss" scoped>
-  #footer {
-    background-color: var(--color-base-black);
-    width: 100%;
-  }
   .footer-middle-container {
     padding: 0 0 8px;
   }
