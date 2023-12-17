@@ -68,7 +68,7 @@ export default defineConfig({
   webServer: {
     command: 'pnpm build && node ./.output/server/index.mjs',
     url: baseURL,
-    timeout: 90000, // タイムアウトを60秒に延長
+    timeout: 150000, // タイムアウトを60秒に延長
     reuseExistingServer: !process.env.CI,
   },
 });
