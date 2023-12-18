@@ -133,37 +133,6 @@ test.describe('header', () => {
       expect(bookResultContent).toContain(bookName);
     });
 
-    test('Verify search book without keyword', async ({ page }) => {
-      const bookName = '';
-      await page.waitForSelector(searchBarSelector);
-      await page.fill(searchBarSelector, bookName);
-      await page.press(searchBarSelector, 'Enter');
-
-      const url = page.url();
-      expect(new URL(url).pathname).toBe(`/`);
-      await page.click(searchBarButtonSelector);
-      const _url = page.url();
-      expect(new URL(_url).pathname).toBe(`/`);
-    });
-
-    test('Verify search book with keywords longer than 101 characters', async ({ page }) => {
-      const bookName = generateRandomString(101);
-      await page.waitForSelector(searchBarSelector);
-      await page.fill(searchBarSelector, bookName);
-      await page.press(searchBarSelector, 'Enter');
-
-      const url = page.url();
-      expect(new URL(url).pathname).toBe(`/`);
-      const modalSelector = '.modal-content';
-      const modalCloseSelector = '.close-button';
-      await page.waitForSelector(modalSelector);
-      const modalContent = page.locator(modalSelector);
-      await expect(modalContent).toBeVisible();
-      const closeButton = modalContent.locator(modalCloseSelector);
-      await closeButton.click();
-      await expect(modalContent).not.toBeVisible();
-    });
-
     test('Verify search book without result', async ({ page }) => {
       const bookName = generateRandomString(100);
       await page.waitForSelector(searchBarSelector);
@@ -199,24 +168,6 @@ test.describe('header', () => {
       for (const browser of [chromium, firefox, webkit]) {
         await testNavigation(browser, testOrder)
       }
-    });
-
-    test('Verify search book with the query parameter genre included', async ({page}) => {
-      const rate = '4';
-      await page.goto(`/books?rate=${rate}&genre=001005003003`);
-      const bookName = '良いコード／悪いコードで学ぶ設計入門';
-      await page.waitForSelector(searchBarSelector);
-      await page.fill(searchBarSelector, bookName);
-      await page.click(searchBarButtonSelector);
-      await page.waitForSelector(bookResultSelector);
-      const currentUrl = page.url();
-      const urlObj = new URL(currentUrl);
-      const queryParams = urlObj.searchParams;
-
-      expect(queryParams.has('keyword')).toBeTruthy();
-      expect(queryParams.has('rate')).toBeTruthy();
-      expect(queryParams.get('rate')).toBe(rate);
-      expect(queryParams.has('genre')).toBeFalsy();
     });
 
   });

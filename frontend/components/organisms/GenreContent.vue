@@ -1,8 +1,8 @@
 <script setup lang="ts">
   import { ref, watch, onMounted } from 'vue';
-  import TriSectionLayout from '../components/wrappers/TriSectionLayout.vue';
+  import TriSectionLayout from '@/components/wrappers/TriSectionLayout.vue';
   import GenreSelectors from '@/components/molecules/GenreSelectors.vue';
-  import CodeList from '../components/atoms/CodeList.vue';
+  import CodeList from '@/components/atoms/CodeList.vue';
   import { genreData } from '@/assets/js/genres.js';
   import { deviceSize } from '@/assets/js/device-size.js';
   import { selectGenreFunc, genreSelectorHTML } from '@/assets/js/codes.js';

@@ -40,15 +40,6 @@
 ### Home
 **Path:** `/`
 
-- **ルーティング**
-**Purpose:** URLを直接たたかれた場合、いくつかの条件で不正なパラメーターとなるのでミドルウェアで制御し、404を返す
-**Acceptance Criteria:**
-  - 下記条件でアクセスすると404を返す
-    - genreとkeyword両方を含む: `/books?genre={id}&keyword={keyword}`
-    - genreに不正なidを指定: `/books?genre=xxxxxxxxx`
-    - rateが0未満または5以上を指定: `/books?rate=-1`
-    - levelsに不正な値を指定: `/books?levels=xxxxxxx`
-  ---
 - **ジャンル書籍検索**
 **Purpose:** 目的の書籍がないときにジャンル検索で興味のありそうな書籍を探すことができる
 **Acceptance Criteria:**
@@ -59,6 +50,15 @@
 ### Book List
 **Path:** `/books`
 
+- **ルーティング**
+**Purpose:** URLを直接たたかれた場合、いくつかの条件で不正なパラメーターとなるのでミドルウェアで制御し、404を返す
+**Acceptance Criteria:**
+  - 下記条件でアクセスすると404を返す
+    - genreとkeyword両方を含む: `/books?genre={id}&keyword={keyword}`
+    - genreに不正なidを指定: `/books?genre=xxxxxxxxx`
+    - rateが0未満または5以上を指定: `/books?rate=-1`
+    - levelsに不正な値を指定: `/books?levels=xxxxxxx`
+  ---
 - **サイドバージャンル書籍検索(PC)**
 **Purpose:** フローティングサイドバーにすることでいつでも絞り込むことができる。また、絞り込み条件が簡単に確認できる。
 **Acceptance Criteria:**

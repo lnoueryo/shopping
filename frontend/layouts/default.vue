@@ -35,7 +35,7 @@
 
 <template>
   <div id="default-layout">
-    <header id="header" class="header-footer-color">
+    <header class="header-footer-color">
       <SkeltonScreen
         width="100%"
         height="calc(var(--height-content) * 3)"

@@ -31,7 +31,7 @@
     newWidth => {
       store.isHeaderReady = true;
       if (newWidth < deviceSize.smallDesktop) {
-        headerTopSwitch.value = { left: true, center: false, right: false };
+        headerTopSwitch.value = { left: false, center: true, right: false };
         headerMiddleSwitch.value = { left: false, center: true, right: false };
         return;
       }
@@ -41,7 +41,6 @@
   );
 
   watch(isReady, newValue => emit('isReady', newValue));
-
   const searchBooks = word => {
     const query = { ...route.query, keyword: word };
     if (!word && route.path !== '/books') return;
@@ -60,11 +59,13 @@
 </script>
 
 <template>
-  <div class="w100" v-if="store.isHeaderReady">
+  <div id="header" class="w100" v-if="store.isHeaderReady">
     <div class="header-top-container flex">
       <TriSectionLayout v-bind="headerTopSwitch" :width="store.width">
-        <template #left>
-          <Logo class="margin-horizontal" />
+        <template #center>
+          <div class="flex align-center">
+            <Logo class="margin-horizontal" />
+          </div>
         </template>
       </TriSectionLayout>
     </div>
