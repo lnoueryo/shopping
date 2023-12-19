@@ -1,5 +1,4 @@
 import { defineStore } from 'pinia';
-import { useRouter } from 'vue-router'
 
 export const useBooksStore = defineStore('books', {
   state: (): BooksState => ({
@@ -10,8 +9,8 @@ export const useBooksStore = defineStore('books', {
       keyword: '',
       genre: '',
       rate: 0,
-      levels: []
-    }
+      levels: [],
+    },
   }),
   actions: {
     async fetchBooksData() {
@@ -25,7 +24,7 @@ export const useBooksStore = defineStore('books', {
           5000
         );
         this.booksData = response.books;
-      } catch (err: any) {
+      } catch (err: Error) {
         if (!navigator.onLine) {
           this.errorType = 'offline';
           console.error(
@@ -43,14 +42,19 @@ export const useBooksStore = defineStore('books', {
         this.isLoading = false;
       }
     },
-    updateQuery(query: { [key: string]: any }) {
-      this.query = query
-      this.fetchBooksData()
-    }
+    updateQuery(query: { [key: string]: string | number }) {
+      this.query = { ...query };
+      if ('rate' in query === false) this.query['rate'] = 0;
+      else delete this.query['rate'];
+      if ('levels' in query === false) this.query['levels'] = [];
+      if ('genre' in query === false) this.query['genre'] = '';
+      if ('keyword' in query === false) this.query['keyword'] = '';
+      this.fetchBooksData();
+    },
   },
 });
 
-const fetchWithTimeout = (url: string, options: any, timeout = 3000) => {
+const fetchWithTimeout = (url: string, options: BookRequest, timeout = 3000) => {
   return new Promise((resolve, reject) => {
     const timer = setTimeout(() => {
       reject('timeout');
@@ -88,10 +92,12 @@ interface BooksState {
   booksData: Book[];
   isLoading: boolean;
   errorType: string;
-  query: {
-    keyword: string;
-    genre: string;
-    rate: number;
-    levels: string[];
-  }
+  query: BookRequest
+}
+
+interface BookRequest {
+  keyword: string;
+  genre: string;
+  rate: number;
+  levels: string[];
 }

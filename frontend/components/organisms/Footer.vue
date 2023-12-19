@@ -1,6 +1,5 @@
 <script setup lang="ts">
   import SocialMediaLinks from '@/components/molecules/SocialMediaLinks.vue';
-  import { socialMediaData } from '@/assets/js/social-media';
 </script>
 
 <template>

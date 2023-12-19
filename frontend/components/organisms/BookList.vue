@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { useBooksStore } from '@/stores/books';
-  import BookItem from '@/components/molecules/BookItem.vue'
+  import BookItem from '@/components/molecules/BookItem.vue';
   const booksStore = useBooksStore();
 </script>
 

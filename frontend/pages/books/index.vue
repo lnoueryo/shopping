@@ -10,9 +10,10 @@
   import { useBooksStore } from '@/stores/books';
   import { deviceSize } from '@/assets/js/device-size.js';
   import { ref, watch, onMounted } from 'vue';
+
   definePageMeta({
     middleware: ['books'],
-  })
+  });
   const store = useStore();
   const route = useRoute();
   const sidebarSwitch = ref(false);
@@ -25,7 +26,8 @@
   watch(
     () => route.query,
     async newQuery => {
-      if (sidebarSwitch.value || 'keyword' in newQuery) return booksStore.updateQuery(newQuery);
+      if (sidebarSwitch.value || 'keyword' in newQuery)
+        return booksStore.updateQuery(newQuery);
     }
   );
   const booksStore = useBooksStore();

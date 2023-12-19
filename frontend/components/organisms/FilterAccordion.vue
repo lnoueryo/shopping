@@ -24,12 +24,18 @@
     fontWeight: 'bold',
   });
   const localRate = ref(Number(route.query.rate));
-  const localSkillLevels = ref(!route.query.levels ? [] : typeof route.query.levels === 'string' ? new Array(route.query.levels) : route.query.levels);
+  const localSkillLevels = ref(
+    !route.query.levels
+      ? []
+      : typeof route.query.levels === 'string'
+        ? new Array(route.query.levels)
+        : route.query.levels
+  );
   const localGenre = ref(route.query.genre);
   const filterContentHeight = ref({
     minHeight: 'calc(var(--height-content) + var(--height-content) / 2)',
   });
-  const cacheQuery = ref('')
+  const cacheQuery = ref('');
 
   watch(
     () => store.width,
@@ -96,7 +102,7 @@
 
   watch(isOpen, async newValue => {
     if (newValue) cacheQuery.value = JSON.stringify(route.query);
-    if (cacheQuery.value !== JSON.stringify(route.query)) newValue || booksStore.updateQuery(route.query);
+    if (!newValue) booksStore.updateQuery(route.query);
   });
 </script>
 

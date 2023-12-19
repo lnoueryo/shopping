@@ -8,8 +8,8 @@
   import { selectGenreFunc, genreSelectorHTML } from '@/assets/js/codes.js';
   import { useStore } from '@/stores';
 
-  const store = useStore();
   const SIX_CARD_GRID_WIDTH = 16.37;
+  const store = useStore();
   const router = useRouter();
   const contentSwitch = ref({ right: true, center: true, left: true });
   watch(

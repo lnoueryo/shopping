@@ -1,7 +1,7 @@
 import { defineConfig } from 'vitest/config';
 import { resolve } from 'path';
 import vue from '@vitejs/plugin-vue';
-import AutoImport from 'unplugin-auto-import/vite'
+import AutoImport from 'unplugin-auto-import/vite';
 
 // Vitestの設定を追加
 export default defineConfig({

@@ -1,11 +1,7 @@
 import { defineConfig, devices } from '@playwright/test';
-import path from 'path'
 
-const PORT = process.env.PORT || 3000
-const baseURL = `http://127.0.0.1:${PORT}`
-console.log(baseURL)
-console.log(process.env.RAKUTEN_APP_ID)
-console.log(process.env.RAKUTEN_API_ENDPOINT)
+const PORT = process.env.PORT || 3000;
+const baseURL = `http://127.0.0.1:${PORT}`;
 /**
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv

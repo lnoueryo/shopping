@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import SkillLevelChip from '@/components/atoms/SkillLevelChip.vue';
-  import { skillLevelsData } from '@/assets/js/skill-levels'
+  import { skillLevelsData } from '@/assets/js/skill-levels';
   import { ref, defineEmits, watch } from 'vue';
   const props = defineProps({
     modelValue: {

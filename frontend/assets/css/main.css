@@ -189,6 +189,28 @@ li {
   border-bottom: 1px solid var(--color-border-bottom);
 }
 
+.code-editor-error {
+  background-color: #ffffff;
+  color: #333;
+  padding: 15px;
+  font-family: 'Courier New', monospace;
+  border-left: 4px solid var(--color-error);
+}
+
+.code-editor-error .error-code {
+  color: var(--color-error);
+}
+
+.code-editor-error .console-text {
+  margin: 0;
+  color: #8ec07c;
+}
+
+.code-editor-error ul.console-text {
+  margin-top: 5px;
+  padding-left: 20px;
+}
+
 /* WebKitベースのブラウザ用 */
 ::-webkit-scrollbar {
   width: 0px;

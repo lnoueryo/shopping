@@ -1,4 +1,9 @@
 module.exports = {
+  globals: {
+    definePageMeta: "readonly",
+    useRoute: "readonly",
+    useRouter: "readonly",
+  },
   env: {
     browser: true,
     es2021: true,
@@ -22,6 +27,18 @@ module.exports = {
       files: ['*.vue'],
       processor: 'vue/.vue',
     },
+    {
+      "files": ["*.spec.ts"],
+      "rules": {
+        "max-lines-per-function": "off"
+      }
+    },
+    {
+      "files": ["*.test.ts"],
+      "rules": {
+        "max-lines-per-function": "off"
+      }
+    },
   ],
   parserOptions: {
     ecmaVersion: 'latest',
@@ -33,11 +50,11 @@ module.exports = {
     'vue/multi-word-component-names': 'off',
     'max-lines-per-function': [
       'warn',
-      { max: 50, skipBlankLines: true, skipComments: true },
+      { max: 80, skipBlankLines: true, skipComments: true },
     ],
     '@typescript-eslint/naming-convention': [
       'error',
-      { selector: 'variable', format: ['camelCase', 'UPPER_CASE'] },
+      { selector: 'variable', format: ['camelCase', 'UPPER_CASE'], filter: {regex: 'publish_date', match: false} },
     ],
     'no-eval': 'error',
     'no-implied-eval': 'error',

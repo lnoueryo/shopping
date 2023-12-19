@@ -37,27 +37,4 @@
   </div>
 </template>
 
-<style lang="scss" scoped>
-  .code-editor-error {
-    background-color: #ffffff;
-    color: #333;
-    padding: 15px;
-    font-family: 'Courier New', monospace;
-    border-left: 4px solid var(--color-error);
-    word-break: break-all;
-  }
-
-  .error-code {
-    color: var(--color-error);
-  }
-
-  .console-text {
-    margin: 0;
-    color: #8ec07c;
-  }
-
-  ul.console-text {
-    margin-top: 5px;
-    padding-left: 20px;
-  }
-</style>
+<style lang="scss" scoped></style>

@@ -45,7 +45,7 @@ function transformBooksData(bookData: RakutenBooksAPIResponse) {
       itemPrice: price,
       largeImageUrl: thumbnail,
       publisherName: publisher,
-      salesDate: publish_date,
+      salesDate: publish_date,  /* @typescript-eslint/naming-convention*/
       itemCaption: description,
       reviewAverage: ratingStr,
     } = book.Item;

@@ -2,14 +2,11 @@
   import Rating from '@/components/molecules/Rating.vue';
   import SkillLevelChips from '@/components/molecules/SkillLevelChips.vue';
   import { ref, watch } from 'vue';
-  import { useBooksStore } from '@/stores/books'
 
-  const booksStore = useBooksStore();
-  const route = useRoute()
-  const router = useRouter()
+  const route = useRoute();
+  const router = useRouter();
   const localRate = ref(Number(route.query.rate));
   const localSkillLevels = ref(route.query.levels);
-
 
   watch([localRate, localSkillLevels], () => {
     const query = { ...route.query };

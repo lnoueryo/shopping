@@ -3,21 +3,22 @@
   import OfflineBookResult from '@/components/atoms/OfflineBookResult.vue';
   import ConnectionErrorBookResult from '@/components/atoms/ConnectionErrorBookResult.vue';
   import ServerErrorBookResult from '@/components/atoms/ServerErrorBookResult.vue';
-  import { ref, watch, computed, watchEffect } from 'vue';
+  import { ref, computed } from 'vue';
   import { useBooksStore } from '@/stores/books';
 
-  const booksStore = useBooksStore()
+  const booksStore = useBooksStore();
   const errorComponents = ref({
     offline: OfflineBookResult,
     timeout: ConnectionErrorBookResult,
     server: ServerErrorBookResult,
   });
   const errorComponent = computed(() =>
-    !booksStore.errorType ? NoBookResult : errorComponents.value[booksStore.errorType]
+    !booksStore.errorType
+      ? NoBookResult
+      : errorComponents.value[booksStore.errorType]
   );
   const currentProps = computed(() => {
-    if (!booksStore.errorType)
-      return booksStore.query;
+    if (!booksStore.errorType) return booksStore.query;
     return {};
   });
 </script>
