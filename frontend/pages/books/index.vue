@@ -15,67 +15,22 @@
   })
   const store = useStore();
   const route = useRoute();
-  const router = useRouter();
   const sidebarSwitch = ref(false);
-  const isOpen = ref(false);
-  const selectedSkillLevels = ref(
-    !route.query.levels
-      ? []
-      : Array.isArray(route.query.levels)
-        ? route.query.levels
-        : [route.query.levels]
-  );
-  const selectedGenre = ref(route.query.genre);
-  const selectedRate = ref(Number(route.query.rate));
   watch(
     () => store.width,
     newWidth => {
       sidebarSwitch.value = deviceSize.smallDesktop <= newWidth;
     }
   );
-  watch(isOpen, async newValue => {
-    newValue || booksStore.fetchBooksData(route.query);
-  });
-  watch(selectedGenre, () => {
-    if (!selectedGenre.value) return;
-    const query = {
-      ...route.query,
-      rate: selectedRate.value,
-      genre: selectedGenre.value,
-      levels: selectedSkillLevels.value,
-    };
-    delete query['keyword'];
-    router.push({ path: '/books', query: query });
-  });
-  watch([selectedRate, selectedSkillLevels], () => {
-    const query = {
-      ...route.query,
-      rate: selectedRate.value,
-      genre: selectedGenre.value,
-      levels: selectedSkillLevels.value,
-    };
-    if (!selectedGenre.value) delete query['genre'];
-    router.push({ path: '/books', query: query });
-    booksStore.fetchBooksData(query);
-  });
-
-  const selectGenre = async newGenre => {
-    selectedGenre.value = newGenre;
-  };
-
-  const booksStore = useBooksStore();
-  booksStore.fetchBooksData(route.query);
-
   watch(
     () => route.query,
     async newQuery => {
-      if ('genre' in newQuery) {
-        if (sidebarSwitch.value) booksStore.fetchBooksData(newQuery);
-        return;
-      }
-      selectedGenre.value = '';
+      if (sidebarSwitch.value || 'keyword' in newQuery) return booksStore.updateQuery(newQuery);
     }
   );
+  const booksStore = useBooksStore();
+  booksStore.updateQuery(route.query);
+
   onMounted(async () => {
     sidebarSwitch.value = deviceSize.smallDesktop <= store.width;
   });
@@ -84,22 +39,10 @@
 <template>
   <div class="flex w100">
     <FloatFilter v-if="!sidebarSwitch">
-      <FilterAccordion
-        :genreId="selectedGenre"
-        :selectedRate="selectedRate"
-        :selectedSkillLevels="selectedSkillLevels"
-        @update:selectedRate="selectedRate = $event"
-        @update:selectedSkillLevels="selectedSkillLevels = $event"
-        @update:selectedGenre="selectGenre"
-        @update:isOpen="isOpen = $event"
-      />
+      <FilterAccordion />
     </FloatFilter>
     <div id="sidebar" class="sidebar-container" v-if="sidebarSwitch">
-      <GenreFloatingSideBar
-        class="sidebar"
-        :genreId="selectedGenre"
-        @update:selectedGenre="selectGenre"
-      />
+      <GenreFloatingSideBar class="sidebar" />
     </div>
     <div id="main-content" class="w100 relative">
       <div class="content-container relative">
@@ -107,12 +50,7 @@
           class="card title-container flex align-center"
           v-if="sidebarSwitch"
         >
-          <BookFilter
-            :selectedRate="selectedRate"
-            :selectedSkillLevels="selectedSkillLevels"
-            @update:selectedRate="selectedRate = $event"
-            @update:selectedSkillLevels="selectedSkillLevels = $event"
-          />
+          <BookFilter />
         </div>
       </div>
       <ClientOnly>
@@ -124,25 +62,10 @@
           </template>
           <template v-else>
             <template v-if="booksStore.booksData.length != 0">
-              <div
-                class="content-container"
-                v-for="book in booksStore.booksData"
-                :key="book.id"
-              >
-                <div class="card">
-                  <BookList v-bind="book" :key="book.id" />
-                </div>
-              </div>
+              <BookList />
             </template>
             <template v-else>
-              <div class="content-container">
-                <div class="card">
-                  <ErrorBookResult
-                    v-model="booksStore.errorType"
-                    v-bind="route.query"
-                  />
-                </div>
-              </div>
+              <ErrorBookResult />
             </template>
           </template>
         </div>

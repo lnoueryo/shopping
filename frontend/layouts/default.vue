@@ -9,7 +9,6 @@
   const footerRef = ref(null);
   const nuxtApp = useNuxtApp();
   const store = useStore();
-  const isHeaderReady = ref(false);
 
   onMounted(async () => {
     store.updateDimensions();
@@ -42,7 +41,7 @@
         v-if="!store.isReady"
       />
       <div class="container" ref="headerRef">
-        <Header @isReady="isHeaderReady = $event" />
+        <Header />
       </div>
     </header>
     <main class="container stretch-height">

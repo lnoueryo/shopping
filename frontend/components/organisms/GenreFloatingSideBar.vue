@@ -4,26 +4,21 @@
   import { ref, watch } from 'vue';
   import { useScroll } from '@/composables/scroll';
   import { useStore } from '@/stores';
-  const props = defineProps({
-    genreId: String,
-  });
+
   const store = useStore();
-  const localGenreId = ref(props.genreId);
+  const route = useRoute();
+  const router = useRouter();
+  const localGenre = ref(route.query.genre);
   const isFixed = ref(false);
   const moveGenreContent = () => {
     isFixed.value = window.scrollY > store.headerHeight;
   };
-  const emit = defineEmits(['update:selectedGenre']);
   useScroll(moveGenreContent);
-
-  watch(
-    () => props.genreId,
-    newGenreId => {
-      localGenreId.value = newGenreId;
-    }
-  );
-  watch(localGenreId, newGenreId => {
-    emit('update:selectedGenre', newGenreId);
+  watch(localGenre, () => {
+    const query = { ...route.query };
+    query['genre'] = localGenre.value;
+    delete query['keyword'];
+    router.push({ path: '/books', query });
   });
 </script>
 
@@ -34,7 +29,7 @@
     </div>
     <div class="card">
       <GenreSelectors
-        v-model="localGenreId"
+        v-model="localGenre"
         v-bind="{ desktop: 50 }"
         :genreData="genreData"
         :width="store.width"

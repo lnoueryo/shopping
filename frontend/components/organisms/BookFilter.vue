@@ -2,33 +2,21 @@
   import Rating from '@/components/molecules/Rating.vue';
   import SkillLevelChips from '@/components/molecules/SkillLevelChips.vue';
   import { ref, watch } from 'vue';
-  const props = defineProps({
-    selectedRate: Number,
-    selectedSkillLevels: Array,
-  });
-  const emit = defineEmits([
-    'update:selectedRate',
-    'update:selectedSkillLevels',
-  ]);
-  const localRate = ref(props.selectedRate);
-  const selectedSkillLevels = ref(props.selectedSkillLevels);
-  watch(
-    () => props.selectedRate,
-    newRate => {
-      localRate.value = Math.round(newRate);
-    }
-  );
-  watch(
-    () => props.selectedSkillLevels,
-    newSelectedSkillLevels => {
-      selectedSkillLevels.value = newSelectedSkillLevels;
-    }
-  );
-  watch(localRate, newRate => {
-    emit('update:selectedRate', newRate);
-  });
-  watch(selectedSkillLevels, newSelectedSkillLevels => {
-    emit('update:selectedSkillLevels', newSelectedSkillLevels);
+  import { useBooksStore } from '@/stores/books'
+
+  const booksStore = useBooksStore();
+  const route = useRoute()
+  const router = useRouter()
+  const localRate = ref(Number(route.query.rate));
+  const localSkillLevels = ref(route.query.levels);
+
+
+  watch([localRate, localSkillLevels], () => {
+    const query = { ...route.query };
+    if (localRate.value) query['rate'] = localRate.value;
+    else delete query['rate'];
+    if (localSkillLevels.value) query['levels'] = localSkillLevels.value;
+    router.push({ path: '/books', query: query });
   });
 </script>
 
@@ -41,7 +29,7 @@
         <div>&ensp;or Higher</div>
       </div>
       <div class="margin-horizontal">
-        <SkillLevelChips v-model="selectedSkillLevels" />
+        <SkillLevelChips v-model="localSkillLevels" />
       </div>
     </div>
   </div>

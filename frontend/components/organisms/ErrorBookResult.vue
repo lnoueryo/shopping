@@ -4,39 +4,30 @@
   import ConnectionErrorBookResult from '@/components/atoms/ConnectionErrorBookResult.vue';
   import ServerErrorBookResult from '@/components/atoms/ServerErrorBookResult.vue';
   import { ref, watch, computed, watchEffect } from 'vue';
-  const props = defineProps({
-    modelValue: String,
-    keyword: String,
-    genre: String,
-    rate: String,
-    levels: Array || String,
-  });
-  const emit = defineEmits(['update:modelValue']);
+  import { useBooksStore } from '@/stores/books';
+
+  const booksStore = useBooksStore()
   const errorComponents = ref({
     offline: OfflineBookResult,
     timeout: ConnectionErrorBookResult,
     server: ServerErrorBookResult,
   });
-  const errorType = ref(props.modelValue);
   const errorComponent = computed(() =>
-    !errorType.value ? NoBookResult : errorComponents.value[errorType.value]
+    !booksStore.errorType ? NoBookResult : errorComponents.value[booksStore.errorType]
   );
   const currentProps = computed(() => {
-    if (!errorType.value)
-      return {
-        keyword: props.keyword,
-        genre: props.genre,
-        rate: props.rate,
-        levels: props.levels,
-      };
+    if (!booksStore.errorType)
+      return booksStore.query;
     return {};
   });
-  watchEffect(() => (errorType.value = props.modelValue));
-  watch(errorType, newValue => emit('update:modelValue', newValue));
 </script>
 
 <template>
-  <component :is="errorComponent" v-bind="currentProps"></component>
+  <div class="content-container">
+    <div class="card">
+      <component :is="errorComponent" v-bind="currentProps"></component>
+    </div>
+  </div>
 </template>
 
 <style lang="scss" scoped></style>

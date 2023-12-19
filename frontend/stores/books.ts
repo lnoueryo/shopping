@@ -1,20 +1,27 @@
 import { defineStore } from 'pinia';
+import { useRouter } from 'vue-router'
 
 export const useBooksStore = defineStore('books', {
   state: (): BooksState => ({
     booksData: [],
     isLoading: false,
     errorType: '',
+    query: {
+      keyword: '',
+      genre: '',
+      rate: 0,
+      levels: []
+    }
   }),
   actions: {
-    async fetchBooksData(query: { [key: string]: any }) {
+    async fetchBooksData() {
       this.isLoading = true;
       this.errorType = '';
 
       try {
         const response: BookResponse = await fetchWithTimeout(
           '/api/books',
-          { query },
+          { query: this.query },
           5000
         );
         this.booksData = response.books;
@@ -36,6 +43,10 @@ export const useBooksStore = defineStore('books', {
         this.isLoading = false;
       }
     },
+    updateQuery(query: { [key: string]: any }) {
+      this.query = query
+      this.fetchBooksData()
+    }
   },
 });
 
@@ -76,6 +87,11 @@ interface Book {
 interface BooksState {
   booksData: Book[];
   isLoading: boolean;
-  hasError: boolean;
   errorType: string;
+  query: {
+    keyword: string;
+    genre: string;
+    rate: number;
+    levels: string[];
+  }
 }

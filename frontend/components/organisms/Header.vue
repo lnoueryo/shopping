@@ -14,11 +14,9 @@
   const booksStore = useBooksStore();
   const router = useRouter();
   const route = useRoute();
-  const emit = defineEmits(['isReady']);
   const headerMiddleSwitch = ref({ right: true, center: true, left: true });
   const headerTopSwitch = ref({ right: false, center: false, left: false });
   const searchKeyword = ref(route.query.keyword || '');
-  const isReady = ref(false);
   const isOpen = ref(false);
   const errorTitle = ref('Input Error');
   const errorMessage = computed(
@@ -40,13 +38,11 @@
     }
   );
 
-  watch(isReady, newValue => emit('isReady', newValue));
   const searchBooks = word => {
     const query = { ...route.query, keyword: word };
     if (!word && route.path !== '/books') return;
     if (word.length > 100) return (isOpen.value = true);
     delete query['genre'];
-    if (route.path === '/books') booksStore.fetchBooksData(query);
     router.push({ path: '/books', query: query });
   };
 

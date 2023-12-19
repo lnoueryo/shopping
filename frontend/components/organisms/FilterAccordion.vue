@@ -5,15 +5,15 @@
   import Accordion from '@/components/wrappers/Accordion.vue';
   import { useScroll } from '@/composables/scroll';
   import { useStore } from '@/stores';
+  import { useBooksStore } from '@/stores/books';
   import { deviceSize } from '@/assets/js/device-size.js';
   import { genreData } from '@/assets/js/genres.js';
   import { ref, watch, onMounted, onUnmounted } from 'vue';
-  const props = defineProps({
-    selectedRate: Number,
-    selectedSkillLevels: Array,
-    genreId: String,
-  });
+
   const store = useStore();
+  const booksStore = useBooksStore();
+  const route = useRoute();
+  const router = useRouter();
   const mobileSwitch = ref(true);
   const skillLevelStyle = ref({});
   const labelStyle = ref({
@@ -23,12 +23,13 @@
     fontSize: '16px',
     fontWeight: 'bold',
   });
-  const localSelectedSkillLevels = ref(props.selectedSkillLevels);
-  const localRate = ref(props.selectedRate || 0);
-  const localGenreId = ref(props.genreId);
+  const localRate = ref(Number(route.query.rate));
+  const localSkillLevels = ref(!route.query.levels ? [] : typeof route.query.levels === 'string' ? new Array(route.query.levels) : route.query.levels);
+  const localGenre = ref(route.query.genre);
   const filterContentHeight = ref({
     minHeight: 'calc(var(--height-content) + var(--height-content) / 2)',
   });
+  const cacheQuery = ref('')
 
   watch(
     () => store.width,
@@ -80,43 +81,22 @@
   });
 
   onUnmounted(() => unLockPage());
-  const emit = defineEmits([
-    'update:selectedRate',
-    'update:selectedSkillLevels',
-    'update:selectedGenre',
-    'update:genreId',
-    'update:isOpen',
-  ]);
-  watch(
-    () => props.genreId,
-    newGenreId => {
-      localGenreId.value = newGenreId;
+
+  watch([localRate, localSkillLevels, localGenre], () => {
+    const query = { ...route.query };
+    if (localRate.value) query['rate'] = localRate.value;
+    else delete query['rate'];
+    if (localSkillLevels.value) query['levels'] = localSkillLevels.value;
+    if (localGenre.value) {
+      query['genre'] = localGenre.value;
+      delete query['keyword'];
     }
-  );
-  watch(
-    () => props.selectedRate,
-    newRate => {
-      localRate.value = Math.round(newRate);
-    }
-  );
-  watch(
-    () => props.selectedSkillLevels,
-    newSelectedSkillLevels => {
-      localSelectedSkillLevels.value = newSelectedSkillLevels;
-    }
-  );
-  watch(localGenreId, newGenreId => {
-    emit('update:genreId', newGenreId);
-    emit('update:selectedGenre', newGenreId);
+    router.push({ path: '/books', query: query });
   });
-  watch(localRate, newRate => {
-    emit('update:selectedRate', newRate);
-  });
-  watch(localSelectedSkillLevels, newSelectedSkillLevels => {
-    emit('update:selectedSkillLevels', newSelectedSkillLevels);
-  });
-  watch(isOpen, isOpen => {
-    emit('update:isOpen', isOpen);
+
+  watch(isOpen, async newValue => {
+    if (newValue) cacheQuery.value = JSON.stringify(route.query);
+    if (cacheQuery.value !== JSON.stringify(route.query)) newValue || booksStore.updateQuery(route.query);
   });
 </script>
 
@@ -161,14 +141,14 @@
               <div>Skill Level:&ensp;</div>
               <SkillLevelChips
                 v-bind="skillLevelStyle"
-                v-model="localSelectedSkillLevels"
+                v-model="localSkillLevels"
               />
             </div>
           </div>
         </div>
         <div class="card title padding-horizontal">
           <GenreSelectors
-            v-model="localGenreId"
+            v-model="localGenre"
             v-bind="{ mobile: 50, tablet: 50 }"
             :genreData="genreData"
             :width="store.width"

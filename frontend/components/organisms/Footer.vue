@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import SocialMediaLinks from '../atoms/SocialMediaLink.vue';
+  import SocialMediaLinks from '@/components/molecules/SocialMediaLinks.vue';
   import { socialMediaData } from '@/assets/js/social-media';
 </script>
 
@@ -7,11 +7,7 @@
   <div class="w100">
     <div class="footer-middle-container">
       <div class="flex justify-center">
-        <SocialMediaLinks
-          v-for="sns in socialMediaData"
-          :key="sns.name"
-          v-bind="sns"
-        />
+        <SocialMediaLinks />
       </div>
       <div class="flex justify-center">
         <div class="copy-right"

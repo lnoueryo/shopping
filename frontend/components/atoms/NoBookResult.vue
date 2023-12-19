@@ -9,9 +9,7 @@
   const keyword = ref(props.keyword);
   const genre = ref(props.genre);
   const rate = ref(props.rate);
-  const levels = ref(
-    typeof props.levels === 'string' ? new Array(props.levels) : props.levels
-  );
+  const levels = ref(props.levels);
 </script>
 
 <template>
@@ -25,7 +23,7 @@
       <li v-if="keyword">Keyword: "{{ keyword }}"</li>
       <li v-if="genre">Genre: "{{ genre }}"</li>
       <li v-if="rate">Minimum Rating: "{{ rate }}"</li>
-      <li v-if="levels">Skill Levels: "{{ levels.join(', ') }}"</li>
+      <li v-if="levels.length > 0">Skill Levels: "{{ levels.join(', ') }}"</li>
     </ul>
     <br />
     <p class="console-text">> User Action:</p>
