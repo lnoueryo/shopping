@@ -14,7 +14,7 @@
   const booksStore = useBooksStore();
   const route = useRoute();
   const router = useRouter();
-  const mobileSwitch = ref(true);
+  const mobileSwitch = ref(deviceSize.mobile > store.width);
   const skillLevelStyle = ref({});
   const labelStyle = ref({
     height: 'var(--height-content)',
@@ -23,19 +23,12 @@
     fontSize: '16px',
     fontWeight: 'bold',
   });
-  const localRate = ref(Number(route.query.rate));
-  const localSkillLevels = ref(
-    !route.query.levels
-      ? []
-      : typeof route.query.levels === 'string'
-        ? new Array(route.query.levels)
-        : route.query.levels
-  );
-  const localGenre = ref(route.query.genre);
+  const localRate = ref(Number(booksStore.query.rate));
+  const localSkillLevels = ref(booksStore.query.levels);
+  const localGenre = ref(booksStore.query.genre);
   const filterContentHeight = ref({
     minHeight: 'calc(var(--height-content) + var(--height-content) / 2)',
   });
-  const cacheQuery = ref('');
 
   watch(
     () => store.width,
@@ -96,14 +89,22 @@
     if (localGenre.value) {
       query['genre'] = localGenre.value;
       delete query['keyword'];
+    } else {
+      delete query['genre'];
     }
     router.push({ path: '/books', query: query });
   });
 
   watch(isOpen, async newValue => {
-    if (newValue) cacheQuery.value = JSON.stringify(route.query);
     if (!newValue) booksStore.updateQuery(route.query);
   });
+
+  watch(
+    () => booksStore.query.genre,
+    newValue => {
+      localGenre.value = newValue;
+    }
+  );
 </script>
 
 <template>

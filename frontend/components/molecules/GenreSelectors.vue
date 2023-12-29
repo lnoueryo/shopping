@@ -3,7 +3,10 @@
   import { ref, watch, watchEffect, onMounted } from 'vue';
   import { deviceSize } from '@/assets/js/device-size.js';
   const props = defineProps({
-    modelValue: String,
+    modelValue: {
+      type: String,
+      default: '',
+    },
     genreData: {
       type: Array,
       default: () => [],

@@ -43,18 +43,28 @@ export const useBooksStore = defineStore('books', {
       }
     },
     updateQuery(query: { [key: string]: string | number }) {
+      const cacheQuery = JSON.stringify(this.query);
       this.query = { ...query };
-      if ('rate' in query === false) this.query['rate'] = 0;
-      else delete this.query['rate'];
-      if ('levels' in query === false) this.query['levels'] = [];
       if ('genre' in query === false) this.query['genre'] = '';
-      if ('keyword' in query === false) this.query['keyword'] = '';
-      this.fetchBooksData();
+      else this.query['keyword'] = '';
+
+      if ('rate' in query === false) this.query['rate'] = 0;
+      else this.query['rate'] = Number(query.rate);
+
+      if ('levels' in query === false) this.query['levels'] = [];
+      else if (typeof query.levels === 'string')
+        this.query['levels'] = new Array(query.levels);
+
+      if (cacheQuery !== JSON.stringify(this.query)) this.fetchBooksData();
     },
   },
 });
 
-const fetchWithTimeout = (url: string, options: BookRequest, timeout = 3000) => {
+const fetchWithTimeout = (
+  url: string,
+  options: BookRequest,
+  timeout = 3000
+) => {
   return new Promise((resolve, reject) => {
     const timer = setTimeout(() => {
       reject('timeout');
@@ -92,7 +102,7 @@ interface BooksState {
   booksData: Book[];
   isLoading: boolean;
   errorType: string;
-  query: BookRequest
+  query: BookRequest;
 }
 
 interface BookRequest {

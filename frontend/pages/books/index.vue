@@ -5,7 +5,6 @@
   import FilterAccordion from '@/components/organisms/FilterAccordion.vue';
   import BookList from '@/components/organisms/BookList.vue';
   import FloatFilter from '@/components/wrappers/FloatFilter.vue';
-  import ErrorBookResult from '@/components/organisms/ErrorBookResult.vue';
   import { useStore } from '@/stores';
   import { useBooksStore } from '@/stores/books';
   import { deviceSize } from '@/assets/js/device-size.js';
@@ -63,12 +62,7 @@
             </div>
           </template>
           <template v-else>
-            <template v-if="booksStore.booksData.length != 0">
-              <BookList />
-            </template>
-            <template v-else>
-              <ErrorBookResult />
-            </template>
+            <BookList />
           </template>
         </div>
       </ClientOnly>

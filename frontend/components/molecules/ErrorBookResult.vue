@@ -4,31 +4,32 @@
   import ConnectionErrorBookResult from '@/components/atoms/ConnectionErrorBookResult.vue';
   import ServerErrorBookResult from '@/components/atoms/ServerErrorBookResult.vue';
   import { ref, computed } from 'vue';
-  import { useBooksStore } from '@/stores/books';
 
-  const booksStore = useBooksStore();
+  const props = defineProps({
+    errorType: {
+      type: String,
+    },
+    query: {
+      type: Object,
+    },
+  });
+
   const errorComponents = ref({
     offline: OfflineBookResult,
     timeout: ConnectionErrorBookResult,
     server: ServerErrorBookResult,
   });
   const errorComponent = computed(() =>
-    !booksStore.errorType
-      ? NoBookResult
-      : errorComponents.value[booksStore.errorType]
+    !props.errorType ? NoBookResult : errorComponents.value[props.errorType]
   );
   const currentProps = computed(() => {
-    if (!booksStore.errorType) return booksStore.query;
+    if (!props.errorType) return props.query;
     return {};
   });
 </script>
 
 <template>
-  <div class="content-container">
-    <div class="card">
-      <component :is="errorComponent" v-bind="currentProps"></component>
-    </div>
-  </div>
+  <component :is="errorComponent" v-bind="currentProps"></component>
 </template>
 
 <style lang="scss" scoped></style>

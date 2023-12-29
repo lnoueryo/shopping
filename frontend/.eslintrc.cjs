@@ -1,8 +1,8 @@
 module.exports = {
   globals: {
-    definePageMeta: "readonly",
-    useRoute: "readonly",
-    useRouter: "readonly",
+    definePageMeta: 'readonly',
+    useRoute: 'readonly',
+    useRouter: 'readonly',
   },
   env: {
     browser: true,
@@ -28,16 +28,16 @@ module.exports = {
       processor: 'vue/.vue',
     },
     {
-      "files": ["*.spec.ts"],
-      "rules": {
-        "max-lines-per-function": "off"
-      }
+      files: ['*.spec.ts'],
+      rules: {
+        'max-lines-per-function': 'off',
+      },
     },
     {
-      "files": ["*.test.ts"],
-      "rules": {
-        "max-lines-per-function": "off"
-      }
+      files: ['*.test.ts'],
+      rules: {
+        'max-lines-per-function': 'off',
+      },
     },
   ],
   parserOptions: {
@@ -54,7 +54,11 @@ module.exports = {
     ],
     '@typescript-eslint/naming-convention': [
       'error',
-      { selector: 'variable', format: ['camelCase', 'UPPER_CASE'], filter: {regex: 'publish_date', match: false} },
+      {
+        selector: 'variable',
+        format: ['camelCase', 'UPPER_CASE'],
+        filter: { regex: 'publish_date', match: false },
+      },
     ],
     'no-eval': 'error',
     'no-implied-eval': 'error',

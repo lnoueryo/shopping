@@ -4,8 +4,10 @@
   import { ref, watch } from 'vue';
   import { useScroll } from '@/composables/scroll';
   import { useStore } from '@/stores';
+  import { useBooksStore } from '@/stores/books';
 
   const store = useStore();
+  const booksStore = useBooksStore();
   const route = useRoute();
   const router = useRouter();
   const localGenre = ref(route.query.genre);
@@ -14,12 +16,19 @@
     isFixed.value = window.scrollY > store.headerHeight;
   };
   useScroll(moveGenreContent);
-  watch(localGenre, () => {
+  watch(localGenre, newValue => {
+    if (!newValue) return;
     const query = { ...route.query };
     query['genre'] = localGenre.value;
     delete query['keyword'];
     router.push({ path: '/books', query });
   });
+  watch(
+    () => booksStore.query.genre,
+    newValue => {
+      localGenre.value = newValue;
+    }
+  );
 </script>
 
 <template>
