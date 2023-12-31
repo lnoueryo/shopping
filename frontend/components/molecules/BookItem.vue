@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { deviceSize } from '@/assets/js/device-size.js';
-  import { ref, watch } from 'vue';
+  import { ref, watch, computed } from 'vue';
   import Rating from '@/components/molecules/Rating.vue';
 
   const book = defineProps({
@@ -55,13 +55,13 @@
     () => book.rating,
     newRating => (rate.value = newRating)
   );
+  const isValidProps = computed(
+    () => book.title && book.author && book.publisher && book.publish_date
+  );
 </script>
 
 <template>
-  <div
-    class="flex align-center"
-    v-if="book.title && book.author && book.publisher && book.publish_date"
-  >
+  <div class="flex align-center" v-if="isValidProps">
     <div class="flex justify-center align-center book-image-container">
       <img :src="book.thumbnail" :alt="book.title" />
     </div>

@@ -242,4 +242,5 @@ li {
   scrollbar-shadow-color: #bbb;
   scrollbar-dark-shadow-color: #aaa;
   box-sizing: border-box;
+  word-break: break-all;
 }

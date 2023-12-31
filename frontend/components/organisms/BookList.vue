@@ -18,7 +18,7 @@
         <BookItem v-bind="book" :width="store.width" :key="book.id" />
       </div>
     </div>
-    <div class="content-container" v-if="booksStore.booksData.length === 0">
+    <div class="content-container" v-if="booksStore.isBooksData">
       <div class="card">
         <ErrorBookResult
           :errorType="booksStore.errorType"

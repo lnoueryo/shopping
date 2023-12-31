@@ -21,6 +21,7 @@
     },
   });
   const emit = defineEmits(['update:modelValue', 'onSearchClicked']);
+  const mainSearchBar = ref(null);
   const wrapperRef = ref(null);
   const promptRef = ref(null);
   const promptPadding = ref(0);
@@ -94,6 +95,7 @@
     >
     <input
       id="main-search-bar"
+      ref="mainSearchBar"
       class="h100"
       type="text"
       :style="{
@@ -102,12 +104,12 @@
       }"
       autocomplete="off"
       v-model="searchKeyword"
-      @keyup.enter="$emit('onSearchClicked', searchKeyword)"
+      @keyup.enter="$emit('onSearchClicked', mainSearchBar)"
     />
     <div class="search-button w100 h100" ref="searchButton">
       <SearchButton
         :size="24"
-        @onSearchClicked="$emit('onSearchClicked', searchKeyword)"
+        @onSearchClicked="$emit('onSearchClicked', mainSearchBar)"
       />
     </div>
   </div>

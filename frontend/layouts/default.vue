@@ -5,16 +5,20 @@
   import { ref, onMounted, onUnmounted, nextTick, watch } from 'vue';
   import { useNuxtApp } from '#app';
   import { useStore } from '@/stores';
+
   const headerRef = ref(null);
+  const mainRef = ref(null);
   const footerRef = ref(null);
   const nuxtApp = useNuxtApp();
   const store = useStore();
 
   onMounted(async () => {
+    window.pageYOffset = 0;
     store.updateDimensions();
     store.initializeLayoutDimensions();
     window.addEventListener('resize', store.updateDimensions);
     nuxtApp.$headerRef.value = headerRef.value;
+    nuxtApp.$mainRef.value = mainRef.value;
     await nextTick();
   });
 
@@ -45,7 +49,7 @@
       </div>
     </header>
     <main class="container stretch-height">
-      <div class="page-container margin-horizontal relative">
+      <div class="page-container margin-horizontal relative" ref="mainRef">
         <div class="card stretch-height" v-if="!store.isReady">
           <SkeltonScreen width="100%" height="100%" />
         </div>

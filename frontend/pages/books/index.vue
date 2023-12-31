@@ -46,7 +46,10 @@
       <GenreFloatingSideBar class="sidebar" />
     </div>
     <div id="main-content" class="w100 relative">
-      <div class="content-container relative">
+      <div
+        class="content-container relative"
+        :class="{ loading: booksStore.isLoading }"
+      >
         <div
           class="card title-container flex align-center"
           v-if="sidebarSwitch"
@@ -71,15 +74,24 @@
 </template>
 
 <style lang="scss" scoped>
+  #main-content {
+    display: grid;
+    grid-template-rows: auto 1fr;
+
+    .loading {
+      margin-bottom: 0;
+    }
+  }
+
+  #book-result {
+    position: relative;
+  }
+
   .spinner-container {
     position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
   }
 
   .sidebar-container {

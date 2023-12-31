@@ -36,12 +36,13 @@
     }
   );
 
-  const searchBooks = word => {
-    const query = { ...route.query, keyword: word };
-    if (!word && route.path !== '/books') return;
-    if (word.length > 100) return (isOpen.value = true);
+  const searchBooks = mainSearchBar => {
+    const query = { ...route.query, keyword: searchKeyword.value };
+    if (!searchKeyword.value && route.path !== '/books') return;
+    if (searchKeyword.value.length > 100) return (isOpen.value = true);
     delete query['genre'];
-    router.push({ path: '/books', query: query });
+    router.push({ path: '/books', query });
+    mainSearchBar.blur();
   };
 
   const isFixed = ref(false);

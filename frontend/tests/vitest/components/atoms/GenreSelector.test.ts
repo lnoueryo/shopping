@@ -14,6 +14,11 @@ describe('GenreSelector', () => {
       };
       const wrapper = createGenreSelector(genreSelector);
       expect(wrapper.find('.genre').exists()).toBeTruthy();
+      expect(wrapper.text()).toMatch(genreSelector.title);
+      const path = wrapper.find('path');
+
+      const dAttribute = path.attributes('d');
+      expect(dAttribute).toBe(genreSelector.icon);
     });
 
     it('Render Incorrectly', async () => {
@@ -37,6 +42,8 @@ describe('GenreSelector', () => {
       };
       const wrapper = createGenreSelector(genreSelector);
       expect(wrapper.vm.isSelected).toBeTruthy();
+      const nuxtLink = wrapper.find('nuxtlink');
+      expect(nuxtLink.classes()).toContain('active');
     });
 
     it('Verify GenreSelector Is Inactive', () => {
@@ -48,6 +55,21 @@ describe('GenreSelector', () => {
       };
       const wrapper = createGenreSelector(genreSelector);
       expect(wrapper.vm.isSelected).toBeFalsy();
+      const nuxtLink = wrapper.find('nuxtlink');
+      expect(nuxtLink.classes()).toContain('inactive');
+    });
+
+    it('Verify Disabled', async () => {
+      const genreSelector = {
+        id: '1',
+        title: 'Design',
+        icon: mdiPencilRuler,
+        modelValue: '2',
+        disabled: true,
+      };
+      const wrapper = createGenreSelector(genreSelector);
+      const nuxtLink = wrapper.find('nuxtlink');
+      expect(nuxtLink.classes()).toContain('disabled');
     });
   });
 
@@ -112,6 +134,16 @@ describe('GenreSelector', () => {
     });
   });
 });
+
+// 変数の初期状態
+// グローバル変数・メンバ変数の更新・関数の戻り値
+// データの受け渡し・イベントの取得
+
+// selectGenreの分岐網羅
+// isValidProps
+// isSelected
+// nuxtLinkStyle
+// nuxtLinkClass
 
 interface GenreData {
   id?: string;

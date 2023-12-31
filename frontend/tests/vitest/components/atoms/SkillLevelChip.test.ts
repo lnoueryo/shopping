@@ -8,11 +8,13 @@ describe('SkillLevelChip', () => {
     const skillLevel = {
       modelValue: ['beginner'],
       title: 'beginner',
+      color: 'rgb(0, 0, 0)',
     };
 
     it('Render Correctly', () => {
       const wrapper = createSkillLevelChip(skillLevel);
       expect(wrapper.find('.chip').exists()).toBeTruthy();
+      expect(wrapper.text()).toMatch(wrapper.vm.capitalizeFirstLetter);
     });
 
     it('Render Incorrectly', async () => {
@@ -23,12 +25,19 @@ describe('SkillLevelChip', () => {
 
     it('Verify SkillLevelChip Is Active', () => {
       const wrapper = createSkillLevelChip(skillLevel);
+      const label = wrapper.find('label');
+      expect(label.element.style.backgroundColor).toBe(skillLevel.color);
+      expect(label.element.style.color).toBe(wrapper.vm.defaultColor);
       expect(wrapper.vm.isSelected).toBeTruthy();
     });
 
     it('Verify GenreSelector Is Inactive', () => {
       const inactiveSkillLevel = { ...skillLevel, title: 'intermediate' };
       const wrapper = createSkillLevelChip(inactiveSkillLevel);
+      const label = wrapper.find('label');
+      expect(label.element.style.backgroundColor).toBe(
+        wrapper.vm.defaultBackgroundColor
+      );
       expect(wrapper.vm.isSelected).toBeFalsy();
     });
   });
@@ -37,12 +46,18 @@ describe('SkillLevelChip', () => {
     const skillLevel = {
       modelValue: [],
       title: 'beginner',
+      color: 'rgb(0, 0, 0)',
     };
 
     it('Verify v-model', async () => {
       const wrapper = createSkillLevelChip(skillLevel);
       const input = wrapper.find('input');
+      const label = wrapper.find('label');
       expect(input.exists()).toBeTruthy();
+      expect(label.element.style.backgroundColor).toBe(
+        wrapper.vm.defaultBackgroundColor
+      );
+      expect(label.element.style.color).toBe(skillLevel.color);
       expect(wrapper.vm.isSelected).toBeFalsy();
       expect((input.element as HTMLInputElement).checked).toBeFalsy();
       await input.trigger('click');
@@ -54,6 +69,8 @@ describe('SkillLevelChip', () => {
       expect(wrapper.emitted()['update:modelValue'][0]).toEqual([
         [skillLevel.title],
       ]);
+      expect(label.element.style.backgroundColor).toBe(skillLevel.color);
+      expect(label.element.style.color).toBe(wrapper.vm.defaultColor);
       expect(wrapper.vm.isSelected).toBeTruthy();
     });
 
@@ -64,7 +81,12 @@ describe('SkillLevelChip', () => {
       };
       const wrapper = createSkillLevelChip(activeGenreSelector);
       const input = wrapper.find('input');
+      const label = wrapper.find('label');
       expect(input.exists()).toBeTruthy();
+      expect(label.element.style.backgroundColor).toBe(
+        activeGenreSelector.color
+      );
+      expect(label.element.style.color).toBe(wrapper.vm.defaultColor);
       expect(wrapper.vm.isSelected).toBeTruthy();
       expect((input.element as HTMLInputElement).checked).toBeTruthy();
       await input.trigger('click');
@@ -74,6 +96,10 @@ describe('SkillLevelChip', () => {
 
       expect(wrapper.emitted()['update:modelValue']).toBeTruthy();
       expect(wrapper.emitted()['update:modelValue'][0]).toEqual([[]]);
+      expect(label.element.style.backgroundColor).toBe(
+        wrapper.vm.defaultBackgroundColor
+      );
+      expect(label.element.style.color).toBe(activeGenreSelector.color);
       expect(wrapper.vm.isSelected).toBeFalsy();
     });
   });

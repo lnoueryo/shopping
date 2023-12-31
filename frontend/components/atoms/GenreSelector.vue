@@ -32,19 +32,29 @@
     selectedGenreId.value = props.id;
   };
 
+  const isValidProps = computed(() => props.id && (props.title || props.icon));
   const isSelected = computed(() => selectedGenreId.value === props.id);
+  const nuxtLinkStyle = computed(() => {
+    return {
+      minHeight: `${props.size}px`,
+      minWidth: `${props.size}px`,
+    };
+  });
+  const nuxtLinkClass = computed(() => {
+    return [
+      { disabled: props.disabled },
+      { [isSelected.value ? 'active' : 'inactive']: true },
+    ];
+  });
 </script>
 
 <template>
   <NuxtLink
     class="genre flex justify-center align-center"
-    :class="[{ disabled: props.disabled }, isSelected ? 'active' : 'inactive']"
-    :style="{
-      minHeight: size + 'px',
-      minWidth: size + 'px',
-    }"
+    :class="nuxtLinkClass"
+    :style="nuxtLinkStyle"
     @click.prevent="selectGenre"
-    v-if="props.id && (props.title || props.icon)"
+    v-if="isValidProps"
   >
     <div class="genre-content">
       <div class="text-center">

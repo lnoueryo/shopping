@@ -1,4 +1,7 @@
 import { defineStore } from 'pinia';
+import { useStore } from '@/stores';
+import { deviceSize } from '@/assets/js/device-size';
+import { useNuxtApp } from '#app';
 
 export const useBooksStore = defineStore('books', {
   state: (): BooksState => ({
@@ -12,6 +15,9 @@ export const useBooksStore = defineStore('books', {
       levels: [],
     },
   }),
+  getters: {
+    isBooksData: state => state.booksData.length === 0,
+  },
   actions: {
     async fetchBooksData() {
       this.isLoading = true;
@@ -42,8 +48,24 @@ export const useBooksStore = defineStore('books', {
         this.isLoading = false;
       }
     },
-    updateQuery(query: { [key: string]: string | number }) {
+    async updateQuery(query: { [key: string]: string | number }) {
+      const nuxtApp = useNuxtApp();
       const cacheQuery = JSON.stringify(this.query);
+      const newQuery = this.updateStateQuery(query);
+
+      if (cacheQuery !== JSON.stringify(newQuery)) {
+        const store = useStore();
+        await store.scrollToTop();
+        if (deviceSize.smallDesktop > store.width)
+          nuxtApp.$mainRef.value.style.height = `calc(100vh - ${
+            store.heightContent * 2
+          }px)`;
+        await this.fetchBooksData();
+      }
+      nuxtApp.$mainRef.value.style.height = 'initial';
+      return;
+    },
+    async updateStateQuery(query: { [key: string]: string | number }) {
       this.query = { ...query };
       if ('genre' in query === false) this.query['genre'] = '';
       else this.query['keyword'] = '';
@@ -54,8 +76,7 @@ export const useBooksStore = defineStore('books', {
       if ('levels' in query === false) this.query['levels'] = [];
       else if (typeof query.levels === 'string')
         this.query['levels'] = new Array(query.levels);
-
-      if (cacheQuery !== JSON.stringify(this.query)) this.fetchBooksData();
+      return this.query;
     },
   },
 });

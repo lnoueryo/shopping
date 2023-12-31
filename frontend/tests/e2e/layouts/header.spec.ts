@@ -51,7 +51,7 @@ test.describe('header', () => {
     });
   });
   test.describe('Engineer-Specific Roadmap Page Transition', () => {
-    test.beforeEach(async ({ page, isMobile }) => {
+    test.beforeEach(async ({ page }) => {
       await page.goto('/');
     });
     test('Verify navigation items', async ({ page }) => {
@@ -82,27 +82,30 @@ test.describe('header', () => {
     });
   });
   test.describe('Search Book By Keyword', () => {
-    test.beforeEach(async ({ page, isMobile }) => {
+    test.beforeEach(async ({ page }) => {
       await page.goto('/');
     });
     const searchBarSelector = 'header input';
     const searchBarButtonSelector = 'header .search-button';
     const bookResultSelector = '#book-result';
-    const generateRandomString = (length) => {
-      const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    const generateRandomString = length => {
+      const characters =
+        'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
       let result = '';
       for (let i = 0; i < length; i++) {
-        result += characters.charAt(Math.floor(Math.random() * characters.length));
+        result += characters.charAt(
+          Math.floor(Math.random() * characters.length)
+        );
       }
       return result;
-    }
-    const testNavigation = async(browserType, func) => {
+    };
+    const testNavigation = async (browserType, func) => {
       const browser = await browserType.launch();
       const context = await browser.newContext();
       const page = await context.newPage();
-      await func(page, context)
+      await func(page, context);
       await browser.close();
-    }
+    };
     test('Verify search book by enter', async ({ page }) => {
       const bookName = '良いコード／悪いコードで学ぶ設計入門';
       await page.waitForSelector(searchBarSelector);
@@ -144,37 +147,36 @@ test.describe('header', () => {
       const parts = bookName.split('/').map(part => encodeURIComponent(part));
       const encodedText = parts.join('/');
       expect(relativePath).toBe(`/books?keyword=${encodedText}`);
-      const errorSelector = '#no-book-result'
+      const errorSelector = '#no-book-result';
       await page.waitForSelector(errorSelector);
       const errorContent = page.locator(errorSelector);
       await expect(errorContent).toBeVisible();
     });
 
     test('Verify search book offline', async () => {
-      const testOrder = async(page, context) => {
+      const testOrder = async (page, context) => {
         const bookName = '良いコード／悪いコードで学ぶ設計入門';
         await page.goto(`/books?keyword=${bookName}`);
         await page.waitForSelector(bookResultSelector);
         await context.setOffline(true);
         await page.press(searchBarSelector, 'Enter');
 
-        const errorSelector = '#offline'
+        const errorSelector = '#offline';
         await page.waitForSelector(errorSelector);
         const errorContent = page.locator(errorSelector);
         await expect(errorContent).toBeVisible();
         await context.setOffline(false);
-      }
+      };
 
       for (const browser of [chromium, firefox, webkit]) {
-        await testNavigation(browser, testOrder)
+        await testNavigation(browser, testOrder);
       }
     });
-
   });
 
   test.describe('Fixed search bar', () => {
     test.beforeEach(async ({ page }) => {
-      await page.setViewportSize({ width: 400, height: 600 })
+      await page.setViewportSize({ width: 400, height: 600 });
     });
 
     test('Verify search bar exists on SP', async ({ page }) => {
@@ -202,10 +204,17 @@ test.describe('header', () => {
       const screenshotBufferAfter = await page.screenshot();
       const imgAfter = PNG.sync.read(screenshotBufferAfter);
 
-      const diff = new PNG({ width: imgBefore.width, height: imgBefore.height });
+      const diff = new PNG({
+        width: imgBefore.width,
+        height: imgBefore.height,
+      });
 
       const numDiffPixels = pixelmatch(
-        imgBefore.data, imgAfter.data, diff.data, imgBefore.width, imgBefore.height,
+        imgBefore.data,
+        imgAfter.data,
+        diff.data,
+        imgBefore.width,
+        imgBefore.height,
         { threshold: 0.1, diffColor: [255, 0, 0] }
       );
       if (numDiffPixels > 0) {
@@ -216,6 +225,5 @@ test.describe('header', () => {
 
       expect(numDiffPixels).toBe(0);
     });
-
   });
 });

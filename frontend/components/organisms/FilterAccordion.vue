@@ -96,7 +96,7 @@
   });
 
   watch(isOpen, async newValue => {
-    if (!newValue) booksStore.updateQuery(route.query);
+    if (!newValue) await booksStore.updateQuery(route.query);
   });
 
   watch(

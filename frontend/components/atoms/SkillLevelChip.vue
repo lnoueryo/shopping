@@ -18,6 +18,9 @@
   });
   const defaultFonstSize = ref(12);
   const defaultWidth = ref(100);
+  const defaultBackgroundColor = ref('transparent');
+  const defaultColor = ref('white');
+  const defaultBorderRadius = ref('10px');
   const emit = defineEmits(['update:modelValue']);
   const uniqueId = Math.random().toString(36).substr(2, 9) + props.title;
   const selectedSkillLevels = ref(props.modelValue);
@@ -32,10 +35,12 @@
   const labelStyle = computed(() => {
     return {
       fontSize: `${props.fontSize || defaultFonstSize.value}px`,
-      backgroundColor: isSelected.value ? props.color : 'transparent',
-      color: isSelected.value ? 'white' : props.color,
+      backgroundColor: isSelected.value
+        ? props.color
+        : defaultBackgroundColor.value,
+      color: isSelected.value ? defaultColor.value : props.color,
       border: `2px solid  ${props.color}`,
-      borderRadius: '10px',
+      borderRadius: defaultBorderRadius.value,
       display: 'block',
       width: `${props.width || defaultWidth.value}px`,
     };

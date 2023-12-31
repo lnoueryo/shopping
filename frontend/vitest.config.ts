@@ -22,7 +22,8 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '@': resolve(__dirname, '/'), // ここを適切なソースディレクトリに置き換えてください
+      '@': resolve(__dirname, '/'),
+      '#app': resolve(__dirname, './.nuxt/nuxt.d.ts'),
     },
   },
 });
