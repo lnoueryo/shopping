@@ -1,5 +1,5 @@
 import { defineConfig, devices } from '@playwright/test';
-
+import fs from 'fs';
 const PORT = process.env.PORT || 3000;
 const baseURL = `http://127.0.0.1:${PORT}`;
 /**
@@ -70,3 +70,45 @@ export default defineConfig({
     reuseExistingServer: !process.env.CI,
   },
 });
+
+const screenshotDir = './tests/e2e/screenshots';
+const chromium = 'chromium';
+const firefox = 'firefox';
+const android = 'android';
+const iphone = 'iphone';
+
+if (!fs.existsSync(screenshotDir)) {
+  fs.mkdirSync(screenshotDir, { recursive: true });
+}
+
+if (!fs.existsSync(`${screenshotDir}/${chromium}/diff`)) {
+  fs.mkdirSync(`${screenshotDir}/${chromium}/diff`, { recursive: true });
+}
+
+if (!fs.existsSync(`${screenshotDir}/${firefox}/diff`)) {
+  fs.mkdirSync(`${screenshotDir}/${firefox}/diff`, { recursive: true });
+}
+
+if (!fs.existsSync(`${screenshotDir}/${android}/diff`)) {
+  fs.mkdirSync(`${screenshotDir}/${android}/diff`, { recursive: true });
+}
+
+if (!fs.existsSync(`${screenshotDir}/${iphone}/diff`)) {
+  fs.mkdirSync(`${screenshotDir}/${iphone}/diff`, { recursive: true });
+}
+
+if (!fs.existsSync(`${screenshotDir}/${chromium}`)) {
+  fs.mkdirSync(`${screenshotDir}/${chromium}`, { recursive: true });
+}
+
+if (!fs.existsSync(`${screenshotDir}/${firefox}`)) {
+  fs.mkdirSync(`${screenshotDir}/${firefox}`, { recursive: true });
+}
+
+if (!fs.existsSync(`${screenshotDir}/${android}`)) {
+  fs.mkdirSync(`${screenshotDir}/${android}`, { recursive: true });
+}
+
+if (!fs.existsSync(`${screenshotDir}/${iphone}`)) {
+  fs.mkdirSync(`${screenshotDir}/${iphone}`, { recursive: true });
+}

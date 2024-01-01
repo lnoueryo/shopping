@@ -60,6 +60,12 @@ jobs:
           path: playwright-report/
           retention-days: 30
 
+      - name: Upload screenshots
+        uses: actions/upload-artifact@v3
+        with:
+          name: screenshots
+          path: ./tests/e2e/pictures/
+
   build-and-deploy:
     name: Build and Deploy
     needs: [vitest, playwright]  # このジョブは vitest と playwright ジョブが成功する必要があります

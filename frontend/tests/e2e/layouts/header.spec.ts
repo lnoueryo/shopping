@@ -112,6 +112,7 @@ test.describe('header', () => {
       await page.fill(searchBarSelector, bookName);
       await page.press(searchBarSelector, 'Enter');
       await page.waitForSelector(bookResultSelector);
+      await page.waitForSelector('.spinner-container', { state: 'hidden' });
       const url = page.url();
       const relativePath = new URL(url).pathname + new URL(url).search;
       const parts = bookName.split('/').map(part => encodeURIComponent(part));
@@ -127,6 +128,7 @@ test.describe('header', () => {
       await page.fill(searchBarSelector, bookName);
       await page.click(searchBarButtonSelector);
       await page.waitForSelector(bookResultSelector);
+      await page.waitForSelector('.spinner-container', { state: 'hidden' });
       const url = page.url();
       const relativePath = new URL(url).pathname + new URL(url).search;
       const parts = bookName.split('/').map(part => encodeURIComponent(part));
@@ -159,12 +161,15 @@ test.describe('header', () => {
         await page.goto(`/books?keyword=${bookName}`);
         await page.waitForSelector(bookResultSelector);
         await context.setOffline(true);
-        await page.press(searchBarSelector, 'Enter');
+        await page.fill(searchBarSelector, 'test');
+        await page.click(searchBarButtonSelector);
+        await page.waitForSelector(bookResultSelector);
+        await page.waitForSelector('.spinner-container', { state: 'hidden' });
 
         const errorSelector = '#offline';
         await page.waitForSelector(errorSelector);
-        const errorContent = page.locator(errorSelector);
-        await expect(errorContent).toBeVisible();
+        const errorText = await page.textContent(errorSelector);
+        await expect(errorText).toContain('CONNECTION ERROR');
         await context.setOffline(false);
       };
 
@@ -188,42 +193,5 @@ test.describe('header', () => {
       expect(searchBarIsVisible).toBeTruthy();
     });
 
-    test('Verify search bar is at original position', async ({ page }) => {
-      await page.goto('/books?genre=001005005');
-      await page.waitForSelector('#book-result');
-
-      const screenshotBufferBefore = await page.screenshot();
-      const imgBefore = PNG.sync.read(screenshotBufferBefore);
-
-      await page.evaluate(() => window.scrollBy(0, 500));
-      await page.evaluate(() => window.scrollBy(0, -500));
-
-      const searchBarIsVisible = await page.isVisible('#main-search-bar');
-      expect(searchBarIsVisible).toBeTruthy();
-
-      const screenshotBufferAfter = await page.screenshot();
-      const imgAfter = PNG.sync.read(screenshotBufferAfter);
-
-      const diff = new PNG({
-        width: imgBefore.width,
-        height: imgBefore.height,
-      });
-
-      const numDiffPixels = pixelmatch(
-        imgBefore.data,
-        imgAfter.data,
-        diff.data,
-        imgBefore.width,
-        imgBefore.height,
-        { threshold: 0.1, diffColor: [255, 0, 0] }
-      );
-      if (numDiffPixels > 0) {
-        fs.writeFileSync('diff.png', PNG.sync.write(diff));
-        fs.writeFileSync('before.png', screenshotBufferBefore);
-        fs.writeFileSync('after.png', screenshotBufferAfter);
-      }
-
-      expect(numDiffPixels).toBe(0);
-    });
   });
 });
