@@ -47,10 +47,7 @@
     // if (route.path === '/books') await booksStore.updateQuery(query);
     // router.push({ path: '/books', query });
     router.push({ path: '/books', query });
-    await setTimeout(async() => {
-
-      if (route.path === '/books') await booksStore.updateQuery(query);
-    }, 1500)
+    if (route.path === '/books') await setTimeout(async() => await booksStore.updateQuery(query), 100)
   };
 
   const isFixed = ref(false);
