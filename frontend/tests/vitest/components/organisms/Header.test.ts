@@ -53,7 +53,8 @@ describe('Header', () => {
       const input = wrapper.find('input');
       await input.trigger('focus');
       await input.setValue(keyword);
-      input.element.dispatchEvent(new Event("blur"))
+      const button = wrapper.find('button');
+      await button.trigger('click');
       await flushPromises();
       return keyword;
     };
