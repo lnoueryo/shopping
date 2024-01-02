@@ -16,7 +16,7 @@
     <div class="align-left side-space" v-if="props.left">
       <slot name="left"></slot>
     </div>
-    <div class="mr-a w100 h100 flex" v-if="props.center">
+    <div class="mr-a w100 h100 flex justify-center" v-if="props.center">
       <slot name="center"></slot>
     </div>
     <div class="align-right side-space" v-if="props.right">
