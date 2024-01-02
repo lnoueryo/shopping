@@ -35,6 +35,7 @@
       }
       headerTopSwitch.value = { left: false, center: false, right: false };
       headerMiddleSwitch.value = { left: true, center: true, right: true };
+      isFixed.value = false;
     }
   );
 

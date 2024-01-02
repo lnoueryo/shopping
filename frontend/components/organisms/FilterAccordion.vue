@@ -14,7 +14,7 @@
   const booksStore = useBooksStore();
   const route = useRoute();
   const router = useRouter();
-  const mobileSwitch = ref(deviceSize.mobile > store.width);
+  const tabletSwitch = ref(deviceSize.tablet > store.width);
   const skillLevelStyle = ref({});
   const labelStyle = ref({
     height: 'var(--height-content)',
@@ -33,11 +33,11 @@
   watch(
     () => store.width,
     newWidth => {
-      mobileSwitch.value = deviceSize.mobile > newWidth;
-      skillLevelStyle.value = mobileSwitch.value
+      tabletSwitch.value = deviceSize.mobile > newWidth;
+      skillLevelStyle.value = tabletSwitch.value
         ? { fontSize: 10, width: 104 }
         : {};
-      filterContentHeight.value.minHeight = mobileSwitch.value
+      filterContentHeight.value.minHeight = tabletSwitch.value
         ? 'calc(var(--height-content) + var(--height-content) / 2)'
         : 'var(--height-content)';
     }
@@ -75,8 +75,8 @@
 
   onMounted(() => {
     isFixed.value = window.scrollY > store.headerHeight - store.heightContent;
-    mobileSwitch.value = deviceSize.mobile > store.width;
-    skillLevelStyle.value = mobileSwitch.value ? { size: 10, width: 104 } : {};
+    tabletSwitch.value = deviceSize.mobile > store.width;
+    skillLevelStyle.value = tabletSwitch.value ? { size: 10, width: 104 } : {};
   });
 
   onUnmounted(() => unLockPage());
@@ -131,7 +131,7 @@
           <div class="flex align-center" :style="filterContentHeight">
             <div
               class="align-center title padding-horizontal"
-              :class="{ flex: !mobileSwitch }"
+              :class="{ flex: !tabletSwitch }"
             >
               <div>Review:&ensp;</div>
               <div class="flex align-center">
@@ -143,7 +143,7 @@
           <div class="flex align-center" :style="filterContentHeight">
             <div
               class="align-center title padding-horizontal"
-              :class="{ flex: !mobileSwitch }"
+              :class="{ flex: !tabletSwitch }"
             >
               <div>Skill Level:&ensp;</div>
               <SkillLevelChips
