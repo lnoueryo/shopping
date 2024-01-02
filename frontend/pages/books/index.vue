@@ -30,7 +30,8 @@
     }
   );
   const booksStore = useBooksStore();
-  booksStore.updateQuery(route.query);
+  booksStore.updateStateQuery(route.query);
+  booksStore.fetchBooksData();
 
   onMounted(async () => {
     sidebarSwitch.value = deviceSize.smallDesktop <= store.width;

@@ -38,13 +38,15 @@
     cursor: pointer;
   }
 
-  .magnify:hover {
-    opacity: var(--opacity-light);
-    transition: var(--hover-transition);
-  }
-
   .magnify:active {
     opacity: 0.9;
     transition: var(--hover-transition);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .magnify:hover {
+      opacity: var(--opacity-light);
+      transition: var(--hover-transition);
+    }
   }
 </style>

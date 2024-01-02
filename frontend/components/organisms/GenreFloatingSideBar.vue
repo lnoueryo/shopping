@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import GenreSelectors from '@/components/molecules/GenreSelectors.vue';
   import { genreData } from '@/assets/js/genres.js';
-  import { ref, watch } from 'vue';
+  import { ref, watch, watchEffect } from 'vue';
   import { useScroll } from '@/composables/scroll';
   import { useStore } from '@/stores';
   import { useBooksStore } from '@/stores/books';
@@ -29,10 +29,9 @@
       localGenre.value = newValue;
     }
   );
-  watch(
-    () => store.width,
-    moveGenreContent()
-  );
+  watchEffect(() => {
+    moveGenreContent();
+  });
 </script>
 
 <template>
