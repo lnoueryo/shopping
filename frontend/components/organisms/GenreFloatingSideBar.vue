@@ -29,6 +29,10 @@
       localGenre.value = newValue;
     }
   );
+  watch(
+    () => store.width,
+    moveGenreContent()
+  );
 </script>
 
 <template>
