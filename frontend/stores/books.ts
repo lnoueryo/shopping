@@ -56,6 +56,7 @@ export const useBooksStore = defineStore('books', {
       if (cacheQuery !== JSON.stringify(this.query)) {
         const store = useStore();
         await store.scrollToTop();
+        console.log('scroll done')
         if (deviceSize.smallDesktop > store.width)
           nuxtApp.$mainRef.value.style.height = `calc(100vh - ${
             store.heightContent * 2
