@@ -44,8 +44,6 @@
     if (!searchKeyword.value && route.path !== '/books') return;
     if (searchKeyword.value.length > 100) return (isOpen.value = true);
     delete query['genre'];
-    // if (route.path === '/books') await booksStore.updateQuery(query);
-    // router.push({ path: '/books', query });
     router.push({ path: '/books', query });
     if (route.path === '/books') await setTimeout(async() => await booksStore.updateQuery(query), 100)
   };

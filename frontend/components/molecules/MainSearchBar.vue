@@ -69,6 +69,7 @@
   };
   const blurSearchBar = () => {
     mainSearchBar.value.blur();
+    emit('onSearchClicked')
   }
   watch(
     () => props.width,
@@ -107,7 +108,6 @@
       autocomplete="off"
       v-model="searchKeyword"
       @keyup.enter="blurSearchBar"
-      @blur="$emit('onSearchClicked', mainSearchBar)"
     />
     <div class="search-button w100 h100" ref="searchButton">
       <SearchButton
