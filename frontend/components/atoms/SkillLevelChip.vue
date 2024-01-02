@@ -17,7 +17,7 @@
     width: Number,
   });
   const defaultFonstSize = ref(12);
-  const defaultWidth = ref(100);
+  const defaultWidth = ref(104);
   const defaultBackgroundColor = ref('transparent');
   const defaultColor = ref('white');
   const defaultBorderRadius = ref('10px');
