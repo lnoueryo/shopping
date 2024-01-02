@@ -49,6 +49,7 @@
         border-radius: 3px; /* コードのブロック風に丸みを帯びさせる */
         min-width: 80px;
       }
+
       @media (hover: hover) and (pointer: fine) {
         a:hover {
           transition: var(--hover-transition);
@@ -58,6 +59,16 @@
           background-color: var(--color-hover-green);
           text-decoration: underline; /* アンダーラインを追加 */
           transition: var(--hover-transition);
+        }
+      }
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    nav ul {
+      li {
+        a {
+          min-width: 96px;
         }
       }
     }

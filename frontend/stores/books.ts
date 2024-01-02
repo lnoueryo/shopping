@@ -51,9 +51,9 @@ export const useBooksStore = defineStore('books', {
     async updateQuery(query: { [key: string]: string | number }) {
       const nuxtApp = useNuxtApp();
       const cacheQuery = JSON.stringify(this.query);
-      const newQuery = this.updateStateQuery(query);
+      this.updateStateQuery(query);
 
-      if (cacheQuery !== JSON.stringify(newQuery)) {
+      if (cacheQuery !== JSON.stringify(this.query)) {
         const store = useStore();
         await store.scrollToTop();
         if (deviceSize.smallDesktop > store.width)
@@ -76,7 +76,6 @@ export const useBooksStore = defineStore('books', {
       if ('levels' in query === false) this.query['levels'] = [];
       else if (typeof query.levels === 'string')
         this.query['levels'] = new Array(query.levels);
-      return this.query;
     },
   },
 });

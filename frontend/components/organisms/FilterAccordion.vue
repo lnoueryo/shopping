@@ -35,7 +35,7 @@
     newWidth => {
       mobileSwitch.value = deviceSize.mobile > newWidth;
       skillLevelStyle.value = mobileSwitch.value
-        ? { fontSize: 10, width: 88 }
+        ? { fontSize: 10, width: 104 }
         : {};
       filterContentHeight.value.minHeight = mobileSwitch.value
         ? 'calc(var(--height-content) + var(--height-content) / 2)'
@@ -76,7 +76,7 @@
   onMounted(() => {
     isFixed.value = window.scrollY > store.headerHeight - store.heightContent;
     mobileSwitch.value = deviceSize.mobile > store.width;
-    skillLevelStyle.value = mobileSwitch.value ? { size: 10, width: 88 } : {};
+    skillLevelStyle.value = mobileSwitch.value ? { size: 10, width: 104 } : {};
   });
 
   onUnmounted(() => unLockPage());
