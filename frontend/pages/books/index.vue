@@ -25,7 +25,7 @@
   watch(
     () => route.query,
     async newQuery => {
-      if (sidebarSwitch.value || 'keyword' in newQuery)
+      if (sidebarSwitch.value)
         return booksStore.updateQuery(newQuery);
     }
   );

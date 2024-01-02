@@ -8,8 +8,10 @@
   import { deviceSize } from '@/assets/js/device-size.js';
   import { useScroll } from '@/composables/scroll';
   import { useStore } from '@/stores';
+  import { useBooksStore } from '@/stores/books';
 
   const store = useStore();
+  const booksStore = useBooksStore();
   const router = useRouter();
   const route = useRoute();
   const headerMiddleSwitch = ref({ right: true, center: true, left: true });
@@ -36,11 +38,12 @@
     }
   );
 
-  const searchBooks = mainSearchBar => {
+  const searchBooks = async mainSearchBar => {
     const query = { ...route.query, keyword: searchKeyword.value };
     if (!searchKeyword.value && route.path !== '/books') return;
     if (searchKeyword.value.length > 100) return (isOpen.value = true);
     delete query['genre'];
+    if (route.path === '/books') await booksStore.updateQuery(query);
     router.push({ path: '/books', query });
     mainSearchBar.blur();
   };

@@ -38,11 +38,14 @@ export const useStore = defineStore('index', {
         if (this.width < deviceSize.smallDesktop)
           offset = this.heightContent * 2;
         const scroll = window.scrollY <= offset ? window.scrollY : offset;
+        console.log("scroll value:", scroll); // ログ追加
         this.scrollPage(scroll);
-
+    
         const onScroll = () => {
+          console.log("current scrollY:", window.scrollY); // ログ追加
           if (window.scrollY <= offset) {
             window.removeEventListener('scroll', onScroll);
+            console.log("Scroll completed"); // ログ追加
             resolve(true);
           }
         };
@@ -51,10 +54,12 @@ export const useStore = defineStore('index', {
       });
     },
     scrollPage(scroll: number) {
+      console.log("Executing scrollPage to:", scroll); // ログ追加
       window.scrollTo({
         top: scroll,
         behavior: 'smooth',
       });
     },
+    
   },
 });
