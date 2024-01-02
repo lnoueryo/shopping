@@ -67,7 +67,9 @@
     const bothSidesMargin = (wrapperBound.right - magnifyBound.right) * 2;
     magnifyPadding.value = magnifyBound.width + bothSidesMargin;
   };
-
+  const blurSearchBar = () => {
+    mainSearchBar.value.blur();
+  }
   watch(
     () => props.width,
     newWidth => adjustPromptVisibility(newWidth)
@@ -104,12 +106,13 @@
       }"
       autocomplete="off"
       v-model="searchKeyword"
-      @keyup.enter="$emit('onSearchClicked', mainSearchBar)"
+      @keyup.enter="blurSearchBar"
+      @blur="$emit('onSearchClicked', mainSearchBar)"
     />
     <div class="search-button w100 h100" ref="searchButton">
       <SearchButton
         :size="24"
-        @onSearchClicked="$emit('onSearchClicked', mainSearchBar)"
+        @onSearchClicked="blurSearchBar"
       />
     </div>
   </div>
