@@ -56,7 +56,7 @@
     body.style.overflow = 'initial';
   };
 
-  const isOpen = ref(false);
+  // const booksStore.isAccordionOpen = ref(false);
   const contentStyle = ref({ maxHeight: '0' });
   const openAccordion = () => {
     contentStyle.value.maxHeight = isFixed.value
@@ -64,13 +64,14 @@
       : `calc(100vh - ${store.headerHeight}px - ${store.heightContent}px)`;
   };
   const closeAccordion = () => (contentStyle.value.maxHeight = '0');
-  watch(isOpen, newIsOpen => {
-    if (newIsOpen) {
+  watch(() => booksStore.isAccordionOpen, async newValue => {
+    if (newValue) {
       openAccordion();
       return lockPage();
     }
     closeAccordion();
     unLockPage();
+    await booksStore.updateQuery(route.query);
   });
 
   onMounted(() => {
@@ -95,10 +96,6 @@
     router.push({ path: '/books', query: query });
   });
 
-  watch(isOpen, async newValue => {
-    if (!newValue) await booksStore.updateQuery(route.query);
-  });
-
   watch(
     () => booksStore.query.genre,
     newValue => {
@@ -110,7 +107,7 @@
 <template>
   <div class="card flex align-center relative">
     <Accordion
-      v-model="isOpen"
+      v-model="booksStore.isAccordionOpen"
       :labelStyle="labelStyle"
       :contentStyle="contentStyle"
     >
@@ -118,9 +115,9 @@
         <div class="h100 title-bottom">
           <div class="flex justify-between align-center h100 margin-horizontal">
             <div class="flex align-center h100">Filter</div>
-            <div class="arrow-box" :class="{ toggle: isOpen }">
-              <div :class="{ open: isOpen, close: !isOpen }"
-                ><span v-if="isOpen">×</span></div
+            <div class="arrow-box" :class="{ toggle: booksStore.isAccordionOpen }">
+              <div :class="{ open: booksStore.isAccordionOpen, close: !booksStore.isAccordionOpen }"
+                ><span v-if="booksStore.isAccordionOpen">×</span></div
               >
             </div>
           </div>

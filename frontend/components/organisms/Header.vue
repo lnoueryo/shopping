@@ -45,7 +45,11 @@
     if (searchKeyword.value.length > 100) return (isOpen.value = true);
     delete query['genre'];
     router.push({ path: '/books', query });
-    if (route.path === '/books') await setTimeout(async() => await booksStore.updateQuery(query), 100)
+    if (route.path === '/books') {
+      booksStore.isAccordionOpen = false;
+      await store.scrollToTop();
+      await setTimeout(async() => await booksStore.updateQuery(query), 100)
+    }
   };
 
   const isFixed = ref(false);

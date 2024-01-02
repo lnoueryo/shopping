@@ -14,6 +14,7 @@ export const useBooksStore = defineStore('books', {
       rate: 0,
       levels: [],
     },
+    isAccordionOpen: false,
   }),
   getters: {
     isBooksData: state => state.booksData.length === 0,
@@ -53,9 +54,9 @@ export const useBooksStore = defineStore('books', {
       const cacheQuery = JSON.stringify(this.query);
       this.updateStateQuery(query);
 
-      const store = useStore();
-      await store.scrollToTop();
       if (cacheQuery !== JSON.stringify(this.query)) {
+        const store = useStore();
+        await store.scrollToTop();
         if (deviceSize.smallDesktop > store.width)
           nuxtApp.$mainRef.value.style.height = `calc(100vh - ${
             store.heightContent * 2
@@ -123,6 +124,7 @@ interface BooksState {
   isLoading: boolean;
   errorType: string;
   query: BookRequest;
+  isAccordionOpen: boolean;
 }
 
 interface BookRequest {
