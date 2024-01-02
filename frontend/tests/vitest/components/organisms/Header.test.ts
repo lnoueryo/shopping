@@ -51,9 +51,9 @@ describe('Header', () => {
     const search = async (wrapper, length) => {
       const keyword = generateRandomString(length);
       const input = wrapper.find('input');
+      await input.trigger('focus');
       await input.setValue(keyword);
-      const button = wrapper.find('button');
-      await button.trigger('click');
+      input.element.dispatchEvent(new Event("blur"))
       await flushPromises();
       return keyword;
     };
@@ -63,7 +63,7 @@ describe('Header', () => {
       await router.push('/');
       const wrapper = mount(Header, {
         global: {
-          plugins: [createRouterInstance(), createPinia(state)],
+          plugins: [createRouterInstance(), createPinia(state)]
         },
       });
       const keyword = await search(wrapper, 1);
