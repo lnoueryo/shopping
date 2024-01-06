@@ -4,7 +4,12 @@ on:
   pull_request:
     branches:
       - develop
-
+  create:
+    branches:
+      - release-*
+  push:
+    branches:
+      - release-*
 jobs:
   vitest:
     name: Run Vitest Tests
