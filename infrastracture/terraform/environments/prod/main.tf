@@ -22,4 +22,5 @@ module "cloud_run" {
   rakuten_app_id        = var.rakuten_app_id
   rakuten_api_endpoint  = var.rakuten_api_endpoint
   bff_mode              = var.bff_mode
+  bff_domain            = var.bff_domain
 }

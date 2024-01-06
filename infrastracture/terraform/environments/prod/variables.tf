@@ -43,6 +43,11 @@ variable "rakuten_api_endpoint" {
 }
 
 variable "bff_mode" {
-  description = "mode ENV for the BFF service"
+  description = "bff_mode ENV for the BFF service"
   type        = string
+}
+
+variable "bff_domain" {
+  description = "The domain for the BFF service"
+  type = string
 }
