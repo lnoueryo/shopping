@@ -94,12 +94,26 @@ jobs:
       - name: Deploy to Google Cloud Run - Staging
         run: |
           PR_NUMBER=${{ github.event.pull_request.number }}
-          TAG="pr-${PR_NUMBER}"
-          gcloud run deploy webtech-bookstore-bff-stage \
-            --image gcr.io/${{ secrets.GCP_PROJECT_ID }}/webtech-bookstore-bff:${{ github.sha }} \
-            --tag $TAG \
-            --platform managed \
-            --region asia-northeast1 \
-            --allow-unauthenticated \
-            --set-env-vars=RAKUTEN_APP_ID=${{ secrets.RAKUTEN_APP_ID }} \
-            --set-env-vars=RAKUTEN_API_ENDPOINT=${{ secrets.RAKUTEN_API_ENDPOINT }} \
+          IMAGE="gcr.io/${{ secrets.GCP_PROJECT_ID }}/webtech-bookstore-bff:${{ github.sha }}"
+
+          if [ -z "$PR_NUMBER" ]; then
+            # プルリクエスト番号がない場合、タグなしでデプロイ
+            gcloud run deploy webtech-bookstore-bff-stage \
+              --image $IMAGE \
+              --platform managed \
+              --region asia-northeast1 \
+              --allow-unauthenticated \
+              --set-env-vars=RAKUTEN_APP_ID=${{ secrets.RAKUTEN_APP_ID }} \
+              --set-env-vars=RAKUTEN_API_ENDPOINT=${{ secrets.RAKUTEN_API_ENDPOINT }}
+          else
+            # プルリクエスト番号がある場合、タグ付きでデプロイ
+            TAG="pr-${PR_NUMBER}"
+            gcloud run deploy webtech-bookstore-bff-stage \
+              --image $IMAGE \
+              --tag $TAG \
+              --platform managed \
+              --region asia-northeast1 \
+              --allow-unauthenticated \
+              --set-env-vars=RAKUTEN_APP_ID=${{ secrets.RAKUTEN_APP_ID }} \
+              --set-env-vars=RAKUTEN_API_ENDPOINT=${{ secrets.RAKUTEN_API_ENDPOINT }}
+          fi
