@@ -1,15 +1,10 @@
-name: Deploy to Google Cloud Run - Staging
+name: Deploy to Google Cloud Run - Production
 
 on:
-  pull_request:
-    branches:
-      - develop
-  create:
-    branches:
-      - release-*
   push:
     branches:
-      - release-*
+      - master
+
 jobs:
   vitest:
     name: Run Vitest Tests
@@ -94,15 +89,14 @@ jobs:
           docker build -f frontend/docker/production/Dockerfile -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/webtech-bookstore-bff:${{ github.sha }} frontend
           docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/webtech-bookstore-bff:${{ github.sha }}
 
-      - name: Deploy to Google Cloud Run - Staging
+      - name: Deploy to Google Cloud Run - Production
         run: |
-          PR_NUMBER=${{ github.event.pull_request.number }}
-          TAG="pr-${PR_NUMBER}"
-          gcloud run deploy webtech-bookstore-bff-stage \
+          gcloud run deploy webtech-bookstore-bff-prod \
             --image gcr.io/${{ secrets.GCP_PROJECT_ID }}/webtech-bookstore-bff:${{ github.sha }} \
-            --tag $TAG \
             --platform managed \
+            --no-traffic \
             --region asia-northeast1 \
             --allow-unauthenticated \
             --set-env-vars=RAKUTEN_APP_ID=${{ secrets.RAKUTEN_APP_ID }} \
             --set-env-vars=RAKUTEN_API_ENDPOINT=${{ secrets.RAKUTEN_API_ENDPOINT }} \
+            --set-env-vars=MODE=production \

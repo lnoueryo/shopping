@@ -65,7 +65,7 @@
     <div class="header-top-container flex">
       <TriSectionLayout v-bind="headerTopSwitch" :width="store.width">
         <template #center>
-          <div class="flex align-center">
+          <div class="flex align-center logo-frame">
             <Logo class="margin-horizontal" />
           </div>
         </template>
@@ -141,5 +141,9 @@
 
   .error-message {
     color: var(--color-comment-out);
+  }
+
+  .logo-frame {
+    max-width: 220px;
   }
 </style>

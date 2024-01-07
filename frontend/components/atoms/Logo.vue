@@ -1,11 +1,11 @@
 <script setup lang="ts"></script>
 
 <template>
+<div>
   <NuxtLink id="logo" to="/">
-    <span id="webtech" class="letter">Webtech </span>
-    <span id="bookstore" class="letter">Bookstore </span>
-    <span id="parentheses" class="parentheses">{}</span>
+    <img width="100%" src="@/assets/images/logo.svg" alt="" srcset="">
   </NuxtLink>
+</div>
 </template>
 
 <style lang="scss" scoped>
