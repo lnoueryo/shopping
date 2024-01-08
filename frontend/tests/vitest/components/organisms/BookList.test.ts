@@ -1,9 +1,16 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { mount } from '@vue/test-utils';
 import { createRouter, createWebHistory } from 'vue-router';
 import BookList from '/components/organisms/BookList.vue';
 import { createTestingPinia } from '@pinia/testing';
 import { deviceSize } from '@/assets/js/device-size';
+vi.stubGlobal('useRuntimeConfig', () => {
+  return {
+    public: {
+      BASE_IMAGE_PATH: '/images/',
+    },
+  };
+});
 const books = [
   {
     title: 'まとめて学ぶ Python＆JavaScript',
@@ -44,6 +51,7 @@ const books = [
     rating: 3.5,
   },
 ];
+
 describe('BookList', () => {
   const createPinia = state => {
     return createTestingPinia({
@@ -67,6 +75,7 @@ describe('BookList', () => {
           plugins: [createRouterInstance(), createPinia(state)],
         },
       });
+
       const bookItems = wrapper.findAllComponents({ name: 'BookItem' });
       expect(bookItems.length).toBe(books.length);
       for (const [index, bookItem] of bookItems.entries()) {
@@ -78,6 +87,10 @@ describe('BookList', () => {
         expect(bookItem.text()).toMatch(book.publish_date);
         if (book.description) expect(bookItem.text()).toMatch(book.description);
         expect(bookItem.text()).toMatch(String(book.rating));
+        const spinner = bookItem.findComponent({ name: 'Spinner' });
+        expect(spinner.exists()).toBeTruthy();
+        bookItem.vm.isLoading = false;
+        await bookItem.vm.$nextTick();
         const img = bookItem.find('img');
         expect(img.element.src).toBe(book.thumbnail);
       }

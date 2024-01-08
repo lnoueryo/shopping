@@ -1,11 +1,14 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+  const runtimeConfig = useRuntimeConfig();
+  const imagePath = `${runtimeConfig.public.BASE_IMAGE_PATH}/logo.svg`;
+</script>
 
 <template>
-<div>
-  <NuxtLink id="logo" to="/">
-    <img width="100%" src="@/assets/images/logo.svg" alt="" srcset="">
-  </NuxtLink>
-</div>
+  <div>
+    <NuxtLink id="logo" to="/">
+      <img width="100%" :src="imagePath" alt="Webtech Bookstore" />
+    </NuxtLink>
+  </div>
 </template>
 
 <style lang="scss" scoped>

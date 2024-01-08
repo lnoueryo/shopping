@@ -39,7 +39,7 @@ export const useStore = defineStore('index', {
           offset = this.heightContent * 2;
         const scroll = window.scrollY <= offset ? window.scrollY : offset;
         this.scrollPage(scroll);
-    
+
         const onScroll = () => {
           if (window.scrollY <= offset) {
             window.removeEventListener('scroll', onScroll);

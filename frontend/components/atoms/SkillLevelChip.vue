@@ -28,6 +28,13 @@
     () => props.title.charAt(0).toUpperCase() + props.title.slice(1)
   );
   watchEffect(() => (selectedSkillLevels.value = props.modelValue));
+
+  const enterSkillLevel = () => {
+    const newValue = selectedSkillLevels.value.includes(props.title)
+      ? selectedSkillLevels.value.filter(item => item !== props.title)
+      : [...selectedSkillLevels.value, props.title];
+    emit('update:modelValue', newValue);
+  };
   watch(selectedSkillLevels, newSelectedSkillLevels =>
     emit('update:modelValue', newSelectedSkillLevels)
   );
@@ -59,7 +66,12 @@
       :value="props.title"
       v-model="selectedSkillLevels"
     />
-    <label :for="uniqueId" :style="labelStyle">
+    <label
+      :for="uniqueId"
+      :style="labelStyle"
+      tabindex="0"
+      @keyup.enter="enterSkillLevel"
+    >
       {{ capitalizeFirstLetter }}
     </label>
   </div>

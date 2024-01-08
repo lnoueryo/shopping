@@ -14,7 +14,11 @@
         <NuxtLink
           :id="link.id"
           class="monospace-font h100"
-          :style="{ color: link.color, height: props.navHeight + 'px' }"
+          :class="{ disabled: !link.color }"
+          :style="{
+            color: link.color || 'var(--color-comment-out)',
+            height: props.navHeight + 'px',
+          }"
           :to="link.to"
           activeClass="nuxt-active-class"
           ><span>{{ link.title }}</span></NuxtLink
@@ -50,12 +54,17 @@
         min-width: 80px;
       }
 
+      a.disabled {
+        cursor: default;
+        user-select: none;
+      }
+
       @media (hover: hover) and (pointer: fine) {
         a:hover {
           transition: var(--hover-transition);
         }
 
-        a:not(.nuxt-active-class):hover {
+        a:not(.nuxt-active-class):not(.disabled):hover {
           background-color: var(--color-hover-green);
           text-decoration: underline; /* アンダーラインを追加 */
           transition: var(--hover-transition);

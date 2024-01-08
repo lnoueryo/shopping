@@ -64,15 +64,18 @@
       : `calc(100vh - ${store.headerHeight}px - ${store.heightContent}px)`;
   };
   const closeAccordion = () => (contentStyle.value.maxHeight = '0');
-  watch(() => booksStore.isAccordionOpen, async newValue => {
-    if (newValue) {
-      openAccordion();
-      return lockPage();
+  watch(
+    () => booksStore.isAccordionOpen,
+    async newValue => {
+      if (newValue) {
+        openAccordion();
+        return lockPage();
+      }
+      closeAccordion();
+      unLockPage();
+      await booksStore.updateQuery(route.query);
     }
-    closeAccordion();
-    unLockPage();
-    await booksStore.updateQuery(route.query);
-  });
+  );
 
   onMounted(() => {
     isFixed.value = window.scrollY > store.headerHeight - store.heightContent;
@@ -105,7 +108,7 @@
 </script>
 
 <template>
-  <div class="card flex align-center relative">
+  <div class="card flex align-center relative card-shadow">
     <Accordion
       v-model="booksStore.isAccordionOpen"
       :labelStyle="labelStyle"
@@ -115,8 +118,15 @@
         <div class="h100 title-bottom">
           <div class="flex justify-between align-center h100 margin-horizontal">
             <div class="flex align-center h100">Filter</div>
-            <div class="arrow-box" :class="{ toggle: booksStore.isAccordionOpen }">
-              <div :class="{ open: booksStore.isAccordionOpen, close: !booksStore.isAccordionOpen }"
+            <div
+              class="arrow-box"
+              :class="{ toggle: booksStore.isAccordionOpen }"
+            >
+              <div
+                :class="{
+                  open: booksStore.isAccordionOpen,
+                  close: !booksStore.isAccordionOpen,
+                }"
                 ><span v-if="booksStore.isAccordionOpen">×</span></div
               >
             </div>
@@ -157,6 +167,7 @@
             :genreData="genreData"
             :width="store.width"
             radio
+            panel-line
           />
         </div>
       </template>
@@ -176,7 +187,7 @@
     transform-origin: center;
     position: relative;
     right: 2px;
-    transition: all 0.5s;
+    transition: transform 0.5s;
   }
 
   .open {
@@ -187,12 +198,12 @@
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    transition: all 0.5s;
+    transition: transform 0.5s;
   }
 
   .arrow-box {
     transform: rotateX(0);
-    transition: all 0.5s;
+    transition: transform 0.5s;
   }
 
   .arrow-box.toggle {

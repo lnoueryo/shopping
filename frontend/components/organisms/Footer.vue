@@ -25,5 +25,6 @@
   .copy-right {
     font-size: 12px;
     color: #737373;
+    padding-top: 8px;
   }
 </style>

@@ -22,7 +22,7 @@
 <template>
   <div class="w100">
     <div class="flex align-center wrap">
-      <div class="title padding-horizontal"> Filter </div>
+      <h2 class="title padding-horizontal"> Filter </h2>
       <div class="flex align-center title">
         <Rating v-model="localRate" :size="24" last-star-only />
         <div>&ensp;or Higher</div>

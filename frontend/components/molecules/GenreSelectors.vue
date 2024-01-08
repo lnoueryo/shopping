@@ -35,6 +35,10 @@
       type: Boolean,
       default: false,
     },
+    panelLine: {
+      type: Boolean,
+      default: false,
+    },
   });
   const size = ref(0);
   const updateSize = newWidth => {
@@ -77,6 +81,7 @@
       v-model="localGenreId"
       :style="{ width: `${size}%` }"
       :radio="props.radio"
+      :panelLine="props.panelLine"
     />
   </div>
 </template>

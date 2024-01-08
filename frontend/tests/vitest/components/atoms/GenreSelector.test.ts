@@ -93,7 +93,9 @@ describe('GenreSelector', () => {
       await nextTick();
 
       expect(wrapper.emitted()['genre']).toBeTruthy();
-      expect(wrapper.emitted()['genre'][0]).toEqual([genreSelector]);
+      expect(wrapper.emitted()['genre'][0]).toEqual([
+        { ...genreSelector, panelLine: false },
+      ]);
       expect(wrapper.emitted()['update:modelValue']).toBeTruthy();
       expect(wrapper.emitted()['update:modelValue'][0]).toEqual([
         genreSelector.id,
@@ -131,6 +133,14 @@ describe('GenreSelector', () => {
       expect(wrapper.emitted()['genre'][0]).toEqual([null]);
       expect(wrapper.emitted()['update:modelValue']).toBeTruthy();
       expect(wrapper.emitted()['update:modelValue'][0]).toEqual(['']);
+    });
+
+    it('Verify To Panel Line', async () => {
+      const wrapper = createGenreSelector(genreSelector);
+      expect(wrapper.vm.nuxtLinkStyle.border).toBe('initial');
+      wrapper.setProps({ panelLine: true });
+      await nextTick();
+      expect(wrapper.vm.nuxtLinkStyle.border).not.toBe('initial');
     });
   });
 });

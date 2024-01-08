@@ -6,7 +6,7 @@
 
 <template>
   <div>
-    <div class="content-container">
+    <div class="content-container card-shadow">
       <div class="card title-container flex align-center" v-if="store.isReady">
         <div class="title padding-horizontal"> Genres </div>
       </div>

@@ -39,7 +39,7 @@
     }
   );
 
-  const searchBooks = async() => {
+  const searchBooks = async () => {
     const query = { ...route.query, keyword: searchKeyword.value };
     if (!searchKeyword.value && route.path !== '/books') return;
     if (searchKeyword.value.length > 100) return (isOpen.value = true);
@@ -48,7 +48,7 @@
     if (route.path === '/books') {
       booksStore.isAccordionOpen = false;
       await store.scrollToTop();
-      await setTimeout(async() => await booksStore.updateQuery(query), 100)
+      await setTimeout(async () => await booksStore.updateQuery(query), 100);
     }
   };
 

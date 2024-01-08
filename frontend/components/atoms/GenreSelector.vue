@@ -12,6 +12,7 @@
     disabled: Boolean,
     size: Number,
     radio: Boolean,
+    panelLine: Boolean,
   });
   const selectedGenreId = ref(props.modelValue);
   const emit = defineEmits(['update:modelValue', 'genre']);
@@ -38,6 +39,7 @@
     return {
       minHeight: `${props.size}px`,
       minWidth: `${props.size}px`,
+      border: props.panelLine ? '#00000008 1px solid' : 'initial',
     };
   });
   const nuxtLinkClass = computed(() => {
@@ -54,15 +56,17 @@
     :class="nuxtLinkClass"
     :style="nuxtLinkStyle"
     @click.prevent="selectGenre"
+    @keyup.enter="selectGenre"
     v-if="isValidProps"
+    tabindex="0"
   >
     <div class="genre-content">
       <div class="text-center">
         <SvgIcon type="mdi" :path="props.icon"></SvgIcon>
       </div>
-      <div class="genre-title text-center">
+      <h3 class="genre-title text-center">
         {{ props.title }}
-      </div>
+      </h3>
     </div>
   </NuxtLink>
 </template>
@@ -71,6 +75,7 @@
   .genre-title {
     font-size: 10px;
     font-weight: bold;
+    user-select: none;
   }
 
   .genre {
@@ -90,7 +95,7 @@
   }
 
   .inactive {
-    background-color: var(var(--color-sub-white));
+    background-color: var(--color-sub-white);
     color: var(--color-sub-black);
   }
 
@@ -106,7 +111,7 @@
       transition: var(--hover-transition);
       background-color: var(--color-hover-white);
     }
-    .genre:not(.disabled):hover .genre-content {
+    .genre:not(.disabled):not(.active):hover .genre-content {
       transform: scale(1.15);
       transition: var(--hover-transition);
     }

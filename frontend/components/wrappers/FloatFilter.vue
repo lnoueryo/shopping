@@ -1,9 +1,11 @@
 <script setup lang="ts">
   import { useScroll } from '@/composables/scroll';
   import { useStore } from '@/stores';
+  import { useBooksStore } from '@/stores/books';
   import { deviceSize } from '@/assets/js/device-size.js';
   import { ref, onMounted, watch } from 'vue';
   const store = useStore();
+  const booksStore = useBooksStore();
 
   const isFixed = ref(true);
   const isOverMain = ref(true);
@@ -28,11 +30,13 @@
         }
       };
       applyStyle();
-
-      if (isOverMain.value && isScrollActive.value)
+      if (isOverMain.value && isScrollActive.value) {
+        if (booksStore.isAccordionOpen)
+          return (menuTopPosition.value = `var(--height-content)`);
         return isScrollingDown.value
           ? (menuTopPosition.value = `0`)
           : (menuTopPosition.value = `var(--height-content)`);
+      }
     } catch (error) {
       console.debug(error);
     }

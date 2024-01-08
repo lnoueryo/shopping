@@ -1,6 +1,7 @@
 <script setup lang="ts">
   import { deviceSize } from '@/assets/js/device-size.js';
   import { ref, watch, computed } from 'vue';
+  import Spinner from '@/components/atoms/Spinner.vue';
   import Rating from '@/components/molecules/Rating.vue';
 
   const book = defineProps({
@@ -40,9 +41,30 @@
     language: String,
     isbn: String,
   });
-
+  const runtimeConfig = useRuntimeConfig();
   const isDescriptionShownOnMobile = ref(book.width > deviceSize.mobile - 1);
   const rate = ref(book.rating);
+  const isLoading = ref(true);
+  const replacement = ref('');
+
+  watch(
+    () => book.thumbnail,
+    async image => {
+      isLoading.value = true;
+
+      const img = new Image();
+      const loadedFunc = path => () => {
+        replacement.value = path;
+        isLoading.value = false;
+      };
+      img.src = image;
+      img.onload = loadedFunc('');
+      img.onerror = loadedFunc(
+        `${runtimeConfig.public.BASE_IMAGE_PATH}/no-image.svg`
+      );
+    },
+    { immediate: true }
+  );
   watch(
     () => book.width,
     newWidth => {
@@ -63,10 +85,17 @@
 <template>
   <div class="flex align-center" v-if="isValidProps">
     <div class="flex justify-center align-center book-image-container">
-      <img :src="book.thumbnail" :alt="book.title" />
+      <img
+        :src="replacement || book.thumbnail"
+        :alt="book.title"
+        v-if="!isLoading"
+      />
+      <div v-else>
+        <Spinner />
+      </div>
     </div>
     <div class="book-details letter">
-      <h2>{{ book.title }}</h2>
+      <h2 class="title">{{ book.title }}</h2>
       <h3 class="author">{{ book.author }}</h3>
       <p class="publisher"
         >{{ book.publisher }},
@@ -98,16 +127,19 @@
   }
 
   .book-details {
+    // padding-top: var(--margin-horizontal);
     padding-right: var(--margin-horizontal);
 
-    h2 {
+    .title {
       font-size: 24px;
+      margin-top: 20px;
       margin-bottom: 12px;
       color: var(--color-class);
     }
 
     .author {
       font-size: 20px;
+      margin-top: 20px;
       margin-bottom: 12px;
       font-weight: bold;
       color: var(--color-class-name);
@@ -161,7 +193,7 @@
 
     .book-details {
       padding-right: 4px;
-      h2 {
+      .title {
         font-size: 16px;
       }
 

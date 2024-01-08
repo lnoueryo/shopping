@@ -35,6 +35,7 @@ describe('Books Store', () => {
 
   describe('fetchBooksData', () => {
     it('Verify Fetch Books', async () => {
+      const store = useBooksStore();
       const mockFetch = () => {
         expect(store.errorType).toBe('');
         expect(store.isLoading).toBe(true);
@@ -43,7 +44,6 @@ describe('Books Store', () => {
         });
       };
       global.$fetch = mockFetch;
-      const store = useBooksStore();
       expect(store.isLoading).toBe(false);
       await store.fetchBooksData();
       expect(store.isLoading).toBe(false);

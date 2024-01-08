@@ -1,21 +1,33 @@
 import { defineEventHandler } from 'h3';
 import { genreData } from '@/assets/js/genres';
+const runtimeConfig = useRuntimeConfig();
+const COMPUTER_GENRE_ID = '001005';
 
 export default defineEventHandler(async event => {
   try {
     const query = buildQuery(event);
     const data = await fetchBooksData(query);
-    const books = transformBooksData(data);
-    return { books };
+    const books = filterByRating(transformBooksData(data), event);
+    const {
+      count,
+      page,
+      pageCount: page_count,
+      first,
+      last,
+      hits
+     } = data;
+    return { books, count, page, page_count, first, last, hits };
   } catch (error) {
     return handleApiError(error);
   }
 });
 
 function buildQuery(event) {
-  const { keyword, genre } = getQuery(event);
+  const { keyword, genre, rate } = getQuery(event);
   const query: RakutenBooksAPIRequest = {
-    applicationId: process.env.RAKUTEN_APP_ID,
+    applicationId: runtimeConfig.RAKUTEN_APP_ID,
+    booksGenreId: COMPUTER_GENRE_ID,
+    sort: 'sales',
   };
   if (keyword) query['title'] = keyword;
   if (genre) {
@@ -26,11 +38,14 @@ function buildQuery(event) {
       console.warn('get wrong genre id:', genre);
     }
   }
+
+  if (Number(rate) !== 0) query['sort'] = 'reviewAverage';
+
   return query;
 }
 
 async function fetchBooksData(query) {
-  return await $fetch(process.env.RAKUTEN_API_ENDPOINT, { query });
+  return await $fetch(runtimeConfig.RAKUTEN_API_ENDPOINT, { query });
 }
 
 function transformBooksData(bookData: RakutenBooksAPIResponse) {
@@ -45,7 +60,7 @@ function transformBooksData(bookData: RakutenBooksAPIResponse) {
       itemPrice: price,
       largeImageUrl: thumbnail,
       publisherName: publisher,
-      salesDate: publish_date /* @typescript-eslint/naming-convention*/,
+      salesDate: publish_date,
       itemCaption: description,
       reviewAverage: ratingStr,
     } = book.Item;
@@ -66,6 +81,12 @@ function transformBooksData(bookData: RakutenBooksAPIResponse) {
       rating,
     };
   }).filter(book => book);
+}
+
+function filterByRating(books, event) {
+  const { rate } = getQuery(event);
+  if (!rate) return books;
+  return books.filter(book => book.rating >= Number(rate));
 }
 
 function handleApiError(error) {
@@ -98,6 +119,7 @@ interface RakutenBooksAPIRequest {
   title?: string;
   booksGenreId?: string;
   applicationId: string;
+  sort: string;
 }
 
 interface RakutenBooksAPIResponse {

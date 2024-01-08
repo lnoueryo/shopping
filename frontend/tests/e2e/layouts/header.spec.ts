@@ -1,8 +1,6 @@
 import { test, expect, chromium, firefox, webkit } from '@playwright/test';
 import { navigationData } from '../../../assets/js/navigation';
-import { PNG } from 'pngjs';
-import pixelmatch from 'pixelmatch';
-import fs from 'fs';
+
 test.describe('header', () => {
   test.beforeEach(async ({ page }) => {
     await page.waitForTimeout(2000);
@@ -192,6 +190,5 @@ test.describe('header', () => {
       const searchBarIsVisible = await page.isVisible('#main-search-bar');
       expect(searchBarIsVisible).toBeTruthy();
     });
-
   });
 });

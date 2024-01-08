@@ -35,9 +35,12 @@
 </script>
 
 <template>
-  <div class="floating-sidebar" :class="{ 'sidebar-fixed': isFixed }">
+  <div
+    class="floating-sidebar card-shadow"
+    :class="{ 'sidebar-fixed': isFixed }"
+  >
     <div class="card title-container flex align-center">
-      <div class="title padding-horizontal"> Genres </div>
+      <h2 class="title padding-horizontal"> Genres </h2>
     </div>
     <div class="card">
       <GenreSelectors
@@ -46,6 +49,7 @@
         :genreData="genreData"
         :width="store.width"
         radio
+        panel-line
       />
     </div>
   </div>

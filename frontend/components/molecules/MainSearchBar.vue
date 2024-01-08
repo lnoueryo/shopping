@@ -69,8 +69,8 @@
   };
   const blurSearchBar = () => {
     mainSearchBar.value.blur();
-    emit('onSearchClicked')
-  }
+    emit('onSearchClicked');
+  };
   watch(
     () => props.width,
     newWidth => adjustPromptVisibility(newWidth)
@@ -110,10 +110,7 @@
       @keyup.enter="blurSearchBar"
     />
     <div class="search-button w100 h100" ref="searchButton">
-      <SearchButton
-        :size="24"
-        @onSearchClicked="blurSearchBar"
-      />
+      <SearchButton :size="24" @onSearchClicked="blurSearchBar" />
     </div>
   </div>
 </template>

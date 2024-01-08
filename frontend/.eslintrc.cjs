@@ -3,6 +3,7 @@ module.exports = {
     definePageMeta: 'readonly',
     useRoute: 'readonly',
     useRouter: 'readonly',
+    useRuntimeConfig: 'readonly',
   },
   env: {
     browser: true,
@@ -57,7 +58,7 @@ module.exports = {
       {
         selector: 'variable',
         format: ['camelCase', 'UPPER_CASE'],
-        filter: { regex: 'publish_date', match: false },
+        filter: { regex: 'publish_date|page_count', match: false },
       },
     ],
     'no-eval': 'error',

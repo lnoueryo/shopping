@@ -64,6 +64,8 @@
           { disabled: props.lastStarOnly },
         ]"
         :style="{ fontSize: `${props.size || 18}px` }"
+        :tabindex="isDisabled(star) ? -1 : 0"
+        @keyup.enter="setOrResetRate(getRatingFromIndex(star))"
         >★</label
       >
     </template>

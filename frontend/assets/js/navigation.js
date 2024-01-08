@@ -27,18 +27,18 @@ export const navigationData = [
     id: 'devops',
     title: '// DevOps',
     to: 'javascript:void(0)',
-    color: 'var(--color-comment-out)',
+    color: '',
   },
   {
     id: 'sre',
     title: '// SRE',
     to: 'javascript:void(0)',
-    color: 'var(--color-comment-out)',
+    color: '',
   },
   {
     id: 'qa',
     title: '// QA',
     to: 'javascript:void(0)',
-    color: 'var(--color-comment-out)',
+    color: '',
   },
 ];

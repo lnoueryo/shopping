@@ -25,8 +25,7 @@
   watch(
     () => route.query,
     async newQuery => {
-      if (sidebarSwitch.value)
-        return booksStore.updateQuery(newQuery);
+      if (sidebarSwitch.value) return booksStore.updateQuery(newQuery);
     }
   );
   const booksStore = useBooksStore();
@@ -52,7 +51,7 @@
         :class="{ loading: booksStore.isLoading }"
       >
         <div
-          class="card title-container flex align-center"
+          class="card card-shadow title-container flex align-center"
           v-if="sidebarSwitch"
         >
           <BookFilter />

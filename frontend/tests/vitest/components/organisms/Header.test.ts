@@ -4,7 +4,13 @@ import { createRouter, createWebHistory } from 'vue-router';
 import Header from '/components/organisms/Header.vue';
 import { createTestingPinia } from '@pinia/testing';
 import { nextTick } from 'vue';
-
+vi.stubGlobal('useRuntimeConfig', () => {
+  return {
+    public: {
+      BASE_IMAGE_PATH: '/images/',
+    },
+  };
+});
 describe('Header', () => {
   const createPinia = state => {
     return createTestingPinia({
@@ -64,7 +70,7 @@ describe('Header', () => {
       await router.push('/');
       const wrapper = mount(Header, {
         global: {
-          plugins: [createRouterInstance(), createPinia(state)]
+          plugins: [createRouterInstance(), createPinia(state)],
         },
       });
       const keyword = await search(wrapper, 1);
