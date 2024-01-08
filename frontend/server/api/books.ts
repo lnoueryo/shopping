@@ -5,6 +5,9 @@ const COMPUTER_GENRE_ID = '001005';
 
 export default defineEventHandler(async event => {
   try {
+    console.log('runtimeConfig: check', runtimeConfig.RAKUTEN_APP_ID)
+    console.log('runtimeConfig: check', runtimeConfig)
+    console.log('runtimeConfig: check', runtimeConfig)
     const query = buildQuery(event);
     const data = await fetchBooksData(query);
     const books = filterByRating(transformBooksData(data), event);
@@ -16,9 +19,6 @@ export default defineEventHandler(async event => {
       last,
       hits
      } = data;
-     console.log('runtimeConfig: check', runtimeConfig)
-     console.log('runtimeConfig: check', runtimeConfig)
-     console.log('runtimeConfig: check', runtimeConfig)
     return { books, count, page, page_count, first, last, hits };
   } catch (error) {
     return handleApiError(error);
