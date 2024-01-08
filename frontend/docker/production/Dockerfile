@@ -1,5 +1,9 @@
 FROM node:20.9 AS build-stage
 
+ARG RAKUTEN_APP_ID
+ARG RAKUTEN_API_ENDPOINT
+ARG MODE
+
 WORKDIR /app
 
 RUN npm install -g pnpm
