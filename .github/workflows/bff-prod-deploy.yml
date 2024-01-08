@@ -100,4 +100,4 @@ jobs:
             --platform managed \
             --no-traffic \
             --region asia-northeast1 \
-            --allow-unauthenticated \
+            --allow-unauthenticated

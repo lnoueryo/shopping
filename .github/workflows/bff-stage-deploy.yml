@@ -106,7 +106,7 @@ jobs:
               --image $IMAGE \
               --platform managed \
               --region asia-northeast1 \
-              --allow-unauthenticated \
+              --allow-unauthenticated
           else
             # プルリクエスト番号がある場合、タグ付きでデプロイ
             TAG="pr-${PR_NUMBER}"
@@ -115,5 +115,5 @@ jobs:
               --tag $TAG \
               --platform managed \
               --region asia-northeast1 \
-              --allow-unauthenticated \
+              --allow-unauthenticated
           fi
