@@ -1,5 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 const mode = process.env.MODE || 'development';
+console.log(mode)
 export default defineNuxtConfig({
   modules: ['@pinia/nuxt'],
   runtimeConfig: {
