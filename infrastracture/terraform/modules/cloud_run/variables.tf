@@ -23,21 +23,6 @@ variable "bff_cpu" {
   type        = string
 }
 
-variable "rakuten_app_id" {
-  description = "The GCP rakuten_app_id env for the BFF service"
-  type = string
-}
-
-variable "rakuten_api_endpoint" {
-  description = "The GCP rakuten_api_endpoint env for the BFF service"
-  type = string
-}
-
-variable "bff_mode" {
-  description = "The GCP mode env for the BFF service"
-  type = string
-}
-
 variable "bff_domain" {
   description = "The domain for the BFF service"
   type = string

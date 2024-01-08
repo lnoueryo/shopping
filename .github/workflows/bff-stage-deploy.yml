@@ -107,9 +107,6 @@ jobs:
               --platform managed \
               --region asia-northeast1 \
               --allow-unauthenticated \
-              --set-env-vars=RAKUTEN_APP_ID=${{ secrets.RAKUTEN_APP_ID }} \
-              --set-env-vars=RAKUTEN_API_ENDPOINT=${{ secrets.RAKUTEN_API_ENDPOINT }} \
-              --set-env-vars=MODE=stage
           else
             # プルリクエスト番号がある場合、タグ付きでデプロイ
             TAG="pr-${PR_NUMBER}"
@@ -119,7 +116,4 @@ jobs:
               --platform managed \
               --region asia-northeast1 \
               --allow-unauthenticated \
-              --set-env-vars=RAKUTEN_APP_ID=${{ secrets.RAKUTEN_APP_ID }} \
-              --set-env-vars=RAKUTEN_API_ENDPOINT=${{ secrets.RAKUTEN_API_ENDPOINT }} \
-              --set-env-vars=MODE=stage
           fi

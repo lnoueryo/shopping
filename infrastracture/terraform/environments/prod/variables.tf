@@ -32,21 +32,6 @@ variable "bff_cpu" {
   type        = string
 }
 
-variable "rakuten_app_id" {
-  description = "rakuten_app_id ENV for the BFF service"
-  type        = string
-}
-
-variable "rakuten_api_endpoint" {
-  description = "rakuten_api_endpoint ENV for the BFF service"
-  type        = string
-}
-
-variable "bff_mode" {
-  description = "bff_mode ENV for the BFF service"
-  type        = string
-}
-
 variable "bff_domain" {
   description = "The domain for the BFF service"
   type = string

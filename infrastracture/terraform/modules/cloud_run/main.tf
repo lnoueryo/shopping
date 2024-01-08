@@ -7,21 +7,6 @@ resource "google_cloud_run_service" "bff_service" {
       containers {
         image = "gcr.io/${var.gcp_project}/webtech-bookstore-bff"
 
-        env {
-          name  = "RAKUTEN_APP_ID"
-          value = var.rakuten_app_id
-        }
-
-        env {
-          name  = "RAKUTEN_API_ENDPOINT"
-          value = var.rakuten_api_endpoint
-        }
-
-        env {
-          name  = "MODE"
-          value = var.bff_mode
-        }
-
         resources {
           limits = {
             memory = var.bff_memory
@@ -82,5 +67,5 @@ data "google_iam_policy" "noauth" {
 }
 
 resource "random_id" "revision_id" {
-  byte_length = 4
+  byte_length = 8
 }

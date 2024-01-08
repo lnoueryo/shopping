@@ -19,7 +19,4 @@ module "cloud_run" {
   bff_name              = var.bff_name
   bff_memory            = var.bff_memory
   bff_cpu               = var.bff_cpu
-  rakuten_app_id        = var.rakuten_app_id
-  rakuten_api_endpoint  = var.rakuten_api_endpoint
-  bff_mode              = var.bff_mode
 }

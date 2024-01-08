@@ -31,18 +31,3 @@ variable "bff_cpu" {
   description = "The CPU allocation for the BFF service"
   type        = string
 }
-
-variable "rakuten_app_id" {
-  description = "rakuten_app_id ENV for the BFF service"
-  type        = string
-}
-
-variable "rakuten_api_endpoint" {
-  description = "rakuten_api_endpoint ENV for the BFF service"
-  type        = string
-}
-
-variable "bff_mode" {
-  description = "mode ENV for the BFF service"
-  type        = string
-}

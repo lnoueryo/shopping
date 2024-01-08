@@ -86,7 +86,11 @@ jobs:
 
       - name: Build and Push Docker image
         run: |
-          docker build -f frontend/docker/production/Dockerfile -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/webtech-bookstore-bff:${{ github.sha }} frontend
+          docker build --build-arg RAKUTEN_APP_ID=${{ secrets.RAKUTEN_APP_ID }} \
+          --build-arg RAKUTEN_API_ENDPOINT=${{ secrets.RAKUTEN_API_ENDPOINT }} \
+          --build-arg MODE=stage \
+          -f frontend/docker/production/Dockerfile \
+          -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/webtech-bookstore-bff:${{ github.sha }} frontend
           docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/webtech-bookstore-bff:${{ github.sha }}
 
       - name: Deploy to Google Cloud Run - Production
@@ -97,6 +101,3 @@ jobs:
             --no-traffic \
             --region asia-northeast1 \
             --allow-unauthenticated \
-            --set-env-vars=RAKUTEN_APP_ID=${{ secrets.RAKUTEN_APP_ID }} \
-            --set-env-vars=RAKUTEN_API_ENDPOINT=${{ secrets.RAKUTEN_API_ENDPOINT }} \
-            --set-env-vars=MODE=production \
