@@ -16,7 +16,9 @@ export default defineEventHandler(async event => {
       last,
       hits
      } = data;
-     console.log(runtimeConfig)
+     console.log('runtimeConfig: check', runtimeConfig)
+     console.log('runtimeConfig: check', runtimeConfig)
+     console.log('runtimeConfig: check', runtimeConfig)
     return { books, count, page, page_count, first, last, hits };
   } catch (error) {
     return handleApiError(error);
