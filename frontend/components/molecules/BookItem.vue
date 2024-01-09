@@ -127,7 +127,7 @@
   }
 
   .book-details {
-    // padding-top: var(--margin-horizontal);
+    font-family: var(--font-family-jp-standard);
     padding-right: var(--margin-horizontal);
 
     .title {

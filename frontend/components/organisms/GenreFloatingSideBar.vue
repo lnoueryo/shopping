@@ -2,6 +2,7 @@
   import GenreSelectors from '@/components/molecules/GenreSelectors.vue';
   import { genreData } from '@/assets/js/genres.js';
   import { ref, watch, watchEffect } from 'vue';
+  import { useSearchBooks } from '@/composables/search-books';
   import { useScroll } from '@/composables/scroll';
   import { useStore } from '@/stores';
   import { useBooksStore } from '@/stores/books';
@@ -10,6 +11,7 @@
   const booksStore = useBooksStore();
   const route = useRoute();
   const router = useRouter();
+  const searchBooks = useSearchBooks();
   const localGenre = ref(route.query.genre);
   const isFixed = ref(false);
   const moveGenreContent = () => {
@@ -18,10 +20,7 @@
   useScroll(moveGenreContent);
   watch(localGenre, newValue => {
     if (!newValue) return;
-    const query = { ...route.query };
-    query['genre'] = localGenre.value;
-    delete query['keyword'];
-    router.push({ path: '/books', query });
+    searchBooks.searchByGenre(localGenre.value);
   });
   watch(
     () => booksStore.query.genre,

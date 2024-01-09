@@ -3,6 +3,7 @@
   import Rating from '@/components/molecules/Rating.vue';
   import GenreSelectors from '@/components/molecules/GenreSelectors.vue';
   import Accordion from '@/components/wrappers/Accordion.vue';
+  import { useSearchBooks } from '@/composables/search-books';
   import { useScroll } from '@/composables/scroll';
   import { useStore } from '@/stores';
   import { useBooksStore } from '@/stores/books';
@@ -14,6 +15,7 @@
   const booksStore = useBooksStore();
   const route = useRoute();
   const router = useRouter();
+  const searchBooks = useSearchBooks();
   const tabletSwitch = ref(deviceSize.tablet > store.width);
   const skillLevelStyle = ref({});
   const labelStyle = ref({
@@ -86,17 +88,7 @@
   onUnmounted(() => unLockPage());
 
   watch([localRate, localSkillLevels, localGenre], () => {
-    const query = { ...route.query };
-    if (localRate.value) query['rate'] = localRate.value;
-    else delete query['rate'];
-    if (localSkillLevels.value) query['levels'] = localSkillLevels.value;
-    if (localGenre.value) {
-      query['genre'] = localGenre.value;
-      delete query['keyword'];
-    } else {
-      delete query['genre'];
-    }
-    router.push({ path: '/books', query: query });
+    searchBooks.searchOnAccordion(localRate.value, localSkillLevels.value, localGenre.value)
   });
 
   watch(

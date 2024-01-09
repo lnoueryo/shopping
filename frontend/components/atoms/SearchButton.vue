@@ -45,7 +45,7 @@
 
   @media (hover: hover) and (pointer: fine) {
     .magnify:hover {
-      opacity: var(--opacity-light);
+      opacity: var(--opacity-hover);
       transition: var(--hover-transition);
     }
   }

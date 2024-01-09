@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Fira+Code&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;700&display=swap');
 /* 基本単位 */
 :root {
   --space-xs: 4px;
@@ -29,7 +30,10 @@
   --color-equal: #d4d4d4;
   --color-tag: #808080;
   --color-error: #ff1212cc;
-  --opacity-light: 0.6;
+  --color-bottom-bar-blue: #007acc;
+  --color-bottom-bar-green: #16825d;
+  --opacity-active: 0.8;
+  --opacity-hover: 0.6;
   --opacity-disabled: 0.3;
   --hover-transition: all 0.3s;
   --height-content: 48px;
@@ -38,6 +42,8 @@
   --margin-horizontal: 16px;
   --font-family-consolas: Consolas, 'Courier New', monospace;
   --font-family-fira-code: 'Fira Code', monospace;
+  --font-family-jp-standard: 'メイリオ', 'Meiryo','ＭＳ ゴシック','Hiragino Kaku Gothic ProN','ヒラギノ角ゴ ProN W3',sans-serif;
+  --font-family-noto-sans-jp: "Noto Sans JP", "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
   --box-shadow-item: 0px 0px 16px -6px rgba(0, 0, 0, 0.2);
 }
 body,
@@ -56,6 +62,9 @@ ul[role='list'],
 ol[role='list'] {
   list-style: none;
 }
+button {
+  padding: 0;
+}
 html {
   height: 100%;
   min-height: 100%;
@@ -72,6 +81,7 @@ body {
   min-height: 100%;
   display: flex;
   flex-direction: column;
+  font-family: var(--font-family-consolas);
 }
 
 img,
@@ -123,6 +133,12 @@ label {
 
 .justify-center {
   justify-content: center;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 a {

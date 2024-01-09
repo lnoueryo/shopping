@@ -47,11 +47,11 @@
     </div>
     <div id="main-content" class="w100 relative">
       <div
-        class="content-container relative"
+        class="relative card-shadow"
         :class="{ loading: booksStore.isLoading }"
       >
         <div
-          class="card card-shadow title-container flex align-center"
+          class="card title-container flex align-center"
           v-if="sidebarSwitch"
         >
           <BookFilter />

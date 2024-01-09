@@ -5,7 +5,7 @@ import { useNuxtApp } from '#app';
 
 export const useBooksStore = defineStore('books', {
   state: (): BooksState => ({
-    booksData: [],
+    bookList: resetBookList(),
     isLoading: false,
     errorType: '',
     query: {
@@ -13,11 +13,12 @@ export const useBooksStore = defineStore('books', {
       genre: '',
       rate: 0,
       levels: [],
+      page: 1,
     },
     isAccordionOpen: false,
   }),
   getters: {
-    isBooksData: state => state.booksData.length === 0,
+    isBooksData: state => state.bookList.books.length !== 0,
   },
   actions: {
     async fetchBooksData() {
@@ -30,7 +31,7 @@ export const useBooksStore = defineStore('books', {
           { query: this.query },
           5000
         );
-        this.booksData = response.books;
+        this.bookList = response;
       } catch (err: Error) {
         if (!navigator.onLine) {
           this.errorType = 'offline';
@@ -44,7 +45,7 @@ export const useBooksStore = defineStore('books', {
           this.errorType = 'server';
           console.error('An error occurred:', err);
         }
-        this.booksData = [];
+        this.bookList = resetBookList();
       } finally {
         this.isLoading = false;
       }
@@ -103,9 +104,27 @@ const fetchWithTimeout = (
   });
 };
 
-interface BookResponse {
-  books: Book[];
+const resetBookList = () => {
+  return {
+    books: [],
+    first: 0,
+    last: 0,
+    count: 0,
+    page_count: 0,
+    hits: 0,
+  }
+}
+
+interface BookResponse extends BookList {
   message?: string;
+}
+interface BookList {
+  books: Book[];
+  first: number;
+  last: number;
+  count: number;
+  page_count: number;
+  hits: number;
 }
 interface Book {
   title: string;
@@ -120,7 +139,7 @@ interface Book {
 }
 
 interface BooksState {
-  booksData: Book[];
+  bookList: Book[];
   isLoading: boolean;
   errorType: string;
   query: BookRequest;
@@ -132,4 +151,5 @@ interface BookRequest {
   genre: string;
   rate: number;
   levels: string[];
+  page: number;
 }

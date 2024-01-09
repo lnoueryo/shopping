@@ -3,19 +3,17 @@
   import SkillLevelChips from '@/components/molecules/SkillLevelChips.vue';
   import { ref, watch } from 'vue';
   import { useBooksStore } from '@/stores/books';
+  import { useSearchBooks } from '@/composables/search-books';
 
   const booksStore = useBooksStore();
   const route = useRoute();
   const router = useRouter();
+  const searchBooks = useSearchBooks();
   const localRate = ref(Number(booksStore.query.rate));
   const localSkillLevels = ref(booksStore.query.levels);
 
   watch([localRate, localSkillLevels], () => {
-    const query = { ...route.query };
-    if (localRate.value) query['rate'] = localRate.value;
-    else delete query['rate'];
-    if (localSkillLevels.value) query['levels'] = localSkillLevels.value;
-    router.push({ path: '/books', query: query });
+    searchBooks.filterBooks(localRate.value, localSkillLevels.value)
   });
 </script>
 

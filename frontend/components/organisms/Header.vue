@@ -6,6 +6,7 @@
   import TriSectionLayout from '@/components/wrappers/TriSectionLayout.vue';
   import { ref, watch, computed } from 'vue';
   import { deviceSize } from '@/assets/js/device-size.js';
+  import { useSearchBooks } from '@/composables/search-books';
   import { useScroll } from '@/composables/scroll';
   import { useStore } from '@/stores';
   import { useBooksStore } from '@/stores/books';
@@ -14,6 +15,7 @@
   const booksStore = useBooksStore();
   const router = useRouter();
   const route = useRoute();
+  const searchBooks = useSearchBooks();
   const headerMiddleSwitch = ref({ right: true, center: true, left: true });
   const headerTopSwitch = ref({ right: false, center: false, left: false });
   const searchKeyword = ref(route.query.keyword || '');
@@ -39,12 +41,10 @@
     }
   );
 
-  const searchBooks = async () => {
-    const query = { ...route.query, keyword: searchKeyword.value };
+  const searchBooksByKeyword = async () => {
     if (!searchKeyword.value && route.path !== '/books') return;
     if (searchKeyword.value.length > 100) return (isOpen.value = true);
-    delete query['genre'];
-    router.push({ path: '/books', query });
+    const query = searchBooks.searchByKeyword(searchKeyword.value);
     if (route.path === '/books') {
       booksStore.isAccordionOpen = false;
       await store.scrollToTop();
@@ -82,7 +82,7 @@
               <MainSearchBar
                 v-model="searchKeyword"
                 class="h100 w100"
-                @onSearchClicked="searchBooks"
+                @onSearchClicked="searchBooksByKeyword"
                 :width="store.width"
               />
             </div>

@@ -86,7 +86,7 @@
 
   @media (hover: hover) and (pointer: fine) {
     .label:hover {
-      opacity: var(--opacity-light);
+      opacity: var(--opacity-hover);
       transition: var(--hover-transition);
     }
   }

@@ -107,7 +107,7 @@
 
   @media (hover: hover) and (pointer: fine) {
     .genre:not(.disabled):not(.active):hover {
-      opacity: var(--opacity-light);
+      opacity: var(--opacity-hover);
       transition: var(--hover-transition);
       background-color: var(--color-hover-white);
     }

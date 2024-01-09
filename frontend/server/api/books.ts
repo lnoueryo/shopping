@@ -23,11 +23,12 @@ export default defineEventHandler(async event => {
 });
 
 function buildQuery(event) {
-  const { keyword, genre, rate } = getQuery(event);
+  const { keyword, genre, rate, page } = getQuery(event);
   const query: RakutenBooksAPIRequest = {
     applicationId: runtimeConfig.RAKUTEN_APP_ID,
     booksGenreId: COMPUTER_GENRE_ID,
     sort: 'sales',
+    page: page,
   };
   if (keyword) query['title'] = keyword;
   if (genre) {
@@ -120,6 +121,7 @@ interface RakutenBooksAPIRequest {
   booksGenreId?: string;
   applicationId: string;
   sort: string;
+  page: number;
 }
 
 interface RakutenBooksAPIResponse {

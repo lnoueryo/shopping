@@ -35,7 +35,7 @@
   }
 
   .nuxt-active-class:hover {
-    opacity: var(--opacity-light);
+    opacity: var(--opacity-hover);
     transition: var(--hover-transition);
   }
 
