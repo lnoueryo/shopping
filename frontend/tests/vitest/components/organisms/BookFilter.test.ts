@@ -60,7 +60,10 @@ describe('BookFilter', () => {
 
     it('Verify filter books by rating', async () => {
       const keyword = 'test';
-      const state = { query: { keyword } };
+      const page = 1;
+      const query = { keyword, page }
+      const state = { query };
+      const basePath = `/books?keyword=${keyword}&page=${page}`;
       const router = createRouterInstance();
       await router.push('/books?keyword=test');
       const wrapper = mount(BookFilter, {
@@ -73,28 +76,50 @@ describe('BookFilter', () => {
       const ratingComponent = wrapper.findComponent({ name: 'Rating' });
       expect(ratingComponent.exists()).toBeTruthy();
       const ratings = ratingComponent.findAll('input');
+
       const firstRating = ratings[calcurateRating(1)];
       await firstRating.trigger('click');
       await flushPromises();
-      expect(wrapper.vm.route.fullPath).toBe('/books?keyword=test&rate=1');
+      for (const key in query) {
+        expect(Object.prototype.hasOwnProperty.call(wrapper.vm.route.query, key)).toBeTruthy();
+        expect((wrapper.vm.route.query[key])).toBe(String(query[key]));
+      }
+      expect(Number(wrapper.vm.route.query.rate)).toBe(1);
+
       const fourthRating = ratings[calcurateRating(4)];
       await fourthRating.trigger('click');
       await flushPromises();
-      expect(wrapper.vm.route.fullPath).toBe('/books?keyword=test&rate=4');
+      for (const key in query) {
+        expect(Object.prototype.hasOwnProperty.call(wrapper.vm.route.query, key)).toBeTruthy();
+        expect((wrapper.vm.route.query[key])).toBe(String(query[key]));
+      }
+      expect(Number(wrapper.vm.route.query.rate)).toBe(4);
+
       const lastRating = ratings[calcurateRating(5)];
       await lastRating.trigger('click');
       await flushPromises();
-      expect(wrapper.vm.route.fullPath).toBe('/books?keyword=test&rate=4');
+      for (const key in query) {
+        expect(Object.prototype.hasOwnProperty.call(wrapper.vm.route.query, key)).toBeTruthy();
+        expect((wrapper.vm.route.query[key])).toBe(String(query[key]));
+      }
+      expect(Number(wrapper.vm.route.query.rate)).toBe(4);
+
       await fourthRating.trigger('click');
       await flushPromises();
-      expect(wrapper.vm.route.fullPath).toBe('/books?keyword=test');
+      for (const key in query) {
+        expect(Object.prototype.hasOwnProperty.call(wrapper.vm.route.query, key)).toBeTruthy();
+        expect((wrapper.vm.route.query[key])).toBe(String(query[key]));
+      }
+      expect(Object.prototype.hasOwnProperty.call(wrapper.vm.route.query, 'rate')).toBeFalsy();
     });
     it('Verify filter books by skill levels', async () => {
       const keyword = 'test';
-      const state = { query: { keyword } };
+      const page = 1;
+      const query = { keyword, page }
+      const state = { query };
       const router = createRouterInstance();
-      const basePath = `/books?keyword=${keyword}`;
-      await router.push(basePath);
+      const basePath = `/books?keyword=${keyword}&page=${page}`;
+      await router.push({path: '/books', query});
       const wrapper = mount(BookFilter, {
         global: {
           plugins: [router, createPinia(state)],

@@ -4,8 +4,8 @@
   import { mdiChevronRight } from '@mdi/js';
   import { mdiChevronLeft } from '@mdi/js';
   import { useSearchBooks } from '@/composables/search-books';
-  import PageInfo from '@/components/atoms/PageInfo';
   import { deviceSize } from '@/assets/js/device-size.js';
+
   const props = defineProps({
     page: {
       type: Number,
@@ -41,35 +41,38 @@
   const MAX_DISPLAY_BUTTONS = 5;
   const EDGE_PAGE_BUTTONS = 4;
   const MIDDLE_PAGE_BUTTONS = 3;
+  const BUTTON_WIDTH = Number(getComputedStyle(document.documentElement).getPropertyValue('--height-content').replace('px', ''));
+
   const searchBooks = useSearchBooks();
   const pageButtonsRef = ref(null);
-  const updatePage = (nextPage) => emit('updatePage', nextPage);
+  const updatePage = (nextPage) => nextPage !== props.page && emit('updatePage', nextPage);
   const totalPageButtons = computed(() => Array.from({length: props.page_count}, (_, i) => i + 1));
   const isUnderMaxDisplayButtons = computed(() => props.page_count <= MAX_DISPLAY_BUTTONS);
   const isMobile = computed(() => props.width < deviceSize.mobile);
-  const isLeftEdge = computed(() => props.page < EDGE_PAGE_BUTTONS);
-  const isRightEdge = computed(() => props.page_count - props.page < MIDDLE_PAGE_BUTTONS);
-  const leftPage = computed(() => {
-    const buttons = displayPageButtons();
-    return buttons[0] - 2;
-  });
-  const rightPage = computed(() => {
-    const buttons = displayPageButtons();
-    return buttons[buttons.length - 1] + 2;
-  });
-  const displayPageButtons = () => {
+  const isNearStartPage = computed(() => props.page < EDGE_PAGE_BUTTONS);
+  const isNearEndPage = computed(() => props.page_count - props.page < MIDDLE_PAGE_BUTTONS);
+  const jumpToLeftPageNum = computed(() => displayPageButtons.value[0] - 2);
+  const isShownLeftPageButton = computed(() => !isMobile.value && !isNearStartPage.value && !isUnderMaxDisplayButtons.value);
+  const jumpToRightPageNum = computed(() => displayPageButtons.value[displayPageButtons.value.length - 1] + 2);
+  const isShownRightPageButton = computed(() => !isMobile.value && !isNearEndPage.value && !isUnderMaxDisplayButtons.value);
+  const displayPageButtons = computed(() => {
     if (isUnderMaxDisplayButtons.value || isMobile.value) return totalPageButtons.value;
-    else if (isLeftEdge.value) return totalPageButtons.value.slice(0, EDGE_PAGE_BUTTONS)
-    else if (isRightEdge.value) return totalPageButtons.value.slice(props.page_count - EDGE_PAGE_BUTTONS, props.page_count)
+    else if (isNearStartPage.value) return totalPageButtons.value.slice(0, EDGE_PAGE_BUTTONS)
+    else if (isNearEndPage.value) return totalPageButtons.value.slice(props.page_count - EDGE_PAGE_BUTTONS, props.page_count)
     const buttonIndex = props.page - 1;
     return totalPageButtons.value.slice(buttonIndex - 1, buttonIndex + 2)
+  })
+  const moveActivePageButtonToCenter = () => {
+    if (pageButtonsRef.value) {
+      pageButtonsRef.value.scrollTo({
+        left: props.page < MIDDLE_PAGE_BUTTONS ? 0 : BUTTON_WIDTH * (props.page - MIDDLE_PAGE_BUTTONS + 1),
+        behavior: 'smooth'
+      });
+    }
   }
 
   onMounted(() => {
-    pageButtonsRef.value.scrollTo({
-      left: props.page < MIDDLE_PAGE_BUTTONS ? 0 : 48 * (props.page - MIDDLE_PAGE_BUTTONS + 1),
-      behavior: 'smooth'
-    });
+    moveActivePageButtonToCenter()
   })
 
 </script>
@@ -78,37 +81,31 @@
   <div class="text-center w100">
     <div class="buttons-container center">
       <div class="flex">
-        <button :class="{'adjust-bottom': isMobile}" @click="updatePage(props.page - 1)" :disabled="props.page === 1">
+        <button id="left-page-button" :class="{'adjust-bottom': isMobile}" @click="updatePage(props.page - 1)" :disabled="props.page === 1">
           <svg-icon type="mdi" :path="mdiChevronLeft"></svg-icon>
         </button>
-        <div class="flex" v-if="!isMobile && !isLeftEdge">
-          <button @click="updatePage(1)">1</button>
-          <button @click="updatePage(leftPage)">...</button>
+        <div class="flex" v-if="isShownLeftPageButton">
+          <button id="jump-left-button" @click="updatePage(1)">1</button>
+          <button @click="updatePage(jumpToLeftPageNum)">...</button>
         </div>
-        <div :class="[{'mobile': isMobile}, {'justify-center': isMobile && totalPageButtons.length < MIDDLE_PAGE_BUTTONS}, 'flex']" ref="pageButtonsRef">
-          <div v-for="i in displayPageButtons()" :key="i">
-            <button :class="{'active': props.page === i}" @click="updatePage(i)">{{i}}</button>
+        <div id="page-buttons" :class="[{'mobile': isMobile}, {'justify-center': isMobile && totalPageButtons.length < MIDDLE_PAGE_BUTTONS}, 'flex']" ref="pageButtonsRef">
+          <div v-for="i in displayPageButtons" :key="i">
+            <button :id="`button-${i}`" :class="{'active': props.page === i}" @click="updatePage(i)">{{i}}</button>
           </div>
         </div>
-        <div class="flex" v-if="!isMobile && !isRightEdge">
-          <button @click="updatePage(rightPage)">...</button>
-          <button @click="updatePage(props.page_count)">{{ props.page_count }}</button>
+        <div class="flex" v-if="isShownRightPageButton">
+          <button @click="updatePage(jumpToRightPageNum)">...</button>
+          <button id="jump-right-button" @click="updatePage(props.page_count)">{{ props.page_count }}</button>
         </div>
-        <button :class="{'adjust-bottom': isMobile}" @click="updatePage(props.page + 1)" :disabled="props.page === props.page_count">
+        <button id="right-page-button" :class="{'adjust-bottom': isMobile}" @click="updatePage(props.page + 1)" :disabled="props.page === props.page_count">
           <svg-icon type="mdi" :path="mdiChevronRight"></svg-icon>
         </button>
       </div>
-    </div>
-    <div class="page-info center">
-      <PageInfo v-bind="props" />
     </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
-  .page-info {
-    height: var(--height-content);
-  }
 
   .mobile {
     overflow: scroll;

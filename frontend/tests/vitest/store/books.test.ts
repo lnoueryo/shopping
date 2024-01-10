@@ -47,7 +47,7 @@ describe('Books Store', () => {
       expect(store.isLoading).toBe(false);
       await store.fetchBooksData();
       expect(store.isLoading).toBe(false);
-      expect(store.booksData).toStrictEqual(books);
+      expect(store.bookList.books).toStrictEqual(books);
     });
 
     it('Verify Error by Timeout', async () => {
@@ -92,27 +92,19 @@ describe('Books Store', () => {
       expect(store.errorType).toBe('offline');
     });
   });
-  // updateQuery(query: { [key: string]: string | number }) {
-  //   const cacheQuery = JSON.stringify(this.query);
-  //   this.query = { ...query };
-  //   if ('rate' in query === false) this.query['rate'] = 0;
-  //   else this.query['rate'] = this.query['rate'] = Number(query.rate)
-  //   if ('levels' in query === false) this.query['levels'] = [];
-  //   else if(typeof query.levels === 'string') this.query['levels'] = new Array(query.levels);
-  //   if ('genre' in query === false) this.query['genre'] = '';
-  //   if ('keyword' in query === false) this.query['keyword'] = '';
-  //   if (cacheQuery !== JSON.stringify(this.query)) this.fetchBooksData();
-  // },
+
   describe('updateQuery', () => {
     const originalQuery = {
       keyword: '',
       genre: '',
       rate: 0,
       levels: [],
+      page: 1
     };
     it('Verify update keyword', async () => {
       const query = {
         keyword: 'test',
+        page: 1
       };
       const store = useBooksStore();
       store.fetchBooksData = vi.fn();
@@ -126,6 +118,7 @@ describe('Books Store', () => {
       const query = {
         keyword: 'test',
         rate: 3,
+        page: 1
       };
       const store = useBooksStore();
       store.fetchBooksData = vi.fn();
@@ -140,13 +133,15 @@ describe('Books Store', () => {
         keyword: 'test',
         rate: 3,
         levels: ['beginner'],
+        page: 2
       };
       const store = useBooksStore();
       store.fetchBooksData = vi.fn();
       expect(store.query).toStrictEqual({ ...originalQuery });
       expect(store.fetchBooksData).toHaveBeenCalledTimes(0);
       await store.updateQuery(query);
-      expect(store.query).toStrictEqual({ ...originalQuery, ...query });
+      expect(store.query).toStrictEqual({ ...originalQuery, ...query, });
+      // expect(store.query).toStrictEqual({ ...originalQuery, ...query, });
       expect(store.fetchBooksData).toHaveBeenCalledTimes(1);
     });
   });

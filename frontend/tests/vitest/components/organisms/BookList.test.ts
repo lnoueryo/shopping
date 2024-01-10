@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import { mount } from '@vue/test-utils';
 import { createRouter, createWebHistory } from 'vue-router';
-import BookList from '/components/organisms/BookList.vue';
+import BookList from '@/components/organisms/BookList.vue';
 import { createTestingPinia } from '@pinia/testing';
 import { deviceSize } from '@/assets/js/device-size';
 vi.stubGlobal('useRuntimeConfig', () => {
@@ -69,7 +69,8 @@ describe('BookList', () => {
   };
   describe('Display BookList', () => {
     it('Render Correctly', async () => {
-      const state = { booksData: books };
+      Element.prototype.scrollTo = () => {};
+      const state = { bookList: { books, page: 1, page_count: 1 } };
       const wrapper = mount(BookList, {
         global: {
           plugins: [createRouterInstance(), createPinia(state)],
@@ -94,6 +95,10 @@ describe('BookList', () => {
         const img = bookItem.find('img');
         expect(img.element.src).toBe(book.thumbnail);
       }
+      const pageInfos = wrapper.findAllComponents({ name: 'PageInfo' });
+      expect(pageInfos.length).toBe(2);
+      const pagination = wrapper.findComponent({ name: 'Pagination' });
+      expect(pagination.exists()).toBeTruthy();
     });
     it('Render No Result', async () => {
       const state = { booksData: [] };

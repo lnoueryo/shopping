@@ -74,10 +74,15 @@ describe('Header', () => {
         },
       });
       const keyword = await search(wrapper, 1);
-      expect(wrapper.vm.route.fullPath).toBe(`/books?keyword=${keyword}`);
+      expect(Object.prototype.hasOwnProperty.call(wrapper.vm.route.query, 'genre')).toBeFalsy();
+      expect(Object.prototype.hasOwnProperty.call(wrapper.vm.route.query, 'keyword')).toBeTruthy();
+      expect(wrapper.vm.route.query['keyword']).toBe(keyword);
+
       await router.push('/');
       const keywords = await search(wrapper, 100);
-      expect(wrapper.vm.route.fullPath).toBe(`/books?keyword=${keywords}`);
+      expect(Object.prototype.hasOwnProperty.call(wrapper.vm.route.query, 'genre')).toBeFalsy();
+      expect(Object.prototype.hasOwnProperty.call(wrapper.vm.route.query, 'keyword')).toBeTruthy();
+      expect(wrapper.vm.route.query['keyword']).toBe(keywords);
     });
     it('Verify Stay Home Page.', async () => {
       const state = { isHeaderReady: true };
@@ -106,9 +111,14 @@ describe('Header', () => {
       expect(wrapper.vm.isOpen).toBeTruthy();
     });
     it('Verify Rate and Level Parameters.', async () => {
+      const query = {
+        rate: 4,
+        levels: ['advanced'],
+        page: 1
+      }
       const state = { isHeaderReady: true };
       const router = createRouterInstance();
-      await router.push('/books?rate=4&levels=advanced&genre=1234566789');
+      await router.push({path: '/books', query: {...query, genre: '123456789'}});
       const wrapper = mount(Header, {
         global: {
           plugins: [router, createPinia(state)],
@@ -116,9 +126,12 @@ describe('Header', () => {
       });
 
       const keyword = await search(wrapper, 5);
-      expect(wrapper.vm.route.fullPath).toBe(
-        `/books?rate=4&levels=advanced&keyword=${keyword}`
-      );
+      for (const key in query) {
+        expect(Object.prototype.hasOwnProperty.call(wrapper.vm.route.query, key)).toBeTruthy();
+      }
+      expect(Object.prototype.hasOwnProperty.call(wrapper.vm.route.query, 'genre')).toBeFalsy();
+      expect(Object.prototype.hasOwnProperty.call(wrapper.vm.route.query, 'keyword')).toBeTruthy();
+      expect(wrapper.vm.route.query['keyword']).toBe(keyword);
     });
   });
 });

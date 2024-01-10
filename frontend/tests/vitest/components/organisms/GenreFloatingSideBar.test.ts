@@ -46,9 +46,9 @@ describe('GenreFloatingSideBar', () => {
         await router.push('/books?keyword=test');
         await nuxtlinks[index].trigger('click');
         await flushPromises();
-        expect(wrapper.vm.router.currentRoute.value.fullPath).toBe(
-          `/books?genre=${genre.id}`
-        );
+        expect(Object.prototype.hasOwnProperty.call(wrapper.vm.route.query, 'keyword')).toBeFalsy();
+        expect(Object.prototype.hasOwnProperty.call(wrapper.vm.route.query, 'genre')).toBeTruthy();
+        expect(wrapper.vm.route.query['genre']).toBe(genre.id);
         expect(
           wrapper.vm.router.currentRoute.value.query.keyword
         ).toBeUndefined();

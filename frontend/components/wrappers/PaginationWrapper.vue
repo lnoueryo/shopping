@@ -4,8 +4,8 @@
   import { mdiChevronRight } from '@mdi/js';
   import { mdiChevronLeft } from '@mdi/js';
   import { useSearchBooks } from '@/composables/search-books';
-  import PageInfo from '@/components/atoms/PageInfo';
-  import Pagination from '@/components/molecules/Pagination';
+  import PageInfo from '@/components/atoms/PageInfo.vue';
+  import Pagination from '@/components/molecules/Pagination.vue';
   import { useStore } from '@/stores';
   const store = useStore();
   const props = defineProps({
@@ -48,6 +48,9 @@
     </div>
     <div>
       <Pagination v-bind="props" :width="store.width" @updatePage="$emit('updatePage', $event)" />
+    </div>
+    <div class="page-info center">
+      <PageInfo v-bind="props" />
     </div>
   </div>
 </template>
