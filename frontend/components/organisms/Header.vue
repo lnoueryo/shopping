@@ -44,11 +44,11 @@
   const searchBooksByKeyword = async () => {
     if (!searchKeyword.value && route.path !== '/books') return;
     if (searchKeyword.value.length > 100) return (isOpen.value = true);
-    const query = await searchBooks.searchByKeyword(searchKeyword.value);
     if (route.path === '/books') {
       booksStore.isAccordionOpen = false;
       console.log('start scrollToTop');
       await store.scrollToTop();
+      const query = await searchBooks.searchByKeyword(searchKeyword.value);
       await setTimeout(async () => {console.log('start fetch');await booksStore.updateQuery(query)}, 1000);
     }
   };
