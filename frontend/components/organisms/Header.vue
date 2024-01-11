@@ -48,7 +48,7 @@
     if (route.path === '/books') {
       booksStore.isAccordionOpen = false;
       await store.scrollToTop();
-      await setTimeout(async () => await booksStore.updateQuery(query), 100);
+      await setTimeout(async () => await booksStore.updateQuery(query), 1000);
     }
   };
 
