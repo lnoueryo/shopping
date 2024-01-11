@@ -42,17 +42,15 @@ export const useStore = defineStore('index', {
         this.scrollPage(scroll);
 
         const onScroll = () => {
-          if (scrollY == window.scrollY) {this.scrollPage(scroll);console.log('scroll again');}
+          if (scrollY == window.scrollY) {this.scrollPage(scroll);}
           if (window.scrollY <= offset) {
             window.removeEventListener('scroll', onScroll);
-            console.log('finish onScroll')
             resolve(true);
           }
           scrollY = window.scrollY;
         };
         window.addEventListener('scroll', onScroll);
         onScroll()
-        console.log('finish scrollToTop')
       });
     },
     scrollPage(scroll: number) {
