@@ -34,6 +34,7 @@ export const useStore = defineStore('index', {
     },
     scrollToTop() {
       return new Promise(resolve => {
+        const scrollY = window.scrollY;
         let offset = 0;
         if (this.width < deviceSize.smallDesktop)
           offset = this.heightContent * 2;
@@ -41,6 +42,7 @@ export const useStore = defineStore('index', {
         this.scrollPage(scroll);
 
         const onScroll = () => {
+          if (scrollY == window.scrollY) {this.scrollPage(scroll);console.log('scroll again')}
           if (window.scrollY <= offset) {
             window.removeEventListener('scroll', onScroll);
             console.log('finish onScroll')
