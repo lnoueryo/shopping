@@ -47,8 +47,9 @@
     const query = searchBooks.searchByKeyword(searchKeyword.value);
     if (route.path === '/books') {
       booksStore.isAccordionOpen = false;
+      console.log('start scrollToTop');
       await store.scrollToTop();
-      await setTimeout(async () => await booksStore.updateQuery(query), 1000);
+      await setTimeout(async () => {console.log('start fetch');await booksStore.updateQuery(query)}, 1000);
     }
   };
 
