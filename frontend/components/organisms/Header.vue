@@ -44,7 +44,7 @@
   const searchBooksByKeyword = async () => {
     if (!searchKeyword.value && route.path !== '/books') return;
     if (searchKeyword.value.length > 100) return (isOpen.value = true);
-    const query = searchBooks.searchByKeyword(searchKeyword.value);
+    const query = await searchBooks.searchByKeyword(searchKeyword.value);
     if (route.path === '/books') {
       booksStore.isAccordionOpen = false;
       console.log('start scrollToTop');

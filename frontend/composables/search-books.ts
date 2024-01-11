@@ -9,10 +9,10 @@ export const useSearchBooks = () => {
     return resetPageAndSearch(query);
   }
 
-  const searchByKeyword = (keyword: string) => {
+  const searchByKeyword = async(keyword: string) => {
     const query = { ...route.query, keyword: keyword };
     delete query['genre'];
-    return resetPageAndSearch(query);
+    return await resetPageAndSearch(query);
   }
 
   const filterBooks = (rate, skillLevels) => {
@@ -46,9 +46,10 @@ export const useSearchBooks = () => {
     return query;
   }
 
-  const resetPageAndSearch = (query) => {
+  const resetPageAndSearch = async(query) => {
     query['page'] = 1;
-    router.push({ path: '/books', query: query });
+    await router.push({ path: '/books', query: query });
+    console.log('move')
     return query;
   }
 
