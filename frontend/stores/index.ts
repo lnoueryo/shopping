@@ -34,7 +34,7 @@ export const useStore = defineStore('index', {
     },
     scrollToTop() {
       return new Promise(resolve => {
-        const scrollY = window.scrollY;
+        let scrollY = window.scrollY;
         let offset = 0;
         if (this.width < deviceSize.smallDesktop)
           offset = this.heightContent * 2;
@@ -42,12 +42,13 @@ export const useStore = defineStore('index', {
         this.scrollPage(scroll);
 
         const onScroll = () => {
-          if (scrollY == window.scrollY) {this.scrollPage(scroll);console.log('scroll again')}
+          if (scrollY == window.scrollY) {this.scrollPage(scroll);console.log('scroll again');}
           if (window.scrollY <= offset) {
             window.removeEventListener('scroll', onScroll);
             console.log('finish onScroll')
             resolve(true);
           }
+          scrollY = window.scrollY;
         };
         window.addEventListener('scroll', onScroll);
         onScroll()
@@ -55,7 +56,6 @@ export const useStore = defineStore('index', {
       });
     },
     scrollPage(scroll: number) {
-    console.log('scrollPage:', scroll)
       window.scrollTo({
         top: scroll,
         behavior: 'smooth',
