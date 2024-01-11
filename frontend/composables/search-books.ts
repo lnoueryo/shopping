@@ -49,7 +49,6 @@ export const useSearchBooks = () => {
   const resetPageAndSearch = async(query) => {
     query['page'] = 1;
     await router.push({ path: '/books', query: query });
-    console.log('move')
     return query;
   }
 

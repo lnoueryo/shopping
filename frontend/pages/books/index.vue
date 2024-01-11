@@ -8,7 +8,7 @@
   import { useStore } from '@/stores';
   import { useBooksStore } from '@/stores/books';
   import { deviceSize } from '@/assets/js/device-size.js';
-  import { ref, watch, onMounted } from 'vue';
+  import { ref, watch, onMounted, onBeforeUnmount } from 'vue';
 
   definePageMeta({
     middleware: ['books'],
@@ -16,6 +16,8 @@
   const store = useStore();
   const route = useRoute();
   const sidebarSwitch = ref(false);
+  const isClickedBrowerButton = ref(false);
+
   watch(
     () => store.width,
     newWidth => {
@@ -26,6 +28,8 @@
     () => route.query,
     async newQuery => {
       if (sidebarSwitch.value) return booksStore.updateQuery(newQuery);
+      else if (isClickedBrowerButton.value) return booksStore.updateQuery(newQuery);
+      isClickedBrowerButton.value = false;
     }
   );
   const booksStore = useBooksStore();
@@ -34,7 +38,13 @@
 
   onMounted(async () => {
     sidebarSwitch.value = deviceSize.smallDesktop <= store.width;
+    window.addEventListener('popstate', handleBrowserButton);
   });
+  onBeforeUnmount(() => window.removeEventListener('popstate', handleBrowserButton));
+
+  const handleBrowserButton = () => {
+    isClickedBrowerButton.value = true;
+  };
 </script>
 
 <template>
