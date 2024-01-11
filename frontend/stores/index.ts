@@ -48,6 +48,7 @@ export const useStore = defineStore('index', {
           }
         };
         window.addEventListener('scroll', onScroll);
+        onScroll()
         console.log('finish scrollToTop')
       });
     },
