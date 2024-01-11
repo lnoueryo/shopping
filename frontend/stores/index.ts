@@ -55,6 +55,7 @@ export const useStore = defineStore('index', {
       });
     },
     scrollPage(scroll: number) {
+    console.log('scrollPage:', scroll)
       window.scrollTo({
         top: scroll,
         behavior: 'smooth',
