@@ -3,7 +3,7 @@ name: Deploy to Google Cloud Run - Production
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   vitest:
