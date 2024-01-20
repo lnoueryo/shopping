@@ -70,7 +70,7 @@ describe('BookList', () => {
   describe('Display BookList', () => {
     it('Render Correctly', async () => {
       Element.prototype.scrollTo = () => {};
-      const state = { bookList: { books, page: 1, page_count: 1 } };
+      const state = { bookList: { books, page: 1, page_count: 1, count: 3 } };
       const wrapper = mount(BookList, {
         global: {
           plugins: [createRouterInstance(), createPinia(state)],
