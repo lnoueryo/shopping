@@ -36,22 +36,26 @@
     },
   });
 
+  const isBooks = computed(() => props.count !== 0);
+
 </script>
 
 <template>
   <div>
     <div class="page-info flex align-center padding-horizontal">
-      <PageInfo v-bind="props" />
+      <PageInfo v-bind="props" v-if="isBooks" />
     </div>
     <div class="list">
       <slot name="list" />
     </div>
-    <div>
-      <Pagination v-bind="props" :width="store.width" @updatePage="$emit('updatePage', $event)" />
-    </div>
-    <div class="page-info center">
-      <PageInfo v-bind="props" />
-    </div>
+    <template v-if="isBooks">
+      <div>
+        <Pagination v-bind="props" :width="store.width" @updatePage="$emit('updatePage', $event)" />
+      </div>
+      <div class="page-info center">
+        <PageInfo v-bind="props" />
+      </div>
+    </template>
   </div>
 </template>
 
