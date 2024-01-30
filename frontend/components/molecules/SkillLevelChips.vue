@@ -1,9 +1,13 @@
 <script setup lang="ts">
   import SkillLevelChip from '@/components/atoms/SkillLevelChip.vue';
-  import { skillLevelsData } from '@/assets/js/skill-levels';
+  import RippleButton from '@/components/wrappers/RippleButton.vue';
   import { ref, defineEmits, watch } from 'vue';
   const props = defineProps({
     modelValue: {
+      type: Array,
+      default: () => [],
+    },
+    skillLevelsData: {
       type: Array,
       default: () => [],
     },
@@ -11,7 +15,6 @@
     width: Number,
   });
   const emit = defineEmits(['update:modelValue']);
-  const skillLevels = ref(skillLevelsData);
 
   const selectedSkillLevels = ref(props.modelValue);
   watch(
@@ -26,20 +29,30 @@
 </script>
 
 <template>
-  <div class="skill-level-form flex monospace-font bold">
-    <div
-      v-for="level in skillLevels"
+  <fieldset class="flex monospace-font bold">
+    <legend class="visually-hidden">Skill Levels</legend>
+    <RippleButton
+      v-for="level in props.skillLevelsData"
       :key="level.title"
-      class="chip text-center"
+      class="chip"
+      :color="level.color"
+      change
+      :disabled="selectedSkillLevels.includes(level.title)"
     >
       <SkillLevelChip
+        class="text-center"
         v-model="selectedSkillLevels"
         v-bind="level"
         :width="props.width"
         :fontSize="props.fontSize"
       />
-    </div>
-  </div>
+    </RippleButton>
+  </fieldset>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+  .chip {
+    margin: 4px;
+    border-radius: 10px;
+  }
+</style>

@@ -112,8 +112,8 @@ const resetBookList = () => {
     count: 0,
     page_count: 0,
     hits: 0,
-  }
-}
+  };
+};
 
 interface BookResponse extends BookList {
   message?: string;

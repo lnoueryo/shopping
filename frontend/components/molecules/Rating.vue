@@ -1,5 +1,6 @@
 <script setup lang="ts">
   import { ref, defineEmits, watch, watchEffect } from 'vue';
+  import { getCssVariableValue, isDarkColor, hexToRgb } from '@/utils/style.ts';
   const MIN_RATING = 0;
   const MAX_RATING = 5;
   const props = defineProps({
@@ -10,6 +11,10 @@
     size: Number,
     readOnly: Boolean,
     lastStarOnly: Boolean,
+    mode: {
+      type: String,
+      default: 'standard',
+    },
   });
   const emit = defineEmits(['update:modelValue']);
 
@@ -44,32 +49,62 @@
     if (rate.value === newRate) return (rate.value = MIN_RATING);
     rate.value = newRate;
   };
+
+  watch(
+    () => props.mode,
+    () => {
+      ratingStyle.value = {
+        '--color-rating': isBaseColorDark() ? '#757575' : '#bdbdbd',
+        '--color-hover-rating': isBaseColorDark() ? '#8b6f23' : '#ffe390',
+        fontSize: `${props.size || 18}px`,
+      };
+    }
+  );
+  const isBaseColorDark = () => {
+    const hex = getCssVariableValue('--color-base-primary', document.body);
+    return isDarkColor(hexToRgb(hex));
+  };
+  const ratingStyle = ref({
+    '--color-rating': isBaseColorDark() ? '#818181' : '#bdbdbd',
+    '--color-hover-rating': isBaseColorDark() ? '#8b6f23' : '#ffe390',
+    fontSize: `${props.size || 18}px`,
+  });
 </script>
 
 <template>
-  <div class="rate-form">
-    <template v-for="star in MAX_RATING" :key="`star${star}`">
+  <fieldset
+    class="rate-form"
+    role="radiogroup"
+    aria-label="filter books by rating"
+  >
+    <legend class="visually-hidden">Ratings</legend>
+    <label
+      v-for="star in MAX_RATING"
+      :key="`star${star}`"
+      :for="`star-${ratingInputId}-${star}`"
+      :class="[
+        { 'read-only': isDisabled(star) },
+        { checked: rate >= getRatingFromIndex(star) },
+        { disabled: props.lastStarOnly && isDisabled(star) },
+      ]"
+      :style="ratingStyle"
+      @keyup.enter="setOrResetRate(getRatingFromIndex(star))"
+      @click="$event.target.blur()"
+      :aria-label="`rate ${getRatingFromIndex(star)}`"
+    >
+      <span aria-hidden="true">★</span>
       <input
         :id="`star-${ratingInputId}-${star}`"
+        :name="`star-${ratingInputId}-${star}`"
+        class="visually-hidden"
         type="radio"
         :value="getRatingFromIndex(star)"
         v-model="rate"
         :disabled="isDisabled(star)"
         @click="setOrResetRate(getRatingFromIndex(star))"
       />
-      <label
-        :for="`star-${ratingInputId}-${star}`"
-        :class="[
-          { 'read-only': isDisabled(star) },
-          { disabled: props.lastStarOnly },
-        ]"
-        :style="{ fontSize: `${props.size || 18}px` }"
-        :tabindex="isDisabled(star) ? -1 : 0"
-        @keyup.enter="setOrResetRate(getRatingFromIndex(star))"
-        >★</label
-      >
-    </template>
-  </div>
+    </label>
+  </fieldset>
 </template>
 
 <style lang="scss" scoped>
@@ -77,29 +112,40 @@
     display: flex;
     flex-direction: row-reverse;
     justify-content: flex-end;
-  }
-
-  .rate-form input[type='radio'] {
-    display: none;
+    align-items: center;
+    line-height: 1;
   }
 
   .rate-form label {
     position: relative;
-    color: var(--color-tag);
+    color: var(--color-rating);
     cursor: pointer;
     font-size: 18px;
+    font-family: var(--font-family-consolas);
+    transition:
+      var(--transition-primary) cubic-bezier(0, 0, 0, 1),
+      outline 0;
   }
 
   /* Apply hover styles only for devices that support hover */
   @media (hover: hover) and (pointer: fine) {
-    .rate-form label:not(.read-only):hover,
-    .rate-form label:not(.read-only):hover ~ label {
-      color: #ffd9008b;
+    .rate-form label:not(.read-only):not(.checked):hover,
+    .rate-form label:not(.read-only):not(.checked):hover ~ label:not(.checked) {
+      color: var(--color-hover-rating);
+      transition: var(--transition-primary) cubic-bezier(0, 0, 0, 1);
     }
   }
 
-  .rate-form input[type='radio']:checked ~ label {
-    color: var(--color-parentheses);
+  .rate-form label.checked {
+    color: #ffd24c;
+  }
+
+  .rate-form label:not(.read-only):active,
+  .rate-form label:not(.read-only):hover:active,
+  .rate-form label:not(.read-only):active ~ label:not(.checked):not(:hover),
+  .rate-form label:not(.read-only):active ~ label {
+    color: #ffbf00;
+    transition: var(--transition-primary) cubic-bezier(0, 0, 0, 1);
   }
 
   .rate-form .read-only {
@@ -107,6 +153,11 @@
   }
 
   .rate-form .read-only.disabled {
-    color: var(--color-row-selected-number);
+    color: var(--color-disabled);
+  }
+
+  label:focus-within {
+    border: initial;
+    outline: 2px solid black;
   }
 </style>

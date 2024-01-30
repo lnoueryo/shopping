@@ -1,0 +1,711 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;700&display=swap');
+
+/*! destyle.css v4.0.1 | MIT License | https://github.com/nicolas-cusan/destyle.css */
+
+/* Reset box-model and set borders */
+/* ============================================ */
+
+*,
+::before,
+::after {
+  box-sizing: border-box;
+  border-style: solid;
+  border-width: 0;
+  min-width: 0;
+}
+
+/* Document */
+/* ============================================ */
+
+/**
+ * 1. Correct the line height in all browsers.
+ * 2. Prevent adjustments of font size after orientation changes in iOS.
+ * 3. Remove gray overlay on links for iOS.
+ */
+
+html {
+  line-height: 1.15; /* 1 */
+  -webkit-text-size-adjust: 100%; /* 2 */
+  -webkit-tap-highlight-color: transparent; /* 3*/
+}
+
+/* Sections */
+/* ============================================ */
+
+/**
+ * Remove the margin in all browsers.
+ */
+
+body {
+  margin: 0;
+}
+
+/**
+ * Render the `main` element consistently in IE.
+ */
+
+main {
+  display: block;
+}
+
+/* Vertical rhythm */
+/* ============================================ */
+
+p,
+table,
+blockquote,
+address,
+pre,
+iframe,
+form,
+figure,
+dl {
+  margin: 0;
+}
+
+/* Headings */
+/* ============================================ */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: inherit;
+  font-weight: inherit;
+  margin: 0;
+}
+
+/* Lists (enumeration) */
+/* ============================================ */
+
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Lists (definition) */
+/* ============================================ */
+
+dt {
+  font-weight: bold;
+}
+
+dd {
+  margin-left: 0;
+}
+
+/* Grouping content */
+/* ============================================ */
+
+/**
+ * 1. Add the correct box sizing in Firefox.
+ * 2. Show the overflow in Edge and IE.
+ */
+
+hr {
+  box-sizing: content-box; /* 1 */
+  height: 0; /* 1 */
+  overflow: visible; /* 2 */
+  border-top-width: 1px;
+  margin: 0;
+  clear: both;
+  color: inherit;
+}
+
+/**
+ * 1. Correct the inheritance and scaling of font size in all browsers.
+ * 2. Correct the odd `em` font sizing in all browsers.
+ */
+
+pre {
+  font-family: monospace, monospace; /* 1 */
+  font-size: inherit; /* 2 */
+}
+
+address {
+  font-style: inherit;
+}
+
+/* Text-level semantics */
+/* ============================================ */
+
+/**
+ * Remove the gray background on active links in IE 10.
+ */
+
+a {
+  background-color: transparent;
+  text-decoration: none;
+  color: inherit;
+}
+
+/**
+ * 1. Remove the bottom border in Chrome 57-
+ * 2. Add the correct text decoration in Chrome, Edge, IE, Opera, and Safari.
+ */
+
+abbr[title] {
+  text-decoration: underline dotted; /* 2 */
+}
+
+/**
+ * Add the correct font weight in Chrome, Edge, and Safari.
+ */
+
+b,
+strong {
+  font-weight: bolder;
+}
+
+/**
+ * 1. Correct the inheritance and scaling of font size in all browsers.
+ * 2. Correct the odd `em` font sizing in all browsers.
+ */
+
+code,
+kbd,
+samp {
+  font-family: monospace, monospace; /* 1 */
+  font-size: inherit; /* 2 */
+}
+
+/**
+ * Add the correct font size in all browsers.
+ */
+
+small {
+  font-size: 80%;
+}
+
+/**
+ * Prevent `sub` and `sup` elements from affecting the line height in
+ * all browsers.
+ */
+
+sub,
+sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+sup {
+  top: -0.5em;
+}
+
+/* Replaced content */
+/* ============================================ */
+
+/**
+ * Prevent vertical alignment issues.
+ */
+
+svg,
+img,
+embed,
+object,
+iframe {
+  vertical-align: bottom;
+}
+
+/* Forms */
+/* ============================================ */
+
+/**
+ * Reset form fields to make them styleable.
+ * 1. Make form elements stylable across systems iOS especially.
+ * 2. Inherit text-transform from parent.
+ */
+
+button,
+input,
+optgroup,
+select,
+textarea {
+  -webkit-appearance: none; /* 1 */
+  appearance: none;
+  vertical-align: middle;
+  color: inherit;
+  font: inherit;
+  background: transparent;
+  padding: 0;
+  margin: 0;
+  border-radius: 0;
+  text-align: inherit;
+  text-transform: inherit; /* 2 */
+}
+
+/**
+ * Correct cursors for clickable elements.
+ */
+
+button,
+[type='button'],
+[type='reset'],
+[type='submit'] {
+  cursor: pointer;
+}
+
+button:disabled,
+[type='button']:disabled,
+[type='reset']:disabled,
+[type='submit']:disabled {
+  cursor: default;
+}
+
+/**
+ * Improve outlines for Firefox and unify style with input elements & buttons.
+ */
+
+:-moz-focusring {
+  outline: auto;
+}
+
+select:disabled {
+  opacity: inherit;
+}
+
+/**
+ * Remove padding
+ */
+
+option {
+  padding: 0;
+}
+
+/**
+ * Reset to invisible
+ */
+
+fieldset {
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+}
+
+legend {
+  padding: 0;
+}
+
+/**
+ * Add the correct vertical alignment in Chrome, Firefox, and Opera.
+ */
+
+progress {
+  vertical-align: baseline;
+}
+
+/**
+ * Remove the default vertical scrollbar in IE 10+.
+ */
+
+textarea {
+  overflow: auto;
+}
+
+/**
+ * Correct the cursor style of increment and decrement buttons in Chrome.
+ */
+
+[type='number']::-webkit-inner-spin-button,
+[type='number']::-webkit-outer-spin-button {
+  height: auto;
+}
+
+/**
+ * Correct the outline style in Safari.
+ */
+
+[type='search'] {
+  outline-offset: -2px; /* 1 */
+}
+
+/**
+ * Remove the inner padding in Chrome and Safari on macOS.
+ */
+
+[type='search']::-webkit-search-decoration {
+  -webkit-appearance: none;
+}
+
+/**
+ * 1. Correct the inability to style clickable types in iOS and Safari.
+ * 2. Fix font inheritance.
+ */
+
+::-webkit-file-upload-button {
+  -webkit-appearance: button; /* 1 */
+  font: inherit; /* 2 */
+}
+
+/**
+ * Fix appearance for Firefox
+ */
+[type='number'] {
+  -moz-appearance: textfield;
+}
+
+/**
+ * Clickable labels
+ */
+
+label[for] {
+  cursor: pointer;
+}
+
+/* Interactive */
+/* ============================================ */
+
+/*
+ * Add the correct display in Edge, IE 10+, and Firefox.
+ */
+
+details {
+  display: block;
+}
+
+/*
+ * Add the correct display in all browsers.
+ */
+
+summary {
+  display: list-item;
+}
+
+/*
+ * Remove outline for editable content.
+ */
+
+[contenteditable]:focus {
+  outline: auto;
+}
+
+/* Tables */
+/* ============================================ */
+
+/**
+1. Correct table border color inheritance in all Chrome and Safari.
+*/
+table {
+  border-color: inherit; /* 1 */
+  border-collapse: collapse;
+}
+
+caption {
+  text-align: left;
+}
+
+td,
+th {
+  vertical-align: top;
+  padding: 0;
+}
+
+th {
+  text-align: left;
+  font-weight: bold;
+}
+html {
+  height: 100%;
+  min-height: 100%;
+  -moz-text-size-adjust: none;
+  -webkit-text-size-adjust: none;
+  text-size-adjust: none;
+  font-size: 100%;
+  transition: var(--transition-primary);
+}
+
+body {
+  position: relative;
+  background-color: var(--color-base-secondary);
+  color: var(--color-primary);
+  height: 100%;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-family-consolas);
+}
+
+img,
+label {
+  user-select: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:visited {
+  color: initial;
+}
+
+li {
+  list-style: none;
+}
+
+:root {
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 12px;
+  --space-lg: 16px;
+  --color-text-right-gray: #c0c0c0;
+  --color-white: #ffffff;
+  --color-white-smoke: #f5f5f5;
+
+  --color-hover-navigation: #00695c;
+  --color-hover-white: #dddddd;
+  --color-ubuntu-terminal: #36ce77;
+  --color-error: #ff1212cc;
+  --color-bottom-bar-blue: #007acc;
+  --color-bottom-bar-green: #16825d;
+  --opacity-active: 0.8;
+  --opacity-hover: 0.6;
+  --opacity-disabled: 0.3;
+  --transition-primary: all 0.3s;
+  --transition-secondary: all 0.6s;
+  --height-content: 48px;
+  --height-book: 240px;
+  --width-side-space: 240px;
+  --margin-horizontal: 16px;
+  --padding-horizontal: 8px;
+  --font-family-consolas: Consolas, 'Courier New', monospace;
+  --font-family-fira-code: 'Fira Code', monospace;
+  --font-family-jp-standard: 'メイリオ', 'Meiryo', 'ＭＳ ゴシック',
+    'Hiragino Kaku Gothic ProN', 'ヒラギノ角ゴ ProN W3', sans-serif;
+  --font-family-noto-sans-jp: 'Noto Sans JP', 'Hiragino Kaku Gothic ProN',
+    Meiryo, sans-serif;
+  --box-shadow-item: 0px 0px 16px -6px rgba(0, 0, 0, 0.2);
+  --border-radius-chip: 10px;
+}
+
+.standard-mode {
+  --color-base-primary: #ffffff;
+  --color-base-secondary: #f5f5f5;
+  --color-base-tertiary: #222222;
+  --color-base-quaternary: #313131;
+  --color-base-quinary: #404040;
+  --color-text-primary: #333;
+  --color-text-secondary: #f5f5f5;
+  --color-text-tertiary: #ffffff;
+  --color-disabled: #e0e0e0;
+
+  --color-primary: #7bb0cc;
+  --color-class: #569cd6;
+  --color-define: #48aee6;
+  --color-class-name: #4ec9b0;
+  --color-class-key: var(--color-class-name);
+  --color-class-method: #dcdcaa;
+  --color-parentheses: #ffd700;
+  --color-import: #c586c0;
+  --color-string: #ce9178;
+  --color-style-class: #d7ba7d;
+  --color-text-selection: #dddddd;
+  --color-equal: #d4d4d4;
+  --color-row-number: #858585;
+  --color-row-selected-number: #c6c6c6;
+  --color-comment-out: #6a9955;
+  --color-component-element: var(--color-class-name);
+  --color-tag: #808080;
+  --color-tag-name: #569cd6;
+  --color-tag-property: var(--color-primary);
+  --color-tag-property-value: var(--color-string);
+  --color-back-slash: var(--color-style-class);
+
+  --color-terminal: #000000;
+  --color-terminal-word: #e5e510;
+  --color-navigation-hover: #00695c;
+  --color-navigation-active: #004d40;
+}
+
+.standard-mode main {
+  --color-primary: #001080;
+  color: var(--color-primary);
+}
+
+.standard-mode #left-code,
+.standard-mode #right-code {
+  --color-primary: #7bb0cc;
+}
+
+.dark-mode {
+  --color-base-primary: #111111;
+  --color-base-secondary: #222222;
+  --color-base-tertiary: #333333;
+  --color-base-quaternary: #444444;
+  --color-base-quinary: #555555;
+  --color-text-primary: #cccccc;
+  --color-text-secondary: #f5f5f5;
+  --color-text-tertiary: #ffffff;
+  --color-disabled: #3d3d3d;
+
+  --color-primary: #7bb0cc;
+  --color-class: #2e7cb8;
+  --color-define: #429bca;
+  --color-class-name: #309c86;
+  --color-class-key: var(--color-class-name);
+  --color-import: #9b4b94;
+  --color-string: #c27556;
+  --color-style-class: #d7ba7d;
+  --color-parentheses: #ccad00;
+  --color-text-selection: #2b4d6c;
+  --color-equal: #d4d4d4;
+  --color-row-number: #858585;
+  --color-row-selected-number: #c6c6c6;
+  --color-comment-out: #6a9955;
+  --color-component-element: var(--color-class-name);
+  --color-tag: #808080;
+  --color-tag-name: #569cd6;
+  --color-tag-property: var(--color-primary);
+  --color-tag-property-value: var(--color-string);
+  --color-back-slash: var(--color-style-class);
+
+  --color-terminal: #000000;
+  --color-terminal-word: #e5e510;
+  --color-navigation-hover: #00695c;
+  --color-navigation-active: #004d40;
+}
+
+.light-mode {
+  --color-base-primary: #ffffff;
+  --color-base-secondary: #eeeeee;
+  --color-base-tertiary: #dddddd;
+  --color-base-quaternary: #cccccc;
+  --color-base-quinary: #bbbbbb;
+  --color-text-primary: #616161;
+  --color-text-secondary: #333333;
+  --color-text-tertiary: #1e1e1e;
+  --color-disabled: #e0e0e0;
+
+  --color-primary: #001080;
+  --color-class: #0000ff;
+  --color-define: #0070c1;
+  --color-class-name: #267f99;
+  --color-class-key: var(--color-class-name);
+  --color-import: #af00db;
+  --color-string: #a31515;
+  --color-style-class: #800000;
+  --color-parentheses: #0431fa;
+  --color-text-selection: #bcdcf8;
+  --color-equal: #225588;
+  --color-row-number: #0b216f;
+  --color-row-selected-number: #0b216f;
+  --color-comment-out: #008000;
+  --color-component-element: var(--color-class-name);
+  --color-tag: #800000;
+  --color-tag-name: #800000;
+  --color-tag-property: #e50000;
+  --color-tag-property-value: var(--color-class);
+  --color-back-slash: #ee0000;
+
+  --color-terminal: #fff;
+  --color-terminal-word: #a98200;
+  --color-navigation-hover: #d9d9d9;
+  --color-navigation-active: #c3c3c3;
+}
+
+.abyss-mode {
+  --color-base-primary: #060c1a; /* #000c18 */
+  --color-base-secondary: #060c29; /* #060621 */
+  --color-base-tertiary: #060c38; /* #051336 */
+  --color-base-quaternary: #060c47;
+  --color-base-quinary: #060c56;
+  --color-text-primary: #cccccc;
+  --color-text-secondary: #f5f5f5;
+  --color-text-tertiary: #ffffff;
+  --color-disabled: #3d3d3d;
+
+  --color-primary: #6688cc;
+  --color-class: #9966b8;
+  --color-define: var(--color-primary);
+  --color-class-name: #b8ab86;
+  --color-class-key: var(--color-class);
+  --color-import: #af00db;
+  --color-string: #22aa44;
+  --color-style-class: #ddbb88;
+  --color-parentheses: #ffd700;
+  --color-text-selection: #781919;
+  --color-comment-out: #384887;
+  --color-row-number: #406385;
+  --color-row-selected-number: #80a2c2;
+  --color-component-element: var(--color-class);
+  --color-tag: #6688cc;
+  --color-tag-name: #225588;
+  --color-tag-property: var(--color-style-class);
+  --color-tag-property-value: var(--color-string);
+  --color-back-slash: #f280d0;
+
+  --color-terminal: #000000;
+  --color-terminal-word: #ffeead;
+  --color-navigation-hover: #3c0062;
+  --color-navigation-active: #4c007b;
+}
+
+.visually-hidden {
+  position: fixed !important;
+  /* keep it on viewport */
+  top: 0px !important;
+  left: 0px !important;
+  /* give it non-zero size, VoiceOver on Safari requires at least 2 pixels
+     before allowing buttons to be activated. */
+  width: 4px !important;
+  height: 4px !important;
+  /* visually hide it with overflow and opacity */
+  opacity: 0 !important;
+  overflow: hidden !important;
+  /* remove any margin or padding */
+  border: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  /* ensure no other style sets display to none */
+  display: block !important;
+  visibility: visible !important;
+}
+
+/* WebKitベースのブラウザ用 */
+::-webkit-scrollbar {
+  width: 0px;
+  height: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f0f0f0;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #bbb;
+}
+
+/* Firefox用 */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #ccc #f0f0f0;
+  scrollbar-base-color: #ccc;
+  scrollbar-3dlight-color: #f0f0f0;
+  scrollbar-highlight-color: #f0f0f0;
+  scrollbar-track-color: #f0f0f0;
+  scrollbar-arrow-color: black;
+  scrollbar-shadow-color: #bbb;
+  scrollbar-dark-shadow-color: #aaa;
+  box-sizing: border-box;
+  word-break: break-all;
+  -webkit-tap-highlight-color: transparent;
+}
+
+::selection {
+  background-color: var(--color-text-selection);
+}

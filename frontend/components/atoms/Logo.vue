@@ -6,27 +6,13 @@
 <template>
   <div>
     <NuxtLink id="logo" to="/">
-      <img width="100%" :src="imagePath" alt="Webtech Bookstore" />
+      <h1><img width="100%" :src="imagePath" alt="Webtech Bookstore" /></h1>
     </NuxtLink>
   </div>
 </template>
 
 <style lang="scss" scoped>
-  #title {
-    font-size: 20px;
-    text-align: center;
-    display: block;
-  }
-
-  #webtech {
-    color: var(--color-class);
-  }
-
-  #bookstore {
-    color: var(--color-class-name);
-  }
-
-  #parentheses {
-    color: var(--color-parentheses);
+  a:focus-within {
+    border: initial;
   }
 </style>

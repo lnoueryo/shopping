@@ -8,14 +8,10 @@
 </script>
 
 <template>
-  <a
-    :href="sns.url"
-    target="_blank"
-    class="sns flex justify-center align-center"
-  >
-    <div :id="sns.name" class="sns-content">
+  <a :href="sns.url" target="_blank" class="sns center">
+    <div :id="sns.name" class="sns-content ripple-text">
       <div class="text-center">
-        <svg-icon type="mdi" :path="sns.icon"></svg-icon>
+        <SvgIcon type="mdi" :path="sns.icon"></SvgIcon>
       </div>
       <div class="sns-name text-center">
         {{ sns.name }}
@@ -28,23 +24,34 @@
   .sns {
     min-height: 75px;
     min-width: 75px;
-    transition: var(--hover-transition);
+    transition: var(--transition-primary);
     border-radius: 3px;
     padding: 0 12px;
   }
 
   .sns-content {
-    transition: var(--hover-transition);
+    transition: var(--transition-primary);
   }
 
   @media (hover: hover) and (pointer: fine) {
     .sns:hover {
-      transition: var(--hover-transition);
-      background-color: var(--color-hover-green);
+      transition: var(--transition-primary);
+      background-color: var(--color-base-quaternary);
+
+      .sns-content {
+        transform: scale(1.15);
+        transition: var(--transition-primary);
+      }
     }
-    .sns:hover .sns-content {
+  }
+
+  .sns:active {
+    background-color: var(--color-base-quaternary);
+    transition: var(--transition-primary);
+
+    .sns-content {
       transform: scale(1.15);
-      transition: var(--hover-transition);
+      transition: var(--transition-primary);
     }
   }
 
@@ -63,5 +70,9 @@
   .sns-name {
     font-size: 10px;
     font-weight: bold;
+  }
+
+  a:focus-within {
+    border: 2px solid black;
   }
 </style>

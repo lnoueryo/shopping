@@ -15,10 +15,4 @@
     border-radius: 50%;
     animation: spinner-border 0.75s linear infinite;
   }
-
-  @keyframes spinner-border {
-    to {
-      transform: rotate(360deg);
-    }
-  }
 </style>

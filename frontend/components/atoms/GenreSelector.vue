@@ -10,7 +10,9 @@
     title: String,
     icon: String,
     disabled: Boolean,
-    size: Number,
+    size: {
+      type: String,
+    },
     radio: Boolean,
     panelLine: Boolean,
   });
@@ -35,14 +37,16 @@
 
   const isValidProps = computed(() => props.id && (props.title || props.icon));
   const isSelected = computed(() => selectedGenreId.value === props.id);
-  const nuxtLinkStyle = computed(() => {
+  const buttonStyle = computed(() => {
     return {
       minHeight: `${props.size}px`,
       minWidth: `${props.size}px`,
-      border: props.panelLine ? '#00000008 1px solid' : 'initial',
+      '--button-border': props.panelLine
+        ? 'var(--color-base-secondary) 1px solid'
+        : 'initial',
     };
   });
-  const nuxtLinkClass = computed(() => {
+  const buttonClass = computed(() => {
     return [
       { disabled: props.disabled },
       { [isSelected.value ? 'active' : 'inactive']: true },
@@ -51,24 +55,26 @@
 </script>
 
 <template>
-  <NuxtLink
-    class="genre flex justify-center align-center"
-    :class="nuxtLinkClass"
-    :style="nuxtLinkStyle"
-    @click.prevent="selectGenre"
+  <button
+    class="genre center"
+    :class="buttonClass"
+    :style="buttonStyle"
+    @click="selectGenre"
     @keyup.enter="selectGenre"
+    :aria-label="`search book by ${props.title} genre`"
+    :aria-checked="selectedGenreId === props.id"
+    role="radio"
     v-if="isValidProps"
-    tabindex="0"
   >
-    <div class="genre-content">
+    <div class="genre-content ripple-text">
       <div class="text-center">
-        <SvgIcon type="mdi" :path="props.icon"></SvgIcon>
+        <SvgIcon type="mdi" :title="props.title" :path="props.icon"></SvgIcon>
       </div>
-      <h3 class="genre-title text-center">
-        {{ props.title }}
-      </h3>
+      <div class="genre-title text-center">
+        <span>{{ props.title }}</span>
+      </div>
     </div>
-  </NuxtLink>
+  </button>
 </template>
 
 <style lang="scss" scoped>
@@ -79,41 +85,59 @@
   }
 
   .genre {
+    width: 100%;
     min-height: 75px;
     min-width: 75px;
     border-radius: 3px;
     cursor: pointer;
+    border: var(--button-border);
+  }
+
+  .genre:focus-within {
+    border: 2px solid black;
   }
 
   .genre-content {
-    transition: var(--hover-transition);
+    transition: var(--transition-primary);
   }
 
   .active {
-    background-color: var(--color-sub-black);
-    color: var(--color-sub-white);
+    background-color: var(--color-text-selection);
+    color: var(--color-primary);
+    transition: var(--transition-primary);
   }
 
   .inactive {
-    background-color: var(--color-sub-white);
-    color: var(--color-sub-black);
+    background-color: var(--color-base-primary);
+    color: var(--color-base-primary-text);
+    transition: var(--transition-primary);
   }
 
   .disabled {
     background-color: var(--color-row-number);
     opacity: var(--opacity-disabled);
     cursor: default;
+    transition: var(--transition-primary);
+  }
+
+  .genre:not(.disabled):not(.active):active {
+    transition: var(--transition-primary);
+    background-color: var(--color-text-selection);
+    .genre-content {
+      transform: scale(1.15);
+      transition: var(--transition-primary);
+    }
   }
 
   @media (hover: hover) and (pointer: fine) {
     .genre:not(.disabled):not(.active):hover {
-      opacity: var(--opacity-hover);
-      transition: var(--hover-transition);
-      background-color: var(--color-hover-white);
-    }
-    .genre:not(.disabled):not(.active):hover .genre-content {
-      transform: scale(1.15);
-      transition: var(--hover-transition);
+      transition: var(--transition-primary);
+      background-color: var(--color-text-selection);
+
+      .genre-content {
+        transform: scale(1.15);
+        transition: var(--transition-primary);
+      }
     }
   }
 </style>

@@ -9,7 +9,7 @@ export const navigationData = [
     id: 'frontend',
     title: 'Frontend',
     to: '/frontend',
-    color: 'var(--color-back-slash)',
+    color: 'var(--color-style-class)',
   },
   {
     id: 'backend',
@@ -25,20 +25,20 @@ export const navigationData = [
   },
   {
     id: 'devops',
-    title: '// DevOps',
-    to: 'javascript:void(0)',
+    title: 'DevOps',
+    to: '',
     color: '',
   },
   {
     id: 'sre',
-    title: '// SRE',
-    to: 'javascript:void(0)',
+    title: 'SRE',
+    to: '',
     color: '',
   },
   {
     id: 'qa',
-    title: '// QA',
-    to: 'javascript:void(0)',
+    title: 'QA',
+    to: '',
     color: '',
   },
 ];

@@ -1,12 +1,14 @@
 <script setup lang="ts">
   import SkeltonScreen from '@/components/atoms/SkeltonScreen.vue';
   import Header from '@/components/organisms/Header.vue';
+  import Navigation from '@/components/organisms/Navigation.vue';
   import Footer from '@/components/organisms/Footer.vue';
   import { ref, onMounted, onUnmounted, nextTick, watch } from 'vue';
   import { useNuxtApp } from '#app';
   import { useStore } from '@/stores';
 
   const headerRef = ref(null);
+  const navRef = ref(null);
   const mainRef = ref(null);
   const footerRef = ref(null);
   const nuxtApp = useNuxtApp();
@@ -18,7 +20,10 @@
     store.initializeLayoutDimensions();
     window.addEventListener('resize', store.updateDimensions);
     nuxtApp.$headerRef.value = headerRef.value;
+    nuxtApp.$navRef.value = navRef.value;
     nuxtApp.$mainRef.value = mainRef.value;
+    nuxtApp.$footerRef.value = footerRef.value;
+    store.applyTheme();
     await nextTick();
   });
 
@@ -34,20 +39,34 @@
       store.initializeLayoutDimensions();
     }
   );
+  watch(
+    () => store.theme,
+    newTheme => store.updateTheme(newTheme)
+  );
 </script>
 
 <template>
   <div id="default-layout">
-    <header class="header-footer-color">
+    <header>
       <SkeltonScreen
         width="100%"
-        height="calc(var(--height-content) * 3)"
+        height="calc(var(--height-content) * 2)"
         v-if="!store.isReady"
       />
       <div class="container" ref="headerRef">
         <Header />
       </div>
     </header>
+    <nav>
+      <SkeltonScreen
+        width="100%"
+        height="calc(var(--height-content) * 1)"
+        v-if="!store.isReady"
+      />
+      <div class="container" ref="navRef" v-if="store.isReady">
+        <Navigation />
+      </div>
+    </nav>
     <main class="container stretch-height">
       <div class="page-container margin-horizontal relative" ref="mainRef">
         <div class="card stretch-height" v-if="!store.isReady">
@@ -56,7 +75,7 @@
         <NuxtPage class="w100" v-if="store.isReady" />
       </div>
     </main>
-    <footer class="header-footer-color">
+    <footer>
       <SkeltonScreen
         width="100%"
         height="calc(var(--height-content) * 2)"
@@ -70,6 +89,18 @@
 </template>
 
 <style lang="scss" scoped>
+  header {
+    position: relative;
+    z-index: 2;
+  }
+
+  header,
+  nav,
+  footer {
+    background-color: var(--color-base-tertiary);
+    width: 100%;
+  }
+
   #default-layout {
     margin: 0;
     padding: 0;
@@ -82,10 +113,7 @@
     display: flex;
     flex: 1;
   }
-  .header-footer-color {
-    background-color: var(--color-base-black);
-    width: 100%;
-  }
+
   .page-container {
     display: flex;
     flex: 1;

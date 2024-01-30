@@ -7,12 +7,24 @@ export const useStore = defineStore('index', {
     height: 0,
     heightContent: 0,
     headerHeight: 0,
+    navHeight: 0,
     isHeaderReady: false,
+    theme: 'standard',
   }),
   getters: {
     isReady: state => state.isHeaderReady,
+    topLayoutHeight: state => state.headerHeight + state.navHeight,
   },
   actions: {
+    applyTheme() {
+      this.theme = sessionStorage.getItem('theme') || 'standard';
+      this.updateTheme(this.theme);
+    },
+    async updateTheme(theme: string) {
+      sessionStorage.setItem('theme', theme);
+      document.body.className = '';
+      document.body.classList.add(`${theme}-mode`);
+    },
     updateDimensions() {
       this.width = window.innerWidth;
       this.height = window.innerHeight;
@@ -26,15 +38,17 @@ export const useStore = defineStore('index', {
     },
     checkForHeader() {
       const header = document.getElementById('header');
-      if (header) {
+      const nav = document.getElementById('nav');
+      if (header && nav) {
         this.headerHeight = header.getBoundingClientRect().height;
+        this.navHeight = nav.getBoundingClientRect().height;
       } else {
         setTimeout(this.checkForHeader, 100); // 100ミリ秒後に再試行
       }
     },
     scrollToTop() {
       return new Promise(resolve => {
-        let scrollY = window.scrollY;
+        let { scrollY } = window;
         let offset = 0;
         if (this.width < deviceSize.smallDesktop)
           offset = this.heightContent * 2;
@@ -42,7 +56,9 @@ export const useStore = defineStore('index', {
         this.scrollPage(scroll);
 
         const onScroll = () => {
-          if (scrollY == window.scrollY) {this.scrollPage(scroll);}
+          if (scrollY === window.scrollY) {
+            this.scrollPage(scroll);
+          }
           if (window.scrollY <= offset) {
             window.removeEventListener('scroll', onScroll);
             resolve(true);
@@ -50,7 +66,7 @@ export const useStore = defineStore('index', {
           scrollY = window.scrollY;
         };
         window.addEventListener('scroll', onScroll);
-        onScroll()
+        onScroll();
       });
     },
     scrollPage(scroll: number) {

@@ -46,6 +46,5 @@ export default defineNuxtRouteMiddleware(context => {
         error.value = { statusCode: 404, message: 'Page not found' };
       }
     }
-
   }
 });

@@ -1,14 +1,29 @@
 <script setup lang="ts">
   import Spinner from '@/components/atoms/Spinner.vue';
-  import GenreFloatingSideBar from '@/components/organisms/GenreFloatingSideBar.vue';
-  import BookFilter from '@/components/organisms/BookFilter.vue';
-  import FilterAccordion from '@/components/organisms/FilterAccordion.vue';
   import BookList from '@/components/organisms/BookList.vue';
-  import FloatFilter from '@/components/wrappers/FloatFilter.vue';
   import { useStore } from '@/stores';
   import { useBooksStore } from '@/stores/books';
   import { deviceSize } from '@/assets/js/device-size.js';
-  import { ref, watch, onMounted, onBeforeUnmount } from 'vue';
+  import {
+    ref,
+    watch,
+    onMounted,
+    onBeforeUnmount,
+    defineAsyncComponent,
+  } from 'vue';
+
+  const GenreFloatingSideBar = defineAsyncComponent(
+    () => import('@/components/organisms/GenreFloatingSideBar.vue')
+  );
+  const BookFilter = defineAsyncComponent(
+    () => import('@/components/organisms/BookFilter.vue')
+  );
+  const FilterAccordion = defineAsyncComponent(
+    () => import('@/components/organisms/FilterAccordion.vue')
+  );
+  const FloatFilter = defineAsyncComponent(
+    () => import('@/components/wrappers/FloatFilter.vue')
+  );
 
   definePageMeta({
     middleware: ['books'],
@@ -28,7 +43,8 @@
     () => route.query,
     async newQuery => {
       if (sidebarSwitch.value) return booksStore.updateQuery(newQuery);
-      else if (isClickedBrowerButton.value) return booksStore.updateQuery(newQuery);
+      else if (isClickedBrowerButton.value)
+        return booksStore.updateQuery(newQuery);
       isClickedBrowerButton.value = false;
     }
   );
@@ -40,7 +56,9 @@
     sidebarSwitch.value = deviceSize.smallDesktop <= store.width;
     window.addEventListener('popstate', handleBrowserButton);
   });
-  onBeforeUnmount(() => window.removeEventListener('popstate', handleBrowserButton));
+  onBeforeUnmount(() =>
+    window.removeEventListener('popstate', handleBrowserButton)
+  );
 
   const handleBrowserButton = () => {
     isClickedBrowerButton.value = true;
@@ -49,14 +67,16 @@
 
 <template>
   <div class="flex w100">
-    <FloatFilter v-if="!sidebarSwitch">
-      <FilterAccordion />
-    </FloatFilter>
-    <div id="sidebar" class="sidebar-container" v-if="sidebarSwitch">
+    <section>
+      <FloatFilter v-if="!sidebarSwitch">
+        <FilterAccordion />
+      </FloatFilter>
+    </section>
+    <section id="sidebar" class="sidebar-container" v-if="sidebarSwitch">
       <GenreFloatingSideBar class="sidebar" />
-    </div>
-    <div id="main-content" class="w100 relative">
-      <div
+    </section>
+    <section id="main-content" class="w100 relative">
+      <section
         class="relative card-shadow"
         :class="{ loading: booksStore.isLoading }"
       >
@@ -66,9 +86,9 @@
         >
           <BookFilter />
         </div>
-      </div>
+      </section>
       <ClientOnly>
-        <div id="book-result">
+        <section id="book-result" class="content-container">
           <template v-if="booksStore.isLoading">
             <div class="spinner-container">
               <Spinner />
@@ -77,9 +97,9 @@
           <template v-else>
             <BookList />
           </template>
-        </div>
+        </section>
       </ClientOnly>
-    </div>
+    </section>
   </div>
 </template>
 

@@ -8,14 +8,7 @@ export default defineEventHandler(async event => {
     const query = buildQuery(event);
     const data = await fetchBooksData(query);
     const books = filterByRating(transformBooksData(data), event);
-    const {
-      count,
-      page,
-      pageCount: page_count,
-      first,
-      last,
-      hits
-     } = data;
+    const { count, page, pageCount: page_count, first, last, hits } = data;
     return { books, count, page, page_count, first, last, hits };
   } catch (error) {
     return handleApiError(error);

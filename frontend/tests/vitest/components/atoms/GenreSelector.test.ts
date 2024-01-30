@@ -42,8 +42,8 @@ describe('GenreSelector', () => {
       };
       const wrapper = createGenreSelector(genreSelector);
       expect(wrapper.vm.isSelected).toBeTruthy();
-      const nuxtLink = wrapper.find('nuxtlink');
-      expect(nuxtLink.classes()).toContain('active');
+      const genreButton = wrapper.find('button.genre');
+      expect(genreButton.classes()).toContain('active');
     });
 
     it('Verify GenreSelector Is Inactive', () => {
@@ -55,8 +55,8 @@ describe('GenreSelector', () => {
       };
       const wrapper = createGenreSelector(genreSelector);
       expect(wrapper.vm.isSelected).toBeFalsy();
-      const nuxtLink = wrapper.find('nuxtlink');
-      expect(nuxtLink.classes()).toContain('inactive');
+      const genreButton = wrapper.find('button.genre');
+      expect(genreButton.classes()).toContain('inactive');
     });
 
     it('Verify Disabled', async () => {
@@ -68,8 +68,8 @@ describe('GenreSelector', () => {
         disabled: true,
       };
       const wrapper = createGenreSelector(genreSelector);
-      const nuxtLink = wrapper.find('nuxtlink');
-      expect(nuxtLink.classes()).toContain('disabled');
+      const genreButton = wrapper.find('button.genre');
+      expect(genreButton.classes()).toContain('disabled');
     });
   });
 
@@ -137,10 +137,12 @@ describe('GenreSelector', () => {
 
     it('Verify To Panel Line', async () => {
       const wrapper = createGenreSelector(genreSelector);
-      expect(wrapper.vm.nuxtLinkStyle.border).toBe('initial');
+      expect(wrapper.vm.buttonStyle['--button-border']).toBe('initial');
       wrapper.setProps({ panelLine: true });
       await nextTick();
-      expect(wrapper.vm.nuxtLinkStyle.border).not.toBe('initial');
+      expect(wrapper.vm.buttonStyle['--button-border']).toBe(
+        'var(--color-base-secondary) 1px solid'
+      );
     });
   });
 });
@@ -152,7 +154,7 @@ describe('GenreSelector', () => {
 // selectGenreの分岐網羅
 // isValidProps
 // isSelected
-// nuxtLinkStyle
+// buttonStyle
 // nuxtLinkClass
 
 interface GenreData {

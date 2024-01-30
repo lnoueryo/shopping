@@ -1,5 +1,6 @@
 <script setup lang="ts">
   import GenreSelector from '@/components/atoms/GenreSelector.vue';
+  import RippleButton from '@/components/wrappers/RippleButton.vue';
   import { ref, watch, watchEffect, onMounted } from 'vue';
   import { deviceSize } from '@/assets/js/device-size.js';
   const props = defineProps({
@@ -52,6 +53,7 @@
       size.value = props.desktop;
     }
   };
+
   watch(
     () => props.width,
     newWidth => {
@@ -73,27 +75,29 @@
 </script>
 
 <template>
-  <div class="flex justify-start align-center wrap">
-    <GenreSelector
+  <fieldset
+    class="vertical-center wrap"
+    role="radiogroup"
+    aria-label="search books by genre"
+  >
+    <legend class="visually-hidden">Genres</legend>
+    <RippleButton
+      :style="{ width: size + '%' }"
+      class="genre-button border-radius"
       v-for="genre in genreData"
       :key="genre.title"
-      v-bind="genre"
-      v-model="localGenreId"
-      :style="{ width: `${size}%` }"
-      :radio="props.radio"
-      :panelLine="props.panelLine"
-    />
-  </div>
+      color="var(--color-text-selection)"
+      change
+      :disabled="localGenreId == genre.id"
+    >
+      <GenreSelector
+        v-bind="genre"
+        v-model="localGenreId"
+        :radio="props.radio"
+        :panelLine="props.panelLine"
+      />
+    </RippleButton>
+  </fieldset>
 </template>
 
-<style lang="scss" scoped>
-  .genre-selector {
-    width: 33%;
-  }
-
-  @media screen and (max-width: 768px) {
-    .genre-selector {
-      width: 50%;
-    }
-  }
-</style>
+<style lang="scss" scoped></style>
