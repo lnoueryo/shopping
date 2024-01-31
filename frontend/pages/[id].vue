@@ -1,4 +1,7 @@
 <script setup lang="ts">
+  definePageMeta({
+    middleware: ['roadmaps'],
+  });
 const route = useRoute();
 const imageSrc = `/images/roadmaps/${route.params.id}.svg`; // 画像のパス
 

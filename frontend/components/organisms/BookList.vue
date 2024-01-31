@@ -3,12 +3,10 @@
   import { useBooksStore } from '@/stores/books';
   import { useSearchBooks } from '@/composables/search-books';
   import BookItem from '@/components/molecules/BookItem.vue';
+  import ErrorBookResult from '@/components/molecules/ErrorBookResult.vue';
 
   const PaginationWrapper = defineAsyncComponent(
     () => import('@/components/wrappers/PaginationWrapper.vue')
-  );
-  const ErrorBookResult = defineAsyncComponent(
-    () => import('@/components/molecules/ErrorBookResult.vue')
   );
 
   const store = useStore();
