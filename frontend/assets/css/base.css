@@ -673,8 +673,15 @@ li {
 
 /* WebKitベースのブラウザ用 */
 ::-webkit-scrollbar {
-  width: 0px;
-  height: 4px;
+  width: 10px;
+  height: 10px;
+}
+
+@media screen and (max-width: 1060px) {
+  ::-webkit-scrollbar {
+    width: 0px;
+    height: 4px;
+  }
 }
 
 ::-webkit-scrollbar-track {
@@ -692,7 +699,7 @@ li {
 
 /* Firefox用 */
 * {
-  scrollbar-width: thin;
+  /* scrollbar-width: thin;
   scrollbar-color: #ccc #f0f0f0;
   scrollbar-base-color: #ccc;
   scrollbar-3dlight-color: #f0f0f0;
@@ -700,10 +707,10 @@ li {
   scrollbar-track-color: #f0f0f0;
   scrollbar-arrow-color: black;
   scrollbar-shadow-color: #bbb;
-  scrollbar-dark-shadow-color: #aaa;
+  scrollbar-dark-shadow-color: #aaa; */
   box-sizing: border-box;
   word-break: break-all;
-  -webkit-tap-highlight-color: transparent;
+  /* -webkit-tap-highlight-color: transparent; */
 }
 
 ::selection {
