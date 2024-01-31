@@ -699,7 +699,7 @@ li {
 
 /* Firefox用 */
 * {
-  /* scrollbar-width: thin;
+  scrollbar-width: thin;
   scrollbar-color: #ccc #f0f0f0;
   scrollbar-base-color: #ccc;
   scrollbar-3dlight-color: #f0f0f0;
@@ -707,10 +707,9 @@ li {
   scrollbar-track-color: #f0f0f0;
   scrollbar-arrow-color: black;
   scrollbar-shadow-color: #bbb;
-  scrollbar-dark-shadow-color: #aaa; */
+  scrollbar-dark-shadow-color: #aaa;
   box-sizing: border-box;
   word-break: break-all;
-  /* -webkit-tap-highlight-color: transparent; */
 }
 
 ::selection {
