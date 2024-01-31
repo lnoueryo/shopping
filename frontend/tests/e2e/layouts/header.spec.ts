@@ -175,14 +175,16 @@ test.describe('header', () => {
       const bookName = '良いコード／悪いコードで学ぶ設計入門';
       await page.goto(`/books?keyword=${bookName}`);
       await page.waitForSelector('.skeleton', { state: 'hidden' });
+      await page.waitForSelector('.spinner-container', { state: 'hidden' });
       await page.waitForSelector(bookResultSelector);
 
-      await context.setOffline(true);
 
       try {
         await page.fill(searchBarSelector, 'test');
         await page.click(searchBarButtonSelector);
+        await context.setOffline(true);
         await page.waitForSelector(bookResultSelector);
+        await page.waitForSelector('.spinner-container', { state: 'hidden' });
         // const browserName = browser.browserType().name();
         // await page.screenshot({ path: `${browserName}.png` });
         const errorSelector = '#offline';
