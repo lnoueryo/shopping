@@ -48,16 +48,16 @@ describe('GenreFloatingSideBar', () => {
         await flushPromises();
         expect(
           Object.prototype.hasOwnProperty.call(
-            wrapper.vm.route.query,
+            router.currentRoute.value.query,
             'keyword'
           )
         ).toBeFalsy();
         expect(
-          Object.prototype.hasOwnProperty.call(wrapper.vm.route.query, 'genre')
+          Object.prototype.hasOwnProperty.call(router.currentRoute.value.query, 'genre')
         ).toBeTruthy();
-        expect(wrapper.vm.route.query['genre']).toBe(genre.id);
+        expect(router.currentRoute.value.query['genre']).toBe(genre.id);
         expect(
-          wrapper.vm.router.currentRoute.value.query.keyword
+          router.currentRoute.value.query.keyword
         ).toBeUndefined();
       }
     });

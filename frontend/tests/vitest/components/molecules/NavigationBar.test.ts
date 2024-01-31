@@ -46,18 +46,14 @@ describe('NavigationBar', () => {
       const wrapper = createNavigationBar(navigationBar);
       const navigationButtons = wrapper.findAllComponents(NavigationButton);
       expect(navigationButtons.length).toBe(navigationData.length);
-      for (const navigationButton of Object.entries(navigationButtons)) {
-        const typedComponent = navigationButton as VueWrapper<
-          typeof NavigationButton
-        >;
-        if (typedComponent.vm.to) {
-          expect(
-            typedComponent.findComponent(RouterLinkStub).exists()
-          ).toBeTruthy();
+      navigationButtons.forEach((wrapper) => {
+        const linkProps = wrapper.props();
+        if (linkProps.to) {
+          expect(wrapper.findComponent(RouterLinkStub).exists()).toBeTruthy();
         } else {
-          expect(typedComponent.find('p').exists()).toBeTruthy();
+          expect(wrapper.find('p').exists()).toBeTruthy();
         }
-      }
+      });
     });
   });
 });

@@ -81,44 +81,44 @@ describe('BookFilter', () => {
       await flushPromises();
       for (const key in query) {
         expect(
-          Object.prototype.hasOwnProperty.call(wrapper.vm.route.query, key)
+          Object.prototype.hasOwnProperty.call(router.currentRoute.value.query, key)
         ).toBeTruthy();
-        expect(wrapper.vm.route.query[key]).toBe(String(query[key]));
+        expect(router.currentRoute.value.query[key]).toBe(String(query[key]));
       }
-      expect(Number(wrapper.vm.route.query.rate)).toBe(1);
+      expect(Number(router.currentRoute.value.query.rate)).toBe(1);
 
       const fourthRating = ratings[calcurateRating(4)];
       await fourthRating.trigger('click');
       await flushPromises();
       for (const key in query) {
         expect(
-          Object.prototype.hasOwnProperty.call(wrapper.vm.route.query, key)
+          Object.prototype.hasOwnProperty.call(router.currentRoute.value.query, key)
         ).toBeTruthy();
-        expect(wrapper.vm.route.query[key]).toBe(String(query[key]));
+        expect(router.currentRoute.value.query[key]).toBe(String(query[key]));
       }
-      expect(Number(wrapper.vm.route.query.rate)).toBe(4);
+      expect(Number(router.currentRoute.value.query.rate)).toBe(4);
 
       const lastRating = ratings[calcurateRating(5)];
       await lastRating.trigger('click');
       await flushPromises();
       for (const key in query) {
         expect(
-          Object.prototype.hasOwnProperty.call(wrapper.vm.route.query, key)
+          Object.prototype.hasOwnProperty.call(router.currentRoute.value.query, key)
         ).toBeTruthy();
-        expect(wrapper.vm.route.query[key]).toBe(String(query[key]));
+        expect(router.currentRoute.value.query[key]).toBe(String(query[key]));
       }
-      expect(Number(wrapper.vm.route.query.rate)).toBe(4);
+      expect(Number(router.currentRoute.value.query.rate)).toBe(4);
 
       await fourthRating.trigger('click');
       await flushPromises();
       for (const key in query) {
         expect(
-          Object.prototype.hasOwnProperty.call(wrapper.vm.route.query, key)
+          Object.prototype.hasOwnProperty.call(router.currentRoute.value.query, key)
         ).toBeTruthy();
-        expect(wrapper.vm.route.query[key]).toBe(String(query[key]));
+        expect(router.currentRoute.value.query[key]).toBe(String(query[key]));
       }
       expect(
-        Object.prototype.hasOwnProperty.call(wrapper.vm.route.query, 'rate')
+        Object.prototype.hasOwnProperty.call(router.currentRoute.value.query, 'rate')
       ).toBeFalsy();
     });
     it('Verify filter books by skill levels', async () => {
@@ -148,13 +148,13 @@ describe('BookFilter', () => {
         await skillLevelChip.setChecked(true);
         await flushPromises();
         path += `&levels=${skillLevelChip.element.value}`;
-        expect(wrapper.vm.route.fullPath).toBe(basePath + path);
+        expect(router.currentRoute.value.fullPath).toBe(basePath + path);
       }
       for (const skillLevelChip of skillLevelChips) {
         await skillLevelChip.setChecked(false);
         await flushPromises();
         path = path.replace(`&levels=${skillLevelChip.element.value}`, '');
-        expect(wrapper.vm.route.fullPath).toBe(basePath + path);
+        expect(router.currentRoute.value.fullPath).toBe(basePath + path);
       }
     });
   });
