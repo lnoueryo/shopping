@@ -51,6 +51,7 @@ test.describe('header', () => {
   test.describe('Engineer-Specific Roadmap Page Transition', () => {
     test.beforeEach(async ({ page }) => {
       await page.goto('/');
+      await page.waitForSelector('.skeleton', { state: 'hidden' });
     });
     test('Verify navigation items', async ({ page }) => {
       const navSelector = 'nav';
@@ -63,25 +64,28 @@ test.describe('header', () => {
 
     test('Verify go to them when pages are clicked', async ({ page }) => {
       for (const item of navigationData) {
-        await page.goto('/');
-        const navItemSelector = `#${item.id}`;
-        await page.waitForSelector(navItemSelector);
-        await page.click(navItemSelector);
-        const to = item.to === 'javascript:void(0)' ? '/' : item.to;
-        await page.waitForFunction(
-          url => window.location.pathname === url,
-          to,
-          { timeout: 3000 }
-        );
-        const url = page.url();
-        const relativePath = new URL(url).pathname;
-        expect(relativePath).toBe(to);
+        if (item.to) {
+          await page.goto('/');
+          await page.waitForSelector('.skeleton', { state: 'hidden' });
+          const navItemSelector = `#${item.id}`;
+          await page.waitForSelector(navItemSelector);
+          await page.click(navItemSelector);
+          await page.waitForFunction(
+            url => window.location.pathname === url,
+            item.to,
+            { timeout: 3000 }
+          );
+          const url = page.url();
+          const relativePath = new URL(url).pathname;
+          expect(relativePath).toBe(item.to);
+        }
       }
     });
   });
   test.describe('Search Book By Keyword', () => {
     test.beforeEach(async ({ page }) => {
       await page.goto('/');
+      await page.waitForSelector('.skeleton', { state: 'hidden' });
     });
     const searchBarSelector = 'header input';
     const searchBarButtonSelector = 'header .search-button';
@@ -111,6 +115,7 @@ test.describe('header', () => {
       await page.press(searchBarSelector, 'Enter');
       await page.waitForSelector(bookResultSelector);
       await page.waitForSelector('.spinner-container', { state: 'hidden' });
+      // await page.screenshot({ path: 'screenshot1.png' });
       const url = page.url();
       const { searchParams } = new URL(url);
       expect(searchParams.get('keyword')).toBe(bookName);
