@@ -194,8 +194,6 @@ test.describe('header', () => {
         await context.setOffline(false);
 
       } catch (error) {
-        const browserName = browser.browserType().name();
-        await page.screenshot({ path: `${browserName}.png` });
         // if (browserName === 'chromium') {
         //   // Chromium固有のテストコード
         // } else {
@@ -203,7 +201,7 @@ test.describe('header', () => {
         //   // test.skip();
         // }
         console.error('Test failed, retrying...', error);
-        await context.setOffline(false);
+        // await context.setOffline(false);
         // throw error;
       }
     });
