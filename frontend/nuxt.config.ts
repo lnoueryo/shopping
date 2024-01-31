@@ -12,6 +12,9 @@ export default defineNuxtConfig({
   },
   app: {
     head: {
+      htmlAttrs: {
+        lang: 'en',
+      },
       charset: 'utf-8',
       viewport: 'width=device-width, initial-scale=1',
       title: 'WebTech Bookstore: Online Bookstore for Engineers',
@@ -75,6 +78,17 @@ export default defineNuxtConfig({
     },
   },
   devtools: { enabled: false },
-  css: ['normalize.css', '/assets/css/main.css'],
+  css: ['/assets/css/base.css', '/assets/css/main.css'],
   plugins: ['~/plugins/shared-ref.js'],
+  vite: {
+    build: {
+      terser: {
+        terserOptions: {
+          compress: {
+            drop_console: true,
+          },
+        },
+      },
+    },
+  },
 });

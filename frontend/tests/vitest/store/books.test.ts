@@ -99,12 +99,12 @@ describe('Books Store', () => {
       genre: '',
       rate: 0,
       levels: [],
-      page: 1
+      page: 1,
     };
     it('Verify update keyword', async () => {
       const query = {
         keyword: 'test',
-        page: 1
+        page: 1,
       };
       const store = useBooksStore();
       store.fetchBooksData = vi.fn();
@@ -118,7 +118,7 @@ describe('Books Store', () => {
       const query = {
         keyword: 'test',
         rate: 3,
-        page: 1
+        page: 1,
       };
       const store = useBooksStore();
       store.fetchBooksData = vi.fn();
@@ -133,14 +133,14 @@ describe('Books Store', () => {
         keyword: 'test',
         rate: 3,
         levels: ['beginner'],
-        page: 2
+        page: 2,
       };
       const store = useBooksStore();
       store.fetchBooksData = vi.fn();
       expect(store.query).toStrictEqual({ ...originalQuery });
       expect(store.fetchBooksData).toHaveBeenCalledTimes(0);
       await store.updateQuery(query);
-      expect(store.query).toStrictEqual({ ...originalQuery, ...query, });
+      expect(store.query).toStrictEqual({ ...originalQuery, ...query });
       // expect(store.query).toStrictEqual({ ...originalQuery, ...query, });
       expect(store.fetchBooksData).toHaveBeenCalledTimes(1);
     });

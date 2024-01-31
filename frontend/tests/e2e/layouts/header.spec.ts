@@ -112,7 +112,7 @@ test.describe('header', () => {
       await page.waitForSelector(bookResultSelector);
       await page.waitForSelector('.spinner-container', { state: 'hidden' });
       const url = page.url();
-      const searchParams = new URL(url).searchParams;
+      const { searchParams } = new URL(url);
       expect(searchParams.get('keyword')).toBe(bookName);
       expect(searchParams.get('page')).toBe('1');
       const bookResultContent = await page.textContent(bookResultSelector);
@@ -127,7 +127,7 @@ test.describe('header', () => {
       await page.waitForSelector(bookResultSelector);
       await page.waitForSelector('.spinner-container', { state: 'hidden' });
       const url = page.url();
-      const searchParams = new URL(url).searchParams;
+      const { searchParams } = new URL(url);
       expect(searchParams.get('keyword')).toBe(bookName);
       expect(searchParams.get('page')).toBe('1');
       const bookResultContent = await page.textContent(bookResultSelector);
@@ -141,7 +141,7 @@ test.describe('header', () => {
       await page.press(searchBarSelector, 'Enter');
       await page.waitForSelector(bookResultSelector);
       const url = page.url();
-      const searchParams = new URL(url).searchParams;
+      const { searchParams } = new URL(url);
       expect(searchParams.get('keyword')).toBe(bookName);
       expect(searchParams.get('page')).toBe('1');
       const errorSelector = '#no-book-result';

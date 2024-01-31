@@ -27,9 +27,9 @@ describe('GenreFloatingSideBar', () => {
           plugins: [createRouterInstance(), createPinia(state)],
         },
       });
-      const nuxtlinks = wrapper.findAll('nuxtlink');
+      const genreButtons = wrapper.findAll('button.genre');
 
-      expect(nuxtlinks.length).toBe(genreData.length);
+      expect(genreButtons.length).toBe(genreData.length);
     });
   });
   describe('Search Book by Genre', () => {
@@ -41,13 +41,20 @@ describe('GenreFloatingSideBar', () => {
           plugins: [router, createPinia(state)],
         },
       });
-      const nuxtlinks = wrapper.findAll('nuxtlink');
+      const genreButtons = wrapper.findAll('button.genre');
       for (const [index, genre] of genreData.entries()) {
         await router.push('/books?keyword=test');
-        await nuxtlinks[index].trigger('click');
+        await genreButtons[index].trigger('click');
         await flushPromises();
-        expect(Object.prototype.hasOwnProperty.call(wrapper.vm.route.query, 'keyword')).toBeFalsy();
-        expect(Object.prototype.hasOwnProperty.call(wrapper.vm.route.query, 'genre')).toBeTruthy();
+        expect(
+          Object.prototype.hasOwnProperty.call(
+            wrapper.vm.route.query,
+            'keyword'
+          )
+        ).toBeFalsy();
+        expect(
+          Object.prototype.hasOwnProperty.call(wrapper.vm.route.query, 'genre')
+        ).toBeTruthy();
         expect(wrapper.vm.route.query['genre']).toBe(genre.id);
         expect(
           wrapper.vm.router.currentRoute.value.query.keyword

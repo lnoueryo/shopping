@@ -1,12 +1,15 @@
 <script setup lang="ts">
-  import { ref, watch, onMounted } from 'vue';
+  import { ref, watch, onMounted, defineAsyncComponent } from 'vue';
   import TriSectionLayout from '@/components/wrappers/TriSectionLayout.vue';
   import GenreSelectors from '@/components/molecules/GenreSelectors.vue';
-  import CodeList from '@/components/atoms/CodeList.vue';
   import { genreData } from '@/assets/js/genres.js';
   import { deviceSize } from '@/assets/js/device-size.js';
   import { selectGenreFunc, genreSelectorHTML } from '@/assets/js/codes.js';
   import { useStore } from '@/stores';
+
+  const CodeList = defineAsyncComponent(
+    () => import('@/components/atoms/CodeList.vue')
+  );
 
   const SIX_CARD_GRID_WIDTH = 16.37;
   const store = useStore();
@@ -41,7 +44,7 @@
 <template>
   <TriSectionLayout v-bind="contentSwitch" :width="store.width">
     <template #left>
-      <div class="flex">
+      <div id="left-code" class="flex">
         <CodeList :htmlArray="selectGenreArr" />
       </div>
     </template>
@@ -55,7 +58,7 @@
       />
     </template>
     <template #right>
-      <div class="flex">
+      <div id="right-code" class="flex">
         <CodeList :htmlArray="genreSelectorArr" />
       </div>
     </template>

@@ -2,12 +2,11 @@ import { describe, it, expect, beforeAll } from 'vitest';
 import { mount } from '@vue/test-utils';
 import { deviceSize } from '@/assets/js/device-size';
 import Pagination from '/components/molecules/Pagination.vue';
-import { nextTick } from 'vue';
 
 describe('Pagination', () => {
   beforeAll(() => {
     Element.prototype.scrollTo = () => {};
-  })
+  });
   describe('Display Pagination', () => {
     it('Render more than 6 pages and first index', () => {
       const pagenation = {
@@ -17,20 +16,24 @@ describe('Pagination', () => {
         last: 30,
         count: 152,
         width: deviceSize.smallDesktop,
-      }
+      };
       const wrapper = createPagination(pagenation);
-      const leftPageButton = wrapper.find('#left-page-button')
+      const leftPageButton = wrapper.find('#left-page-button button');
       expect(leftPageButton.element.disabled).toBeTruthy();
-      const rightPageButton = wrapper.find('#right-page-button')
+      const rightPageButton = wrapper.find('#right-page-button button');
       expect(rightPageButton.element.disabled).toBeFalsy();
       const button = wrapper.find(`#button-${pagenation.page}`);
       expect(button.classes()).toContain('active');
       expect(wrapper.vm.isShownLeftPageButton).toBeFalsy();
       expect(wrapper.vm.isShownRightPageButton).toBeTruthy();
       expect(wrapper.vm.totalPageButtons.length).toBe(pagenation.page_count);
-      expect(wrapper.vm.displayPageButtons.length).toBe(wrapper.vm.EDGE_PAGE_BUTTONS);
+      expect(wrapper.vm.displayPageButtons.length).toBe(
+        wrapper.vm.EDGE_PAGE_BUTTONS
+      );
       expect(wrapper.vm.totalPageButtons[0]).toBe(1);
-      expect(wrapper.vm.totalPageButtons[wrapper.vm.totalPageButtons.length - 1]).toBe(pagenation.page_count);
+      expect(
+        wrapper.vm.totalPageButtons[wrapper.vm.totalPageButtons.length - 1]
+      ).toBe(pagenation.page_count);
     });
 
     it('Render less than 5 pages and last index', () => {
@@ -41,20 +44,24 @@ describe('Pagination', () => {
         last: 122,
         count: 122,
         width: deviceSize.smallDesktop,
-      }
+      };
       const wrapper = createPagination(pagenation);
-      const leftPageButton = wrapper.find('#left-page-button')
+      const leftPageButton = wrapper.find('#left-page-button');
       expect(leftPageButton.element.disabled).toBeFalsy();
-      const rightPageButton = wrapper.find('#right-page-button')
+      const rightPageButton = wrapper.find('#right-page-button button');
       expect(rightPageButton.element.disabled).toBeTruthy();
       const button = wrapper.find(`#button-${pagenation.page}`);
       expect(button.classes()).toContain('active');
       expect(wrapper.vm.isShownLeftPageButton).toBeFalsy();
       expect(wrapper.vm.isShownRightPageButton).toBeFalsy();
       expect(wrapper.vm.totalPageButtons.length).toBe(pagenation.page_count);
-      expect(wrapper.vm.displayPageButtons.length).toBe(wrapper.vm.MAX_DISPLAY_BUTTONS);
+      expect(wrapper.vm.displayPageButtons.length).toBe(
+        wrapper.vm.MAX_DISPLAY_BUTTONS
+      );
       expect(wrapper.vm.totalPageButtons[0]).toBe(1);
-      expect(wrapper.vm.totalPageButtons[wrapper.vm.totalPageButtons.length - 1]).toBe(pagenation.page_count);
+      expect(
+        wrapper.vm.totalPageButtons[wrapper.vm.totalPageButtons.length - 1]
+      ).toBe(pagenation.page_count);
     });
 
     it('Render 1 page', () => {
@@ -65,11 +72,11 @@ describe('Pagination', () => {
         last: 2,
         count: 2,
         width: deviceSize.smallDesktop,
-      }
+      };
       const wrapper = createPagination(pagenation);
-      const leftPageButton = wrapper.find('#left-page-button')
+      const leftPageButton = wrapper.find('#left-page-button button');
       expect(leftPageButton.element.disabled).toBeTruthy();
-      const rightPageButton = wrapper.find('#right-page-button')
+      const rightPageButton = wrapper.find('#right-page-button button');
       expect(rightPageButton.element.disabled).toBeTruthy();
       const button = wrapper.find(`#button-${pagenation.page}`);
       expect(button.classes()).toContain('active');
@@ -87,18 +94,20 @@ describe('Pagination', () => {
         last: 90,
         count: 152,
         width: deviceSize.smallDesktop,
-      }
+      };
       const wrapper = createPagination(pagenation);
-      const leftPageButton = wrapper.find('#left-page-button')
+      const leftPageButton = wrapper.find('#left-page-button');
       expect(leftPageButton.element.disabled).toBeFalsy();
-      const rightPageButton = wrapper.find('#right-page-button')
+      const rightPageButton = wrapper.find('#right-page-button');
       expect(rightPageButton.element.disabled).toBeFalsy();
       const button = wrapper.find(`#button-${pagenation.page}`);
       expect(button.classes()).toContain('active');
       expect(wrapper.vm.isShownLeftPageButton).toBeFalsy();
       expect(wrapper.vm.isShownRightPageButton).toBeTruthy();
       expect(wrapper.vm.totalPageButtons.length).toBe(pagenation.page_count);
-      expect(wrapper.vm.displayPageButtons.length).toBe(wrapper.vm.EDGE_PAGE_BUTTONS);
+      expect(wrapper.vm.displayPageButtons.length).toBe(
+        wrapper.vm.EDGE_PAGE_BUTTONS
+      );
     });
 
     it('Render 6 pages and index 4', () => {
@@ -109,11 +118,11 @@ describe('Pagination', () => {
         last: 120,
         count: 152,
         width: deviceSize.smallDesktop,
-      }
+      };
       const wrapper = createPagination(pagenation);
-      const leftPageButton = wrapper.find('#left-page-button')
+      const leftPageButton = wrapper.find('#left-page-button');
       expect(leftPageButton.element.disabled).toBeFalsy();
-      const rightPageButton = wrapper.find('#right-page-button')
+      const rightPageButton = wrapper.find('#right-page-button');
       expect(rightPageButton.element.disabled).toBeFalsy();
       const button = wrapper.find(`#button-${pagenation.page}`);
       expect(button.classes()).toContain('active');
@@ -121,8 +130,12 @@ describe('Pagination', () => {
       expect(wrapper.vm.isShownRightPageButton).toBeFalsy();
       expect(wrapper.vm.totalPageButtons.length).toBe(pagenation.page_count);
       expect(wrapper.vm.totalPageButtons[0]).toBe(1);
-      expect(wrapper.vm.totalPageButtons[wrapper.vm.totalPageButtons.length - 1]).toBe(pagenation.page_count);
-      expect(wrapper.vm.displayPageButtons.length).toBe(wrapper.vm.EDGE_PAGE_BUTTONS);
+      expect(
+        wrapper.vm.totalPageButtons[wrapper.vm.totalPageButtons.length - 1]
+      ).toBe(pagenation.page_count);
+      expect(wrapper.vm.displayPageButtons.length).toBe(
+        wrapper.vm.EDGE_PAGE_BUTTONS
+      );
     });
 
     it('Render 7 pages and index 4', () => {
@@ -133,11 +146,11 @@ describe('Pagination', () => {
         last: 120,
         count: 182,
         width: deviceSize.smallDesktop,
-      }
+      };
       const wrapper = createPagination(pagenation);
-      const leftPageButton = wrapper.find('#left-page-button')
+      const leftPageButton = wrapper.find('#left-page-button');
       expect(leftPageButton.element.disabled).toBeFalsy();
-      const rightPageButton = wrapper.find('#right-page-button')
+      const rightPageButton = wrapper.find('#right-page-button');
       expect(rightPageButton.element.disabled).toBeFalsy();
       const button = wrapper.find(`#button-${pagenation.page}`);
       expect(button.classes()).toContain('active');
@@ -145,8 +158,12 @@ describe('Pagination', () => {
       expect(wrapper.vm.isShownRightPageButton).toBeTruthy();
       expect(wrapper.vm.totalPageButtons.length).toBe(pagenation.page_count);
       expect(wrapper.vm.totalPageButtons[0]).toBe(1);
-      expect(wrapper.vm.totalPageButtons[wrapper.vm.totalPageButtons.length - 1]).toBe(pagenation.page_count);
-      expect(wrapper.vm.displayPageButtons.length).toBe(wrapper.vm.MIDDLE_PAGE_BUTTONS);
+      expect(
+        wrapper.vm.totalPageButtons[wrapper.vm.totalPageButtons.length - 1]
+      ).toBe(pagenation.page_count);
+      expect(wrapper.vm.displayPageButtons.length).toBe(
+        wrapper.vm.MIDDLE_PAGE_BUTTONS
+      );
     });
 
     it('Render mobile', () => {
@@ -157,7 +174,7 @@ describe('Pagination', () => {
         last: 120,
         count: 182,
         width: deviceSize.mobile - 1,
-      }
+      };
       const wrapper = createPagination(pagenation);
       const button = wrapper.find(`#button-${pagenation.page}`);
       expect(button.classes()).toContain('active');
@@ -165,11 +182,12 @@ describe('Pagination', () => {
       expect(wrapper.vm.isShownRightPageButton).toBeFalsy();
       expect(wrapper.vm.displayPageButtons.length).toBe(pagenation.page_count);
       expect(wrapper.vm.displayPageButtons[0]).toBe(1);
-      expect(wrapper.vm.displayPageButtons[wrapper.vm.displayPageButtons.length - 1]).toBe(pagenation.page_count);
+      expect(
+        wrapper.vm.displayPageButtons[wrapper.vm.displayPageButtons.length - 1]
+      ).toBe(pagenation.page_count);
       const pageButtons = wrapper.find('#page-buttons');
-      expect(pageButtons.classes()).toContain('mobile')
+      expect(pageButtons.classes()).toContain('mobile');
     });
-
   });
 
   describe('Behavior', () => {
@@ -180,11 +198,11 @@ describe('Pagination', () => {
       last: 120,
       count: 182,
       width: deviceSize.smallDesktop,
-    }
+    };
 
     it('Verify Left Page', async () => {
       const wrapper = createPagination(pagenation);
-      const leftPageButton = wrapper.find('#left-page-button')
+      const leftPageButton = wrapper.find('#left-page-button button');
       await leftPageButton.trigger('click');
       expect(wrapper.emitted('updatePage')).toBeTruthy();
       expect(wrapper.emitted()['updatePage'][0]).toEqual([pagenation.page - 1]);
@@ -192,7 +210,7 @@ describe('Pagination', () => {
 
     it('Verify Right Page', async () => {
       const wrapper = createPagination(pagenation);
-      const rightPageButton = wrapper.find('#right-page-button')
+      const rightPageButton = wrapper.find('#right-page-button button');
       await rightPageButton.trigger('click');
       expect(wrapper.emitted('updatePage')).toBeTruthy();
       expect(wrapper.emitted()['updatePage'][0]).toEqual([pagenation.page + 1]);
@@ -200,7 +218,7 @@ describe('Pagination', () => {
 
     it('Verify Jump Left Page', async () => {
       const wrapper = createPagination(pagenation);
-      const jumpLeftButton = wrapper.find('#jump-left-button')
+      const jumpLeftButton = wrapper.find('#jump-left-button');
       await jumpLeftButton.trigger('click');
       const buttons = wrapper.vm.displayPageButtons;
       expect(wrapper.emitted('updatePage')).toBeTruthy();
@@ -209,13 +227,14 @@ describe('Pagination', () => {
 
     it('Verify Jump Right Page', async () => {
       const wrapper = createPagination(pagenation);
-      const jumpRightButton = wrapper.find('#jump-right-button')
+      const jumpRightButton = wrapper.find('#jump-right-button');
       await jumpRightButton.trigger('click');
       const buttons = wrapper.vm.displayPageButtons;
       expect(wrapper.emitted('updatePage')).toBeTruthy();
-      expect(wrapper.emitted()['updatePage'][0]).toEqual([buttons[buttons.length - 1] + 2]);
+      expect(wrapper.emitted()['updatePage'][0]).toEqual([
+        buttons[buttons.length - 1] + 2,
+      ]);
     });
-
   });
 });
 

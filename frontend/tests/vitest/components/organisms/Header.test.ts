@@ -74,14 +74,22 @@ describe('Header', () => {
         },
       });
       const keyword = await search(wrapper, 1);
-      expect(Object.prototype.hasOwnProperty.call(wrapper.vm.route.query, 'genre')).toBeFalsy();
-      expect(Object.prototype.hasOwnProperty.call(wrapper.vm.route.query, 'keyword')).toBeTruthy();
+      expect(
+        Object.prototype.hasOwnProperty.call(wrapper.vm.route.query, 'genre')
+      ).toBeFalsy();
+      expect(
+        Object.prototype.hasOwnProperty.call(wrapper.vm.route.query, 'keyword')
+      ).toBeTruthy();
       expect(wrapper.vm.route.query['keyword']).toBe(keyword);
 
       await router.push('/');
       const keywords = await search(wrapper, 100);
-      expect(Object.prototype.hasOwnProperty.call(wrapper.vm.route.query, 'genre')).toBeFalsy();
-      expect(Object.prototype.hasOwnProperty.call(wrapper.vm.route.query, 'keyword')).toBeTruthy();
+      expect(
+        Object.prototype.hasOwnProperty.call(wrapper.vm.route.query, 'genre')
+      ).toBeFalsy();
+      expect(
+        Object.prototype.hasOwnProperty.call(wrapper.vm.route.query, 'keyword')
+      ).toBeTruthy();
       expect(wrapper.vm.route.query['keyword']).toBe(keywords);
     });
     it('Verify Stay Home Page.', async () => {
@@ -114,11 +122,14 @@ describe('Header', () => {
       const query = {
         rate: 4,
         levels: ['advanced'],
-        page: 1
-      }
+        page: 1,
+      };
       const state = { isHeaderReady: true };
       const router = createRouterInstance();
-      await router.push({path: '/books', query: {...query, genre: '123456789'}});
+      await router.push({
+        path: '/books',
+        query: { ...query, genre: '123456789' },
+      });
       const wrapper = mount(Header, {
         global: {
           plugins: [router, createPinia(state)],
@@ -127,10 +138,16 @@ describe('Header', () => {
 
       const keyword = await search(wrapper, 5);
       for (const key in query) {
-        expect(Object.prototype.hasOwnProperty.call(wrapper.vm.route.query, key)).toBeTruthy();
+        expect(
+          Object.prototype.hasOwnProperty.call(wrapper.vm.route.query, key)
+        ).toBeTruthy();
       }
-      expect(Object.prototype.hasOwnProperty.call(wrapper.vm.route.query, 'genre')).toBeFalsy();
-      expect(Object.prototype.hasOwnProperty.call(wrapper.vm.route.query, 'keyword')).toBeTruthy();
+      expect(
+        Object.prototype.hasOwnProperty.call(wrapper.vm.route.query, 'genre')
+      ).toBeFalsy();
+      expect(
+        Object.prototype.hasOwnProperty.call(wrapper.vm.route.query, 'keyword')
+      ).toBeTruthy();
       expect(wrapper.vm.route.query['keyword']).toBe(keyword);
     });
   });

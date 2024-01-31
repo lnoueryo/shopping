@@ -6,14 +6,19 @@
 
 <template>
   <div>
-    <div class="content-container card-shadow">
-      <div class="card title-container flex align-center" v-if="store.isReady">
-        <div class="title padding-horizontal"> Genres </div>
+    <section>
+      <div class="content-container card-shadow">
+        <div
+          class="card title-container flex align-center padding-horizontal"
+          v-if="store.isReady"
+        >
+          <div class="title padding-horizontal"> Genres </div>
+        </div>
+        <div class="card">
+          <GenreContent v-if="store.isReady" />
+        </div>
       </div>
-      <div class="card">
-        <GenreContent v-if="store.isReady" />
-      </div>
-    </div>
+    </section>
   </div>
 </template>
 

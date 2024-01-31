@@ -42,15 +42,6 @@
   $skeletonTime: 1.2s;
   $skeletonEase: linear;
 
-  @keyframes skeleton-animation {
-    0% {
-      transform: translateX(-100%);
-    }
-    100% {
-      transform: translateX(100%);
-    }
-  }
-
   @mixin skeleton-mixin() {
     position: relative;
     width: var(--skeleton-width, 100%);

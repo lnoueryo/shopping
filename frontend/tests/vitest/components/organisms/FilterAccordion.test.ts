@@ -1,6 +1,6 @@
 // - 絞り込み条件に変更がない場合書籍一覧を取得する通信は行われない
 // E2Eで行うテストの設計（スタイル、組み合わせテスト）
-import { describe, it, expect, beforeEach, afterEach } from 'vitest';
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { mount, flushPromises } from '@vue/test-utils';
 import { createRouter, createWebHistory } from 'vue-router';
 import FilterAccordion from '/components/organisms/FilterAccordion.vue';
@@ -42,6 +42,8 @@ describe('FilterAccordion', () => {
           plugins: [createRouterInstance(), createPinia(state)],
         },
       });
+      await flushPromises();
+      await vi.dynamicImportSettled();
       expect(wrapper.vm.isOpen).toBeFalsy();
       const rating = wrapper.findComponent({ name: 'Rating' });
       expect(rating.vm.rate).toBe(state.query.rate);
@@ -67,6 +69,8 @@ describe('FilterAccordion', () => {
           plugins: [createRouterInstance(), createPinia(state)],
         },
       });
+      await flushPromises();
+      await vi.dynamicImportSettled();
       expect(wrapper.vm.isOpen).toBeFalsy();
       const rating = wrapper.findComponent({ name: 'Rating' });
       expect(rating.vm.rate).toBe(state.query.rate);
@@ -168,6 +172,8 @@ describe('FilterAccordion', () => {
           plugins: [router, createPinia(state)],
         },
       });
+      await flushPromises();
+      await vi.dynamicImportSettled();
       expect(wrapper.vm.booksStore.isAccordionOpen).toBeFalsy();
       const accordion = wrapper.findComponent({ name: 'Accordion' });
       const accordionSwitch = accordion.find('input');
@@ -184,6 +190,7 @@ describe('FilterAccordion', () => {
       const skillLevelChipsComponent = wrapper.findComponent({
         name: 'SkillLevelChips',
       });
+
       const skillLevelChips = skillLevelChipsComponent.findAll('input');
       await skillLevelChips[0].setChecked(true);
       await nextTick();
@@ -196,7 +203,7 @@ describe('FilterAccordion', () => {
       const genreSelectorsComponent = wrapper.findComponent({
         name: 'GenreSelectors',
       });
-      const genreSelectors = genreSelectorsComponent.findAll('nuxtlink');
+      const genreSelectors = genreSelectorsComponent.findAll('button.genre');
       await genreSelectors[1].trigger('click');
       await nextTick();
       await flushPromises();

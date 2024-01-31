@@ -8,45 +8,57 @@
 
 <template>
   <button
-    class="magnify h100 w100 flex justify-center"
+    class="magnify h100 w100 center flex"
     @click="$emit('onSearchClicked')"
   >
-    <svg-icon
+    <SvgIcon
+      class="magnify-icon"
       :size="props.size || 24"
       type="mdi"
+      title="search button"
       :path="mdiMagnify"
-      color="black"
-    ></svg-icon>
+      color="var(--color-text-primary)"
+    ></SvgIcon>
   </button>
 </template>
 
 <style lang="scss" scoped>
   .magnify {
-    display: flex;
-    align-items: center;
     text-decoration: none;
-    background: linear-gradient(
+    background-image: linear-gradient(
       to top,
-      var(--color-base-white),
-      var(--color-sub-white)
+      var(--color-base-primary),
+      var(--color-base-secondary)
     );
+    background-size: 100% 200%;
+    background-position: 0% 100%;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     -webkit-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    transition: var(--hover-transition);
+    transition: var(--transition-primary);
     border-radius: 3px;
-    border: 2px solid var(--color-row-selected-number);
+    border: 2px solid var(--color-base-tertiary);
     cursor: pointer;
-  }
 
-  .magnify:active {
-    opacity: 0.9;
-    transition: var(--hover-transition);
-  }
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        background-position: 0% 0%;
+        transition: var(--transition-primary);
+      }
+      &:hover .magnify-icon {
+        background-position: 0% 0%;
+        transform: scale(1.1);
+        transition: var(--transition-primary);
+      }
+    }
 
-  @media (hover: hover) and (pointer: fine) {
-    .magnify:hover {
-      opacity: var(--opacity-hover);
-      transition: var(--hover-transition);
+    &:active {
+      background-position: 0% 100%;
+      transition: var(--transition-primary);
+    }
+
+    &:active .magnify-icon {
+      transform: scale(0.9);
+      transition: var(--transition-primary);
     }
   }
 </style>

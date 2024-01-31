@@ -19,16 +19,13 @@
 </script>
 
 <template>
-  <div class="hit-info">
-    <div>
-      Showing {{ props.first }}-{{ props.last }} of {{ props.count }} results
-    </div>
-  </div>
+  <p class="hit-info">
+    Showing {{ props.first }}-{{ props.last }} of {{ props.count }} results
+  </p>
 </template>
 
 <style lang="scss" scoped>
   .hit-info {
     font-weight: bold;
-    color: var(--color-sub-black);
   }
 </style>

@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import { mount } from '@vue/test-utils';
+import { mount, flushPromises } from '@vue/test-utils';
 import { createRouter, createWebHistory } from 'vue-router';
 import BookList from '@/components/organisms/BookList.vue';
 import { createTestingPinia } from '@pinia/testing';
@@ -76,7 +76,8 @@ describe('BookList', () => {
           plugins: [createRouterInstance(), createPinia(state)],
         },
       });
-
+      await flushPromises();
+      await vi.dynamicImportSettled();
       const bookItems = wrapper.findAllComponents({ name: 'BookItem' });
       expect(bookItems.length).toBe(books.length);
       for (const [index, bookItem] of bookItems.entries()) {
@@ -107,6 +108,8 @@ describe('BookList', () => {
           plugins: [createRouterInstance(), createPinia(state)],
         },
       });
+      await flushPromises();
+      await vi.dynamicImportSettled();
       const bookItems = wrapper.findAllComponents({ name: 'BookItem' });
       expect(bookItems.length).toBe(0);
       const noBookResult = wrapper.findComponent({ name: 'NoBookResult' });
@@ -125,6 +128,8 @@ describe('BookList', () => {
           plugins: [createRouterInstance(), createPinia(state)],
         },
       });
+      await flushPromises();
+      await vi.dynamicImportSettled();
       const bookItems = wrapper.findAllComponents({ name: 'BookItem' });
       expect(bookItems.length).toBe(0);
 
