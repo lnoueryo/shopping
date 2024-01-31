@@ -1,19 +1,19 @@
 <script setup lang="ts">
-  import Modal from '@/components/atoms/Modal.vue';
   import MainSearchBar from '@/components/molecules/MainSearchBar.vue';
-  import NavigationBar from '@/components/molecules/NavigationBar.vue';
   import Logo from '@/components/atoms/Logo.vue';
   import TriSectionLayout from '@/components/wrappers/TriSectionLayout.vue';
-  import { ref, watch, computed } from 'vue';
+  import { ref, watch, computed, defineAsyncComponent } from 'vue';
   import { deviceSize } from '@/assets/js/device-size.js';
   import { useSearchBooks } from '@/composables/search-books';
   import { useScroll } from '@/composables/scroll';
   import { useStore } from '@/stores';
   import { useBooksStore } from '@/stores/books';
 
+  const Modal = defineAsyncComponent(
+    () => import('@/components/wrappers/Modal.vue')
+  );
   const store = useStore();
   const booksStore = useBooksStore();
-  const router = useRouter();
   const route = useRoute();
   const searchBooks = useSearchBooks();
   const headerMiddleSwitch = ref({ right: true, center: true, left: true });
@@ -49,7 +49,7 @@
       booksStore.isAccordionOpen = false;
       setTimeout(async () => {
         await store.scrollToTop();
-        await booksStore.updateQuery(query)
+        await booksStore.updateQuery(query);
       }, 100);
     }
   };
@@ -92,16 +92,9 @@
         </TriSectionLayout>
       </div>
     </div>
-    <div class="nav-container">
-      <TriSectionLayout v-bind="headerMiddleSwitch" :width="store.width">
-        <template #center>
-          <NavigationBar class="margin-horizontal" :navHeight="48" />
-        </template>
-      </TriSectionLayout>
-    </div>
     <Modal v-model="isOpen" :width="store.width">
       <template #title>
-        <h4 class="error-title">{{ errorTitle }}</h4>
+        <p class="error-title">{{ errorTitle }}</p>
       </template>
       <template #message>
         <p class="error-message">{{ errorMessage }}</p>
@@ -123,7 +116,7 @@
       width: initial;
     }
     .float-header.fixed {
-      background-color: var(--color-base-black);
+      background-color: var(--color-base-tertiary);
       top: 0;
       position: fixed;
       height: var(--height-content);
@@ -132,12 +125,7 @@
     }
   }
 
-  .nav-container {
-    height: var(--height-content);
-  }
-
   .error-title {
-    font-size: 24px;
     color: var(--color-error);
   }
 
