@@ -1,7 +1,6 @@
 import { defineStore } from 'pinia';
 import { useStore } from '@/stores';
 import { deviceSize } from '@/assets/js/device-size';
-import { useNuxtApp } from '#app';
 
 export const useBooksStore = defineStore('books', {
   state: (): BooksState => ({
@@ -51,7 +50,7 @@ export const useBooksStore = defineStore('books', {
       }
     },
     async updateQuery(query: { [key: string]: string | number }) {
-      const nuxtApp = useNuxtApp();
+      const main = document.getElementById('main') as HTMLDivElement;
       const cacheQuery = JSON.stringify(this.query);
       this.updateStateQuery(query);
 
@@ -59,13 +58,11 @@ export const useBooksStore = defineStore('books', {
         const store = useStore();
         await store.scrollToTop();
         if (deviceSize.smallDesktop > store.width)
-          nuxtApp.$mainRef.value.style.height = `calc(100vh - ${
-            store.heightContent * 2
-          }px)`;
+          // 書籍情報が一旦全て消えてもヘッダーまで戻らないように一時的に長くする
+          main.style.height = `calc(100vh - ${store.topLayoutHeight}px)`;
         await this.fetchBooksData();
       }
-      nuxtApp.$mainRef.value.style.height = 'initial';
-      return;
+      main.style.height = 'initial';
     },
     async updateStateQuery(query: { [key: string]: string | number }) {
       this.query = { ...query };

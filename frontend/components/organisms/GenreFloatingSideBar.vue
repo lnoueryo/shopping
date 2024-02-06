@@ -17,9 +17,9 @@
     isFixed.value = window.scrollY > store.topLayoutHeight;
   };
   useScroll(moveGenreContent);
-  watch(localGenre, newValue => {
+  watch(localGenre, async newValue => {
     if (!newValue) return;
-    searchBooks.searchByGenre(localGenre.value);
+    await searchBooks.searchByGenre(localGenre.value);
   });
   watch(
     () => booksStore.query.genre,

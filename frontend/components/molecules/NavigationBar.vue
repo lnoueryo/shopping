@@ -3,7 +3,7 @@
   import NavigationButton from '@/components/atoms/NavigationButton.vue';
 
   const props = defineProps({
-    navHeight: Number,
+    navHeight: String,
     navigationData: {
       type: Array,
       default: () => [],

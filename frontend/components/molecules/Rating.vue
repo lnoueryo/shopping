@@ -1,6 +1,6 @@
 <script setup lang="ts">
-  import { ref, defineEmits, watch, watchEffect } from 'vue';
-  import { getCssVariableValue, isDarkColor, hexToRgb } from '@/utils/style.ts';
+  import { ref, defineEmits, watch, watchEffect, onMounted } from 'vue';
+  import { getCssVariableValue, isDarkColor, hexToRgb } from '@/utils';
   const MIN_RATING = 0;
   const MAX_RATING = 5;
   const props = defineProps({
@@ -61,13 +61,17 @@
     }
   );
   const isBaseColorDark = () => {
-    const hex = getCssVariableValue('--color-base-primary', document.body);
+    const hex = getCssVariableValue('--color-base-primary');
     return isDarkColor(hexToRgb(hex));
   };
-  const ratingStyle = ref({
-    '--color-rating': isBaseColorDark() ? '#818181' : '#bdbdbd',
-    '--color-hover-rating': isBaseColorDark() ? '#8b6f23' : '#ffe390',
-    fontSize: `${props.size || 18}px`,
+  const ratingStyle = ref({});
+
+  onMounted(() => {
+    ratingStyle.value = {
+      '--color-rating': isBaseColorDark() ? '#818181' : '#bdbdbd',
+      '--color-hover-rating': isBaseColorDark() ? '#8b6f23' : '#ffe390',
+      fontSize: `${props.size || 18}px`,
+    };
   });
 </script>
 
@@ -159,5 +163,11 @@
   label:focus-within {
     border: initial;
     outline: 2px solid black;
+  }
+
+  @media screen and (max-width: 768px) {
+    .rate-form label:not(.read-only) {
+      margin: 0 var(--space-xs);
+    }
   }
 </style>

@@ -4,13 +4,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import Header from '/components/organisms/Header.vue';
 import { createTestingPinia } from '@pinia/testing';
 import { nextTick } from 'vue';
-vi.stubGlobal('useRuntimeConfig', () => {
-  return {
-    public: {
-      BASE_IMAGE_PATH: '/images/',
-    },
-  };
-});
+
 describe('Header', () => {
   const createPinia = state => {
     return createTestingPinia({

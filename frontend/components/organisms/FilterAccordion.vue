@@ -60,7 +60,7 @@
 
   const isFixed = ref(true);
   const updateIsFixed = () =>
-    (isFixed.value = window.scrollY > store.headerHeight - store.heightContent);
+    (isFixed.value = window.scrollY > store.topLayoutHeight);
   useScroll(updateIsFixed);
   const lockPage = () => {
     const { body } = document;
@@ -74,8 +74,8 @@
   const contentStyle = ref({ maxHeight: '0' });
   const openAccordion = () => {
     contentStyle.value.maxHeight = isFixed.value
-      ? `calc(100vh - ${store.headerHeight}px)`
-      : `calc(100vh - ${store.headerHeight}px - ${store.heightContent}px)`;
+      ? `calc(100vh - ${store.topLayoutHeight}px + ${store.heightContent}px)`
+      : `calc(var(--vh, 1vh) * 100 - ${store.topLayoutHeight}px - ${store.heightContent}px)`;
   };
   const closeAccordion = () => (contentStyle.value.maxHeight = '0');
   watch(
@@ -92,7 +92,7 @@
   );
 
   onMounted(() => {
-    isFixed.value = window.scrollY > store.headerHeight - store.heightContent;
+    isFixed.value = window.scrollY > store.topLayoutHeight;
     tabletSwitch.value = deviceSize.mobile > store.width;
     skillLevelStyle.value = tabletSwitch.value ? { size: 10, width: 104 } : {};
   });

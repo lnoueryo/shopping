@@ -36,7 +36,7 @@
         <NavigationBar
           class="margin-horizontal"
           :navigationData="navigationData"
-          :navHeight="48"
+          navHeight="var(--height-content)"
         />
       </template>
     </TriSectionLayout>

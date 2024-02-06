@@ -23,12 +23,12 @@
     <h2 class="title padding-horizontal"> Filter </h2>
     <div class="vertical-center title">
       <span class="visually-hidden">Review:&ensp;</span>
-      <Rating
-        v-model="localRate"
-        :size="24"
-        last-star-only
-        :mode="store.theme"
-      />
+        <Rating
+          v-model="localRate"
+          :size="24"
+          last-star-only
+          :mode="store.theme"
+        />
       <div>&ensp;or Higher</div>
     </div>
     <div class="margin-horizontal">

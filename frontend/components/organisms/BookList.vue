@@ -4,10 +4,7 @@
   import { useSearchBooks } from '@/composables/search-books';
   import BookItem from '@/components/molecules/BookItem.vue';
   import ErrorBookResult from '@/components/molecules/ErrorBookResult.vue';
-
-  const PaginationWrapper = defineAsyncComponent(
-    () => import('@/components/wrappers/PaginationWrapper.vue')
-  );
+  import PaginationWrapper from '@/components/wrappers/PaginationWrapper.vue';
 
   const store = useStore();
   const booksStore = useBooksStore();
@@ -33,7 +30,7 @@
         </div>
       </template>
       <template v-else>
-        <div class="content-container">
+        <div id="error-book-result" class="content-container">
           <div class="card card-shadow">
             <ErrorBookResult
               :errorType="booksStore.errorType"

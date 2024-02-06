@@ -1,4 +1,4 @@
-import { test, expect, chromium, firefox, webkit } from '@playwright/test';
+import { test, expect } from '@playwright/test';
 import { navigationData } from '../../../assets/js/navigation';
 
 // 非同期処理の完了を待つ関数を定義
@@ -7,8 +7,8 @@ async function waitForAsyncProcess(page) {
   await page.evaluate(() => {
     localStorage.clear();
     sessionStorage.clear();
-    caches.keys().then((keyList) => {
-      return Promise.all(keyList.map((key) => caches.delete(key)));
+    caches.keys().then(keyList => {
+      return Promise.all(keyList.map(key => caches.delete(key)));
     });
   });
 
@@ -17,12 +17,10 @@ async function waitForAsyncProcess(page) {
 }
 
 test.describe('header', () => {
-  test.beforeEach(async ({ page }) => {
-    await page.waitForTimeout(2000);
-  });
   test.describe('Redirect to Home', () => {
     test('Verify has logo', async ({ page }) => {
       await page.goto('/');
+      await page.waitForLoadState('networkidle');
       const logoSelector = '#logo';
       await page.waitForSelector(logoSelector);
       const bodyContent = await page.textContent('body');
@@ -34,7 +32,8 @@ test.describe('header', () => {
     test('Verify redirect to the Home when the logo is clicked', async ({
       page,
     }) => {
-      await page.goto('/books'); // 初期URLを設定
+      await page.goto('/books');
+      await page.waitForLoadState('networkidle');
       const booksUrl = page.url();
       const booksRelativePath = new URL(booksUrl).pathname;
       expect(booksRelativePath).toBe('/books');
@@ -55,6 +54,7 @@ test.describe('header', () => {
       page,
     }) => {
       await page.goto('/');
+      await page.waitForLoadState('networkidle');
       const logoSelector = '#logo';
       await page.waitForSelector(logoSelector);
       await page.click(logoSelector);
@@ -66,6 +66,7 @@ test.describe('header', () => {
   test.describe('Engineer-Specific Roadmap Page Transition', () => {
     test.beforeEach(async ({ page }) => {
       await page.goto('/');
+      await page.waitForLoadState('networkidle');
       await page.waitForSelector('.skeleton', { state: 'hidden' });
     });
     test('Verify navigation items', async ({ page }) => {
@@ -116,18 +117,12 @@ test.describe('header', () => {
       }
       return result;
     };
-    const testNavigation = async (browserType, func) => {
-      const browser = await browserType.launch();
-      const context = await browser.newContext();
-      const page = await context.newPage();
-      await func(page, context);
-      await browser.close();
-    };
     test('Verify search book by enter', async ({ page }) => {
       const bookName = '良いコード／悪いコードで学ぶ設計入門';
       await page.waitForSelector(searchBarSelector);
       await page.fill(searchBarSelector, bookName);
       await page.press(searchBarSelector, 'Enter');
+      await page.waitForLoadState('networkidle');
       await page.waitForSelector(bookResultSelector);
       await page.waitForSelector('.spinner-container', { state: 'hidden' });
       const url = page.url();
@@ -143,6 +138,7 @@ test.describe('header', () => {
       await page.waitForSelector(searchBarSelector);
       await page.fill(searchBarSelector, bookName);
       await page.click(searchBarButtonSelector);
+      await page.waitForLoadState('networkidle');
       await page.waitForSelector(bookResultSelector);
       await page.waitForSelector('.spinner-container', { state: 'hidden' });
       const url = page.url();
@@ -169,66 +165,34 @@ test.describe('header', () => {
       await expect(errorContent).toBeVisible();
     });
 
-    test('Verify search book offline', async ({ page, context, browser }) => {
+    test('Verify search book offline', async ({ page, context }) => {
+      // const browserName = browser.browserType().name();
+      // if (browserName === 'chromium') {
+      //   console.log(`skip this test on ${browserName}`);
+      //   test.skip();
+      // }
       await waitForAsyncProcess(page);
 
       const bookName = '良いコード／悪いコードで学ぶ設計入門';
       await page.goto(`/books?keyword=${bookName}`);
+      await page.waitForLoadState('networkidle');
       await page.waitForSelector('.skeleton', { state: 'hidden' });
       await page.waitForSelector('.spinner-container', { state: 'hidden' });
       await page.waitForSelector(bookResultSelector);
 
-
-      try {
-        await page.fill(searchBarSelector, 'test');
-        await page.click(searchBarButtonSelector);
-        await context.setOffline(true);
-        await page.waitForSelector(bookResultSelector);
-        await page.waitForSelector('.spinner-container', { state: 'hidden' });
-        // const browserName = browser.browserType().name();
-        // await page.screenshot({ path: `${browserName}.png` });
-        const errorSelector = '#offline';
-        await page.waitForSelector(errorSelector);
-        const errorText = await page.textContent(errorSelector);
-        await expect(errorText).toContain('CONNECTION ERROR');
-        await context.setOffline(false);
-
-      } catch (error) {
-        // if (browserName === 'chromium') {
-        //   // Chromium固有のテストコード
-        // } else {
-        //   // console.log(`${browserName}ではこのテストはスキップされます。`);
-        //   // test.skip();
-        // }
-        console.error('Test failed, retrying...', error);
-        // await context.setOffline(false);
-        // throw error;
-      }
+      await context.setOffline(true);
+      await page.fill(searchBarSelector, 'java');
+      await page.press(searchBarSelector, 'Enter');
+      await page.waitForSelector('.spinner-container', { state: 'hidden' });
+      await page.waitForSelector('#error-book-result');
+      // const browserName = browser.browserType().name();
+      // await page.screenshot({ path: `${browserName}.png` });
+      const errorSelector = '#offline';
+      await page.waitForSelector(errorSelector);
+      const errorText = await page.textContent(errorSelector);
+      await expect(errorText).toContain('CONNECTION ERROR');
+      await context.setOffline(false);
     });
-
-    // test('Verify search book offline', async () => {
-    //   const testOrder = async (page, context) => {
-    //     const bookName = '良いコード／悪いコードで学ぶ設計入門';
-    //     await page.goto(`/books?keyword=${bookName}`);
-    //     await page.waitForSelector('.skeleton', { state: 'hidden' });
-    //     await page.waitForSelector(bookResultSelector);
-    //     await context.setOffline(true);
-    //     await page.fill(searchBarSelector, 'test');
-    //     await page.click(searchBarButtonSelector);
-    //     await page.waitForSelector(bookResultSelector);
-    //     await page.waitForSelector('.spinner-container', { state: 'hidden' });
-    //     await page.screenshot({ path: 'screenshot1.png' });
-    //     const errorSelector = '#offline';
-    //     await page.waitForSelector(errorSelector);
-    //     const errorText = await page.textContent(errorSelector);
-    //     await expect(errorText).toContain('CONNECTION ERROR');
-    //     await context.setOffline(false);
-    //   };
-
-    //   for (const browser of [chromium, firefox, webkit]) {
-    //     await testNavigation(browser, testOrder);
-    //   }
-    // });
   });
 
   test.describe('Fixed search bar', () => {

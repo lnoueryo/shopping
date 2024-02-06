@@ -22,8 +22,8 @@
 
 <style lang="scss" scoped>
   .sns {
-    min-height: 75px;
-    min-width: 75px;
+    min-height: calc(var(--height-content) * 2);
+    min-width: calc(var(--height-content) * 2);
     transition: var(--transition-primary);
     border-radius: 3px;
     padding: 0 12px;

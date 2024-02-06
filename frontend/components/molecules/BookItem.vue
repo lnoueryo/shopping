@@ -1,8 +1,8 @@
 <script setup lang="ts">
   import { deviceSize } from '@/assets/js/device-size.js';
-  import { ref, watch, computed } from 'vue';
-  import Spinner from '@/components/atoms/Spinner.vue';
+  import { ref, watch, computed, onBeforeMount } from 'vue';
   import Rating from '@/components/molecules/Rating.vue';
+  import { getImageFromCache } from '@/utils';
 
   const book = defineProps({
     width: {
@@ -45,26 +45,10 @@
   const isDescriptionShownOnMobile = ref(book.width > deviceSize.mobile - 1);
   const rate = ref(book.rating);
   const isLoading = ref(true);
-  const replacement = ref('');
-
-  watch(
-    () => book.thumbnail,
-    async image => {
-      isLoading.value = true;
-
-      const img = new Image();
-      const loadedFunc = path => () => {
-        replacement.value = path;
-        isLoading.value = false;
-      };
-      img.src = image;
-      img.onload = loadedFunc('');
-      img.onerror = loadedFunc(
-        `${runtimeConfig.public.BASE_IMAGE_PATH}/no-image.svg`
-      );
-    },
-    { immediate: true }
+  const errorImageSrc = ref(
+    `${runtimeConfig.public.BASE_IMAGE_PATH}/errors/no-image.svg`
   );
+
   watch(
     () => book.width,
     newWidth => {
@@ -80,18 +64,26 @@
   const isValidProps = computed(
     () => book.title && book.author && book.publisher && book.publish_date
   );
+  const changeImage = e => (e.target.src = errorImageSrc.value);
+  const endLoading = () => (isLoading.value = false);
+  onBeforeMount(async () => {
+    const cache = await getImageFromCache(errorImageSrc.value);
+    if (cache) errorImageSrc.value = cache;
+  });
 </script>
 
 <template>
   <article class="flex" v-if="isValidProps">
     <div class="center book-image-container">
       <img
-        :src="replacement || book.thumbnail"
+        :class="{ show: !isLoading }"
+        :src="`${book.thumbnail}`"
         :alt="book.title"
-        v-if="!isLoading"
         loading="lazy"
+        @load="endLoading"
+        @error="changeImage"
       />
-      <div v-else>
+      <div class="center absolute-center" v-if="isLoading">
         <Spinner />
       </div>
     </div>
@@ -117,16 +109,23 @@
 </template>
 
 <style lang="scss" scoped>
+  article {
+    min-height: var(--height-book);
+  }
   .book-image-container {
     max-width: 200px;
     min-width: 200px;
-    min-height: 240px;
     background-color: var(--color-base-secondary);
     border: var(--margin-horizontal) solid var(--color-base-primary);
     transition: var(--transition-primary);
+    position: relative;
     img {
       width: 100%;
       padding: 12px;
+      opacity: 0;
+    }
+    img.show {
+      opacity: 1;
     }
   }
 

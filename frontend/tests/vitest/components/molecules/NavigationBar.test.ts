@@ -46,7 +46,7 @@ describe('NavigationBar', () => {
       const wrapper = createNavigationBar(navigationBar);
       const navigationButtons = wrapper.findAllComponents(NavigationButton);
       expect(navigationButtons.length).toBe(navigationData.length);
-      navigationButtons.forEach((wrapper) => {
+      navigationButtons.forEach(wrapper => {
         const linkProps = wrapper.props();
         if (linkProps.to) {
           expect(wrapper.findComponent(RouterLinkStub).exists()).toBeTruthy();

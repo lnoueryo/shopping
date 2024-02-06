@@ -465,7 +465,7 @@ li {
   --color-hover-navigation: #00695c;
   --color-hover-white: #dddddd;
   --color-ubuntu-terminal: #36ce77;
-  --color-error: #ff1212cc;
+  --color-error: #d60e0e;
   --color-bottom-bar-blue: #007acc;
   --color-bottom-bar-green: #16825d;
   --opacity-active: 0.8;
@@ -473,12 +473,14 @@ li {
   --opacity-disabled: 0.3;
   --transition-primary: all 0.3s;
   --transition-secondary: all 0.6s;
-  --height-content: 48px;
-  --height-book: 240px;
+  --transition-tertiary: all 0.9s;
+  --transition-quarternary: all 1.2s;
+  --height-content: 40px;
+  --height-book: calc(var(--height-content) * 6);
   --width-side-space: 240px;
   --margin-horizontal: 16px;
   --padding-horizontal: 8px;
-  --font-family-consolas: Consolas, 'Courier New', monospace;
+  --font-family-consolas: Consolas, 'Courier New', Menlo, Monaco, monospace;
   --font-family-fira-code: 'Fira Code', monospace;
   --font-family-jp-standard: 'メイリオ', 'Meiryo', 'ＭＳ ゴシック',
     'Hiragino Kaku Gothic ProN', 'ヒラギノ角ゴ ProN W3', sans-serif;

@@ -1,3 +1,2 @@
-import { style } from './style.ts';
-
-export { style };
+export * from './style';
+export * from './service-worker';

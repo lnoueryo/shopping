@@ -4,7 +4,6 @@ import pixelmatch from 'pixelmatch';
 import fs from 'fs';
 test.describe('Home', () => {
   const screenshotDir = './tests/e2e/screenshots';
-  const chromium = 'chromium';
   const android = 'android';
   const iphone = 'iphone';
 
@@ -58,7 +57,7 @@ test.describe('Home', () => {
     });
     test('Verify initial display on android', async ({ browser }) => {
       const project = test.info().project.name;
-      if (project !== chromium) return;
+      if (project !== 'chromium') return;
       const context = await browser.newContext({
         ...devices['Pixel 5'],
       });
@@ -88,7 +87,7 @@ test.describe('Home', () => {
     });
     test('Verify initial display on iphone', async ({ browser }) => {
       const project = test.info().project.name;
-      if (project !== chromium) return;
+      if (project !== 'chromium') return;
       // await page.setViewportSize({ width: 370, height: 600 });
       const context = await browser.newContext({
         ...devices['iPhone 12'],

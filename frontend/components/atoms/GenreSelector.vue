@@ -86,8 +86,8 @@
 
   .genre {
     width: 100%;
-    min-height: 75px;
-    min-width: 75px;
+    min-height: calc(var(--height-content) * 2);
+    min-width: calc(var(--height-content) * 2);
     border-radius: 3px;
     cursor: pointer;
     border: var(--button-border);
@@ -120,15 +120,6 @@
     transition: var(--transition-primary);
   }
 
-  .genre:not(.disabled):not(.active):active {
-    transition: var(--transition-primary);
-    background-color: var(--color-text-selection);
-    .genre-content {
-      transform: scale(1.15);
-      transition: var(--transition-primary);
-    }
-  }
-
   @media (hover: hover) and (pointer: fine) {
     .genre:not(.disabled):not(.active):hover {
       transition: var(--transition-primary);
@@ -138,6 +129,15 @@
         transform: scale(1.15);
         transition: var(--transition-primary);
       }
+    }
+  }
+
+  .genre:not(.disabled):not(.active):active {
+    transition: var(--transition-primary);
+    background-color: var(--color-text-selection);
+    .genre-content {
+      transform: scale(0.95);
+      transition: var(--transition-primary);
     }
   }
 </style>

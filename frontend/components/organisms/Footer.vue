@@ -4,27 +4,26 @@
 
 <template>
   <div class="w100">
-    <div class="footer-middle-container">
-      <div class="flex justify-center">
-        <SocialMediaLinks />
-      </div>
-      <div class="flex justify-center">
-        <div class="copy-right"
-          >© 2023 Webtech Bookstore. All Rights Reserved .</div
-        >
-      </div>
+    <div class="center links">
+      <SocialMediaLinks />
+    </div>
+    <div class="center">
+      <div class="copy-right"
+        >© 2023 Webtech Bookstore. All Rights Reserved .</div
+      >
     </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
-  .footer-middle-container {
-    padding: 0 0 8px;
+
+  .links {
+    height: calc(var(--height-content) * 2);
   }
 
   .copy-right {
     font-size: 12px;
     color: #737373;
-    padding-top: 8px;
+    height: calc(var(--height-content) * 0.5);
   }
 </style>

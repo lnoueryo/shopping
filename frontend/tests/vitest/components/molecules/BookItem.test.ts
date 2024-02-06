@@ -5,13 +5,6 @@ import BookItem from '@/components/molecules/BookItem.vue';
 import { createTestingPinia } from '@pinia/testing';
 import { nextTick } from 'vue';
 
-vi.stubGlobal('useRuntimeConfig', () => {
-  return {
-    public: {
-      BASE_IMAGE_PATH: '/images/',
-    },
-  };
-});
 const book = {
   width: deviceSize.desktop,
   title: 'Python と JavaScriptではじめるデータビジュアライゼーション',

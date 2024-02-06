@@ -112,7 +112,7 @@
       placeholder="input book search keywords"
     />
     <div class="search-button w100 h100" ref="searchButton">
-      <SearchButton :size="24" @onSearchClicked="blurSearchBar" />
+      <SearchButton :size="20" @onSearchClicked="blurSearchBar" />
     </div>
   </div>
 </template>
@@ -159,8 +159,8 @@
     right: 12px;
     transform: translateY(-50%) translateX(0%);
     color: white;
-    padding: 6px 0;
-    max-width: 68px;
+    padding: 4px 0;
+    max-width: 60px;
   }
 
   .path {

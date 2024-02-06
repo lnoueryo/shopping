@@ -81,7 +81,10 @@ describe('BookFilter', () => {
       await flushPromises();
       for (const key in query) {
         expect(
-          Object.prototype.hasOwnProperty.call(router.currentRoute.value.query, key)
+          Object.prototype.hasOwnProperty.call(
+            router.currentRoute.value.query,
+            key
+          )
         ).toBeTruthy();
         expect(router.currentRoute.value.query[key]).toBe(String(query[key]));
       }
@@ -92,7 +95,10 @@ describe('BookFilter', () => {
       await flushPromises();
       for (const key in query) {
         expect(
-          Object.prototype.hasOwnProperty.call(router.currentRoute.value.query, key)
+          Object.prototype.hasOwnProperty.call(
+            router.currentRoute.value.query,
+            key
+          )
         ).toBeTruthy();
         expect(router.currentRoute.value.query[key]).toBe(String(query[key]));
       }
@@ -103,7 +109,10 @@ describe('BookFilter', () => {
       await flushPromises();
       for (const key in query) {
         expect(
-          Object.prototype.hasOwnProperty.call(router.currentRoute.value.query, key)
+          Object.prototype.hasOwnProperty.call(
+            router.currentRoute.value.query,
+            key
+          )
         ).toBeTruthy();
         expect(router.currentRoute.value.query[key]).toBe(String(query[key]));
       }
@@ -113,12 +122,18 @@ describe('BookFilter', () => {
       await flushPromises();
       for (const key in query) {
         expect(
-          Object.prototype.hasOwnProperty.call(router.currentRoute.value.query, key)
+          Object.prototype.hasOwnProperty.call(
+            router.currentRoute.value.query,
+            key
+          )
         ).toBeTruthy();
         expect(router.currentRoute.value.query[key]).toBe(String(query[key]));
       }
       expect(
-        Object.prototype.hasOwnProperty.call(router.currentRoute.value.query, 'rate')
+        Object.prototype.hasOwnProperty.call(
+          router.currentRoute.value.query,
+          'rate'
+        )
       ).toBeFalsy();
     });
     it('Verify filter books by skill levels', async () => {

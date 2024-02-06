@@ -3,7 +3,6 @@ import { resolve } from 'path';
 import vue from '@vitejs/plugin-vue';
 import AutoImport from 'unplugin-auto-import/vite';
 
-// Vitestの設定を追加
 export default defineConfig({
   plugins: [
     vue(),
@@ -19,6 +18,7 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom',
     include: ['tests/vitest/**/*.{test,spec}.{js,ts,jsx,tsx}'],
+    setupFiles: ['tests/vitest/setup.ts'],
   },
   resolve: {
     alias: {

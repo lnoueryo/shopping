@@ -4,6 +4,7 @@ module.exports = {
     useRoute: 'readonly',
     useRouter: 'readonly',
     useRuntimeConfig: 'readonly',
+    process: 'readonly',
   },
   env: {
     browser: true,
@@ -48,6 +49,7 @@ module.exports = {
   },
   plugins: ['@typescript-eslint', 'vue'],
   rules: {
+    '@typescript-eslint/no-var-requires': 'off',
     'vue/multi-word-component-names': 'off',
     'vue/no-deprecated-v-on-native-modifier': 'off',
     'max-lines-per-function': [

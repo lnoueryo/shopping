@@ -1,43 +1,30 @@
 <script setup lang="ts">
-  import Spinner from '@/components/atoms/Spinner.vue';
+  import SkeltonScreen from '@/components/wrappers/SkeltonScreen.vue';
   import BookList from '@/components/organisms/BookList.vue';
+  import GenreFloatingSideBar from '@/components/organisms/GenreFloatingSideBar.vue';
+  import BookFilter from '@/components/organisms/BookFilter.vue';
+  import FilterAccordion from '@/components/organisms/FilterAccordion.vue';
+  import FloatFilter from '@/components/wrappers/FloatFilter.vue';
   import { useStore } from '@/stores';
   import { useBooksStore } from '@/stores/books';
   import { deviceSize } from '@/assets/js/device-size.js';
-  import {
-    ref,
-    watch,
-    onMounted,
-    onBeforeUnmount,
-    defineAsyncComponent,
-  } from 'vue';
-
-  const GenreFloatingSideBar = defineAsyncComponent(
-    () => import('@/components/organisms/GenreFloatingSideBar.vue')
-  );
-  const BookFilter = defineAsyncComponent(
-    () => import('@/components/organisms/BookFilter.vue')
-  );
-  const FilterAccordion = defineAsyncComponent(
-    () => import('@/components/organisms/FilterAccordion.vue')
-  );
-  const FloatFilter = defineAsyncComponent(
-    () => import('@/components/wrappers/FloatFilter.vue')
-  );
+  import { ref, watch, onMounted, onBeforeUnmount } from 'vue';
 
   definePageMeta({
     middleware: ['books'],
   });
+
   const store = useStore();
   const route = useRoute();
-  const sidebarSwitch = ref(false);
+  const sidebarSwitch = ref(true);
   const isClickedBrowerButton = ref(false);
 
   watch(
     () => store.width,
     newWidth => {
       sidebarSwitch.value = deviceSize.smallDesktop <= newWidth;
-    }
+    },
+    { immediate: true }
   );
   watch(
     () => route.query,
@@ -53,7 +40,6 @@
   booksStore.fetchBooksData();
 
   onMounted(async () => {
-    sidebarSwitch.value = deviceSize.smallDesktop <= store.width;
     window.addEventListener('popstate', handleBrowserButton);
   });
   onBeforeUnmount(() =>
@@ -66,29 +52,53 @@
 </script>
 
 <template>
-  <div class="flex w100">
-    <section>
-      <FloatFilter v-if="!sidebarSwitch">
-        <FilterAccordion />
-      </FloatFilter>
+  <div id="books" class="flex w100">
+    <section id="float-filter">
+      <template v-if="store.isReady">
+        <FloatFilter>
+          <FilterAccordion />
+        </FloatFilter>
+      </template>
+      <template v-else>
+        <SkeltonScreen
+          style="
+            position: absolute;
+            top: calc(var(--height-content) * -1);
+            left: calc(var(--margin-horizontal) * -1);
+            width: calc(100% + 32px);
+          "
+          width="100%"
+          height="calc(var(--height-content) * 1)"
+        />
+      </template>
     </section>
-    <section id="sidebar" class="sidebar-container" v-if="sidebarSwitch">
-      <GenreFloatingSideBar class="sidebar" />
+    <section id="sidebar">
+      <div class="sidebar">
+        <SkeltonScreen
+          :condition="store.isReady"
+          width="100%"
+          height="calc(var(--height-content) * 9)"
+        >
+          <GenreFloatingSideBar class="sidebar" />
+        </SkeltonScreen>
+      </div>
     </section>
     <section id="main-content" class="w100 relative">
-      <section
-        class="relative card-shadow"
-        :class="{ loading: booksStore.isLoading }"
-      >
-        <div
-          class="card title-container flex align-center"
-          v-if="sidebarSwitch"
-        >
-          <BookFilter />
+      <section>
+        <div class="relative">
+          <div class="bookfilter-container">
+            <SkeltonScreen
+              :condition="store.isReady"
+              width="100%"
+              height="calc(var(--height-content) * 1)"
+            >
+              <BookFilter class="card title-container card-shadow w100" />
+            </SkeltonScreen>
+          </div>
         </div>
       </section>
-      <ClientOnly>
-        <section id="book-result" class="content-container">
+      <section id="book-result" class="content-container">
+        <template v-if="store.isReady">
           <template v-if="booksStore.isLoading">
             <div class="spinner-container">
               <Spinner />
@@ -97,8 +107,18 @@
           <template v-else>
             <BookList />
           </template>
-        </section>
-      </ClientOnly>
+        </template>
+        <template v-else>
+          <div v-for="i in 2" :key="i">
+            <div
+              class="content-container"
+              style="margin-top: var(--height-content)"
+            >
+              <SkeltonScreen width="100%" height="var(--height-book)" />
+            </div>
+          </div>
+        </template>
+      </section>
     </section>
   </div>
 </template>
@@ -124,7 +144,12 @@
     transform: translate(-50%, -50%);
   }
 
-  .sidebar-container {
+  #float-filter {
+    display: none;
+  }
+
+  #sidebar {
+    display: block;
     min-width: 240px;
   }
 
@@ -132,7 +157,24 @@
     width: 200px;
   }
 
+  .bookfilter-container {
+    display: flex;
+    align-items: center;
+  }
+
   .content-container:last-child {
     margin-bottom: 0;
+  }
+
+  @media screen and (max-width: 1060px) {
+    #float-filter {
+      display: block;
+    }
+    #sidebar {
+      display: none;
+    }
+    .bookfilter-container {
+      display: none;
+    }
   }
 </style>
