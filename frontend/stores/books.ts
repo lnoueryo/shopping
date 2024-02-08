@@ -1,6 +1,5 @@
 import { defineStore } from 'pinia';
 import { useStore } from '@/stores';
-import { deviceSize } from '@/assets/js/device-size';
 
 export const useBooksStore = defineStore('books', {
   state: (): BooksState => ({
@@ -57,9 +56,8 @@ export const useBooksStore = defineStore('books', {
       if (cacheQuery !== JSON.stringify(this.query)) {
         const store = useStore();
         await store.scrollToTop();
-        if (deviceSize.smallDesktop > store.width)
-          // 書籍情報が一旦全て消えてもヘッダーまで戻らないように一時的に長くする
-          main.style.height = `calc(100vh - ${store.topLayoutHeight}px)`;
+        // 書籍情報が一旦全て消えてもヘッダーまで戻らないように一時的に長くする
+        main.style.height = `calc(100vh - ${store.topLayoutHeight}px)`;
         await this.fetchBooksData();
       }
       main.style.height = 'initial';

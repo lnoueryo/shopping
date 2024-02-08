@@ -1,17 +1,17 @@
 import { defineNuxtRouteMiddleware, useError } from 'nuxt/app';
-
+import fs from 'fs';
+import path from 'path';
 export default defineNuxtRouteMiddleware(to => {
+  const error = useError();
   if (process.server) {
-    const fs = require('fs');
-    const path = require('path');
     const filePath = path.resolve(
       'public/images/roadmaps',
-      `${to.params.id}.svg`
+      `${to.params.id}.webp`
     );
 
     if (!fs.existsSync(filePath)) {
-      const error = useError();
       error.value = { statusCode: 404, message: 'Page not found' };
+      return abortNavigation();
     }
   }
 });

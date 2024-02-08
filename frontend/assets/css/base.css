@@ -423,6 +423,7 @@ html {
   text-size-adjust: none;
   font-size: 100%;
   transition: var(--transition-primary);
+  overflow-y: scroll;
 }
 
 body {
@@ -434,6 +435,7 @@ body {
   display: flex;
   flex-direction: column;
   font-family: var(--font-family-consolas);
+  font-size: 16px;
 }
 
 img,
@@ -478,8 +480,6 @@ li {
   --height-content: 40px;
   --height-book: calc(var(--height-content) * 6);
   --width-side-space: 240px;
-  --margin-horizontal: 16px;
-  --padding-horizontal: 8px;
   --font-family-consolas: Consolas, 'Courier New', Menlo, Monaco, monospace;
   --font-family-fira-code: 'Fira Code', monospace;
   --font-family-jp-standard: 'メイリオ', 'Meiryo', 'ＭＳ ゴシック',
@@ -488,6 +488,22 @@ li {
     Meiryo, sans-serif;
   --box-shadow-item: 0px 0px 16px -6px rgba(0, 0, 0, 0.2);
   --border-radius-chip: 10px;
+
+  --font-size-title: 21px;
+  --font-size-sub-title: 17px;
+  --font-size-paragraph-title: 16px;
+  --font-size-paragraph: 14px;
+  --font-size-caption: 11px;
+}
+
+@media screen and (max-width: 768px) {
+  :root {
+    --font-size-title: 17px;
+    --font-size-sub-title: 14px;
+    --font-size-paragraph-title: 13px;
+    --font-size-paragraph: 13px;
+    --font-size-caption: 11px;
+  }
 }
 
 .standard-mode {

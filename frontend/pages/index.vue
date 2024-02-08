@@ -15,9 +15,9 @@
           height="calc(var(--height-content) * 1)"
         >
           <div
-            class="card title-container flex align-center padding-horizontal"
+            class="card title-container vertical-center content-padding-horizontal"
           >
-            <h2 class="title padding-horizontal"> Genres </h2>
+            <h2 class="content-padding-horizontal"> Genres </h2>
           </div>
         </SkeltonScreen>
         <SkeltonScreen

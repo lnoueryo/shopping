@@ -34,7 +34,7 @@
     <RippleButton
       v-for="level in props.skillLevelsData"
       :key="level.title"
-      class="chip"
+      class="next-space ripple-wrapper"
       :color="level.color"
       change
       :disabled="selectedSkillLevels.includes(level.title)"
@@ -51,8 +51,7 @@
 </template>
 
 <style lang="scss" scoped>
-  .chip {
-    margin: 4px;
+  .ripple-wrapper {
     border-radius: 10px;
   }
 </style>

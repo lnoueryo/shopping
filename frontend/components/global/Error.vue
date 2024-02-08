@@ -1,11 +1,10 @@
 <script setup lang="ts">
   import SvgIcon from '@jamescoyle/vue-icon';
-  import { ref, onBeforeMount, onMounted } from 'vue';
+  import { ref, onBeforeMount } from 'vue';
   import { mdiChevronLeft } from '@mdi/js';
-  import { useStore } from '@/stores';
   import { getImageFromCache } from '@/utils';
   const props = defineProps({
-    path: {
+    imagePath: {
       type: String,
     },
     status: {
@@ -13,12 +12,12 @@
     },
   });
   const route = useRoute();
-  const imageSrc = ref(props.path);
+  const imageSrc = ref(props.imagePath);
   const isReady = ref(false);
   const imageStyle = ref({});
-  const path = ref(route.query.next || '/')
+  const path = ref(route.query.next || '/');
   onBeforeMount(async () => {
-    const cache = await getImageFromCache(props.path);
+    const cache = await getImageFromCache(props.imagePath);
     if (cache) {
       imageSrc.value = cache;
       imageStyle.value = {
@@ -27,7 +26,6 @@
     }
     isReady.value = true;
   });
-
 </script>
 
 <template>
@@ -35,10 +33,10 @@
     <div class="content-container">
       <img width="100%" :src="imageSrc" alt="error image" v-if="isReady" />
     </div>
-    <div class="center padding-horizontal">
-      <NuxtLink :to="path">
-        <SvgIcon type="mdi" :path="mdiChevronLeft" />
-        <span class="button-text">
+    <div class="center content-padding-horizontal">
+      <NuxtLink class="button-padding" :to="path">
+        <SvgIcon class="next-space" type="mdi" :path="mdiChevronLeft" />
+        <span>
           <template v-if="path !== '/'"> Go Back </template>
           <template v-else> Go To Home </template>
         </span>
@@ -48,10 +46,9 @@
 </template>
 
 <style lang="scss" scoped>
-
   .error-container {
     width: 100%;
-    max-width: 720px
+    max-width: 720px;
   }
 
   a {
@@ -59,17 +56,10 @@
     align-items: center;
     border-radius: 3px;
     font-size: 20px;
-    padding: 8px;
     color: #fafaf0;
-    background: #0d2b45; //#3e7ba2 #fafaf0 #0d2b45
-    background: #3e7ba2; //#3e7ba2 #fafaf0 #0d2b45
     background: linear-gradient(to left bottom, #36a1ff, #0d2b45);
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
     -webkit-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
-
-    .button-text {
-      margin-left: 4px;
-    }
   }
 
   img {

@@ -81,7 +81,7 @@
     position: absolute;
     top: calc(var(--height-content) * -1);
     width: 100vw;
-    left: calc(var(--margin-horizontal) * -1);
+    left: calc(var(--space-lg) * -1);
     z-index: 1;
   }
 

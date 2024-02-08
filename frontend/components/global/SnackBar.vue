@@ -87,19 +87,17 @@
       class="visually-hidden"
     />
     <label class="center card-shadow" for="snackbar" :style="snackbarStyle">
-      <span class="snackbar-text">{{ props.message }}</span>
+      <span class="snackbar-text content-padding">{{ props.message }}</span>
     </label>
   </div>
 </template>
 
 <style lang="scss" scoped>
   .snackbar-text {
-    font-size: 16px;
     font-weight: bold;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    padding: 8px 16px;
     display: inline;
     color: var(--color-text-secondary);
   }

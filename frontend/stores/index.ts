@@ -12,7 +12,7 @@ export const useStore = defineStore('index', {
     theme: 'standard',
     route: {
       from: {},
-      to: {}
+      to: {},
     },
     snackbar: initialSnackbar(),
   }),
@@ -75,7 +75,6 @@ export const useStore = defineStore('index', {
       });
     },
     scrollPage(scroll: number) {
-      console.log(scroll);
       window.scrollTo({
         top: scroll,
         behavior: 'smooth',

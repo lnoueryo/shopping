@@ -37,8 +37,10 @@
     class="floating-sidebar card-shadow"
     :class="{ 'sidebar-fixed': isFixed }"
   >
-    <div class="card title-container flex align-center padding-horizontal">
-      <h2 class="title padding-horizontal"> Genres </h2>
+    <div
+      class="card title-container vertical-center content-padding-horizontal"
+    >
+      <h2 class="content-padding-horizontal"> Genres </h2>
     </div>
     <div class="card">
       <GenreSelectors

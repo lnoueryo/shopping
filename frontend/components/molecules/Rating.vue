@@ -124,7 +124,6 @@
     position: relative;
     color: var(--color-rating);
     cursor: pointer;
-    font-size: 18px;
     font-family: var(--font-family-consolas);
     transition:
       var(--transition-primary) cubic-bezier(0, 0, 0, 1),

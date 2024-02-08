@@ -66,11 +66,11 @@
     role="radio"
     v-if="isValidProps"
   >
-    <div class="genre-content ripple-text">
-      <div class="text-center">
+    <div class="ripple-text">
+      <div class="genre-content text-center">
         <SvgIcon type="mdi" :title="props.title" :path="props.icon"></SvgIcon>
       </div>
-      <div class="genre-title text-center">
+      <div class="caption text-center">
         <span>{{ props.title }}</span>
       </div>
     </div>
@@ -78,12 +78,6 @@
 </template>
 
 <style lang="scss" scoped>
-  .genre-title {
-    font-size: 10px;
-    font-weight: bold;
-    user-select: none;
-  }
-
   .genre {
     width: 100%;
     min-height: calc(var(--height-content) * 2);

@@ -64,7 +64,7 @@
           style="
             position: absolute;
             top: calc(var(--height-content) * -1);
-            left: calc(var(--margin-horizontal) * -1);
+            left: calc(var(--space-lg) * -1);
             width: calc(100% + 32px);
           "
           width="100%"

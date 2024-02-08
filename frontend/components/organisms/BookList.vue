@@ -19,15 +19,15 @@
   <PaginationWrapper v-bind="booksStore.bookList" @updatePage="searchNextBooks">
     <template #list>
       <template v-if="booksStore.isBooksData">
-        <div
+        <ul
           class="content-container"
           v-for="book in booksStore.bookList.books"
           :key="book.id"
         >
-          <div class="card card-shadow">
+          <li class="card card-shadow">
             <BookItem v-bind="book" :width="store.width" :key="book.id" />
-          </div>
-        </div>
+          </li>
+        </ul>
       </template>
       <template v-else>
         <div id="error-book-result" class="content-container">

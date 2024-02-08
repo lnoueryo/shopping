@@ -1,17 +1,15 @@
+#wrapper {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
 .container {
   max-width: 1200px;
   width: 100%;
   margin: auto;
-}
-
-.margin-horizontal {
-  margin-left: var(--margin-horizontal);
-  margin-right: var(--margin-horizontal);
-}
-
-.padding-horizontal {
-  padding-left: var(--padding-horizontal);
-  padding-right: var(--padding-horizontal);
 }
 
 .monospace-font {
@@ -48,10 +46,31 @@
   justify-content: center;
 }
 
+.absolute-center {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.fixed-center {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translateX(-50%) translateY(-50%);
+}
+
 .center {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.bottom {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
 }
 
 .vertical-center {
@@ -125,15 +144,11 @@
   margin-bottom: var(--height-content);
 }
 
-.title {
-  font-size: 16px;
-  font-weight: bold;
-}
-
 .title-container {
   background: var(--color-base-primary);
   height: var(--height-content);
   border-bottom: 1px solid var(--color-base-secondary);
+  font-weight: bold;
 }
 
 .code-editor-error {
@@ -161,6 +176,77 @@
 .ripple-text {
   position: relative;
   z-index: 1;
+}
+
+.caption {
+  margin-top: 4px;
+  font-size: var(--font-size-caption);
+  font-weight: bold;
+  user-select: none;
+}
+
+.content-margin-horizontal {
+  margin-left: var(--space-sm);
+  margin-right: var(--space-sm);
+}
+
+.margin-horizontal {
+  margin-left: var(--space-lg);
+  margin-right: var(--space-lg);
+}
+
+.content-margin-vertical {
+  margin-top: var(--space-sm);
+  margin-bottom: var(--space-sm);
+}
+
+.margin-vertical {
+  margin-top: var(--space-lg);
+  margin-bottom: var(--space-lg);
+}
+
+.content-padding-horizontal {
+  padding-left: var(--space-sm);
+  padding-right: var(--space-sm);
+}
+
+.padding-horizontal {
+  padding-left: var(--space-lg);
+  padding-right: var(--space-lg);
+}
+
+.content-padding-vertical {
+  padding-top: var(--space-sm);
+  padding-bottom: var(--space-sm);
+}
+
+.padding-vertical {
+  padding-top: var(--space-lg);
+  padding-bottom: var(--space-lg);
+}
+
+.chip-padding {
+  padding: var(--space-xs);
+}
+
+.button-padding {
+  padding: var(--space-sm);
+}
+
+.content-padding {
+  padding: var(--space-lg);
+}
+
+.next-space {
+  margin-right: var(--space-sm);
+}
+
+.bottom-space {
+  margin-bottom: var(--space-sm);
+}
+
+.bottom-sm-space {
+  margin-bottom: var(--space-xs);
 }
 
 @keyframes color-spread {

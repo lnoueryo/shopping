@@ -13,7 +13,7 @@
       <div class="text-center">
         <SvgIcon type="mdi" :path="sns.icon"></SvgIcon>
       </div>
-      <div class="sns-name text-center">
+      <div class="sns-name text-center caption">
         {{ sns.name }}
       </div>
     </div>
@@ -26,7 +26,6 @@
     min-width: calc(var(--height-content) * 2);
     transition: var(--transition-primary);
     border-radius: 3px;
-    padding: 0 12px;
   }
 
   .sns-content {
@@ -68,7 +67,7 @@
   }
 
   .sns-name {
-    font-size: 10px;
+    font-size: var(--font-size-caption);
     font-weight: bold;
   }
 

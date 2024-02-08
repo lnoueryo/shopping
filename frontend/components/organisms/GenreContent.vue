@@ -1,15 +1,12 @@
 <script setup lang="ts">
-  import { ref, watch, onMounted, defineAsyncComponent } from 'vue';
+  import { ref, watch, onMounted } from 'vue';
   import TriSectionLayout from '@/components/wrappers/TriSectionLayout.vue';
   import GenreSelectors from '@/components/molecules/GenreSelectors.vue';
+  import CodeList from '@/components/atoms/CodeList.vue';
   import { genreData } from '@/assets/js/genres.js';
   import { deviceSize } from '@/assets/js/device-size.js';
   import { selectGenreFunc, genreSelectorHTML } from '@/assets/js/codes.js';
   import { useStore } from '@/stores';
-
-  const CodeList = defineAsyncComponent(
-    () => import('@/components/atoms/CodeList.vue')
-  );
 
   const SIX_CARD_GRID_WIDTH = 16.37;
   const store = useStore();

@@ -15,7 +15,7 @@
 
 <style lang="scss" scoped>
   .code {
-    font-size: 10px !important;
+    font-size: var(--font-size-caption);
     font-weight: bold;
   }
 

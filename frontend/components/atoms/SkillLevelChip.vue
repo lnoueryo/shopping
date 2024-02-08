@@ -14,12 +14,12 @@
       default: 'var(--color-base-tertiary)',
     },
     fontSize: {
-      type: Number,
-      default: 12,
+      type: String,
+      default: 'var(--font-size-caption)',
     },
     width: {
-      type: Number,
-      default: 104,
+      type: String,
+      default: '104px',
     },
     readOnly: {
       type: Boolean,
@@ -47,8 +47,8 @@
   const labelStyle = computed(() => {
     return {
       '--label-color': props.color,
-      fontSize: `${props.fontSize}px`,
-      width: `${props.width}px`,
+      fontSize: props.fontSize,
+      width: props.width,
     };
   });
 
@@ -59,7 +59,7 @@
 
 <template>
   <label
-    class="text-center monospace-font bold chip-border-radius"
+    class="chip-padding text-center monospace-font chip-border-radius"
     :class="{ checked: isSelected }"
     :for="uniqueId"
     :style="labelStyle"
@@ -86,10 +86,10 @@
   label {
     display: block;
     position: relative;
+    font-weight: bold;
     border: 2px solid var(--label-color);
     color: var(--label-color);
     cursor: pointer;
-    padding: 4px;
     transition: var(--transition-primary);
     background-color: transparent;
   }

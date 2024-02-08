@@ -44,6 +44,11 @@
   const showPrompt = () => {
     promptPadding.value = promptWidth.value + promptBothSidesMargin.value;
   };
+  // アニメーションが終わってからpropmtの長さを計測
+  const afterEnter = () => {
+    updateRefSize();
+    showPrompt();
+  };
   const updateRefSize = () => {
     const { left: wrapperLeftValue } = wrapperRef.value.getBoundingClientRect();
     const { left: promptLeftValue, width: promptWidthValue } =
@@ -56,9 +61,7 @@
 
   const adjustPromptVisibility = width => {
     isInputSizeBelowLimit.value = false;
-    updateRefSize();
     if (width < deviceSize.tablet) return hidePrompt();
-    showPrompt();
   };
 
   const adjustMagnifyVisibility = () => {
@@ -80,22 +83,26 @@
     emit('update:modelValue', newSearchKeyword)
   );
   onMounted(() => {
-    if (promptRef.value) adjustPromptVisibility(props.width);
     if (searchButton.value) adjustMagnifyVisibility();
+    updateRefSize();
+    if (props.width < deviceSize.tablet) return hidePrompt();
+    showPrompt();
   });
 </script>
 
 <template>
   <div class="input-wrapper monospace-font h100" ref="wrapperRef">
-    <label
-      for="main-search-bar"
-      class="prompt"
-      ref="promptRef"
-      v-show="!isInputSizeBelowLimit"
-      ><span style="color: var(--color-ubuntu-terminal)" aria-hidden="true"
-        >WBstore@{{ user }}</span
-      ><span class="path" aria-hidden="true">:~ $ </span></label
-    >
+    <transition @after-enter="afterEnter">
+      <label
+        for="main-search-bar"
+        class="prompt"
+        ref="promptRef"
+        v-show="!isInputSizeBelowLimit"
+        ><span style="color: var(--color-ubuntu-terminal)" aria-hidden="true"
+          >WBstore@{{ user }}</span
+        ><span class="path" aria-hidden="true">:~ $ </span></label
+      >
+    </transition>
     <input
       id="main-search-bar"
       ref="mainSearchBar"
@@ -130,11 +137,10 @@
     border-radius: 3px;
     border: 2px solid var(--color-text-right-gray);
     width: 100%;
-    padding: 0 var(--margin-horizontal);
     z-index: 0;
     transition:
       var(--transition-primary),
-      padding 0;
+      padding 0s;
   }
 
   #main-search-bar:focus-visible {
@@ -159,8 +165,8 @@
     right: 12px;
     transform: translateY(-50%) translateX(0%);
     color: white;
-    padding: 4px 0;
-    max-width: 60px;
+    height: calc(var(--height-content) - 8px);
+    max-width: calc(calc(var(--height-content) - 8px) * 2);
   }
 
   .path {

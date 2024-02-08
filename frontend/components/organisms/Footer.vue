@@ -16,13 +16,12 @@
 </template>
 
 <style lang="scss" scoped>
-
   .links {
     height: calc(var(--height-content) * 2);
   }
 
   .copy-right {
-    font-size: 12px;
+    font-size: var(--font-size-caption);
     color: #737373;
     height: calc(var(--height-content) * 0.5);
   }

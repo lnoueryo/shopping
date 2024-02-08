@@ -208,7 +208,7 @@
   .mobile {
     overflow: scroll;
     width: calc(var(--height-content) * 3.6);
-    padding-bottom: 4px;
+    padding-bottom: 8px;
   }
 
   .adjust-bottom {
@@ -216,6 +216,7 @@
   }
 
   .buttons-container {
+    align-items: flex-start;
     user-select: none;
     height: var(--height-content);
   }

@@ -6,13 +6,13 @@ const addResourcesToCache = async (resources) => {
 self.addEventListener("install", (event) => {
   event.waitUntil(
     addResourcesToCache([
-      "images/roadmaps/frontend.svg",
-      "images/roadmaps/backend.svg",
-      "images/roadmaps/android.svg",
-      "images/roadmaps/devops.svg",
-      "images/roadmaps/qa.svg",
-      "images/errors/404.svg",
-      "images/errors/connection-error.svg",
+      "images/roadmaps/frontend.webp",
+      "images/roadmaps/backend.webp",
+      "images/roadmaps/android.webp",
+      "images/roadmaps/devops.webp",
+      "images/roadmaps/qa.webp",
+      "images/errors/404.webp",
+      "images/errors/connection-error.webp",
       "images/errors/no-image.svg",
     ]),
   );

@@ -144,11 +144,11 @@
       <template #content>
         <div class="card flex justify-start wrap content-header ripple-text">
           <div
-            class="vertical-center padding-horizontal"
+            class="vertical-center content-padding-horizontal"
             :style="filterContentHeight"
           >
             <div
-              class="align-center title padding-horizontal"
+              class="align-center content-padding-horizontal"
               :class="{ flex: !tabletSwitch }"
             >
               <span>Review:&ensp;</span>
@@ -159,11 +159,11 @@
             </div>
           </div>
           <div
-            class="vertical-center padding-horizontal"
+            class="vertical-center content-padding-horizontal"
             :style="filterContentHeight"
           >
             <div
-              class="align-center title padding-horizontal"
+              class="align-center content-padding-horizontal"
               :class="{ flex: !tabletSwitch }"
             >
               <span>Skill Level:&ensp;</span>
@@ -174,7 +174,7 @@
             </div>
           </div>
         </div>
-        <div class="card title padding-horizontal">
+        <div class="card content-padding-horizontal">
           <GenreSelectors
             v-model="localGenre"
             v-bind="{ mobile: 50, tablet: 50 }"
@@ -235,6 +235,7 @@
   }
 
   .content-header {
+    font-weight: bold;
     min-height: var(--height-content);
   }
 
