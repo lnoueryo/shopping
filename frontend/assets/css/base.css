@@ -473,6 +473,8 @@ li {
   --opacity-active: 0.8;
   --opacity-hover: 0.6;
   --opacity-disabled: 0.3;
+  --hover-scale: scale(1.15);
+  --active-scale: scale(0.95);
   --transition-primary: all 0.3s;
   --transition-secondary: all 0.6s;
   --transition-tertiary: all 0.9s;

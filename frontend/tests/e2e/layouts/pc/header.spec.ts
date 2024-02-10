@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { navigationData } from '../../../assets/js/navigation';
+import { navigationData } from '../../../../assets/js/navigation';
 
 // 非同期処理の完了を待つ関数を定義
 async function waitForAsyncProcess(page) {

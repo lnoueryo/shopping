@@ -14,6 +14,10 @@
       type: Boolean,
       default: false,
     },
+    borderRadius: {
+      type: String,
+      default: '3px',
+    }
   });
 
   const isActive = ref(false);
@@ -66,9 +70,10 @@
 
 <template>
   <div
-    :class="['ripple-wrapper', { 'overflow-hidden': isActive }]"
+    :class="['ripple-wrapper', 'overflow-hidden']"
     @mousedown="applyRippleEffect"
     @touchstart.passive="applyRippleEffect"
+    :style="{borderRadius: props.borderRadius}"
   >
     <div class="h100">
       <slot></slot>

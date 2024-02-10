@@ -12,7 +12,9 @@
   const imgPath = `/images/roadmaps/${route.params.id}.webp`;
   const imageSrc = ref(imgPath);
   const isReady = ref(false);
+  const isImageReady = ref(false);
   onBeforeMount(async () => {
+    isReady.value = false;
     const cache = await getImageFromCache(imgPath);
     if (cache) imageSrc.value = cache;
     isReady.value = true;
@@ -26,17 +28,26 @@
 </script>
 
 <template>
-  <picture>
-    <img
-      width="100%"
-      ref="imgRef"
-      :src="imageSrc"
-      :alt="`roadmap of ${route.params.id}`"
-      @error="handleError"
-      v-if="isReady"
-      style=""
-    />
-  </picture>
+  <div>
+    <template v-if="isReady">
+      <picture>
+        <img
+          width="100%"
+          ref="imgRef"
+          :src="imageSrc"
+          :alt="`roadmap of ${route.params.id}`"
+          @load="isImageReady = true"
+          @error="handleError"
+          style=""
+        />
+      </picture>
+    </template>
+    <template v-else-if="!isReady || !isImageReady">
+      <div class="absolute-center center">
+        <Spinner />
+      </div>
+    </template>
+  </div>
 </template>
 
 <style lang="scss" scoped>

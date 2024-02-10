@@ -38,6 +38,7 @@
       :color="level.color"
       change
       :disabled="selectedSkillLevels.includes(level.title)"
+      borderRadius="10px"
     >
       <SkillLevelChip
         class="text-center"
@@ -51,7 +52,5 @@
 </template>
 
 <style lang="scss" scoped>
-  .ripple-wrapper {
-    border-radius: 10px;
-  }
+
 </style>

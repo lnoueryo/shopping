@@ -82,7 +82,6 @@
     width: 100%;
     min-height: calc(var(--height-content) * 2);
     min-width: calc(var(--height-content) * 2);
-    border-radius: 3px;
     cursor: pointer;
     border: var(--button-border);
   }
@@ -120,7 +119,7 @@
       background-color: var(--color-text-selection);
 
       .genre-content {
-        transform: scale(1.15);
+        transform: var(--hover-scale);
         transition: var(--transition-primary);
       }
     }

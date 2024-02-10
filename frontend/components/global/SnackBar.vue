@@ -56,23 +56,20 @@
   watch(
     () => props.color,
     newValue => {
-      const hex = getCssVariableValue(newValue);
-      const colorAdjustments = calculateAdjacentColors(hex);
-      snackbarStyle.value = {
-        '--snackbar-color': colorAdjustments['lighter'],
-        '--snackbar-background-color': newValue,
-        '--snackbar-border-color': colorAdjustments['lighter'],
-        '--snackbar-transform': snackbarTransform.value,
-      };
+    const { current, darker } = getDarkerAndLighterColor(newValue);
+    snackbarStyle.value = {
+      '--snackbar-background-color': current,
+      '--snackbar-border-color': darker,
+      '--snackbar-transform': snackbarTransform.value,
+    };
     }
   );
 
   onMounted(() => {
-    const hex = getCssVariableValue(props.color);
-    const colorAdjustments = calculateAdjacentColors(hex);
+    const { current, darker } = getDarkerAndLighterColor(props.color);
     snackbarStyle.value = {
-      '--snackbar-background-color': props.color,
-      '--snackbar-border-color': colorAdjustments.darker,
+      '--snackbar-background-color': current,
+      '--snackbar-border-color': darker,
       '--snackbar-transform': snackbarTransform.value,
     };
   });

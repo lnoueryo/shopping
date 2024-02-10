@@ -83,7 +83,7 @@
     <legend class="visually-hidden">Genres</legend>
     <RippleButton
       :style="{ width: size + '%' }"
-      class="genre-button border-radius"
+      class="genre-button"
       v-for="genre in genreData"
       :key="genre.title"
       color="var(--color-text-selection)"

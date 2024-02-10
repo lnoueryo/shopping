@@ -105,7 +105,9 @@
             </div>
           </template>
           <template v-else>
-            <BookList />
+            <div id="book-list">
+              <BookList />
+            </div>
           </template>
         </template>
         <template v-else>
