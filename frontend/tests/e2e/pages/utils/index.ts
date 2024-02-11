@@ -47,3 +47,11 @@ export const forceChangeStyle = async(page, selector, style, value) => {
   }, {selector, style, value})
 }
 
+export const createFileName = (testInfo: any) => {
+  const browserName = testInfo.project.name;
+  const directoryName = testInfo.titlePath[0].split('/')[0];
+  const capitalizedDirectoryName = directoryName.charAt(0).toUpperCase() + directoryName.slice(1);
+  const prefix = `${testInfo.titlePath[1]}_${capitalizedDirectoryName}_${testInfo.titlePath[2]}`;
+  const specFileName = testInfo.titlePath[0].split('/').pop().replace('.ts', '');
+  return `${prefix}-${browserName}-${specFileName}.png`;
+}

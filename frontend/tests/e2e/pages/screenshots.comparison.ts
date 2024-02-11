@@ -68,31 +68,33 @@ await deleteFilesInDirectory(currentVersionDiffDir);
 const currentVersionImagePaths = await getAllImagePaths(currentVersionDir);
 
 interface IFileManager {
+  currentVersionImagePath: string;
+  previousVersionImagePath: string;
   getPreviousVersionImagePath: (currentVersionImagePath: string) => void
-  readCurrentVersionImage: () => ArrayBuffer
-  readPreviousVersionImage: () => ArrayBuffer
-  hasPreviousVersionImage: () => boolean;
-  saveNewImage: () => voiid
-  saveDiffImage: () => voiid
+  readCurrentVersionImage: () => Promise<ArrayBuffer>
+  readPreviousVersionImage: () => Promise<ArrayBuffer>
+  hasPreviousVersionImage: () => Promise<boolean>;
+  saveNewImage: (currentVersionImageBuffer: ArrayBuffer) => void
+  saveDiffImage: (diff: Blob) => void
 }
 const localFileManager: IFileManager = {
   currentVersionImagePath: '',
   previousVersionImagePath: '',
-  getPreviousVersionImagePath: (currentVersionImagePath: string) => {
-    localFileManager.currentVersionImagePath = currentVersionImagePath;
-    localFileManager.previousVersionImagePath = currentVersionImagePath.replace(`release-${currentVersion}`, `release-${previousVersion}`);
+  getPreviousVersionImagePath: function(currentVersionImagePath: string) {
+    this.currentVersionImagePath = currentVersionImagePath;
+    this.previousVersionImagePath = currentVersionImagePath.replace(`release-${currentVersion}`, `release-${previousVersion}`);
   },
-  readCurrentVersionImage: () => fs.readFileSync(localFileManager.currentVersionImagePath),
-  readPreviousVersionImage: () => fs.readFileSync(localFileManager.previousVersionImagePath),
-  hasPreviousVersionImage: () => fs.existsSync(localFileManager.previousVersionImagePath),
-  saveNewImage: () => {
-    const filename = localFileManager.currentVersionImagePath.replace(currentVersionDir, '').replace('.png', '').replace(/^\//, '').replace(/\//g, '-');
-    const diffPath = path.join(currentVersionDiffDir, `${filename}-new.png`);
+  readCurrentVersionImage: async() => await fs.readFileSync(localFileManager.currentVersionImagePath),
+  readPreviousVersionImage: async() => await fs.readFileSync(localFileManager.previousVersionImagePath),
+  hasPreviousVersionImage: async() => await fs.existsSync(localFileManager.previousVersionImagePath),
+  saveNewImage: function(currentVersionImageBuffer) {
+    const fileName = this.currentVersionImagePath.split('/').pop();
+    const diffPath = path.join(currentVersionDiffDir, `new-${fileName}`);
     fs.writeFileSync(diffPath, currentVersionImageBuffer);
   },
-  saveDiffImage: (diff) => {
-    const filename = localFileManager.currentVersionImagePath.replace(currentVersionDir, '').replace('.png', '').replace(/^\//, '').replace(/\//g, '-');
-    const diffPath = path.join(currentVersionDiffDir, `${filename}.png`);
+  saveDiffImage: function(diff) {
+    const fileName = this.currentVersionImagePath.split('/').pop();
+    const diffPath = path.join(currentVersionDiffDir, fileName);
     fs.writeFileSync(diffPath, PNG.sync.write(diff));
   }
 }
@@ -109,19 +111,21 @@ const GCSFileManager: IFileManager = {
   },
   readCurrentVersionImage: () => fs.readFileSync(GCSFileManager.currentVersionImagePath),
   readPreviousVersionImage: async() => {
-    if (!bucketName) return;
     const [imageBuffer] = await storage.bucket(bucketName).file(path).download();
     return imageBuffer;
   },
-  hasPreviousVersionImage: async() => await storage.bucket(bucketName).file(GCSFileManager.previousVersionImagePath).exists()[0],
-  saveNewImage: () => {
-    const filename = GCSFileManager.currentVersionImagePath.replace(currentVersionDir, '').replace('.png', '').replace(/^\//, '').replace(/\//g, '-');
-    const diffPath = path.join(currentVersionDiffDir, `${filename}-new.png`);
+  hasPreviousVersionImage: async() => {
+    const [res] = await storage.bucket(bucketName).file(GCSFileManager.previousVersionImagePath).exists();
+    return res;
+  },
+  saveNewImage: function(currentVersionImageBuffer) {
+    const fileName = this.currentVersionImagePath.split('/').pop();
+    const diffPath = path.join(currentVersionDiffDir, `new-${fileName}`);
     fs.writeFileSync(diffPath, currentVersionImageBuffer);
   },
-  saveDiffImage: (diff) => {
-    const filename = GCSFileManager.currentVersionImagePath.replace(currentVersionDir, '').replace('.png', '').replace(/^\//, '').replace(/\//g, '-');
-    const diffPath = path.join(currentVersionDiffDir, `${filename}.png`);
+  saveDiffImage: function(diff) {
+    const fileName = this.currentVersionImagePath.split('/').pop();
+    const diffPath = path.join(currentVersionDiffDir, fileName);
     fs.writeFileSync(diffPath, PNG.sync.write(diff));
   }
 }
@@ -134,14 +138,14 @@ test.describe('Comparison', async() => {
   //   });
   // });
   for (const currentVersionImagePath of currentVersionImagePaths) {
-    test(currentVersionImagePath, () => {
+    test(currentVersionImagePath, async() => {
       fileManager.getPreviousVersionImagePath(currentVersionImagePath);
-      const currentVersionImageBuffer = fileManager.readCurrentVersionImage()
+      const currentVersionImageBuffer = await fileManager.readCurrentVersionImage()
 
       if (!fileManager.hasPreviousVersionImage()) {
-        return fileManager.saveNewImage();
+        return fileManager.saveNewImage(currentVersionImageBuffer);
       }
-      const previousVersionImageBuffer = fileManager.readPreviousVersionImage();
+      const previousVersionImageBuffer = await fileManager.readPreviousVersionImage();
 
       const currentVersionImage = PNG.sync.read(currentVersionImageBuffer);
       const previousVersionImage = PNG.sync.read(previousVersionImageBuffer);

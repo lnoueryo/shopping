@@ -31,3 +31,4 @@ logs
 /blob-report/
 /playwright/.cache/
 tests/e2e/screenshots
+screenshots
