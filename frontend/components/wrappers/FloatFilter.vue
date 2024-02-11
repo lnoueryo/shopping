@@ -15,8 +15,9 @@
   const moveFloatMenu = () => {
     try {
       if (store.width > deviceSize.smallDesktop) return;
-      isFixed.value = window.scrollY > store.headerHeight - store.heightContent;
-      isOverMain.value = window.scrollY > store.headerHeight;
+      isFixed.value =
+        window.scrollY > store.topLayoutHeight - store.heightContent;
+      isOverMain.value = window.scrollY > store.topLayoutHeight;
       isScrollActive.value = isScroll();
       isScrollingDown.value = isScrollDown();
 
@@ -44,14 +45,16 @@
   const { isScroll, isScrollDown } = useScroll(moveFloatMenu);
 
   onMounted(() => {
-    isFixed.value = window.scrollY > store.headerHeight - store.heightContent;
-    isOverMain.value = window.scrollY > store.headerHeight;
+    isFixed.value =
+      window.scrollY > store.topLayoutHeight - store.heightContent;
+    isOverMain.value = window.scrollY > store.topLayoutHeight;
   });
   watch(
-    () => store.headerHeight,
+    () => store.topLayoutHeight,
     () => {
-      isFixed.value = window.scrollY > store.headerHeight - store.heightContent;
-      isOverMain.value = window.scrollY > store.headerHeight;
+      isFixed.value =
+        window.scrollY > store.topLayoutHeight - store.heightContent;
+      isOverMain.value = window.scrollY > store.topLayoutHeight;
     }
   );
 </script>
@@ -78,7 +81,7 @@
     position: absolute;
     top: calc(var(--height-content) * -1);
     width: 100vw;
-    left: calc(var(--margin-horizontal) * -1);
+    left: calc(var(--space-lg) * -1);
     z-index: 1;
   }
 

@@ -14,6 +14,8 @@ describe('MainSearchBar', () => {
     });
 
     it('Verify Tablet Size', async () => {
+      const wrapperLeft = 100;
+      const propmptLeft = 120;
       const wrapper = createMainSearchBar(mainSearchBar);
       const changeWidth = async (newWidth: number) => {
         wrapper.setProps({ width: newWidth });
@@ -21,11 +23,13 @@ describe('MainSearchBar', () => {
       };
       expect(wrapper.vm.promptWidth).toBe(0);
       expect(wrapper.vm.isInputSizeBelowLimit).toBeFalsy();
-      wrapper.vm.wrapperRef = { getBoundingClientRect: () => ({ left: 100 }) };
+      wrapper.vm.wrapperRef = { getBoundingClientRect: () => ({ left: wrapperLeft }) };
       wrapper.vm.promptRef = {
-        getBoundingClientRect: () => ({ left: 120, width: 100 }),
+        getBoundingClientRect: () => ({ left: propmptLeft, width: 100 }),
       };
 
+      // <transition @after-enter="afterEnter">を手動で実行
+      wrapper.vm.afterEnter();
       wrapper.vm.adjustPromptVisibility(changeWidth(deviceSize.tablet));
       await nextTick();
       expect(wrapper.vm.isInputSizeBelowLimit).toBeFalsy();
@@ -33,6 +37,8 @@ describe('MainSearchBar', () => {
     });
 
     it('Verify Below Tablet Size', async () => {
+      const wrapperLeft = 100;
+      const propmptLeft = 120;
       const wrapper = createMainSearchBar(mainSearchBar);
       const changeWidth = async (newWidth: number) => {
         wrapper.setProps({ width: newWidth });
@@ -40,15 +46,16 @@ describe('MainSearchBar', () => {
       };
       expect(wrapper.vm.promptWidth).toBe(0);
       expect(wrapper.vm.isInputSizeBelowLimit).toBeFalsy();
-      wrapper.vm.wrapperRef = { getBoundingClientRect: () => ({ left: 100 }) };
+      wrapper.vm.wrapperRef = { getBoundingClientRect: () => ({ left: wrapperLeft }) };
       wrapper.vm.promptRef = {
-        getBoundingClientRect: () => ({ left: 120, width: 100 }),
+        getBoundingClientRect: () => ({ left: propmptLeft, width: 100 }),
       };
 
+      wrapper.vm.updateRefSize();
       wrapper.vm.adjustPromptVisibility(changeWidth(deviceSize.tablet - 1));
       await nextTick();
       expect(wrapper.vm.isInputSizeBelowLimit).toBeTruthy();
-      expect(wrapper.vm.promptPadding).toBe(20);
+      expect(wrapper.vm.promptPadding).toBe(propmptLeft - wrapperLeft);
     });
 
     it('Verify Magnify Size', async () => {

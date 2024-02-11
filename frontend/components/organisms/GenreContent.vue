@@ -41,7 +41,7 @@
 <template>
   <TriSectionLayout v-bind="contentSwitch" :width="store.width">
     <template #left>
-      <div class="flex">
+      <div id="left-code" class="flex">
         <CodeList :htmlArray="selectGenreArr" />
       </div>
     </template>
@@ -55,7 +55,7 @@
       />
     </template>
     <template #right>
-      <div class="flex">
+      <div id="right-code" class="flex">
         <CodeList :htmlArray="genreSelectorArr" />
       </div>
     </template>

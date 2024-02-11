@@ -1,27 +1,40 @@
 <script setup lang="ts">
-  import SkillLevelChips from '@/components/molecules/SkillLevelChips.vue';
-  import Rating from '@/components/molecules/Rating.vue';
-  import GenreSelectors from '@/components/molecules/GenreSelectors.vue';
   import Accordion from '@/components/wrappers/Accordion.vue';
   import { useSearchBooks } from '@/composables/search-books';
   import { useScroll } from '@/composables/scroll';
   import { useStore } from '@/stores';
   import { useBooksStore } from '@/stores/books';
   import { deviceSize } from '@/assets/js/device-size.js';
+  import { skillLevelsData } from '@/assets/js/skill-levels';
   import { genreData } from '@/assets/js/genres.js';
-  import { ref, watch, onMounted, onUnmounted } from 'vue';
+  import {
+    ref,
+    watch,
+    onMounted,
+    onUnmounted,
+    defineAsyncComponent,
+  } from 'vue';
+
+  const Rating = defineAsyncComponent(
+    () => import('@/components/molecules/Rating.vue')
+  );
+  const SkillLevelChips = defineAsyncComponent(
+    () => import('@/components/molecules/SkillLevelChips.vue')
+  );
+  const GenreSelectors = defineAsyncComponent(
+    () => import('@/components/molecules/GenreSelectors.vue')
+  );
 
   const store = useStore();
   const booksStore = useBooksStore();
   const route = useRoute();
-  const router = useRouter();
   const searchBooks = useSearchBooks();
   const tabletSwitch = ref(deviceSize.tablet > store.width);
   const skillLevelStyle = ref({});
   const labelStyle = ref({
     height: 'var(--height-content)',
-    backgroundColor: 'var(--color-sub-white)',
-    color: 'var(--color-sub-black)',
+    backgroundColor: 'var(--color-base-primary)',
+    color: 'var(--color-primary)',
     fontSize: '16px',
     fontWeight: 'bold',
   });
@@ -47,7 +60,7 @@
 
   const isFixed = ref(true);
   const updateIsFixed = () =>
-    (isFixed.value = window.scrollY > store.headerHeight - store.heightContent);
+    (isFixed.value = window.scrollY > store.topLayoutHeight);
   useScroll(updateIsFixed);
   const lockPage = () => {
     const { body } = document;
@@ -58,12 +71,11 @@
     body.style.overflow = 'initial';
   };
 
-  // const booksStore.isAccordionOpen = ref(false);
   const contentStyle = ref({ maxHeight: '0' });
   const openAccordion = () => {
     contentStyle.value.maxHeight = isFixed.value
-      ? `calc(100vh - ${store.headerHeight}px)`
-      : `calc(100vh - ${store.headerHeight}px - ${store.heightContent}px)`;
+      ? `calc(100vh - ${store.topLayoutHeight}px + ${store.heightContent}px)`
+      : `calc(var(--vh, 1vh) * 100 - ${store.topLayoutHeight}px - ${store.heightContent}px)`;
   };
   const closeAccordion = () => (contentStyle.value.maxHeight = '0');
   watch(
@@ -80,7 +92,7 @@
   );
 
   onMounted(() => {
-    isFixed.value = window.scrollY > store.headerHeight - store.heightContent;
+    isFixed.value = window.scrollY > store.topLayoutHeight;
     tabletSwitch.value = deviceSize.mobile > store.width;
     skillLevelStyle.value = tabletSwitch.value ? { size: 10, width: 104 } : {};
   });
@@ -88,7 +100,11 @@
   onUnmounted(() => unLockPage());
 
   watch([localRate, localSkillLevels, localGenre], () => {
-    searchBooks.searchOnAccordion(localRate.value, localSkillLevels.value, localGenre.value)
+    searchBooks.searchOnAccordion(
+      localRate.value,
+      localSkillLevels.value,
+      localGenre.value
+    );
   });
 
   watch(
@@ -100,7 +116,7 @@
 </script>
 
 <template>
-  <div class="card flex align-center relative card-shadow">
+  <div class="card vertical-center relative card-shadow">
     <Accordion
       v-model="booksStore.isAccordionOpen"
       :labelStyle="labelStyle"
@@ -108,8 +124,8 @@
     >
       <template #label>
         <div class="h100 title-bottom">
-          <div class="flex justify-between align-center h100 margin-horizontal">
-            <div class="flex align-center h100">Filter</div>
+          <div class="vertical-center justify-between h100 margin-horizontal">
+            <p class="vertical-center h100">Filter</p>
             <div
               class="arrow-box"
               :class="{ toggle: booksStore.isAccordionOpen }"
@@ -119,40 +135,46 @@
                   open: booksStore.isAccordionOpen,
                   close: !booksStore.isAccordionOpen,
                 }"
-                ><span v-if="booksStore.isAccordionOpen">×</span></div
+                ><span v-if="booksStore.isAccordionOpen">✕</span></div
               >
             </div>
           </div>
         </div>
       </template>
       <template #content>
-        <div class="card flex justify-start wrap content-header title-bottom">
-          <div class="flex align-center" :style="filterContentHeight">
+        <div class="card flex justify-start wrap content-header ripple-text">
+          <div
+            class="vertical-center content-padding-horizontal"
+            :style="filterContentHeight"
+          >
             <div
-              class="align-center title padding-horizontal"
+              class="align-center content-padding-horizontal"
               :class="{ flex: !tabletSwitch }"
             >
-              <div>Review:&ensp;</div>
-              <div class="flex align-center">
+              <span>Review:&ensp;</span>
+              <div class="vertical-center">
                 <Rating v-model="localRate" :size="24" last-star-only />
-                <div>&ensp;or Higher</div>
+                <span>&ensp;or Higher</span>
               </div>
             </div>
           </div>
-          <div class="flex align-center" :style="filterContentHeight">
+          <div
+            class="vertical-center content-padding-horizontal"
+            :style="filterContentHeight"
+          >
             <div
-              class="align-center title padding-horizontal"
+              class="align-center content-padding-horizontal"
               :class="{ flex: !tabletSwitch }"
             >
-              <div>Skill Level:&ensp;</div>
+              <span>Skill Level:&ensp;</span>
               <SkillLevelChips
-                v-bind="skillLevelStyle"
                 v-model="localSkillLevels"
+                :skillLevelsData="skillLevelsData"
               />
             </div>
           </div>
         </div>
-        <div class="card title padding-horizontal">
+        <div class="card content-padding-horizontal">
           <GenreSelectors
             v-model="localGenre"
             v-bind="{ mobile: 50, tablet: 50 }"
@@ -172,8 +194,8 @@
     /*タイトル横の矢印*/
     width: 8px;
     height: 8px;
-    border-top: 2px solid var(--color-sub-black);
-    border-right: 2px solid var(--color-sub-black);
+    border-top: 2px solid var(--color-text-primary);
+    border-right: 2px solid var(--color-text-primary);
     -webkit-transform: rotate(135deg);
     transform: rotateZ(135deg);
     transform-origin: center;
@@ -185,12 +207,16 @@
   .open {
     font-size: 100%; /*ボタンの大きさ*/
     font-weight: bold;
-    color: var(--color-sub-black);
+    color: var(--color-text-primary);
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
     transition: transform 0.5s;
+  }
+
+  .title-bottom {
+    border-bottom: 1px solid var(--color-base-secondary);
   }
 
   .arrow-box {
@@ -209,6 +235,7 @@
   }
 
   .content-header {
+    font-weight: bold;
     min-height: var(--height-content);
   }
 
@@ -216,5 +243,9 @@
     .genre-selector {
       width: 50%;
     }
+  }
+
+  label:focus-within {
+    border: 2px solid black;
   }
 </style>

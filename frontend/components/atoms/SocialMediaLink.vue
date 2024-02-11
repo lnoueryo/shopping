@@ -8,16 +8,12 @@
 </script>
 
 <template>
-  <a
-    :href="sns.url"
-    target="_blank"
-    class="sns flex justify-center align-center"
-  >
-    <div :id="sns.name" class="sns-content">
-      <div class="text-center">
-        <svg-icon type="mdi" :path="sns.icon"></svg-icon>
+  <a :href="sns.url" target="_blank" class="sns center">
+    <div :id="sns.name" class="sns-content ripple-text">
+      <div class="sns-icon text-center">
+        <SvgIcon type="mdi" :path="sns.icon"></SvgIcon>
       </div>
-      <div class="sns-name text-center">
+      <div class="sns-name text-center caption">
         {{ sns.name }}
       </div>
     </div>
@@ -26,25 +22,38 @@
 
 <style lang="scss" scoped>
   .sns {
-    min-height: 75px;
-    min-width: 75px;
-    transition: var(--hover-transition);
-    border-radius: 3px;
-    padding: 0 12px;
+    min-height: calc(var(--height-content) * 2);
+    min-width: calc(var(--height-content) * 2);
+    transition: var(--transition-primary);
   }
 
   .sns-content {
-    transition: var(--hover-transition);
+    transition: var(--transition-primary);
   }
 
   @media (hover: hover) and (pointer: fine) {
     .sns:hover {
-      transition: var(--hover-transition);
-      background-color: var(--color-hover-green);
+      transition: var(--transition-primary);
+      background-color: var(--color-base-quaternary);
+
+      .sns-content {
+        .sns-icon {
+          transform: var(--hover-scale);
+          transition: var(--transition-primary);
+        }
+      }
     }
-    .sns:hover .sns-content {
-      transform: scale(1.15);
-      transition: var(--hover-transition);
+  }
+
+  .sns:active {
+    background-color: var(--color-base-quaternary);
+    transition: var(--transition-primary);
+
+    .sns-content {
+      .sns-icon {
+        transform: var(--hover-scale);
+        transition: var(--transition-primary);
+      }
     }
   }
 
@@ -61,7 +70,11 @@
   }
 
   .sns-name {
-    font-size: 10px;
+    font-size: var(--font-size-caption);
     font-weight: bold;
+  }
+
+  a:focus-within {
+    border: 2px solid black;
   }
 </style>

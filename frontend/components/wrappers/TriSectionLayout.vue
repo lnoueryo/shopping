@@ -1,22 +1,31 @@
 <script setup lang="ts">
   import { deviceSize } from '@/assets/js/device-size.js';
   const props = defineProps({
-    left: Boolean,
-    center: Boolean,
-    right: Boolean,
+    left: {
+      type: Boolean,
+      default: true,
+    },
+    center: {
+      type: Boolean,
+      default: true,
+    },
+    right: {
+      type: Boolean,
+      default: true,
+    },
     width: Number,
   });
 </script>
 
 <template>
   <div
-    class="flex align-center scroll h100"
+    class="flex align-center h100"
     :class="{ container: props.width >= deviceSize.smallDesktop }"
   >
     <div class="align-left side-space" v-if="props.left">
       <slot name="left"></slot>
     </div>
-    <div class="mr-a w100 h100 flex justify-center" v-if="props.center">
+    <div class="mr-a w100 h100 flex justify-center scroll" v-if="props.center">
       <slot name="center"></slot>
     </div>
     <div class="align-right side-space" v-if="props.right">
@@ -26,7 +35,10 @@
 </template>
 
 <style lang="scss" scoped>
-  .scroll {
-    overflow-x: auto;
+  @media screen and (max-width: 1060px) {
+    .scroll {
+      overflow-x: auto;
+      overflow-y: hidden;
+    }
   }
 </style>

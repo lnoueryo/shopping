@@ -11,16 +11,21 @@
     },
     color: {
       type: String,
-      default: 'var(--color-sub-black)',
+      default: 'var(--color-base-tertiary)',
     },
-    fontSize: Number,
-    width: Number,
+    fontSize: {
+      type: String,
+      default: 'var(--font-size-caption)',
+    },
+    width: {
+      type: String,
+      default: '104px',
+    },
+    readOnly: {
+      type: Boolean,
+      default: false,
+    },
   });
-  const defaultFonstSize = ref(12);
-  const defaultWidth = ref(104);
-  const defaultBackgroundColor = ref('transparent');
-  const defaultColor = ref('white');
-  const defaultBorderRadius = ref('10px');
   const emit = defineEmits(['update:modelValue']);
   const uniqueId = Math.random().toString(36).substr(2, 9) + props.title;
   const selectedSkillLevels = ref(props.modelValue);
@@ -41,15 +46,9 @@
 
   const labelStyle = computed(() => {
     return {
-      fontSize: `${props.fontSize || defaultFonstSize.value}px`,
-      backgroundColor: isSelected.value
-        ? props.color
-        : defaultBackgroundColor.value,
-      color: isSelected.value ? defaultColor.value : props.color,
-      border: `2px solid  ${props.color}`,
-      borderRadius: defaultBorderRadius.value,
-      display: 'block',
-      width: `${props.width || defaultWidth.value}px`,
+      '--label-color': props.color,
+      fontSize: props.fontSize,
+      width: props.width,
     };
   });
 
@@ -59,45 +58,61 @@
 </script>
 
 <template>
-  <div class="chip text-center" v-if="props.title">
+  <label
+    class="chip-padding text-center monospace-font chip-border-radius"
+    :class="{ checked: isSelected }"
+    :for="uniqueId"
+    :style="labelStyle"
+    @keyup.enter="enterSkillLevel"
+    @click="$event.target.blur()"
+    v-if="props.title"
+  >
     <input
       :id="uniqueId"
+      class="visually-hidden"
       type="checkbox"
       :value="props.title"
       v-model="selectedSkillLevels"
     />
-    <label
-      :for="uniqueId"
-      :style="labelStyle"
-      tabindex="0"
-      @keyup.enter="enterSkillLevel"
-    >
-      {{ capitalizeFirstLetter }}
-    </label>
-  </div>
+    <p class="ripple-text">{{ capitalizeFirstLetter }}</p>
+  </label>
 </template>
 
 <style lang="scss" scoped>
-  .skill-level-form {
-    .chip {
-      margin: 4px;
-    }
-    input[type='checkbox'] {
-      display: none;
-    }
-    label {
-      position: relative;
-      color: #fff;
-      cursor: pointer;
-      padding: 5px;
-      transition: var(--hover-transition);
-    }
+  .chip-border-radius {
+    border-radius: 10px;
+  }
+
+  label {
+    display: block;
+    position: relative;
+    font-weight: bold;
+    border: 2px solid var(--label-color);
+    color: var(--label-color);
+    cursor: pointer;
+    transition: var(--transition-primary);
+    background-color: transparent;
+  }
+
+  label.checked {
+    color: var(--color-white);
+    background-color: var(--label-color);
   }
 
   @media (hover: hover) and (pointer: fine) {
-    .skill-level-form label:hover {
+    label:hover {
       opacity: var(--opacity-hover);
-      transition: var(--hover-transition);
+      transition: var(--transition-primary);
     }
+  }
+
+  label:active {
+    color: var(--color-white);
+    opacity: 1;
+    transition: initial;
+  }
+
+  label:focus-within {
+    border: 2px solid black;
   }
 </style>

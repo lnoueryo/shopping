@@ -44,6 +44,11 @@
   const showPrompt = () => {
     promptPadding.value = promptWidth.value + promptBothSidesMargin.value;
   };
+  // アニメーションが終わってからpropmtの長さを計測
+  const afterEnter = () => {
+    updateRefSize();
+    showPrompt();
+  };
   const updateRefSize = () => {
     const { left: wrapperLeftValue } = wrapperRef.value.getBoundingClientRect();
     const { left: promptLeftValue, width: promptWidthValue } =
@@ -56,9 +61,7 @@
 
   const adjustPromptVisibility = width => {
     isInputSizeBelowLimit.value = false;
-    updateRefSize();
     if (width < deviceSize.tablet) return hidePrompt();
-    showPrompt();
   };
 
   const adjustMagnifyVisibility = () => {
@@ -80,22 +83,26 @@
     emit('update:modelValue', newSearchKeyword)
   );
   onMounted(() => {
-    if (promptRef.value) adjustPromptVisibility(props.width);
     if (searchButton.value) adjustMagnifyVisibility();
+    updateRefSize();
+    if (props.width < deviceSize.tablet) return hidePrompt();
+    showPrompt();
   });
 </script>
 
 <template>
   <div class="input-wrapper monospace-font h100" ref="wrapperRef">
-    <label
-      for="main-search-bar"
-      class="prompt"
-      ref="promptRef"
-      v-show="!isInputSizeBelowLimit"
-      ><span style="color: var(--color-ubuntu-terminal)"
-        >WBstore@{{ user }}</span
-      ><span>:~ $ </span></label
-    >
+    <transition @after-enter="afterEnter">
+      <label
+        for="main-search-bar"
+        class="prompt"
+        ref="promptRef"
+        v-show="!isInputSizeBelowLimit"
+        ><span style="color: var(--color-ubuntu-terminal)" aria-hidden="true"
+          >WBstore@{{ user }}</span
+        ><span class="path" aria-hidden="true">:~ $ </span></label
+      >
+    </transition>
     <input
       id="main-search-bar"
       ref="mainSearchBar"
@@ -108,9 +115,11 @@
       autocomplete="off"
       v-model="searchKeyword"
       @keyup.enter="blurSearchBar"
+      aria-label="input book search keywords and press Enter"
+      placeholder="input book search keywords"
     />
     <div class="search-button w100 h100" ref="searchButton">
-      <SearchButton :size="24" @onSearchClicked="blurSearchBar" />
+      <SearchButton :size="20" @onSearchClicked="blurSearchBar" />
     </div>
   </div>
 </template>
@@ -122,21 +131,22 @@
 
   #main-search-bar {
     position: relative;
-    background: black;
-    color: yellow;
-    caret-color: white;
+    background: var(--color-terminal);
+    color: var(--color-terminal-word);
+    caret-color: var(--color-terminal-word);
     border-radius: 3px;
-    border: 2px solid var(--color-base-white);
+    border: 2px solid var(--color-text-right-gray);
     width: 100%;
-    padding: 0 var(--margin-horizontal);
     z-index: 0;
-    transition: var(--hover-transition);
+    transition:
+      var(--transition-primary),
+      padding 0s;
   }
 
   #main-search-bar:focus-visible {
     border: 2px solid var(--color-class);
     outline: 1px solid var(--color-class);
-    transition: var(--hover-transition);
+    transition: var(--transition-primary);
   }
 
   .prompt {
@@ -155,7 +165,16 @@
     right: 12px;
     transform: translateY(-50%) translateX(0%);
     color: white;
-    padding: 6px 0;
-    max-width: 68px;
+    height: calc(var(--height-content) - 8px);
+    max-width: calc(calc(var(--height-content) - 8px) * 2);
+  }
+
+  .path {
+    color: var(--color-text-tertiary);
+  }
+
+  ::placeholder {
+    user-select: none;
+    font-weight: bold;
   }
 </style>

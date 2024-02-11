@@ -1,7 +1,6 @@
 <script setup lang="ts">
-  import Modal from '@/components/atoms/Modal.vue';
+  import Modal from '@/components/wrappers/Modal.vue';
   import MainSearchBar from '@/components/molecules/MainSearchBar.vue';
-  import NavigationBar from '@/components/molecules/NavigationBar.vue';
   import Logo from '@/components/atoms/Logo.vue';
   import TriSectionLayout from '@/components/wrappers/TriSectionLayout.vue';
   import { ref, watch, computed } from 'vue';
@@ -13,7 +12,6 @@
 
   const store = useStore();
   const booksStore = useBooksStore();
-  const router = useRouter();
   const route = useRoute();
   const searchBooks = useSearchBooks();
   const headerMiddleSwitch = ref({ right: true, center: true, left: true });
@@ -26,9 +24,16 @@
       `The input exceeds the maximum allowed character limit of 100. Please shorten your input.You have currently entered ${searchKeyword.value.length} characters.`
   );
 
+  const isFixed = ref(false);
+  const moveSearchBar = () => {
+    if (store.width > deviceSize.smallDesktop) return;
+    isFixed.value = window.scrollY > store.heightContent;
+  };
+  useScroll(moveSearchBar);
   watch(
     () => store.width,
     newWidth => {
+      if (newWidth === 0) return;
       store.isHeaderReady = true;
       if (newWidth < deviceSize.smallDesktop) {
         headerTopSwitch.value = { left: false, center: true, right: false };
@@ -38,28 +43,26 @@
       headerTopSwitch.value = { left: false, center: false, right: false };
       headerMiddleSwitch.value = { left: true, center: true, right: true };
       isFixed.value = false;
-    }
+    },
+    { immediate: true }
   );
 
   const searchBooksByKeyword = async () => {
+    /*
+    1, 2を行わないと本番環境で動作しなくなる。ローカルでは問題なく動く
+    */
     if (!searchKeyword.value && route.path !== '/books') return;
     if (searchKeyword.value.length > 100) return (isOpen.value = true);
-    const query = await searchBooks.searchByKeyword(searchKeyword.value);
+    const query = await searchBooks.searchByKeyword(searchKeyword.value); // 1. promiseでrouter.pushの処理が終わるのを待つ
     if (route.path === '/books') {
       booksStore.isAccordionOpen = false;
       setTimeout(async () => {
+        // 2. setTimeoutでscrollToTopの実行を若干ずらす
         await store.scrollToTop();
-        await booksStore.updateQuery(query)
+        await booksStore.updateQuery(query);
       }, 100);
     }
   };
-
-  const isFixed = ref(false);
-  const moveSearchBar = () => {
-    if (store.width > deviceSize.smallDesktop) return;
-    isFixed.value = window.scrollY > store.heightContent;
-  };
-  useScroll(moveSearchBar);
 </script>
 
 <template>
@@ -92,16 +95,9 @@
         </TriSectionLayout>
       </div>
     </div>
-    <div class="nav-container">
-      <TriSectionLayout v-bind="headerMiddleSwitch" :width="store.width">
-        <template #center>
-          <NavigationBar class="margin-horizontal" :navHeight="48" />
-        </template>
-      </TriSectionLayout>
-    </div>
     <Modal v-model="isOpen" :width="store.width">
       <template #title>
-        <h4 class="error-title">{{ errorTitle }}</h4>
+        <p class="error-title">{{ errorTitle }}</p>
       </template>
       <template #message>
         <p class="error-message">{{ errorMessage }}</p>
@@ -123,7 +119,7 @@
       width: initial;
     }
     .float-header.fixed {
-      background-color: var(--color-base-black);
+      background-color: var(--color-base-tertiary);
       top: 0;
       position: fixed;
       height: var(--height-content);
@@ -132,12 +128,7 @@
     }
   }
 
-  .nav-container {
-    height: var(--height-content);
-  }
-
   .error-title {
-    font-size: 24px;
     color: var(--color-error);
   }
 

@@ -10,17 +10,16 @@
   const store = useStore();
   const booksStore = useBooksStore();
   const route = useRoute();
-  const router = useRouter();
   const searchBooks = useSearchBooks();
   const localGenre = ref(route.query.genre);
   const isFixed = ref(false);
   const moveGenreContent = () => {
-    isFixed.value = window.scrollY > store.headerHeight;
+    isFixed.value = window.scrollY > store.topLayoutHeight;
   };
   useScroll(moveGenreContent);
-  watch(localGenre, newValue => {
+  watch(localGenre, async newValue => {
     if (!newValue) return;
-    searchBooks.searchByGenre(localGenre.value);
+    await searchBooks.searchByGenre(localGenre.value);
   });
   watch(
     () => booksStore.query.genre,
@@ -38,8 +37,10 @@
     class="floating-sidebar card-shadow"
     :class="{ 'sidebar-fixed': isFixed }"
   >
-    <div class="card title-container flex align-center">
-      <h2 class="title padding-horizontal"> Genres </h2>
+    <div
+      class="card title-container vertical-center content-padding-horizontal"
+    >
+      <h2 class="content-padding-horizontal"> Genres </h2>
     </div>
     <div class="card">
       <GenreSelectors

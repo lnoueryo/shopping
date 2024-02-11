@@ -14,25 +14,36 @@
       type: String,
       default: '0px',
     },
+    condition: {
+      type: Boolean,
+      default: false,
+    },
   });
 </script>
 
 <template>
-  <div
-    class="skeleton js-skeleton w100 h100"
-    :style="{
-      '--skeleton-width': props.width,
-      '--skeleton-height': props.height,
-      '--skeleton-radius': props.radius,
-    }"
-    tabindex="0"
-    role="progressbar"
-    aria-busy="true"
-    aria-valuemin="0"
-    aria-valuemax="100"
-    aria-valuetext="Please wait..."
-  >
-    <div class="skeleton__title"></div>
+  <div class="relative w100 h100">
+    <template v-if="props.condition">
+      <slot />
+    </template>
+    <template v-else>
+      <div
+        class="skeleton js-skeleton w100 h100"
+        :style="{
+          '--skeleton-width': props.width,
+          '--skeleton-height': props.height,
+          '--skeleton-radius': props.radius,
+        }"
+        tabindex="0"
+        role="progressbar"
+        aria-busy="true"
+        aria-valuemin="0"
+        aria-valuemax="100"
+        aria-valuetext="Please wait..."
+      >
+        <div class="skeleton__title"></div>
+      </div>
+    </template>
   </div>
 </template>
 
@@ -41,15 +52,6 @@
   $skeletonMaskColor: rgba(0, 0, 0, 1);
   $skeletonTime: 1.2s;
   $skeletonEase: linear;
-
-  @keyframes skeleton-animation {
-    0% {
-      transform: translateX(-100%);
-    }
-    100% {
-      transform: translateX(100%);
-    }
-  }
 
   @mixin skeleton-mixin() {
     position: relative;

@@ -3,42 +3,41 @@ import { mount } from '@vue/test-utils';
 import SkillLevelChip from '/components/atoms/SkillLevelChip.vue';
 import { nextTick } from 'vue';
 
+const black = 'rgb(0, 0, 0)';
+
 describe('SkillLevelChip', () => {
   describe('Display SkillLevelChip', () => {
     const skillLevel = {
       modelValue: ['beginner'],
       title: 'beginner',
-      color: 'rgb(0, 0, 0)',
+      color: black,
     };
 
     it('Render Correctly', () => {
       const wrapper = createSkillLevelChip(skillLevel);
-      expect(wrapper.find('.chip').exists()).toBeTruthy();
+      expect(wrapper.find('label').exists()).toBeTruthy();
       expect(wrapper.text()).toMatch(wrapper.vm.capitalizeFirstLetter);
     });
 
     it('Render Incorrectly', async () => {
       const incompleteSkillLevel = {};
       const wrapper = createSkillLevelChip(incompleteSkillLevel);
-      expect(wrapper.find('.chip').exists()).toBeFalsy();
+      expect(wrapper.find('label').exists()).toBeFalsy();
     });
 
     it('Verify SkillLevelChip Is Active', () => {
       const wrapper = createSkillLevelChip(skillLevel);
       const label = wrapper.find('label');
-      expect(label.element.style.backgroundColor).toBe(skillLevel.color);
-      expect(label.element.style.color).toBe(wrapper.vm.defaultColor);
       expect(wrapper.vm.isSelected).toBeTruthy();
+      expect(label.classes()).toContain('checked');
     });
 
     it('Verify GenreSelector Is Inactive', () => {
       const inactiveSkillLevel = { ...skillLevel, title: 'intermediate' };
       const wrapper = createSkillLevelChip(inactiveSkillLevel);
       const label = wrapper.find('label');
-      expect(label.element.style.backgroundColor).toBe(
-        wrapper.vm.defaultBackgroundColor
-      );
       expect(wrapper.vm.isSelected).toBeFalsy();
+      expect(label.classes()).not.toContain('checked');
     });
   });
 
@@ -46,7 +45,7 @@ describe('SkillLevelChip', () => {
     const skillLevel = {
       modelValue: [],
       title: 'beginner',
-      color: 'rgb(0, 0, 0)',
+      color: black,
     };
 
     it('Verify v-model', async () => {
@@ -54,10 +53,8 @@ describe('SkillLevelChip', () => {
       const input = wrapper.find('input');
       const label = wrapper.find('label');
       expect(input.exists()).toBeTruthy();
-      expect(label.element.style.backgroundColor).toBe(
-        wrapper.vm.defaultBackgroundColor
-      );
-      expect(label.element.style.color).toBe(skillLevel.color);
+      expect(label.classes()).not.toContain('checked');
+
       expect(wrapper.vm.isSelected).toBeFalsy();
       expect((input.element as HTMLInputElement).checked).toBeFalsy();
       await input.trigger('click');
@@ -69,9 +66,8 @@ describe('SkillLevelChip', () => {
       expect(wrapper.emitted()['update:modelValue'][0]).toEqual([
         [skillLevel.title],
       ]);
-      expect(label.element.style.backgroundColor).toBe(skillLevel.color);
-      expect(label.element.style.color).toBe(wrapper.vm.defaultColor);
       expect(wrapper.vm.isSelected).toBeTruthy();
+      expect(label.classes()).toContain('checked');
     });
 
     it('Verify To Inactivate', async () => {
@@ -83,10 +79,8 @@ describe('SkillLevelChip', () => {
       const input = wrapper.find('input');
       const label = wrapper.find('label');
       expect(input.exists()).toBeTruthy();
-      expect(label.element.style.backgroundColor).toBe(
-        activeGenreSelector.color
-      );
-      expect(label.element.style.color).toBe(wrapper.vm.defaultColor);
+      expect(label.classes()).toContain('checked');
+
       expect(wrapper.vm.isSelected).toBeTruthy();
       expect((input.element as HTMLInputElement).checked).toBeTruthy();
       await input.trigger('click');
@@ -96,10 +90,7 @@ describe('SkillLevelChip', () => {
 
       expect(wrapper.emitted()['update:modelValue']).toBeTruthy();
       expect(wrapper.emitted()['update:modelValue'][0]).toEqual([[]]);
-      expect(label.element.style.backgroundColor).toBe(
-        wrapper.vm.defaultBackgroundColor
-      );
-      expect(label.element.style.color).toBe(activeGenreSelector.color);
+      expect(label.classes()).not.toContain('checked');
       expect(wrapper.vm.isSelected).toBeFalsy();
     });
   });

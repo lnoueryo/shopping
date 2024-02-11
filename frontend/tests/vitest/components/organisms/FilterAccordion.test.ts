@@ -1,6 +1,6 @@
 // - 絞り込み条件に変更がない場合書籍一覧を取得する通信は行われない
 // E2Eで行うテストの設計（スタイル、組み合わせテスト）
-import { describe, it, expect, beforeEach, afterEach } from 'vitest';
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { mount, flushPromises } from '@vue/test-utils';
 import { createRouter, createWebHistory } from 'vue-router';
 import FilterAccordion from '/components/organisms/FilterAccordion.vue';
@@ -14,8 +14,8 @@ describe('FilterAccordion', () => {
     return createTestingPinia({
       initialState: {
         index: {
-          headerHeight: 48 * 3,
-          heightContent: 48,
+          headerHeight: 40 * 3,
+          heightContent: 40,
         },
         books: state,
       },
@@ -42,6 +42,8 @@ describe('FilterAccordion', () => {
           plugins: [createRouterInstance(), createPinia(state)],
         },
       });
+      await flushPromises();
+      await vi.dynamicImportSettled();
       expect(wrapper.vm.isOpen).toBeFalsy();
       const rating = wrapper.findComponent({ name: 'Rating' });
       expect(rating.vm.rate).toBe(state.query.rate);
@@ -67,6 +69,8 @@ describe('FilterAccordion', () => {
           plugins: [createRouterInstance(), createPinia(state)],
         },
       });
+      await flushPromises();
+      await vi.dynamicImportSettled();
       expect(wrapper.vm.isOpen).toBeFalsy();
       const rating = wrapper.findComponent({ name: 'Rating' });
       expect(rating.vm.rate).toBe(state.query.rate);
@@ -111,6 +115,10 @@ describe('FilterAccordion', () => {
       };
       const router = createRouterInstance();
       const store = useStore();
+      Object.defineProperty(window, 'scrollY', {
+        value: store.topLayoutHeight + store.heightContent,
+        configurable: true,
+      });
       const wrapper = mount(FilterAccordion, {
         global: {
           plugins: [router, createPinia(state)],
@@ -128,9 +136,8 @@ describe('FilterAccordion', () => {
       expect(document.body.style.overflow).toBe('hidden');
       expect(wrapper.vm.isFixed).toBeTruthy();
       expect(wrapper.vm.contentStyle.maxHeight).toBe(
-        `calc(100vh - ${store.headerHeight}px)`
+        `calc(100vh - ${store.topLayoutHeight}px + ${store.heightContent}px)`
       );
-
       accordionSwitch.setChecked(false);
       wrapper.vm.updateIsFixed();
       await flushPromises();
@@ -150,7 +157,7 @@ describe('FilterAccordion', () => {
       expect(document.body.style.overflow).toBe('hidden');
       expect(wrapper.vm.isFixed).toBeFalsy();
       expect(wrapper.vm.contentStyle.maxHeight).toBe(
-        `calc(100vh - ${store.headerHeight}px - ${store.heightContent}px)`
+        `calc(var(--vh, 1vh) * 100 - ${store.topLayoutHeight}px - ${store.heightContent}px)`
       );
     });
 
@@ -168,6 +175,8 @@ describe('FilterAccordion', () => {
           plugins: [router, createPinia(state)],
         },
       });
+      await flushPromises();
+      await vi.dynamicImportSettled();
       expect(wrapper.vm.booksStore.isAccordionOpen).toBeFalsy();
       const accordion = wrapper.findComponent({ name: 'Accordion' });
       const accordionSwitch = accordion.find('input');
@@ -184,6 +193,7 @@ describe('FilterAccordion', () => {
       const skillLevelChipsComponent = wrapper.findComponent({
         name: 'SkillLevelChips',
       });
+
       const skillLevelChips = skillLevelChipsComponent.findAll('input');
       await skillLevelChips[0].setChecked(true);
       await nextTick();
@@ -196,7 +206,7 @@ describe('FilterAccordion', () => {
       const genreSelectorsComponent = wrapper.findComponent({
         name: 'GenreSelectors',
       });
-      const genreSelectors = genreSelectorsComponent.findAll('nuxtlink');
+      const genreSelectors = genreSelectorsComponent.findAll('button.genre');
       await genreSelectors[1].trigger('click');
       await nextTick();
       await flushPromises();

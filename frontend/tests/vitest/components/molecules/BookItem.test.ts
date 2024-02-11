@@ -2,16 +2,10 @@ import { describe, it, expect } from 'vitest';
 import { mount, flushPromises } from '@vue/test-utils';
 import { deviceSize } from '@/assets/js/device-size.js';
 import BookItem from '@/components/molecules/BookItem.vue';
+import Spinner from '@/components/global/Spinner.vue';
 import { createTestingPinia } from '@pinia/testing';
 import { nextTick } from 'vue';
 
-vi.stubGlobal('useRuntimeConfig', () => {
-  return {
-    public: {
-      BASE_IMAGE_PATH: '/images/',
-    },
-  };
-});
 const book = {
   width: deviceSize.desktop,
   title: 'Python と JavaScriptではじめるデータビジュアライゼーション',
@@ -44,12 +38,12 @@ describe('BookItem', () => {
       expect(bookItem.text()).toMatch(book.publish_date);
       if (book.description) expect(bookItem.text()).toMatch(book.description);
       expect(bookItem.text()).toMatch(String(book.rating));
-      expect(bookItem.findComponent({ name: 'Spinner' }).exists()).toBeTruthy();
+      expect(bookItem.findComponent(Spinner).exists()).toBeTruthy();
       bookItem.vm.isLoading = false;
       await nextTick();
       const img = bookItem.find('img');
       expect(img.element.src).toBe(book.thumbnail);
-      expect(bookItem.findComponent({ name: 'Spinner' }).exists()).toBeFalsy();
+      expect(bookItem.findComponent(Spinner).exists()).toBeFalsy();
     });
     it('Render Correctly on SP', async () => {
       const bookItem = createBookItem({
@@ -63,12 +57,12 @@ describe('BookItem', () => {
       expect(bookItem.text()).toMatch(book.publish_date);
       expect(bookItem.text()).not.toMatch(book.description);
       expect(bookItem.text()).toMatch(String(book.rating));
-      expect(bookItem.findComponent({ name: 'Spinner' }).exists()).toBeTruthy();
+      expect(bookItem.findComponent(Spinner).exists()).toBeTruthy();
       bookItem.vm.isLoading = false;
       await nextTick();
       const img = bookItem.find('img');
       expect(img.element.src).toBe(book.thumbnail);
-      expect(bookItem.findComponent({ name: 'Spinner' }).exists()).toBeFalsy();
+      expect(bookItem.findComponent(Spinner).exists()).toBeFalsy();
     });
   });
 

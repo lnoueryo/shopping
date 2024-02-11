@@ -27,9 +27,9 @@ describe('GenreContent', () => {
           plugins: [createRouterInstance(), createPinia(state)],
         },
       });
-      const nuxtlinks = wrapper.findAll('nuxtlink');
+      const genreButtons = wrapper.findAll('button.genre');
 
-      expect(nuxtlinks.length).toBe(genreData.length);
+      expect(genreButtons.length).toBe(genreData.length);
     });
   });
   describe('Search Book by Genre', () => {
@@ -41,10 +41,10 @@ describe('GenreContent', () => {
           plugins: [router, createPinia(state)],
         },
       });
-      const nuxtlinks = wrapper.findAll('nuxtlink');
+      const genreButtons = wrapper.findAll('button.genre');
       for (const [index, genre] of genreData.entries()) {
         await router.push('/');
-        await nuxtlinks[index].trigger('click');
+        await genreButtons[index].trigger('click');
         await flushPromises();
         expect(wrapper.vm.router.currentRoute.value.fullPath).toBe(
           `/books?genre=${genre.id}`

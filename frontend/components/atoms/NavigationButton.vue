@@ -1,117 +1,103 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+  import { computed } from 'vue';
+  const props = defineProps({
+    id: {
+      type: String,
+    },
+    title: {
+      type: String,
+    },
+    to: {
+      type: String,
+    },
+    color: {
+      type: String,
+      default: 'var(--color-primary)',
+    },
+    navHeight: {
+      type: String,
+    },
+  });
+  const navStyle = computed(() => {
+    return {
+      height: props.navHeight,
+      color: props.color,
+    };
+  });
+</script>
 
 <template>
-  <!-- ハンバーガーメニュー部分 -->
-  <div class="nav">
-    <!-- ハンバーガーメニューの表示・非表示を切り替えるチェックボックス -->
-    <input id="drawer_input" class="drawer_hidden" type="checkbox" />
-
-    <!-- ハンバーガーアイコン -->
-    <label for="drawer_input" class="drawer_open"><span></span></label>
-
-    <!-- メニュー -->
-    <nav class="nav_content">
-      <ul class="nav_list">
-        <li class="nav_item"><a href="">メニュー1</a></li>
-        <li class="nav_item"><a href="">メニュー2</a></li>
-        <li class="nav_item"><a href="">メニュー3</a></li>
-      </ul>
-    </nav>
+  <div :style="navStyle">
+    <template v-if="props.to">
+      <NuxtLink
+        :id="props.id"
+        class="monospace-font h100"
+        :style="{ color: props.color }"
+        :to="props.to"
+        activeClass="nuxt-active-class"
+      >
+        <span class="ripple-text">{{ props.title }}</span>
+      </NuxtLink>
+    </template>
+    <template v-else>
+      <p class="h100" aria-hidden="true">
+        <span>//&nbsp;</span>
+        <span>{{ props.title }}</span>
+      </p>
+    </template>
   </div>
 </template>
 
 <style lang="scss" scoped>
-  /* CSSコード */
-  .header {
+  .nuxt-active-class {
+    background-color: var(--color-base-quinary);
+    transition: var(--transition-primary);
+  }
+
+  a,
+  p {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    padding: 0 20px;
-    background: #fff;
-  }
-
-  .logo {
-    font-size: 24px;
-  }
-
-  /* ここから下がハンバーガーメニューに関するCSS */
-
-  /* チェックボックスを非表示にする */
-  .drawer_hidden {
-    display: none;
-  }
-
-  /* ハンバーガーアイコンの設置スペース */
-  .drawer_open {
-    display: flex;
-    height: 60px;
-    width: 60px;
     justify-content: center;
-    align-items: center;
+    border-radius: 3px; /* コードのブロック風に丸みを帯びさせる */
+    min-width: 80px;
+    transition: var(--transition-primary);
     position: relative;
-    z-index: 100; /* 重なり順を一番上にする */
-    cursor: pointer;
+    overflow: hidden;
   }
 
-  /* ハンバーガーメニューのアイコン */
-  .drawer_open span,
-  .drawer_open span:before,
-  .drawer_open span:after {
-    content: '';
-    display: block;
-    height: 3px;
-    width: 25px;
-    border-radius: 3px;
-    background: #333;
-    transition: 0.5s;
-    position: absolute;
+  p {
+    cursor: default;
+    user-select: none;
+    pointer-events: none;
+    color: var(--color-comment-out);
   }
 
-  /* 三本線の一番上の棒の位置調整 */
-  .drawer_open span:before {
-    bottom: 8px;
+  @media (hover: hover) and (pointer: fine) {
+    a:hover {
+      transition: var(--transition-primary);
+    }
+
+    a:not(.nuxt-active-class):not(.disabled):hover {
+      background-color: var(--color-base-quaternary);
+      text-decoration: underline; /* アンダーラインを追加 */
+      transition: var(--transition-primary);
+    }
   }
 
-  /* 三本線の一番下の棒の位置調整 */
-  .drawer_open span:after {
-    top: 8px;
+  a:not(.nuxt-active-class):not(.disabled):active {
+    background-color: var(--color-base-quaternary);
+    text-decoration: underline; /* アンダーラインを追加 */
+    transition: var(--transition-primary);
+  }
+  @media screen and (max-width: 768px) {
+    a,
+    p {
+      min-width: 96px;
+    }
   }
 
-  /* アイコンがクリックされたら真ん中の線を透明にする */
-  #drawer_input:checked ~ .drawer_open span {
-    background: rgba(255, 255, 255, 0);
-  }
-
-  /* アイコンがクリックされたらアイコンが×印になように上下の線を回転 */
-  #drawer_input:checked ~ .drawer_open span::before {
-    bottom: 0;
-    transform: rotate(45deg);
-  }
-
-  #drawer_input:checked ~ .drawer_open span::after {
-    top: 0;
-    transform: rotate(-45deg);
-  }
-
-  /* メニューのデザイン*/
-  .nav_content {
-    width: 100%;
-    height: 100%;
-    position: fixed;
-    top: 0;
-    left: 100%; /* メニューを画面の外に飛ばす */
-    z-index: 99;
-    background: #fff;
-    transition: 0.5s;
-  }
-
-  /* メニュー黒ポチを消す */
-  .nav_list {
-    list-style: none;
-  }
-
-  /* アイコンがクリックされたらメニューを表示 */
-  #drawer_input:checked ~ .nav_content {
-    left: 0; /* メニューを画面に入れる */
+  a:focus-within {
+    border: 2px solid black;
   }
 </style>

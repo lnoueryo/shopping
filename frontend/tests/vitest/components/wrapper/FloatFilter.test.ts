@@ -15,15 +15,6 @@ describe('FloatFilter', () => {
     store.width = 350;
     store.headerHeight = headerHeight;
     store.heightContent = searchBarHeight;
-    const mockComputedStyle = {
-      getPropertyValue: (propName: string) => {
-        if (propName === '--height-content') {
-          return `${searchBarHeight}px`;
-        }
-        return '';
-      },
-    };
-    vi.stubGlobal('getComputedStyle', () => mockComputedStyle);
 
     const mockHeader = {
       getBoundingClientRect: () => ({ height: headerHeight }),

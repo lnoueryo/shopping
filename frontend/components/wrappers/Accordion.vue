@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { ref, watch, defineEmits, defineProps } from 'vue';
+  import { ref, watch, defineEmits, defineProps, onUnmounted } from 'vue';
   const props = defineProps({
     modelValue: {
       type: Boolean,
@@ -7,13 +7,15 @@
     },
     labelStyle: Object,
     contentStyle: Object,
+    clickOutside: {
+      type: Boolean,
+      default: false,
+    },
   });
 
   const emit = defineEmits(['update:modelValue']);
 
   const isOpen = ref(props.modelValue);
-  const labelStyle = ref(props.labelStyle);
-  const contentStyle = ref(props.contentStyle);
 
   const uuid = ref(
     new Date().getTime().toString(16) +
@@ -22,6 +24,9 @@
 
   watch(isOpen, newValue => {
     emit('update:modelValue', newValue);
+    if (newValue && props.clickOutside) {
+      document.addEventListener('click', closeAccordion);
+    }
   });
 
   watch(
@@ -32,37 +37,48 @@
     }
   );
   const contentRef = ref(null);
+  const uniqueId = `ac-${Math.random().toString(36).substr(2, 9)}`;
+  const closeAccordion = event => {
+    if (!event.target.closest(`#${uniqueId}`)) isOpen.value = false;
+    document.removeEventListener('click', closeAccordion);
+  };
+
+  onUnmounted(() => {
+    if (props.clickOutside) {
+      document.removeEventListener('click', closeAccordion);
+    }
+  });
 </script>
 
 <template>
-  <div class="w100">
-    <input :id="uuid" type="checkbox" class="toggle" v-model="isOpen" />
+  <div :id="uniqueId" class="w100">
     <label
       class="label"
       :for="uuid"
-      :style="labelStyle"
-      tabindex="0"
+      :style="props.labelStyle"
       @keyup.enter="isOpen = !isOpen"
+      @click="$event.target.blur()"
     >
+      <input
+        :id="uuid"
+        type="checkbox"
+        class="visually-hidden"
+        v-model="isOpen"
+      />
       <slot name="label"></slot>
     </label>
-    <div ref="contentRef" class="content" :style="contentStyle">
+    <div ref="contentRef" class="content" :style="props.contentStyle">
       <slot name="content"></slot>
     </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
-  .toggle {
-    display: none;
-  }
-
   .label {
     display: block;
     color: #fff;
-    background: #019ac6;
     cursor: pointer;
-    transition: var(--hover-transition);
+    transition: var(--transition-primary);
   }
 
   .label,
@@ -70,14 +86,14 @@
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
     transform: translateZ(0);
-    transition: var(--hover-transition);
+    transition: var(--transition-primary);
   }
   .content {
     max-height: 0;
     overflow-y: scroll;
   }
   .toggle:checked + .label + .content {
-    transition: var(--hover-transition);
+    transition: var(--transition-primary);
     box-shadow: 0px 10px 10px -6px rgba(0, 0, 0, 0.3);
   }
   .toggle:checked + .label::before {
@@ -87,7 +103,11 @@
   @media (hover: hover) and (pointer: fine) {
     .label:hover {
       opacity: var(--opacity-hover);
-      transition: var(--hover-transition);
+      transition: var(--transition-primary);
     }
+  }
+  label:focus-within {
+    border: 2px solid #000;
+    background: #000;
   }
 </style>

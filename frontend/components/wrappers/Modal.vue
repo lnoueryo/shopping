@@ -56,14 +56,16 @@
         <div class="w100">
           <TriSectionLayout v-bind="modalLayoutSwitch" :width="props.width">
             <template #center>
-              <div
-                class="margin-horizontal modal-content padding-horizontal w100"
-              >
-                <div class="flex justify-between align-center modal-title">
+              <div class="modal-content w100">
+                <div
+                  class="vertical-center justify-between modal-title margin-horizontal"
+                >
                   <slot name="title" />
-                  <label for="trigger" class="close-button">✖️</label>
+                  <label for="trigger" class="close-button">✕</label>
                 </div>
-                <slot name="message" />
+                <div class="modal-message padding-vertical margin-horizontal">
+                  <slot name="message" />
+                </div>
               </div>
             </template>
           </TriSectionLayout>
@@ -103,9 +105,9 @@
   }
 
   .modal-content {
-    background: var(--color-base-black);
+    background: var(--color-base-secondary);
     color: #cccccc;
-    border: 1px solid var(--color-sub-black);
+    border: 1px solid var(--color-base-tertiary);
     box-shadow: 0 4px 24px 4px rgba(0, 0, 0, 0.3);
     align-self: center;
     line-height: 1.4em;
@@ -115,14 +117,15 @@
   }
 
   .close-button {
-    font-size: 20px;
+    font-size: 100%;
+    font-weight: bold;
     cursor: pointer;
-    transition: var(--hover-transition);
+    transition: var(--transition-primary);
   }
 
   .close-button:hover {
     opacity: var(--opacity-hover);
-    transition: var(--hover-transition);
+    transition: var(--transition-primary);
   }
 
   .modal-wrap input:checked ~ .modal-overlay {
@@ -149,7 +152,7 @@
   }
 
   .modal-title {
-    height: calc(var(--height-content) * 1.2);
-    border-bottom: solid 1px var(--color-sub-black);
+    height: var(--height-content);
+    border-bottom: solid 1px var(--color-base-tertiary);
   }
 </style>

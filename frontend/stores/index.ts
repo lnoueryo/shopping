@@ -7,15 +7,35 @@ export const useStore = defineStore('index', {
     height: 0,
     heightContent: 0,
     headerHeight: 0,
+    navHeight: 0,
     isHeaderReady: false,
+    theme: 'standard',
+    route: {
+      from: {},
+      to: {},
+    },
+    snackbar: initialSnackbar(),
   }),
   getters: {
     isReady: state => state.isHeaderReady,
+    topLayoutHeight: state => state.headerHeight + state.navHeight,
   },
   actions: {
+    applyTheme() {
+      this.theme = sessionStorage.getItem('theme') || 'standard';
+      this.updateTheme(this.theme);
+    },
+    async updateTheme(theme: string) {
+      sessionStorage.setItem('theme', theme);
+      document.documentElement.className = '';
+      document.documentElement.classList.add(`${theme}-mode`);
+    },
     updateDimensions() {
       this.width = window.innerWidth;
       this.height = window.innerHeight;
+      // IOSのクローム用にボトムバーを計算
+      const vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty('--vh', `${vh}px`);
     },
     initializeLayoutDimensions() {
       const style = getComputedStyle(document.documentElement);
@@ -26,31 +46,32 @@ export const useStore = defineStore('index', {
     },
     checkForHeader() {
       const header = document.getElementById('header');
-      if (header) {
+      const nav = document.getElementById('nav');
+      if (header && nav) {
         this.headerHeight = header.getBoundingClientRect().height;
+        this.navHeight = nav.getBoundingClientRect().height;
       } else {
         setTimeout(this.checkForHeader, 100); // 100ミリ秒後に再試行
       }
     },
     scrollToTop() {
       return new Promise(resolve => {
-        let scrollY = window.scrollY;
+        const { scrollY } = window;
         let offset = 0;
         if (this.width < deviceSize.smallDesktop)
-          offset = this.heightContent * 2;
-        const scroll = window.scrollY <= offset ? window.scrollY : offset;
+          // ヘッダーの手前で止める
+          offset = this.topLayoutHeight - this.heightContent;
+        const scroll = scrollY <= offset ? scrollY : offset;
         this.scrollPage(scroll);
 
         const onScroll = () => {
-          if (scrollY == window.scrollY) {this.scrollPage(scroll);}
           if (window.scrollY <= offset) {
             window.removeEventListener('scroll', onScroll);
             resolve(true);
           }
-          scrollY = window.scrollY;
         };
         window.addEventListener('scroll', onScroll);
-        onScroll()
+        onScroll();
       });
     },
     scrollPage(scroll: number) {
@@ -59,5 +80,17 @@ export const useStore = defineStore('index', {
         behavior: 'smooth',
       });
     },
+    resetSnack() {
+      this.snackbar = initialSnackbar();
+    },
   },
 });
+const initialSnackbar = () => {
+  return {
+    show: false,
+    message: '',
+    color: 'var(--color-class)',
+    position: 'bottom',
+    timeout: 3000,
+  };
+};
