@@ -2,11 +2,11 @@ export const useSearchBooks = () => {
   const router = useRouter();
   const route = useRoute();
 
-  const searchByGenre = (genre: string) => {
+  const searchByGenre = async (genre: string) => {
     const query = { ...route.query };
     query['genre'] = genre;
     delete query['keyword'];
-    return resetPageAndSearch(query);
+    return await resetPageAndSearch(query);
   };
 
   const searchByKeyword = async (keyword: string) => {

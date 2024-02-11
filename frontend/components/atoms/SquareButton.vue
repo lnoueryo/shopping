@@ -1,22 +1,50 @@
 <script setup lang="ts">
+  import { ref, watch, onMounted } from 'vue';
   const props = defineProps({
     disabled: {
       type: Boolean,
       default: false,
     },
+    color: {
+      type: String,
+      default: 'var(--color-class)'
+    }
+  });
+
+  const buttonStyle = ref({})
+
+  watch(
+    () => props.color,
+    newValue => {
+      const { current, darker } = getDarkerAndLighterColor(newValue);
+      buttonStyle.value = {
+      '--button-color': current,
+      '--button-hover-color': current,
+      '--button-active-color': darker,
+      };
+    }
+  );
+
+  onMounted(() => {
+    const { current, darker } = getDarkerAndLighterColor(props.color);
+    buttonStyle.value = {
+      '--button-color': current,
+      '--button-hover-color': current,
+      '--button-active-color': darker,
+    };
   });
 </script>
 
 <template>
-  <button :disabled="props.disabled">
+  <button :disabled="props.disabled" :style="buttonStyle">
     <slot></slot>
   </button>
 </template>
 
 <style lang="scss" scoped>
   button {
-    color: var(--color-class);
-    border: solid 2px var(--color-class);
+    color: var(--button-color);
+    border: solid 2px var(--button-color);
     border-radius: 4px;
     background-color: var(--color-base-second);
     font-weight: bold;
@@ -33,7 +61,7 @@
 
   @media (hover: hover) and (pointer: fine) {
     button:not(:disabled):not(.active):hover {
-      background-color: var(--color-class);
+      background-color: var(--button-hover-color);
       color: var(--color-white);
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
       cursor: pointer;
@@ -41,7 +69,7 @@
   }
 
   button:not(:disabled):not(.active):active {
-    background-color: var(--color-class);
+    background-color: var(--button-active-color);
     color: var(--color-white);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     cursor: pointer;

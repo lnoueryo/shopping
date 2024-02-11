@@ -14,8 +14,8 @@ describe('FilterAccordion', () => {
     return createTestingPinia({
       initialState: {
         index: {
-          headerHeight: 48 * 3,
-          heightContent: 48,
+          headerHeight: 40 * 3,
+          heightContent: 40,
         },
         books: state,
       },
@@ -115,6 +115,10 @@ describe('FilterAccordion', () => {
       };
       const router = createRouterInstance();
       const store = useStore();
+      Object.defineProperty(window, 'scrollY', {
+        value: store.topLayoutHeight + store.heightContent,
+        configurable: true,
+      });
       const wrapper = mount(FilterAccordion, {
         global: {
           plugins: [router, createPinia(state)],
@@ -132,9 +136,8 @@ describe('FilterAccordion', () => {
       expect(document.body.style.overflow).toBe('hidden');
       expect(wrapper.vm.isFixed).toBeTruthy();
       expect(wrapper.vm.contentStyle.maxHeight).toBe(
-        `calc(100vh - ${store.headerHeight}px)`
+        `calc(100vh - ${store.topLayoutHeight}px + ${store.heightContent}px)`
       );
-
       accordionSwitch.setChecked(false);
       wrapper.vm.updateIsFixed();
       await flushPromises();
@@ -154,7 +157,7 @@ describe('FilterAccordion', () => {
       expect(document.body.style.overflow).toBe('hidden');
       expect(wrapper.vm.isFixed).toBeFalsy();
       expect(wrapper.vm.contentStyle.maxHeight).toBe(
-        `calc(100vh - ${store.headerHeight}px - ${store.heightContent}px)`
+        `calc(var(--vh, 1vh) * 100 - ${store.topLayoutHeight}px - ${store.heightContent}px)`
       );
     });
 

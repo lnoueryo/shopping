@@ -94,7 +94,8 @@
         left:
           props.page < MIDDLE_PAGE_BUTTONS
             ? 0
-            : BUTTON_WIDTH * (props.page - MIDDLE_PAGE_BUTTONS + 1),
+            : (BUTTON_WIDTH + 4) * (props.page - MIDDLE_PAGE_BUTTONS + 1) +
+              4 * (props.page - MIDDLE_PAGE_BUTTONS + 1),
         behavior: 'smooth',
       });
     }
@@ -107,7 +108,7 @@
 
 <template>
   <nav>
-    <ul class="flex buttons-container center text-center w100">
+    <ul class="buttons-container center w100">
       <li id="left-page-button">
         <SquareButton
           :class="{ 'adjust-bottom': isMobile }"
@@ -206,15 +207,16 @@
   }
   .mobile {
     overflow: scroll;
-    width: calc(var(--height-content) * 3);
-    padding-bottom: 4px;
+    width: calc(var(--height-content) * 3.6);
+    padding-bottom: 8px;
   }
 
   .adjust-bottom {
-    margin-bottom: var(--space-sm);
+    margin-bottom: var(--space-xs);
   }
 
   .buttons-container {
+    align-items: flex-start;
     user-select: none;
     height: var(--height-content);
   }

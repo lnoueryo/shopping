@@ -4,10 +4,7 @@
   import { useSearchBooks } from '@/composables/search-books';
   import BookItem from '@/components/molecules/BookItem.vue';
   import ErrorBookResult from '@/components/molecules/ErrorBookResult.vue';
-
-  const PaginationWrapper = defineAsyncComponent(
-    () => import('@/components/wrappers/PaginationWrapper.vue')
-  );
+  import PaginationWrapper from '@/components/wrappers/PaginationWrapper.vue';
 
   const store = useStore();
   const booksStore = useBooksStore();
@@ -22,18 +19,18 @@
   <PaginationWrapper v-bind="booksStore.bookList" @updatePage="searchNextBooks">
     <template #list>
       <template v-if="booksStore.isBooksData">
-        <div
+        <ul
           class="content-container"
           v-for="book in booksStore.bookList.books"
           :key="book.id"
         >
-          <div class="card card-shadow">
+          <li class="card card-shadow">
             <BookItem v-bind="book" :width="store.width" :key="book.id" />
-          </div>
-        </div>
+          </li>
+        </ul>
       </template>
       <template v-else>
-        <div class="content-container">
+        <div id="error-book-result" class="content-container">
           <div class="card card-shadow">
             <ErrorBookResult
               :errorType="booksStore.errorType"

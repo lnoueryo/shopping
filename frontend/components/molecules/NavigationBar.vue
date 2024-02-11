@@ -3,7 +3,7 @@
   import NavigationButton from '@/components/atoms/NavigationButton.vue';
 
   const props = defineProps({
-    navHeight: Number,
+    navHeight: String,
     navigationData: {
       type: Array,
       default: () => [],
@@ -16,7 +16,6 @@
     <ul class="flex h100">
       <li class="h100" v-for="link in props.navigationData" :key="link.id">
         <RippleButton
-          class="border-radius"
           :disabled="!link.to"
           color="var(--color-base-quaternary)"
           change

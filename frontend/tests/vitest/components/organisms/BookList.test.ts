@@ -4,13 +4,8 @@ import { createRouter, createWebHistory } from 'vue-router';
 import BookList from '@/components/organisms/BookList.vue';
 import { createTestingPinia } from '@pinia/testing';
 import { deviceSize } from '@/assets/js/device-size';
-vi.stubGlobal('useRuntimeConfig', () => {
-  return {
-    public: {
-      BASE_IMAGE_PATH: '/images/',
-    },
-  };
-});
+import Spinner from '@/components/global/Spinner.vue';
+
 const books = [
   {
     title: 'まとめて学ぶ Python＆JavaScript',
@@ -89,7 +84,7 @@ describe('BookList', () => {
         expect(bookItem.text()).toMatch(book.publish_date);
         if (book.description) expect(bookItem.text()).toMatch(book.description);
         expect(bookItem.text()).toMatch(String(book.rating));
-        const spinner = bookItem.findComponent({ name: 'Spinner' });
+        const spinner = bookItem.findComponent(Spinner);
         expect(spinner.exists()).toBeTruthy();
         bookItem.vm.isLoading = false;
         await bookItem.vm.$nextTick();
@@ -135,7 +130,7 @@ describe('BookList', () => {
 
       for (const errorType of errorTypes) {
         wrapper.vm.booksStore.errorType = errorType;
-        await nextTick();
+        await vi.dynamicImportSettled();
         const errorComponent = wrapper.find(components[errorType]);
         expect(errorComponent.exists()).toBeTruthy();
       }

@@ -56,14 +56,14 @@
         <div class="w100">
           <TriSectionLayout v-bind="modalLayoutSwitch" :width="props.width">
             <template #center>
-              <div class="margin-horizontal modal-content w100">
+              <div class="modal-content w100">
                 <div
                   class="vertical-center justify-between modal-title margin-horizontal"
                 >
                   <slot name="title" />
                   <label for="trigger" class="close-button">✕</label>
                 </div>
-                <div class="modal-message margin-horizontal">
+                <div class="modal-message padding-vertical margin-horizontal">
                   <slot name="message" />
                 </div>
               </div>
@@ -117,7 +117,7 @@
   }
 
   .close-button {
-    font-size: 20px;
+    font-size: 100%;
     font-weight: bold;
     cursor: pointer;
     transition: var(--transition-primary);
@@ -152,12 +152,7 @@
   }
 
   .modal-title {
-    font-size: 20px;
     height: var(--height-content);
     border-bottom: solid 1px var(--color-base-tertiary);
-  }
-
-  .modal-message {
-    padding: 16px 0;
   }
 </style>

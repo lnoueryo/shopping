@@ -14,10 +14,13 @@
       type: Boolean,
       default: false,
     },
+    borderRadius: {
+      type: String,
+      default: '3px',
+    }
   });
 
   const isActive = ref(false);
-
   const rippleStyle = ref({});
 
   const applyRippleEffect = e => {
@@ -33,7 +36,7 @@
     const y = (e.clientY || e.touches[0].clientY) - rect.top - size / 2;
 
     rippleStyle.value['--color-ripple'] = props.change
-      ? selectRightColor(props.color, document.body)
+      ? selectRightColor(props.color)
       : props.color;
     rippleStyle.value.width = rippleStyle.value.height = `${size}px`;
     rippleStyle.value.left = `${x}px`;
@@ -56,7 +59,7 @@
   onMounted(() => {
     rippleStyle.value = {
       '--color-ripple': props.change
-        ? selectRightColor(props.color, document.body)
+        ? selectRightColor(props.color)
         : props.color,
       width: 0,
       height: 0,
@@ -67,9 +70,10 @@
 
 <template>
   <div
-    :class="['ripple-wrapper', { 'overflow-hidden': isActive }]"
+    :class="['ripple-wrapper', 'overflow-hidden']"
     @mousedown="applyRippleEffect"
     @touchstart.passive="applyRippleEffect"
+    :style="{borderRadius: props.borderRadius}"
   >
     <div class="h100">
       <slot></slot>

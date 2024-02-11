@@ -1,0 +1,6 @@
+{
+  "name": "My Nuxt App",
+  "short_name": "NuxtApp",
+  "start_url": "/",
+  "display": "standalone"
+}

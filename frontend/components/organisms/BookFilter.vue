@@ -19,8 +19,8 @@
 </script>
 
 <template>
-  <div class="vertical-center wrap padding-horizontal">
-    <h2 class="title padding-horizontal"> Filter </h2>
+  <div class="vertical-center wrap content-padding-horizontal">
+    <h2 class="title content-padding-horizontal"> Filter </h2>
     <div class="vertical-center title">
       <span class="visually-hidden">Review:&ensp;</span>
       <Rating

@@ -37,7 +37,7 @@
 
 <template>
   <div>
-    <div class="page-info flex align-center">
+    <div class="padding-horizontal page-info flex align-center">
       <PageInfo v-bind="props" v-if="isBooks" />
     </div>
     <div class="list">
@@ -65,7 +65,6 @@
 
   .page-info {
     height: var(--height-content);
-    padding: 0 16px;
   }
 
   @media screen and (max-width: 1060px) {

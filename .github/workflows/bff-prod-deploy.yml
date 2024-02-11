@@ -52,6 +52,7 @@ jobs:
         env:
           RAKUTEN_APP_ID: ${{ secrets.RAKUTEN_APP_ID }}
           RAKUTEN_API_ENDPOINT: ${{ secrets.RAKUTEN_API_ENDPOINT }}
+          GITHUB_REF_NAME: ${{ github.ref_name }}
 
       - uses: actions/upload-artifact@v3
         if: always()

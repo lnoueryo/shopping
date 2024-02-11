@@ -60,7 +60,7 @@
 
   const isFixed = ref(true);
   const updateIsFixed = () =>
-    (isFixed.value = window.scrollY > store.headerHeight - store.heightContent);
+    (isFixed.value = window.scrollY > store.topLayoutHeight);
   useScroll(updateIsFixed);
   const lockPage = () => {
     const { body } = document;
@@ -74,8 +74,8 @@
   const contentStyle = ref({ maxHeight: '0' });
   const openAccordion = () => {
     contentStyle.value.maxHeight = isFixed.value
-      ? `calc(100vh - ${store.headerHeight}px)`
-      : `calc(100vh - ${store.headerHeight}px - ${store.heightContent}px)`;
+      ? `calc(100vh - ${store.topLayoutHeight}px + ${store.heightContent}px)`
+      : `calc(var(--vh, 1vh) * 100 - ${store.topLayoutHeight}px - ${store.heightContent}px)`;
   };
   const closeAccordion = () => (contentStyle.value.maxHeight = '0');
   watch(
@@ -92,7 +92,7 @@
   );
 
   onMounted(() => {
-    isFixed.value = window.scrollY > store.headerHeight - store.heightContent;
+    isFixed.value = window.scrollY > store.topLayoutHeight;
     tabletSwitch.value = deviceSize.mobile > store.width;
     skillLevelStyle.value = tabletSwitch.value ? { size: 10, width: 104 } : {};
   });
@@ -144,11 +144,11 @@
       <template #content>
         <div class="card flex justify-start wrap content-header ripple-text">
           <div
-            class="vertical-center padding-horizontal"
+            class="vertical-center content-padding-horizontal"
             :style="filterContentHeight"
           >
             <div
-              class="align-center title padding-horizontal"
+              class="align-center content-padding-horizontal"
               :class="{ flex: !tabletSwitch }"
             >
               <span>Review:&ensp;</span>
@@ -159,11 +159,11 @@
             </div>
           </div>
           <div
-            class="vertical-center padding-horizontal"
+            class="vertical-center content-padding-horizontal"
             :style="filterContentHeight"
           >
             <div
-              class="align-center title padding-horizontal"
+              class="align-center content-padding-horizontal"
               :class="{ flex: !tabletSwitch }"
             >
               <span>Skill Level:&ensp;</span>
@@ -174,7 +174,7 @@
             </div>
           </div>
         </div>
-        <div class="card title padding-horizontal">
+        <div class="card content-padding-horizontal">
           <GenreSelectors
             v-model="localGenre"
             v-bind="{ mobile: 50, tablet: 50 }"
@@ -235,6 +235,7 @@
   }
 
   .content-header {
+    font-weight: bold;
     min-height: var(--height-content);
   }
 

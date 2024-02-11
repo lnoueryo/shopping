@@ -10,6 +10,11 @@ export const useStore = defineStore('index', {
     navHeight: 0,
     isHeaderReady: false,
     theme: 'standard',
+    route: {
+      from: {},
+      to: {},
+    },
+    snackbar: initialSnackbar(),
   }),
   getters: {
     isReady: state => state.isHeaderReady,
@@ -22,12 +27,15 @@ export const useStore = defineStore('index', {
     },
     async updateTheme(theme: string) {
       sessionStorage.setItem('theme', theme);
-      document.body.className = '';
-      document.body.classList.add(`${theme}-mode`);
+      document.documentElement.className = '';
+      document.documentElement.classList.add(`${theme}-mode`);
     },
     updateDimensions() {
       this.width = window.innerWidth;
       this.height = window.innerHeight;
+      // IOSのクローム用にボトムバーを計算
+      const vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty('--vh', `${vh}px`);
     },
     initializeLayoutDimensions() {
       const style = getComputedStyle(document.documentElement);
@@ -48,22 +56,19 @@ export const useStore = defineStore('index', {
     },
     scrollToTop() {
       return new Promise(resolve => {
-        let { scrollY } = window;
+        const { scrollY } = window;
         let offset = 0;
         if (this.width < deviceSize.smallDesktop)
-          offset = this.heightContent * 2;
-        const scroll = window.scrollY <= offset ? window.scrollY : offset;
+          // ヘッダーの手前で止める
+          offset = this.topLayoutHeight - this.heightContent;
+        const scroll = scrollY <= offset ? scrollY : offset;
         this.scrollPage(scroll);
 
         const onScroll = () => {
-          if (scrollY === window.scrollY) {
-            this.scrollPage(scroll);
-          }
           if (window.scrollY <= offset) {
             window.removeEventListener('scroll', onScroll);
             resolve(true);
           }
-          scrollY = window.scrollY;
         };
         window.addEventListener('scroll', onScroll);
         onScroll();
@@ -75,5 +80,17 @@ export const useStore = defineStore('index', {
         behavior: 'smooth',
       });
     },
+    resetSnack() {
+      this.snackbar = initialSnackbar();
+    },
   },
 });
+const initialSnackbar = () => {
+  return {
+    show: false,
+    message: '',
+    color: 'var(--color-class)',
+    position: 'bottom',
+    timeout: 3000,
+  };
+};

@@ -66,11 +66,11 @@
     role="radio"
     v-if="isValidProps"
   >
-    <div class="genre-content ripple-text">
-      <div class="text-center">
+    <div class="ripple-text">
+      <div class="genre-content text-center">
         <SvgIcon type="mdi" :title="props.title" :path="props.icon"></SvgIcon>
       </div>
-      <div class="genre-title text-center">
+      <div class="caption text-center">
         <span>{{ props.title }}</span>
       </div>
     </div>
@@ -78,17 +78,10 @@
 </template>
 
 <style lang="scss" scoped>
-  .genre-title {
-    font-size: 10px;
-    font-weight: bold;
-    user-select: none;
-  }
-
   .genre {
     width: 100%;
-    min-height: 75px;
-    min-width: 75px;
-    border-radius: 3px;
+    min-height: calc(var(--height-content) * 2);
+    min-width: calc(var(--height-content) * 2);
     cursor: pointer;
     border: var(--button-border);
   }
@@ -120,24 +113,24 @@
     transition: var(--transition-primary);
   }
 
-  .genre:not(.disabled):not(.active):active {
-    transition: var(--transition-primary);
-    background-color: var(--color-text-selection);
-    .genre-content {
-      transform: scale(1.15);
-      transition: var(--transition-primary);
-    }
-  }
-
   @media (hover: hover) and (pointer: fine) {
     .genre:not(.disabled):not(.active):hover {
       transition: var(--transition-primary);
       background-color: var(--color-text-selection);
 
       .genre-content {
-        transform: scale(1.15);
+        transform: var(--hover-scale);
         transition: var(--transition-primary);
       }
+    }
+  }
+
+  .genre:not(.disabled):not(.active):active {
+    transition: var(--transition-primary);
+    background-color: var(--color-text-selection);
+    .genre-content {
+      transform: scale(0.95);
+      transition: var(--transition-primary);
     }
   }
 </style>

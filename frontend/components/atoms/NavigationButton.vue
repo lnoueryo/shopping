@@ -15,12 +15,12 @@
       default: 'var(--color-primary)',
     },
     navHeight: {
-      type: Number,
+      type: String,
     },
   });
   const navStyle = computed(() => {
     return {
-      height: `${props.navHeight}px`,
+      height: props.navHeight,
       color: props.color,
     };
   });

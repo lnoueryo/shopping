@@ -53,12 +53,13 @@ describe('GenreFloatingSideBar', () => {
           )
         ).toBeFalsy();
         expect(
-          Object.prototype.hasOwnProperty.call(router.currentRoute.value.query, 'genre')
+          Object.prototype.hasOwnProperty.call(
+            router.currentRoute.value.query,
+            'genre'
+          )
         ).toBeTruthy();
         expect(router.currentRoute.value.query['genre']).toBe(genre.id);
-        expect(
-          router.currentRoute.value.query.keyword
-        ).toBeUndefined();
+        expect(router.currentRoute.value.query.keyword).toBeUndefined();
       }
     });
   });
