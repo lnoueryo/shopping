@@ -1,5 +1,5 @@
 import { test } from '@playwright/test';
-import { skillLevelsData } from '/app/assets/js/skill-levels';
+import { skillLevelsData } from '../../../../assets/js/skill-levels';
 import * as utils from '../utils';
 const { BASE_IMAGE_PATH, BASIC_SCALE_UP, waitAnimation, getStyleFromRoot, forceChangeStyle, hexToRgb, waitAnimationByText, createFileName } = utils;
 let browserName: string;
