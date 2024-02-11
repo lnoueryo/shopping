@@ -46,8 +46,8 @@ test.describe('Books', () => {
     await waitAnimation(page, `#snackbar:checked ~ label`, 'opacity', '1');
     await page.fill(SEARCHBAR_SELECTOR, 'Web開発者のための大規模サービス技術入門');
     await page.press(SEARCHBAR_SELECTOR, 'Enter');
-    await page.waitForSelector('.spinner-border', { state: 'hidden' });
     await page.waitForSelector('#error-book-result');
+    await page.waitForSelector('.spinner-border', { state: 'hidden' });
     await page.screenshot({ path: `${BASE_IMAGE_PATH}/${browserName}/${fileName}` });
     await context.setOffline(false);
   });

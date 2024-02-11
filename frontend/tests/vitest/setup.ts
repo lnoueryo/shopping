@@ -30,4 +30,4 @@ vi.stubGlobal('useRuntimeConfig', () => {
     },
   };
 });
-registerGlobalComponents();
+await registerGlobalComponents();

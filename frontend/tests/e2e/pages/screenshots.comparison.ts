@@ -84,9 +84,9 @@ const localFileManager: IFileManager = {
     this.currentVersionImagePath = currentVersionImagePath;
     this.previousVersionImagePath = currentVersionImagePath.replace(`release-${currentVersion}`, `release-${previousVersion}`);
   },
-  readCurrentVersionImage: async() => await fs.readFileSync(localFileManager.currentVersionImagePath),
-  readPreviousVersionImage: async() => await fs.readFileSync(localFileManager.previousVersionImagePath),
-  hasPreviousVersionImage: async() => await fs.existsSync(localFileManager.previousVersionImagePath),
+  readCurrentVersionImage: async function()  {return await fs.readFileSync(this.currentVersionImagePath)},
+  readPreviousVersionImage: async function() {return await fs.readFileSync(this.previousVersionImagePath)},
+  hasPreviousVersionImage: async function()  {return await fs.existsSync(this.previousVersionImagePath)},
   saveNewImage: function(currentVersionImageBuffer) {
     const fileName = this.currentVersionImagePath.split('/').pop();
     const diffPath = path.join(currentVersionDiffDir, `new-${fileName}`);
@@ -101,21 +101,22 @@ const localFileManager: IFileManager = {
 
 const keyFilename = process.env.GCP_SA_KEY;
 const bucketName = process.env.BUCKET_NAME;
-const storage = new Storage({keyFilename});
+const projectId = process.env.GCP_PROJECT_ID
+const storage = new Storage({ keyFilename, projectId });
 const GCSFileManager: IFileManager = {
   currentVersionImagePath: '',
   previousVersionImagePath: '',
-  getPreviousVersionImagePath: (currentVersionImagePath: string) => {
-    GCSFileManager.currentVersionImagePath = currentVersionImagePath;
-    GCSFileManager.previousVersionImagePath = currentVersionImagePath.replace(`release-${currentVersion}`, `release-${previousVersion}`).replace(releasesDir, '');
+  getPreviousVersionImagePath: function(currentVersionImagePath: string) {
+    this.currentVersionImagePath = currentVersionImagePath;
+    this.previousVersionImagePath = currentVersionImagePath.replace(`release-${currentVersion}`, `release-${previousVersion}`).replace(releasesDir, '');
   },
-  readCurrentVersionImage: () => fs.readFileSync(GCSFileManager.currentVersionImagePath),
-  readPreviousVersionImage: async() => {
-    const [imageBuffer] = await storage.bucket(bucketName).file(path).download();
+  readCurrentVersionImage: async function() {return await fs.readFileSync(this.currentVersionImagePath)},
+  readPreviousVersionImage: async function() {
+    const [imageBuffer] = await storage.bucket(bucketName).file(this.previousVersionImagePath.replace(/^\//, '')).download();
     return imageBuffer;
   },
-  hasPreviousVersionImage: async() => {
-    const [res] = await storage.bucket(bucketName).file(GCSFileManager.previousVersionImagePath).exists();
+  hasPreviousVersionImage: async function() {
+    const [res] = await storage.bucket(bucketName).file(this.previousVersionImagePath.replace(/^\//, '')).exists();
     return res;
   },
   saveNewImage: function(currentVersionImageBuffer) {
