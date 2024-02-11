@@ -20,7 +20,7 @@ export const waitAnimation = async(page, selector: string, style: string, expect
   return await page.waitForFunction(
     ({selector, expect, style}: {selector: string, style: string, expect: string}) => {
       const value = window.getComputedStyle(document.querySelector(selector))[style];
-      // console.log('expect: ', expect, 'value: ', value)
+      console.log('expect: ', expect, 'value: ', value)
       return value === expect;
     },
     {selector, expect, style}

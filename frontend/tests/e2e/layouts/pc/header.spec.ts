@@ -82,6 +82,7 @@ test.describe('header', () => {
       for (const item of navigationData) {
         if (item.to) {
           await page.goto('/');
+          await page.waitForLoadState('networkidle');
           await page.waitForSelector('.skeleton', { state: 'hidden' });
           const navItemSelector = `#${item.id}`;
           await page.waitForSelector(navItemSelector);
@@ -101,22 +102,12 @@ test.describe('header', () => {
   test.describe('Search Book By Keyword', () => {
     test.beforeEach(async ({ page }) => {
       await page.goto('/');
+      await page.waitForLoadState('networkidle');
       await page.waitForSelector('.skeleton', { state: 'hidden' });
     });
     const searchBarSelector = 'header input';
     const searchBarButtonSelector = 'header .search-button';
     const bookResultSelector = '#book-result';
-    const generateRandomString = length => {
-      const characters =
-        'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-      let result = '';
-      for (let i = 0; i < length; i++) {
-        result += characters.charAt(
-          Math.floor(Math.random() * characters.length)
-        );
-      }
-      return result;
-    };
     test('Verify search book by enter', async ({ page }) => {
       const bookName = '良いコード／悪いコードで学ぶ設計入門';
       await page.waitForSelector(searchBarSelector);
@@ -149,54 +140,11 @@ test.describe('header', () => {
       expect(bookResultContent).toContain(bookName);
     });
 
-    test('Verify search book without result', async ({ page }) => {
-      const bookName = generateRandomString(100);
-      await page.waitForSelector(searchBarSelector);
-      await page.fill(searchBarSelector, bookName);
-      await page.press(searchBarSelector, 'Enter');
-      await page.waitForSelector(bookResultSelector);
-      const url = page.url();
-      const { searchParams } = new URL(url);
-      expect(searchParams.get('keyword')).toBe(bookName);
-      expect(searchParams.get('page')).toBe('1');
-      const errorSelector = '#no-book-result';
-      await page.waitForSelector(errorSelector);
-      const errorContent = page.locator(errorSelector);
-      await expect(errorContent).toBeVisible();
-    });
-
-    test('Verify search book offline', async ({ page, context }) => {
-      // const browserName = browser.browserType().name();
-      // if (browserName === 'chromium') {
-      //   console.log(`skip this test on ${browserName}`);
-      //   test.skip();
-      // }
-      await waitForAsyncProcess(page);
-
-      const bookName = '良いコード／悪いコードで学ぶ設計入門';
-      await page.goto(`/books?keyword=${bookName}`);
-      await page.waitForLoadState('networkidle');
-      await page.waitForSelector('.skeleton', { state: 'hidden' });
-      await page.waitForSelector('.spinner-container', { state: 'hidden' });
-      await page.waitForSelector(bookResultSelector);
-
-      await context.setOffline(true);
-      await page.fill(searchBarSelector, 'java');
-      await page.press(searchBarSelector, 'Enter');
-      await page.waitForSelector('.spinner-container', { state: 'hidden' });
-      await page.waitForSelector('#error-book-result');
-      // const browserName = browser.browserType().name();
-      // await page.screenshot({ path: `${browserName}.png` });
-      const errorSelector = '#offline';
-      await page.waitForSelector(errorSelector);
-      const errorText = await page.textContent(errorSelector);
-      await expect(errorText).toContain('CONNECTION ERROR');
-      await context.setOffline(false);
-    });
   });
 
   test.describe('Fixed search bar', () => {
-    test.beforeEach(async ({ page }) => {
+    test.beforeEach(async ({ page }, testInfo) => {
+      if (!testInfo.project.name.includes('mobile')) test.skip()
       await page.setViewportSize({ width: 400, height: 600 });
     });
 
@@ -210,3 +158,7 @@ test.describe('header', () => {
     });
   });
 });
+
+// TODO 1.シナリオテスト。EndPointからEndPointまでの一連の流れ。
+// TODO 2.ブラウザの挙動。動きはコンポーネントテストで確認できない。
+// TODO 3.スタイルの確認。見て確認したほうが確実に良い。

@@ -104,4 +104,4 @@ const createPageScreenshotDir = () => {
   }
 };
 
-createPageScreenshotDir();
+release && createPageScreenshotDir();

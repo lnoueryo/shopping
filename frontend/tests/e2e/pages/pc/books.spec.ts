@@ -50,7 +50,7 @@ test.describe('Books', () => {
 
   test('03_hover_skill_levels', async ({ page }) => {
     await waitInitialDisplay(page)
-    const skillLevelFirstSelector = '#main-content .bookfilter-container fieldset:not(.rate-form) .next-space label';
+    const skillLevelFirstSelector = '#main-content .bookfilter-container fieldset:not(.rate-form) label.next-space';
     await page.locator(skillLevelFirstSelector).filter({hasText: 'Beginner'}).hover();
     const expectedOpacity = await getStyleFromRoot(page, '--opacity-hover', skillLevelFirstSelector);
     if (browserName === 'firefox') {
@@ -64,7 +64,7 @@ test.describe('Books', () => {
 
   test('04_activate_skill_levels', async ({ page }) => {
     await waitInitialDisplay(page)
-    const skillLevelFirstSelector = '#main-content .bookfilter-container fieldset:not(.rate-form) .next-space label';
+    const skillLevelFirstSelector = '#main-content .bookfilter-container fieldset:not(.rate-form) label.next-space';
     const skillLevelsElements = skillLevelsData.map(level => {
       const title = level.title.charAt(0).toUpperCase() + level.title.slice(1);
       return page.locator(skillLevelFirstSelector).filter({ hasText: title })
