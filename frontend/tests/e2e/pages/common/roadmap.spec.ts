@@ -14,7 +14,7 @@ test.describe('Roadmap', () => {
   });
   for (const navigation of navigationData) {
     if (!navigation.to) return;
-    test.only(`01_page_${navigation.id}`, async ({ page }) => {
+    test(`01_page_${navigation.id}`, async ({ page }) => {
       await page.goto(navigation.to);
       await page.waitForLoadState('networkidle');
       await page.waitForSelector('.skeleton', { state: 'hidden' });
