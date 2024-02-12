@@ -29,7 +29,7 @@ const createRouterInstance = () => {
   });
 };
 
-describe.only('[id]', () => {
+describe('[id]', () => {
   describe('Visit', () => {
     it('Display roadmap', async() => {
       const id = 'frontend'
