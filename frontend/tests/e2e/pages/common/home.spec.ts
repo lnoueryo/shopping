@@ -36,7 +36,7 @@ test.describe('Home', () => {
 
     await page.locator(SEARCHBAR_SELECTOR).focus();
     const expectedColor = hexToRgb(await getStyleFromRoot(page, '--color-class'));
-    await waitAnimation(page, SEARCHBAR_SELECTOR, 'borderColor', expectedColor);
+    await waitAnimation(page, SEARCHBAR_SELECTOR, 'outlineColor', expectedColor);
     await page.screenshot({ path: `${BASE_IMAGE_PATH}/${browserName}/${fileName}` });
 
   });
