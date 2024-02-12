@@ -69,6 +69,7 @@
   >
     <input
       :id="uniqueId"
+      :name="uniqueId"
       class="visually-hidden"
       type="checkbox"
       :value="props.title"

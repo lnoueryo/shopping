@@ -15,7 +15,7 @@
       class="magnify-icon"
       :size="props.size || 24"
       type="mdi"
-      title="search button"
+      title="magnify"
       :path="mdiMagnify"
       color="var(--color-text-primary)"
     ></SvgIcon>

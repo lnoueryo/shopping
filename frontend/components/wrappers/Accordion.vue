@@ -92,13 +92,6 @@
     max-height: 0;
     overflow-y: scroll;
   }
-  .toggle:checked + .label + .content {
-    transition: var(--transition-primary);
-    box-shadow: 0px 10px 10px -6px rgba(0, 0, 0, 0.3);
-  }
-  .toggle:checked + .label::before {
-    transform: rotate(-45deg) !important;
-  }
 
   @media (hover: hover) and (pointer: fine) {
     .label:hover {

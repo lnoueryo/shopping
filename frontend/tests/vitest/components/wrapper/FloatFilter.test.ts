@@ -7,7 +7,7 @@ import { useStore } from '@/stores';
 setActivePinia(createPinia());
 describe('FloatFilter', () => {
   describe('Behavior', () => {
-    const heightContent = 48;
+    const heightContent = 40;
     const searchBarHeight = heightContent * 1;
     const logoAndNavHeight = heightContent * 2;
     const headerHeight = searchBarHeight + logoAndNavHeight;

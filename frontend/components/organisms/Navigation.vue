@@ -31,7 +31,7 @@
 
 <template>
   <div id="nav" class="nav-container">
-    <TriSectionLayout v-bind="navMarginSwitch" :width="store.width">
+    <TriSectionLayout v-bind="navMarginSwitch" :width="store.width" scroll>
       <template #center>
         <NavigationBar
           class="margin-horizontal"

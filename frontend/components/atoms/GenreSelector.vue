@@ -13,7 +13,10 @@
     size: {
       type: String,
     },
-    radio: Boolean,
+    type: {
+      type: String,
+      default: 'radio'
+    },
     panelLine: Boolean,
   });
   const selectedGenreId = ref(props.modelValue);
@@ -27,7 +30,7 @@
 
   const selectGenre = () => {
     if (props.disabled) return;
-    if (isSelected.value && !props.radio) {
+    if (isSelected.value && props.type === 'checkbox') {
       selectedGenreId.value = '';
       return emit('genre', null);
     }
@@ -61,9 +64,9 @@
     :style="buttonStyle"
     @click="selectGenre"
     @keyup.enter="selectGenre"
-    :aria-label="`search book by ${props.title} genre`"
+    :aria-label="`${props.title} genre`"
     :aria-checked="selectedGenreId === props.id"
-    role="radio"
+    :role="props.type"
     v-if="isValidProps"
   >
     <div class="ripple-text">

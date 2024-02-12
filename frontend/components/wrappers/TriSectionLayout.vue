@@ -14,6 +14,10 @@
       default: true,
     },
     width: Number,
+    scroll: {
+      type: Boolean,
+      default: false
+    }
   });
 </script>
 
@@ -25,7 +29,7 @@
     <div class="align-left side-space" v-if="props.left">
       <slot name="left"></slot>
     </div>
-    <div class="mr-a w100 h100 flex justify-center scroll" v-if="props.center">
+    <div class="mr-a w100 h100 flex justify-center" :class="{'scroll': props.scroll}" v-if="props.center">
       <slot name="center"></slot>
     </div>
     <div class="align-right side-space" v-if="props.right">

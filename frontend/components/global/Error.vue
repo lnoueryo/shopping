@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import SvgIcon from '@jamescoyle/vue-icon';
   import RippleButton from '@/components/wrappers/RippleButton.vue';
-  import { ref, onBeforeMount } from 'vue';
+  import { ref, onBeforeMount, watch } from 'vue';
   import { mdiChevronLeft } from '@mdi/js';
   import { getImageFromCache } from '@/utils';
   const props = defineProps({
@@ -11,12 +11,18 @@
     status: {
       type: Number,
     },
+    message: {
+      type: String,
+    },
+    next: {
+      type: String,
+    },
   });
   const route = useRoute();
   const imageSrc = ref(props.imagePath);
   const isReady = ref(false);
   const imageStyle = ref({});
-  const path = ref(route.query.next || '/');
+  const path = ref(props.next || '/');
   onBeforeMount(async () => {
     const cache = await getImageFromCache(props.imagePath);
     if (cache) {
@@ -31,9 +37,9 @@
 
 <template>
   <div class="error-container">
-    <div class="content-container">
-      <img width="100%" :src="imageSrc" alt="error image" v-if="isReady" />
-    </div>
+    <picture class="content-container">
+      <img width="100%" :src="imageSrc" :alt="props.message" v-if="isReady" />
+    </picture>
     <div class="center content-padding-horizontal">
       <RippleButton
         color="#0d2b45"
@@ -55,6 +61,11 @@
 </template>
 
 <style lang="scss" scoped>
+
+  picture {
+    display: block;
+  }
+
   .error-container {
     width: 100%;
     max-width: 720px;

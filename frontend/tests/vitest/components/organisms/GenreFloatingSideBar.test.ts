@@ -31,6 +31,32 @@ describe('GenreFloatingSideBar', () => {
 
       expect(genreButtons.length).toBe(genreData.length);
     });
+    it('Render Correctly', async () => {
+      const heightContent = 40;
+      const searchBarHeight = heightContent;
+      const logoHeight = heightContent;
+      const navHeight = heightContent;
+      const headerHeight = searchBarHeight + logoHeight;
+      const state = { isHeaderReady: false, heightContent, headerHeight, navHeight };
+      const wrapper = mount(GenreFloatingSideBar, {
+        global: {
+          plugins: [createRouterInstance(), createPinia(state)],
+        },
+      });
+      expect(wrapper.vm.isFixed).toBeFalsy();
+      Object.defineProperty(window, 'scrollY', {
+        value: headerHeight + navHeight,
+        writable: true,
+      });
+      wrapper.vm.moveGenreContent();
+      expect(wrapper.vm.isFixed).toBeFalsy();
+      Object.defineProperty(window, 'scrollY', {
+        value: headerHeight + navHeight + 1,
+        writable: true,
+      });
+      wrapper.vm.moveGenreContent();
+      expect(wrapper.vm.isFixed).toBeTruthy();
+    });
   });
   describe('Search Book by Genre', () => {
     it('Verify search books by genre', async () => {

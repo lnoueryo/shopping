@@ -82,7 +82,7 @@ test.describe('Books', () => {
   test.only('04_activate_genre_selector', async ({ page }) => {
     await waitInitialDisplay(page);
     await waitAccordionOpen(page);
-    const selector = `${FilterAccordionContentSelector} fieldset button[aria-label="search book by Design genre"]`;
+    const selector = `${FilterAccordionContentSelector} fieldset button[aria-label="Design genre"]`;
     await page.locator(selector).click();
     const expectedColor = hexToRgb(await getStyleFromRoot(page, '--color-text-selection'));
 

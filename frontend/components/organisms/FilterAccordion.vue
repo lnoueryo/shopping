@@ -63,12 +63,12 @@
     (isFixed.value = window.scrollY > store.topLayoutHeight);
   useScroll(updateIsFixed);
   const lockPage = () => {
-    const { body } = document;
-    body.style.overflow = 'hidden';
+    const { documentElement } = document;
+    documentElement.style.overflowY = 'hidden';
   };
   const unLockPage = () => {
-    const { body } = document;
-    body.style.overflow = 'initial';
+    const { documentElement } = document;
+    documentElement.style.overflowY = 'auto';
   };
 
   const contentStyle = ref({ maxHeight: '0' });

@@ -47,6 +47,10 @@ const books = [
   },
 ];
 
+for (let i = 0; i < 8; i++) {
+  books.push(...books)
+}
+
 describe('BookList', () => {
   const createPinia = state => {
     return createTestingPinia({
@@ -62,10 +66,27 @@ describe('BookList', () => {
       routes: [],
     });
   };
+  const createBookList = (page) => {
+    const maxBooks = 30;
+    const count = books.length;
+    const page_count = books.length % maxBooks === 0 ? books.length / maxBooks : Math.ceil(books.length / maxBooks);
+    const first = 1 + (maxBooks * (page - 1));
+    const last = page === page_count ? count : page * maxBooks;
+    return {
+      bookList: {
+        books,
+        page,
+        first,
+        last,
+        page_count,
+        count,
+      }
+    }
+  }
   describe('Display BookList', () => {
     it('Render Correctly', async () => {
       Element.prototype.scrollTo = () => {};
-      const state = { bookList: { books, page: 1, page_count: 1, count: 3 } };
+      const state = createBookList(1);
       const wrapper = mount(BookList, {
         global: {
           plugins: [createRouterInstance(), createPinia(state)],
@@ -93,11 +114,15 @@ describe('BookList', () => {
       }
       const pageInfos = wrapper.findAllComponents({ name: 'PageInfo' });
       expect(pageInfos.length).toBe(2);
+      for (const pageInfo of pageInfos) {
+        expect(pageInfo.vm.first).toBe(state.bookList.first);
+        expect(pageInfo.vm.last).toBe(state.bookList.last);
+      }
       const pagination = wrapper.findComponent({ name: 'Pagination' });
       expect(pagination.exists()).toBeTruthy();
     });
     it('Render No Result', async () => {
-      const state = { booksData: [] };
+      const state = { bookList: {books: []} };
       const wrapper = mount(BookList, {
         global: {
           plugins: [createRouterInstance(), createPinia(state)],

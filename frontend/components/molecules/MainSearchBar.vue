@@ -115,7 +115,6 @@
       autocomplete="off"
       v-model="searchKeyword"
       @keyup.enter="blurSearchBar"
-      aria-label="input book search keywords and press Enter"
       placeholder="input book search keywords"
     />
     <div class="search-button w100 h100" ref="searchButton">
@@ -135,18 +134,18 @@
     color: var(--color-terminal-word);
     caret-color: var(--color-terminal-word);
     border-radius: 3px;
-    border: 2px solid var(--color-text-right-gray);
     width: 100%;
     z-index: 0;
+    outline: 2px solid var(--color-text-right-gray);
     transition:
-      var(--transition-primary),
+      var(--transition-secondary),
       padding 0s;
   }
 
   #main-search-bar:focus-visible {
-    border: 2px solid var(--color-class);
-    outline: 1px solid var(--color-class);
-    transition: var(--transition-primary);
+    outline: 2px solid var(--color-class);
+    transition:
+      var(--transition-primary);
   }
 
   .prompt {

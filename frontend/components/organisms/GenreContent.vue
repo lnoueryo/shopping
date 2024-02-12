@@ -51,7 +51,7 @@
         v-bind="{ desktop: SIX_CARD_GRID_WIDTH }"
         :genreData="genreData"
         :width="store.width"
-        radio
+        type="link"
       />
     </template>
     <template #right>

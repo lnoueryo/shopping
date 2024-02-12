@@ -14,7 +14,8 @@ describe('FilterAccordion', () => {
     return createTestingPinia({
       initialState: {
         index: {
-          headerHeight: 40 * 3,
+          headerHeight: 40 * 2,
+          navHeight: 40,
           heightContent: 40,
         },
         books: state,
@@ -30,11 +31,11 @@ describe('FilterAccordion', () => {
   describe('Display FilterAccordion', () => {
     it('Render Correctly', async () => {
       const state = {
-        booksData: [],
         query: {
           rate: 0,
           levels: [],
           genre: '',
+          page: 1
         },
       };
       const wrapper = mount(FilterAccordion, {
@@ -45,6 +46,7 @@ describe('FilterAccordion', () => {
       await flushPromises();
       await vi.dynamicImportSettled();
       expect(wrapper.vm.isOpen).toBeFalsy();
+      expect(wrapper.vm.isFixed).toBeFalsy();
       const rating = wrapper.findComponent({ name: 'Rating' });
       expect(rating.vm.rate).toBe(state.query.rate);
       const skillLevelChips = wrapper.findComponent({
@@ -88,9 +90,7 @@ describe('FilterAccordion', () => {
     let originalScrollY;
 
     beforeEach(() => {
-      // 元の scrollY の値を保存
       originalScrollY = window.scrollY;
-      // window.scrollY のモックを設定
       Object.defineProperty(window, 'scrollY', {
         value: 100,
         configurable: true,
@@ -98,7 +98,6 @@ describe('FilterAccordion', () => {
     });
 
     afterEach(() => {
-      // モックをクリーンアップして元に戻す
       Object.defineProperty(window, 'scrollY', {
         value: originalScrollY,
         configurable: true,
@@ -125,7 +124,7 @@ describe('FilterAccordion', () => {
         },
       });
       expect(wrapper.vm.booksStore.isAccordionOpen).toBeFalsy();
-      expect(document.body.style.overflow).not.toBe('hidden');
+      expect(document.documentElement.style.overflowY).not.toBe('hidden');
       expect(wrapper.vm.contentStyle.maxHeight).toBe(`0`);
 
       const accordion = wrapper.findComponent({ name: 'Accordion' });
@@ -133,7 +132,7 @@ describe('FilterAccordion', () => {
       accordionSwitch.setChecked(true);
       await flushPromises();
       expect(wrapper.vm.booksStore.isAccordionOpen).toBeTruthy();
-      expect(document.body.style.overflow).toBe('hidden');
+      expect(document.documentElement.style.overflowY).toBe('hidden');
       expect(wrapper.vm.isFixed).toBeTruthy();
       expect(wrapper.vm.contentStyle.maxHeight).toBe(
         `calc(100vh - ${store.topLayoutHeight}px + ${store.heightContent}px)`
@@ -142,7 +141,7 @@ describe('FilterAccordion', () => {
       wrapper.vm.updateIsFixed();
       await flushPromises();
       expect(wrapper.vm.booksStore.isAccordionOpen).toBeFalsy();
-      expect(document.body.style.overflow).not.toBe('hidden');
+      expect(document.documentElement.style.overflowY).not.toBe('hidden');
       expect(wrapper.vm.isFixed).toBeTruthy();
       expect(wrapper.vm.contentStyle.maxHeight).toBe(`0`);
 
@@ -154,7 +153,7 @@ describe('FilterAccordion', () => {
       accordionSwitch.setChecked(true);
       await flushPromises();
       expect(wrapper.vm.booksStore.isAccordionOpen).toBeTruthy();
-      expect(document.body.style.overflow).toBe('hidden');
+      expect(document.documentElement.style.overflowY).toBe('hidden');
       expect(wrapper.vm.isFixed).toBeFalsy();
       expect(wrapper.vm.contentStyle.maxHeight).toBe(
         `calc(var(--vh, 1vh) * 100 - ${store.topLayoutHeight}px - ${store.heightContent}px)`

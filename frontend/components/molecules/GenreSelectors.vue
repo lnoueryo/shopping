@@ -40,6 +40,10 @@
       type: Boolean,
       default: false,
     },
+    type: {
+      type: String,
+      default: 'radio'
+    }
   });
   const size = ref(0);
   const updateSize = newWidth => {
@@ -93,7 +97,7 @@
       <GenreSelector
         v-bind="genre"
         v-model="localGenreId"
-        :radio="props.radio"
+        :type="props.type"
         :panelLine="props.panelLine"
       />
     </RippleButton>

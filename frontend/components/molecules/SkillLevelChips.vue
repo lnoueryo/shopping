@@ -34,7 +34,7 @@
     <RippleButton
       v-for="level in props.skillLevelsData"
       :key="level.title"
-      class="next-space ripple-wrapper"
+      class="ripple-wrapper next-space"
       :color="level.color"
       change
       :disabled="selectedSkillLevels.includes(level.title)"

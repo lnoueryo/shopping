@@ -38,7 +38,6 @@
           :alt="`roadmap of ${route.params.id}`"
           @load="isImageReady = true"
           @error="handleError"
-          style=""
         />
       </picture>
     </template>
