@@ -39,8 +39,10 @@
   const contentRef = ref(null);
   const uniqueId = `ac-${Math.random().toString(36).substr(2, 9)}`;
   const closeAccordion = event => {
-    if (!event.target.closest(`#${uniqueId}`)) isOpen.value = false;
-    document.removeEventListener('click', closeAccordion);
+    if (!event.target.closest(`#${uniqueId}`)) {
+      isOpen.value = false;
+      document.removeEventListener('click', closeAccordion);
+    }
   };
 
   onUnmounted(() => {

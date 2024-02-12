@@ -123,7 +123,7 @@ describe('FilterAccordion', () => {
           plugins: [router, createPinia(state)],
         },
       });
-      expect(wrapper.vm.booksStore.isAccordionOpen).toBeFalsy();
+      expect(wrapper.vm.isAccordionOpen).toBeFalsy();
       expect(document.documentElement.style.overflowY).not.toBe('hidden');
       expect(wrapper.vm.contentStyle.maxHeight).toBe(`0`);
 
@@ -131,7 +131,7 @@ describe('FilterAccordion', () => {
       const accordionSwitch = accordion.find('input');
       accordionSwitch.setChecked(true);
       await flushPromises();
-      expect(wrapper.vm.booksStore.isAccordionOpen).toBeTruthy();
+      expect(wrapper.vm.isAccordionOpen).toBeTruthy();
       expect(document.documentElement.style.overflowY).toBe('hidden');
       expect(wrapper.vm.isFixed).toBeTruthy();
       expect(wrapper.vm.contentStyle.maxHeight).toBe(
@@ -140,7 +140,7 @@ describe('FilterAccordion', () => {
       accordionSwitch.setChecked(false);
       wrapper.vm.updateIsFixed();
       await flushPromises();
-      expect(wrapper.vm.booksStore.isAccordionOpen).toBeFalsy();
+      expect(wrapper.vm.isAccordionOpen).toBeFalsy();
       expect(document.documentElement.style.overflowY).not.toBe('hidden');
       expect(wrapper.vm.isFixed).toBeTruthy();
       expect(wrapper.vm.contentStyle.maxHeight).toBe(`0`);
@@ -152,7 +152,7 @@ describe('FilterAccordion', () => {
       wrapper.vm.updateIsFixed();
       accordionSwitch.setChecked(true);
       await flushPromises();
-      expect(wrapper.vm.booksStore.isAccordionOpen).toBeTruthy();
+      expect(wrapper.vm.isAccordionOpen).toBeTruthy();
       expect(document.documentElement.style.overflowY).toBe('hidden');
       expect(wrapper.vm.isFixed).toBeFalsy();
       expect(wrapper.vm.contentStyle.maxHeight).toBe(
@@ -176,12 +176,12 @@ describe('FilterAccordion', () => {
       });
       await flushPromises();
       await vi.dynamicImportSettled();
-      expect(wrapper.vm.booksStore.isAccordionOpen).toBeFalsy();
+      expect(wrapper.vm.isAccordionOpen).toBeFalsy();
       const accordion = wrapper.findComponent({ name: 'Accordion' });
       const accordionSwitch = accordion.find('input');
       accordionSwitch.setChecked(true);
       await flushPromises();
-      expect(wrapper.vm.booksStore.isAccordionOpen).toBeTruthy();
+      expect(wrapper.vm.isAccordionOpen).toBeTruthy();
 
       const ratingComponent = wrapper.findComponent({ name: 'Rating' });
       const ratings = ratingComponent.findAll('input');
@@ -216,7 +216,7 @@ describe('FilterAccordion', () => {
 
       accordionSwitch.setChecked(false);
       await flushPromises();
-      expect(wrapper.vm.booksStore.isAccordionOpen).toBeFalsy();
+      expect(wrapper.vm.isAccordionOpen).toBeFalsy();
       expect(booksStore.updateQuery).toHaveBeenCalledTimes(1);
     });
   });

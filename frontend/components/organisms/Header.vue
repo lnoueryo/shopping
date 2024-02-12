@@ -55,7 +55,6 @@
     if (searchKeyword.value.length > 100) return (isOpen.value = true);
     const query = await searchBooks.searchByKeyword(searchKeyword.value); // 1. promiseでrouter.pushの処理が終わるのを待つ
     if (route.path === '/books') {
-      booksStore.isAccordionOpen = false;
       setTimeout(async () => {
         // 2. setTimeoutでscrollToTopの実行を若干ずらす
         await store.scrollToTop();

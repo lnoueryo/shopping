@@ -13,7 +13,6 @@ export const useBooksStore = defineStore('books', {
       levels: [],
       page: 1,
     },
-    isAccordionOpen: false,
   }),
   getters: {
     isBooksData: state => state.bookList.books.length !== 0,
@@ -52,7 +51,6 @@ export const useBooksStore = defineStore('books', {
       const main = document.getElementById('main') as HTMLDivElement;
       const cacheQuery = JSON.stringify(this.query);
       this.updateStateQuery(query);
-
       if (cacheQuery !== JSON.stringify(this.query)) {
         const store = useStore();
         await store.scrollToTop();
@@ -73,6 +71,7 @@ export const useBooksStore = defineStore('books', {
       if ('levels' in query === false) this.query['levels'] = [];
       else if (typeof query.levels === 'string')
         this.query['levels'] = new Array(query.levels);
+      if ('page' in query) this.query['page'] = Number(this.query['page'])
     },
   },
 });

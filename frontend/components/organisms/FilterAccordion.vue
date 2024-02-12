@@ -30,6 +30,7 @@
   const route = useRoute();
   const searchBooks = useSearchBooks();
   const tabletSwitch = ref(deviceSize.tablet > store.width);
+  const isAccordionOpen = ref(false);
   const skillLevelStyle = ref({});
   const labelStyle = ref({
     height: 'var(--height-content)',
@@ -79,7 +80,7 @@
   };
   const closeAccordion = () => (contentStyle.value.maxHeight = '0');
   watch(
-    () => booksStore.isAccordionOpen,
+    isAccordionOpen,
     async newValue => {
       if (newValue) {
         openAccordion();
@@ -118,9 +119,10 @@
 <template>
   <div class="card vertical-center relative card-shadow">
     <Accordion
-      v-model="booksStore.isAccordionOpen"
+      v-model="isAccordionOpen"
       :labelStyle="labelStyle"
       :contentStyle="contentStyle"
+      click-outside
     >
       <template #label>
         <div class="h100 title-bottom">
@@ -128,14 +130,14 @@
             <p class="vertical-center h100">Filter</p>
             <div
               class="arrow-box"
-              :class="{ toggle: booksStore.isAccordionOpen }"
+              :class="{ toggle: isAccordionOpen }"
             >
               <div
                 :class="{
-                  open: booksStore.isAccordionOpen,
-                  close: !booksStore.isAccordionOpen,
+                  open: isAccordionOpen,
+                  close: !isAccordionOpen,
                 }"
-                ><span v-if="booksStore.isAccordionOpen">✕</span></div
+                ><span v-if="isAccordionOpen">✕</span></div
               >
             </div>
           </div>
