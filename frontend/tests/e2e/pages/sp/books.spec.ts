@@ -86,6 +86,7 @@ test.describe('Books', () => {
     // ボタンの背景色が期待する色に変わるまで待機
     await page.waitForFunction(([selector, expectedColor]) => {
       const element = document.querySelector(selector);
+      console.log(window.getComputedStyle(element).backgroundColor, expectedColor);
       return window.getComputedStyle(element).backgroundColor === expectedColor;
     }, [selector, expectedColor]);
     await page.screenshot({ path: `${BASE_IMAGE_PATH}/${browserName}/${fileName}` });

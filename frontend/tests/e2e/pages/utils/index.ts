@@ -33,7 +33,7 @@ export const waitAnimationByText = async(page, selector: string, title: string, 
       const element = Array.from(document.querySelectorAll(selector)).find(el => el.textContent.includes(title));
       if (!element) return false;
       const value = getComputedStyle(element)[style];
-      console.log('value: ', value, 'expect: ', expect)
+      // console.log('value: ', value, 'expect: ', expect)
       return value === expect;
     },
     {selector, title, expect, style}
