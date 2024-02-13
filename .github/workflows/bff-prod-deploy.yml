@@ -96,8 +96,10 @@ jobs:
 
       - name: Deploy to Google Cloud Run - Production
         run: |
+          TAG="pr-${{ github.ref_name }}"
           gcloud run deploy webtech-bookstore-bff-prod \
             --image gcr.io/${{ secrets.GCP_PROJECT_ID }}/webtech-bookstore-bff:${{ github.sha }} \
+            --tag $TAG \
             --platform managed \
             --no-traffic \
             --region asia-northeast1 \

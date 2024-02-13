@@ -69,7 +69,7 @@
   };
   const unLockPage = () => {
     const { documentElement } = document;
-    documentElement.style.overflowY = 'auto';
+    documentElement.style.overflowY = 'scroll';
   };
 
   const contentStyle = ref({ maxHeight: '0' });
