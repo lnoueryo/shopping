@@ -82,11 +82,13 @@ test.describe('Books', () => {
     const selector = `${FilterAccordionContentSelector} fieldset button[aria-label="Design genre"]`;
     await page.locator(selector).click();
     const expectedColor = hexToRgb(await getStyleFromRoot(page, '--color-text-selection'));
+    console.log(expectedColor)
+    console.log(await getStyleFromRoot(page, '--color-text-selection'))
 
     // ボタンの背景色が期待する色に変わるまで待機
     await page.waitForFunction(([selector, expectedColor]) => {
       const element = document.querySelector(selector);
-      console.log(window.getComputedStyle(element).backgroundColor, expectedColor);
+      // console.log(window.getComputedStyle(element).backgroundColor, expectedColor);
       return window.getComputedStyle(element).backgroundColor === expectedColor;
     }, [selector, expectedColor]);
     await page.screenshot({ path: `${BASE_IMAGE_PATH}/${browserName}/${fileName}` });
