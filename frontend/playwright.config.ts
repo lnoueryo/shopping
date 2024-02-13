@@ -10,29 +10,29 @@ const PORT = process.env.PORT || 3000;
 const release = checkVersionFormat(process.env.GITHUB_REF_NAME);
 const baseURL = `http://127.0.0.1:${PORT}`;
 const mainBrowsers = [
-  // {
-  //   name: 'chrome',
-  //   use: { ...devices['Desktop Chrome'], channel: 'chrome' },
-  //   testMatch: ['/common/*.spec.ts', '/pc/*.spec.ts'],
-  // },
+  {
+    name: 'chrome',
+    use: { ...devices['Desktop Chrome'], channel: 'chrome' },
+    testMatch: ['/common/*.spec.ts', '/pc/*.spec.ts'],
+  },
 
-  // {
-  //   name: 'firefox',
-  //   use: { ...devices['Desktop Firefox'] },
-  //   testMatch: ['/common/*.spec.ts', '/pc/*.spec.ts'],
-  // },
+  {
+    name: 'firefox',
+    use: { ...devices['Desktop Firefox'] },
+    testMatch: ['/common/*.spec.ts', '/pc/*.spec.ts'],
+  },
 
-  // {
-  //   name: 'safari',
-  //   use: { ...devices['Desktop Safari'] },
-  //   testMatch: ['/common/*.spec.ts', '/pc/*.spec.ts'],
-  // },
+  {
+    name: 'safari',
+    use: { ...devices['Desktop Safari'] },
+    testMatch: ['/common/*.spec.ts', '/pc/*.spec.ts'],
+  },
 
-  // {
-  //   name: 'edge',
-  //   use: { ...devices['Desktop Edge'], channel: 'msedge' },
-  //   testMatch: ['/common/*.spec.ts', '/pc/*.spec.ts'],
-  // },
+  {
+    name: 'edge',
+    use: { ...devices['Desktop Edge'], channel: 'msedge' },
+    testMatch: ['/common/*.spec.ts', '/pc/*.spec.ts'],
+  },
 
   /* Test against mobile viewports. */
   {

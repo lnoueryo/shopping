@@ -26,9 +26,9 @@ test.describe('Books', () => {
     browserName = testInfo.project.name;
     fileName = createFileName(testInfo);
     await page.waitForTimeout(3000);
-    await page.on('console', msg => {
-      console.log(`Browser console: ${msg.text()}`);
-    });
+    // await page.on('console', msg => {
+    //   console.log(`Browser console: ${msg.text()}`);
+    // });
   });
 
   test('01_open_accordion', async ({ page }) => {
@@ -82,13 +82,10 @@ test.describe('Books', () => {
     const selector = `${FilterAccordionContentSelector} fieldset button[aria-label="Design genre"]`;
     await page.locator(selector).click();
     const expectedColor = hexToRgb(await getStyleFromRoot(page, '--color-text-selection'));
-    console.log(expectedColor)
-    console.log(await getStyleFromRoot(page, '--color-text-selection'))
 
     // ボタンの背景色が期待する色に変わるまで待機
     await page.waitForFunction(([selector, expectedColor]) => {
       const element = document.querySelector(selector);
-      // console.log(window.getComputedStyle(element).backgroundColor, expectedColor);
       return window.getComputedStyle(element).backgroundColor === expectedColor;
     }, [selector, expectedColor]);
     await page.screenshot({ path: `${BASE_IMAGE_PATH}/${browserName}/${fileName}` });
