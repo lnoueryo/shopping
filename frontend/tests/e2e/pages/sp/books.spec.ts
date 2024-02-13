@@ -26,9 +26,9 @@ test.describe('Books', () => {
     browserName = testInfo.project.name;
     fileName = createFileName(testInfo);
     await page.waitForTimeout(3000);
-    // await page.on('console', msg => {
-    //   console.log(`Browser console: ${msg.text()}`);
-    // });
+    await page.on('console', msg => {
+      console.log(`Browser console: ${msg.text()}`);
+    });
   });
 
   test('01_open_accordion', async ({ page }) => {
