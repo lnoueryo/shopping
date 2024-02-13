@@ -3,6 +3,9 @@ export const BASIC_SCALE_UP = `matrix(1.15, 0, 0, 1.15, 0, 0)`;
 export const hexToRgb = (hex: string) => {
   if (!hex) return;
   hex = hex.replace(/^#/, '');
+  if (hex.length === 3) {
+    hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
+  }
   var r = parseInt(hex.substring(0, 2), 16);
   var g = parseInt(hex.substring(2, 4), 16);
   var b = parseInt(hex.substring(4, 6), 16);
@@ -33,7 +36,7 @@ export const waitAnimationByText = async(page, selector: string, title: string, 
       const element = Array.from(document.querySelectorAll(selector)).find(el => el.textContent.includes(title));
       if (!element) return false;
       const value = getComputedStyle(element)[style];
-      console.log('value: ', value, 'expect: ', expect)
+      // console.log('value: ', value, 'expect: ', expect)
       return value === expect;
     },
     {selector, title, expect, style}
