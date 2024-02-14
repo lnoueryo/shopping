@@ -6,10 +6,6 @@
     rate: Number,
     levels: Array || String,
   });
-  const keyword = ref(props.keyword);
-  const genre = ref(props.genre);
-  const rate = ref(props.rate);
-  const levels = ref(props.levels);
 </script>
 
 <template>
@@ -20,10 +16,10 @@
     >
     <p class="console-text">> Search Parameters:</p>
     <ul class="console-text">
-      <li v-if="keyword">Keyword: "{{ keyword }}"</li>
-      <li v-if="genre">Genre: "{{ genre }}"</li>
-      <li v-if="rate">Minimum Rating: "{{ rate }}"</li>
-      <li v-if="levels.length > 0">Skill Levels: "{{ levels.join(', ') }}"</li>
+      <li v-if="keyword">Keyword: "{{ props.keyword }}"</li>
+      <li v-if="genre">Genre: "{{ props.genre }}"</li>
+      <li v-if="rate">Minimum Rating: "{{ props.rate }}"</li>
+      <li v-if="levels.length > 0">Skill Levels: "{{ props.levels.join(', ') }}"</li>
     </ul>
     <br />
     <p class="console-text">> User Action:</p>

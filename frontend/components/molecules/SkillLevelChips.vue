@@ -18,7 +18,7 @@
 
   const selectedSkillLevels = ref(props.modelValue);
   watch(
-    () => props.selectedSkillLevels,
+    () => props.modelValue,
     newSelectedSkillLevels =>
       (selectedSkillLevels.value = newSelectedSkillLevels)
   );

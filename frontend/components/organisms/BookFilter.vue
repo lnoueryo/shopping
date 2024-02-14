@@ -9,13 +9,25 @@
 
   const store = useStore();
   const booksStore = useBooksStore();
+  const route = useRoute();
   const searchBooks = useSearchBooks();
   const localRate = ref(Number(booksStore.query.rate));
   const localSkillLevels = ref(booksStore.query.levels);
 
   watch([localRate, localSkillLevels], () => {
     searchBooks.filterBooks(localRate.value, localSkillLevels.value);
-  });
+  }, { deep: true });
+  watch(() => route.query, newValue => {
+    const { rate, levels } = newValue;
+    if (Number(rate) !== localRate.value) {
+      localRate.value = Number(rate || 0);
+    }
+    const newLevels = Array.isArray(levels) ? levels : !levels ? [] : [levels];
+    if (JSON.stringify(newLevels) !== JSON.stringify(localSkillLevels.value)) {
+      localSkillLevels.value = newLevels;
+    }
+  }, { deep: true });
+
 </script>
 
 <template>

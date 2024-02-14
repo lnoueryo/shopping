@@ -8,7 +8,7 @@
   import { useStore } from '@/stores';
   import { useBooksStore } from '@/stores/books';
   import { deviceSize } from '@/assets/js/device-size.js';
-  import { ref, watch, onMounted, onBeforeUnmount } from 'vue';
+  import { ref, watch, onBeforeMount, onMounted, onBeforeUnmount } from 'vue';
 
   definePageMeta({
     middleware: ['books'],
@@ -36,12 +36,16 @@
     }
   );
   const booksStore = useBooksStore();
-  booksStore.updateStateQuery(route.query);
-  booksStore.fetchBooksData();
 
   onMounted(async () => {
     window.addEventListener('popstate', handleBrowserButton);
   });
+
+  onBeforeMount(() => {
+    booksStore.updateStateQuery(route.query);
+    booksStore.fetchBooksData();
+  });
+
   onBeforeUnmount(() =>
     window.removeEventListener('popstate', handleBrowserButton)
   );
@@ -49,12 +53,15 @@
   const handleBrowserButton = () => {
     isClickedBrowerButton.value = true;
   };
+
+  const isMoreThanSmallDesktop = computed(() => deviceSize.smallDesktop <= store.width)
 </script>
 
 <template>
   <div id="books" class="flex w100">
+    <Linear class="linear" :loading="booksStore.isLoading" :timeout="200" />
     <section id="float-filter">
-      <template v-if="store.isReady">
+      <template v-if="store.isReady && !isMoreThanSmallDesktop">
         <FloatFilter>
           <FilterAccordion />
         </FloatFilter>
@@ -75,7 +82,7 @@
     <section id="sidebar">
       <div class="sidebar">
         <SkeltonScreen
-          :condition="store.isReady"
+          :condition="store.isReady && isMoreThanSmallDesktop"
           width="100%"
           height="calc(var(--height-content) * 9)"
         >
@@ -99,16 +106,7 @@
       </section>
       <section id="book-result" class="content-container">
         <template v-if="store.isReady">
-          <template v-if="booksStore.isLoading">
-            <div class="spinner-container">
-              <Spinner />
-            </div>
-          </template>
-          <template v-else>
-            <div id="book-list">
-              <BookList />
-            </div>
-          </template>
+          <BookList id="book-list" />
         </template>
         <template v-else>
           <div v-for="i in 2" :key="i">
@@ -126,6 +124,12 @@
 </template>
 
 <style lang="scss" scoped>
+  .linear {
+    position: fixed;
+    top: 120px;
+    left: 0;
+  }
+
   #main-content {
     display: grid;
     grid-template-rows: auto 1fr;
@@ -137,13 +141,6 @@
 
   #book-result {
     position: relative;
-  }
-
-  .spinner-container {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
   }
 
   #float-filter {
@@ -177,6 +174,9 @@
     }
     .bookfilter-container {
       display: none;
+    }
+    .linear {
+      top: 160px;
     }
   }
 </style>

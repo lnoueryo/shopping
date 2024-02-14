@@ -15,9 +15,9 @@ export const useSearchBooks = () => {
     return await resetPageAndSearch(query);
   };
 
-  const filterBooks = (rate, skillLevels) => {
+  const filterBooks = async(rate, skillLevels) => {
     const query = buildFilterQuery(rate, skillLevels);
-    return resetPageAndSearch(query);
+    return await resetPageAndSearch(query);
   };
 
   const searchOnAccordion = (rate, skillLevels, genre) => {
@@ -48,7 +48,7 @@ export const useSearchBooks = () => {
 
   const resetPageAndSearch = async query => {
     query['page'] = 1;
-    await router.push({ path: '/books', query: query });
+    router.push({ path: '/books', query: query });
     return query;
   };
 

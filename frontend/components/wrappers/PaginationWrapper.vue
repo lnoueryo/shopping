@@ -8,27 +8,22 @@
     page: {
       type: Number,
       default: 1,
-      required: true,
     },
     page_count: {
       type: Number,
       default: 1,
-      required: true,
     },
     first: {
       type: Number,
       default: 1,
-      required: true,
     },
     last: {
       type: Number,
       default: 1,
-      required: true,
     },
     count: {
       type: Number,
       default: 1,
-      required: true,
     },
   });
 
@@ -45,14 +40,16 @@
     </div>
     <template v-if="isBooks">
       <div>
-        <Pagination
-          v-bind="props"
-          :width="store.width"
-          @updatePage="$emit('updatePage', $event)"
-        />
-      </div>
-      <div class="page-info center">
-        <PageInfo v-bind="props" />
+        <div>
+          <Pagination
+            v-bind="props"
+            :width="store.width"
+            @updatePage="$emit('updatePage', $event)"
+          />
+        </div>
+        <div class="page-info center">
+          <PageInfo v-bind="props" />
+        </div>
       </div>
     </template>
   </div>
