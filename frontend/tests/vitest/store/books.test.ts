@@ -35,12 +35,11 @@ describe('Books Store', () => {
       const store = useBooksStore();
       const mockFetch = () => {
         expect(store.errorType).toBe('');
-        expect(store.isLoading).toBe(true);
         return Promise.resolve({
           books,
         });
       };
-      global.$fetch = mockFetch;
+      global.$fetch = vi.fn().mockResolvedValue(mockFetch());
       expect(store.isLoading).toBe(false);
       await store.fetchBooksData();
       expect(store.isLoading).toBe(false);

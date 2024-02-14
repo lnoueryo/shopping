@@ -17,7 +17,7 @@
 
 <style lang="scss" scoped>
   .links {
-    height: calc(var(--height-content) * 2);
+    height: calc(var(--height-content) * 1.5);
   }
 
   .copy-right {

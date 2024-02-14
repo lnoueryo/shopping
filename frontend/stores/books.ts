@@ -5,6 +5,8 @@ export const useBooksStore = defineStore('books', {
   state: (): BooksState => ({
     bookList: resetBookList(),
     isLoading: false,
+    fetchPromise: null,
+    lastQuery: '',
     errorType: '',
     query: {
       keyword: '',
@@ -19,43 +21,60 @@ export const useBooksStore = defineStore('books', {
   },
   actions: {
     async fetchBooksData() {
+      if (this.isLoading) {
+        this.lastQuery = this.query;
+        return;
+      }
+
       this.isLoading = true;
-      this.errorType = '';
+      this.errorType = null;
+      this.lastQuery = '';
+
+      let resolveFetch;
+      this.fetchPromise = new Promise(resolve => {
+        resolveFetch = resolve;
+      });
 
       try {
-        const response: BookResponse = await fetchWithTimeout(
-          '/api/books',
-          { query: this.query },
-          5000
-        );
+        const response = await this.fetchWithTimeout('/api/books', { query: this.query }, 5000);
         this.bookList = response;
-      } catch (err: Error) {
-        if (!navigator.onLine) {
-          this.errorType = 'offline';
-          console.error(
-            'You are offline. Please check your internet connection.'
-          );
-        } else if (err === 'timeout') {
-          this.errorType = 'timeout';
-          console.error('Network request failed. Please try again later.');
-        } else {
-          this.errorType = 'server';
-          console.error('An error occurred:', err);
-        }
-        this.bookList = resetBookList();
+      } catch (err) {
+        this.handleFetchError(err);
       } finally {
+        await new Promise(resolve => setTimeout(() => resolve(true), 400))
         this.isLoading = false;
+        resolveFetch(true);
+
+        if (this.lastQuery) {
+          const nextQuery = this.lastQuery;
+          this.fetchBooksData(nextQuery);
+        } else {
+          this.fetchPromise = null;
+        }
       }
     },
+    handleFetchError(err) {
+      if (!navigator.onLine) {
+        this.errorType = 'offline';
+        console.error('You are offline. Please check your internet connection.');
+      } else if (err === 'timeout') {
+        this.errorType = 'timeout';
+        console.error('Network request failed. Please try again later.');
+      } else {
+        this.errorType = 'server';
+        console.error('An error occurred:', err);
+      }
+      this.bookList = resetBookList();
+    },
     async updateQuery(query: { [key: string]: string | number }) {
-      const main = document.getElementById('main') as HTMLDivElement;
+      const main = document.getElementById('books') as HTMLDivElement;
       const cacheQuery = JSON.stringify(this.query);
       this.updateStateQuery(query);
       if (cacheQuery !== JSON.stringify(this.query)) {
         const store = useStore();
         await store.scrollToTop();
         // 書籍情報が一旦全て消えてもヘッダーまで戻らないように一時的に長くする
-        main.style.height = `calc(100vh - ${store.topLayoutHeight}px)`;
+        main.style.height = this.bookList.count < 2 ? 'auto' : `calc(100vh - ${store.topLayoutHeight}px)`;
         await this.fetchBooksData();
       }
       main.style.height = 'initial';
@@ -73,31 +92,29 @@ export const useBooksStore = defineStore('books', {
         this.query['levels'] = new Array(query.levels);
       if ('page' in query) this.query['page'] = Number(this.query['page'])
     },
+    fetchWithTimeout(
+      url: string,
+      options: BookRequest,
+      timeout = 3000
+    ) {
+      return new Promise((resolve, reject) => {
+        const timer = setTimeout(() => {
+          reject('timeout');
+        }, timeout);
+    
+        $fetch(url, options)
+          .then(response => {
+            clearTimeout(timer);
+            resolve(response);
+          })
+          .catch(error => {
+            clearTimeout(timer);
+            reject(error);
+          });
+      });
+    },
   },
 });
-
-const fetchWithTimeout = (
-  url: string,
-  options: BookRequest,
-  timeout = 3000
-) => {
-  return new Promise((resolve, reject) => {
-    const timer = setTimeout(() => {
-      reject('timeout');
-    }, timeout);
-
-    $fetch(url, options)
-      .then(response => {
-        clearTimeout(timer);
-        resolve(response);
-      })
-      .catch(error => {
-        clearTimeout(timer);
-        reject(error);
-      });
-  });
-};
-
 const resetBookList = () => {
   return {
     books: [],

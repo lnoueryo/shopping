@@ -22,7 +22,7 @@
 
 <style lang="scss" scoped>
   .sns {
-    min-height: calc(var(--height-content) * 2);
+    min-height: calc(var(--height-content) * 1.5);
     min-width: calc(var(--height-content) * 2);
     transition: var(--transition-primary);
   }

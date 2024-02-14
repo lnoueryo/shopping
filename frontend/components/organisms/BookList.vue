@@ -10,8 +10,7 @@
   const booksStore = useBooksStore();
   const searchBooks = useSearchBooks();
   const searchNextBooks = async nextPage => {
-    const query = searchBooks.searchNextBooks(nextPage);
-    await booksStore.updateQuery(query);
+    await booksStore.searchNextBooks(nextPage);
   };
 </script>
 
@@ -29,7 +28,7 @@
           </li>
         </ul>
       </template>
-      <template v-else>
+      <template v-else-if="!booksStore.isBooksData && !booksStore.isLoading">
         <div id="error-book-result" class="content-container">
           <div class="card card-shadow">
             <ErrorBookResult
@@ -39,6 +38,11 @@
           </div>
         </div>
       </template>
+      <template v-else>
+        <div class="spinner-container">
+          <Spinner />
+        </div>
+      </template>
     </template>
   </PaginationWrapper>
 </template>
@@ -46,5 +50,11 @@
 <style lang="scss" scoped>
   .content-container:last-child {
     margin-bottom: 0;
+  }
+  .spinner-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
   }
 </style>
