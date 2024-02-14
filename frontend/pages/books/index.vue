@@ -125,9 +125,11 @@
 
 <style lang="scss" scoped>
   .linear {
-    position: fixed;
-    top: 120px;
-    left: 0;
+    position: absolute;
+    width: 100vw;
+    left: 50%;
+    transform: translateX(-50%);
+    top: -40px;
   }
 
   #main-content {
@@ -176,7 +178,7 @@
       display: none;
     }
     .linear {
-      top: 160px;
+      top: 0px;
     }
   }
 </style>
