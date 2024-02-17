@@ -15,7 +15,7 @@ const waitInitialDisplay = async page => {
   await page.waitForSelector('.skeleton', { state: 'hidden' });
 };
 test.describe('Error', () => {
-  test.beforeEach(async (_, testInfo) => {
+  test.beforeEach(async ({}, testInfo) => {
     browserName = testInfo.project.name;
     fileName = createFileName(testInfo);
     // await page.on('console', msg => {

@@ -5,7 +5,7 @@ const { BASE_IMAGE_PATH, createFileName } = utils;
 let browserName: string;
 let fileName: string;
 test.describe('Roadmap', () => {
-  test.beforeEach(async (_, testInfo) => {
+  test.beforeEach(async ({}, testInfo) => {
     browserName = testInfo.project.name;
     fileName = createFileName(testInfo);
     // await page.on('console', msg => {

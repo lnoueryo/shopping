@@ -69,6 +69,7 @@ module.exports = {
       },
     ],
     'no-eval': 'error',
+    "no-empty-pattern": "off",
     'no-implied-eval': 'error',
     'no-constant-condition': ['error', { checkLoops: false }],
     'no-unused-expressions': ['error', { allowShortCircuit: true }],

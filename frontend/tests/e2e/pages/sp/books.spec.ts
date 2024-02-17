@@ -16,7 +16,7 @@ let fileName: string;
 
 test.describe('Books', () => {
   const FilterAccordionLabelSelector = '#float-filter label.label';
-  const FilterAccordionContentSelector =`${FilterAccordionLabelSelector} ~ div.content`;
+  const FilterAccordionContentSelector = `${FilterAccordionLabelSelector} ~ div.content`;
   const waitInitialDisplay = async (
     page,
     path = '/books?keyword=ノーコードでつくるWebサイト　ツール選定・デザイン・制作・運用が全部わかる！'

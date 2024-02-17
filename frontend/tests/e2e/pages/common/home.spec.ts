@@ -19,7 +19,7 @@ test.describe('Home', () => {
     await page.waitForSelector('.skeleton', { state: 'hidden' });
     await page.waitForSelector('#genre-content');
   };
-  test.beforeEach(async (_, testInfo) => {
+  test.beforeEach(async ({}, testInfo) => {
     browserName = testInfo.project.name;
     fileName = createFileName(testInfo);
     // await page.on('console', msg => {

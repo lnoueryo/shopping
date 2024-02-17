@@ -18,7 +18,7 @@ const waitInitialDisplay = async page => {
   await page.waitForSelector('#genre-content');
 };
 test.describe('Home', () => {
-  test.beforeEach(async (_, testInfo) => {
+  test.beforeEach(async ({}, testInfo) => {
     browserName = testInfo.project.name;
     fileName = createFileName(testInfo);
     // await page.on('console', msg => {
