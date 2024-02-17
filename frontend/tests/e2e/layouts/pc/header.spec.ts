@@ -1,21 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { navigationData } from '../../../../assets/js/navigation';
 
-// 非同期処理の完了を待つ関数を定義
-async function waitForAsyncProcess(page) {
-  // キャッシュやローカルストレージをクリア
-  await page.evaluate(() => {
-    localStorage.clear();
-    sessionStorage.clear();
-    caches.keys().then(keyList => {
-      return Promise.all(keyList.map(key => caches.delete(key)));
-    });
-  });
-
-  // ネットワーク状態の変更が完全に反映されるまで待機
-  await page.waitForFunction('navigator.onLine === true');
-}
-
 test.describe('header', () => {
   test.describe('Redirect to Home', () => {
     test('Verify has logo', async ({ page }) => {
@@ -139,12 +124,11 @@ test.describe('header', () => {
       const bookResultContent = await page.textContent(bookResultSelector);
       expect(bookResultContent).toContain(bookName);
     });
-
   });
 
   test.describe('Fixed search bar', () => {
     test.beforeEach(async ({ page }, testInfo) => {
-      if (!testInfo.project.name.includes('mobile')) test.skip()
+      if (!testInfo.project.name.includes('mobile')) test.skip();
       await page.setViewportSize({ width: 400, height: 600 });
     });
 

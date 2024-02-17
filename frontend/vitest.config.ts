@@ -24,7 +24,10 @@ export default defineConfig({
     alias: {
       '@': resolve(__dirname, '/'),
       // '#app': resolve(__dirname, './.nuxt/nuxt.d.ts'),
-      '#app': resolve(__dirname, 'node_modules/.pnpm/nuxt@3.8.2_@types+node@20.10.4_eslint@8.55.0_sass@1.69.5_typescript@5.3.3_vite@5.0.6/node_modules/nuxt/dist/app'),
+      '#app': resolve(
+        __dirname,
+        'node_modules/.pnpm/nuxt@3.8.2_@types+node@20.10.4_eslint@8.55.0_sass@1.69.5_typescript@5.3.3_vite@5.0.6/node_modules/nuxt/dist/app'
+      ),
     },
   },
 });

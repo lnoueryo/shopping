@@ -48,7 +48,7 @@ const books = [
 ];
 
 for (let i = 0; i < 8; i++) {
-  books.push(...books)
+  books.push(...books);
 }
 
 describe('BookList', () => {
@@ -66,11 +66,14 @@ describe('BookList', () => {
       routes: [],
     });
   };
-  const createBookList = (page) => {
+  const createBookList = page => {
     const maxBooks = 30;
     const count = books.length;
-    const page_count = books.length % maxBooks === 0 ? books.length / maxBooks : Math.ceil(books.length / maxBooks);
-    const first = 1 + (maxBooks * (page - 1));
+    const page_count =
+      books.length % maxBooks === 0
+        ? books.length / maxBooks
+        : Math.ceil(books.length / maxBooks);
+    const first = 1 + maxBooks * (page - 1);
     const last = page === page_count ? count : page * maxBooks;
     return {
       bookList: {
@@ -80,13 +83,14 @@ describe('BookList', () => {
         last,
         page_count,
         count,
-      }
-    }
-  }
+      },
+    };
+  };
   describe('Display BookList', () => {
     it('Render Correctly', async () => {
       Element.prototype.scrollTo = () => {};
-      const state = createBookList(1);
+      const page = 1;
+      const state = createBookList(page);
       const wrapper = mount(BookList, {
         global: {
           plugins: [createRouterInstance(), createPinia(state)],
@@ -120,9 +124,15 @@ describe('BookList', () => {
       }
       const pagination = wrapper.findComponent({ name: 'Pagination' });
       expect(pagination.exists()).toBeTruthy();
+      const firstButton = pagination.find('#page-buttons #button-1');
+      expect(firstButton.text()).toBe('1');
+      const lastButton = pagination.find('#page-buttons #button-4');
+      expect(lastButton.text()).toBe('4');
+      const jumpRightButton = pagination.find('#jump-right-button');
+      expect(Number(jumpRightButton.text())).toBe(state.bookList.page_count);
     });
     it('Render No Result', async () => {
-      const state = { bookList: {books: []} };
+      const state = { bookList: { books: [] } };
       const wrapper = mount(BookList, {
         global: {
           plugins: [createRouterInstance(), createPinia(state)],
@@ -159,6 +169,124 @@ describe('BookList', () => {
         const errorComponent = wrapper.find(components[errorType]);
         expect(errorComponent.exists()).toBeTruthy();
       }
+    });
+  });
+  describe('Go To Next Page', () => {
+    it('Verify next page', async () => {
+      Element.prototype.scrollTo = () => {};
+      const path = '/books';
+      const page = 1;
+      const keyword = 'python';
+      const state = createBookList(page);
+      const router = createRouterInstance();
+      await router.push({ path, query: { keyword, page } });
+      const wrapper = mount(BookList, {
+        global: {
+          plugins: [router, createPinia(state)],
+        },
+      });
+      expect(router.currentRoute.value.path).toBe(path);
+      expect(router.currentRoute.value.query.keyword).toBe(keyword);
+      expect(Number(router.currentRoute.value.query.page)).toBe(page);
+      await flushPromises();
+      const pagination = wrapper.findComponent({ name: 'Pagination' });
+      expect(pagination.exists()).toBeTruthy();
+      const nextButton = pagination.find('#right-page-button button');
+      expect(nextButton.exists()).toBeTruthy();
+      await nextButton.trigger('click');
+      await flushPromises();
+      expect(pagination.emitted('updatePage')).toBeTruthy();
+      expect(router.currentRoute.value.path).toBe(path);
+      expect(router.currentRoute.value.query.keyword).toBe(keyword);
+      expect(Number(router.currentRoute.value.query.page)).toBe(page + 1);
+    }, 10000);
+    it('Verify previous page', async () => {
+      Element.prototype.scrollTo = () => {};
+      const path = '/books';
+      const page = 2;
+      const keyword = 'python';
+      const state = createBookList(page);
+      const router = createRouterInstance();
+      await router.push({ path, query: { keyword, page } });
+      const wrapper = mount(BookList, {
+        global: {
+          plugins: [router, createPinia(state)],
+        },
+      });
+      expect(router.currentRoute.value.path).toBe(path);
+      expect(router.currentRoute.value.query.keyword).toBe(keyword);
+      expect(Number(router.currentRoute.value.query.page)).toBe(page);
+      await flushPromises();
+      const pagination = wrapper.findComponent({ name: 'Pagination' });
+      expect(pagination.exists()).toBeTruthy();
+      const nextButton = pagination.find('#left-page-button button');
+      expect(nextButton.exists()).toBeTruthy();
+      await nextButton.trigger('click');
+      await flushPromises();
+      expect(pagination.emitted('updatePage')).toBeTruthy();
+      expect(router.currentRoute.value.path).toBe(path);
+      expect(router.currentRoute.value.query.keyword).toBe(keyword);
+      expect(Number(router.currentRoute.value.query.page)).toBe(page - 1);
+    }, 10000);
+    it('Verify jump to right page', async () => {
+      Element.prototype.scrollTo = () => {};
+      const path = '/books';
+      const page = 1;
+      const keyword = 'python';
+      const state = createBookList(page);
+      const router = createRouterInstance();
+      await router.push({ path, query: { keyword, page } });
+      const wrapper = mount(BookList, {
+        global: {
+          plugins: [router, createPinia(state)],
+        },
+      });
+      expect(router.currentRoute.value.path).toBe(path);
+      expect(router.currentRoute.value.query.keyword).toBe(keyword);
+      expect(Number(router.currentRoute.value.query.page)).toBe(page);
+      await flushPromises();
+      const pagination = wrapper.findComponent({ name: 'Pagination' });
+      expect(pagination.exists()).toBeTruthy();
+      const jumpToRightButton = pagination.find(
+        'nav ul li ul li button[aria-label="jump to right page"]'
+      );
+      expect(jumpToRightButton.exists()).toBeTruthy();
+      await jumpToRightButton.trigger('click');
+      await flushPromises();
+      expect(pagination.emitted('updatePage')).toBeTruthy();
+      expect(router.currentRoute.value.path).toBe(path);
+      expect(router.currentRoute.value.query.keyword).toBe(keyword);
+      expect(Number(router.currentRoute.value.query.page)).toBe(page + 5);
+    });
+    it('Verify jump to left page', async () => {
+      Element.prototype.scrollTo = () => {};
+      const path = '/books';
+      const page = 7;
+      const keyword = 'python';
+      const state = createBookList(page);
+      const router = createRouterInstance();
+      await router.push({ path, query: { keyword, page } });
+      const wrapper = mount(BookList, {
+        global: {
+          plugins: [router, createPinia(state)],
+        },
+      });
+      expect(router.currentRoute.value.path).toBe(path);
+      expect(router.currentRoute.value.query.keyword).toBe(keyword);
+      expect(Number(router.currentRoute.value.query.page)).toBe(page);
+      await flushPromises();
+      const pagination = wrapper.findComponent({ name: 'Pagination' });
+      expect(pagination.exists()).toBeTruthy();
+      const jumpToRightButton = pagination.find(
+        'nav ul li ul li button[aria-label="jump to left page"]'
+      );
+      expect(jumpToRightButton.exists()).toBeTruthy();
+      await jumpToRightButton.trigger('click');
+      await flushPromises();
+      expect(pagination.emitted('updatePage')).toBeTruthy();
+      expect(router.currentRoute.value.path).toBe(path);
+      expect(router.currentRoute.value.query.keyword).toBe(keyword);
+      expect(Number(router.currentRoute.value.query.page)).toBe(page - 3);
     });
   });
 });

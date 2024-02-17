@@ -3,7 +3,7 @@ import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { useBooksStore } from '@/stores/books';
 
 const mockElement = {
-  style: {height: '100px'},
+  style: { height: '100px' },
 };
 global.document.getElementById = vi.fn(() => mockElement);
 

@@ -28,7 +28,7 @@
     },
   };
   const errorType = ref(404);
-  onMounted(async() => {
+  onMounted(async () => {
     const is404FromPage = store.route.from && !route.query.next;
     if (is404FromPage) {
       router.replace({
@@ -48,7 +48,6 @@
     next.value = route.query.next;
   });
   const error = computed(() => errorTypes[errorType.value]);
-
 </script>
 
 <template>

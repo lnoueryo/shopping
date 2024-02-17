@@ -112,7 +112,7 @@
       <li id="left-page-button">
         <SquareButton
           :class="{ 'adjust-bottom': isMobile }"
-          @click.native="updatePage(props.page - 1)"
+          @click="updatePage(props.page - 1)"
           :disabled="props.page === 1"
         >
           <SvgIcon type="mdi" :path="mdiChevronLeft" title="previous page" />
@@ -123,14 +123,14 @@
           <li>
             <SquareButton
               id="jump-left-button"
-              @click.native="updatePage(1)"
+              @click="updatePage(1)"
               :aria-label="`jump to first page`"
               >1</SquareButton
             >
           </li>
           <li>
             <SquareButton
-              @click.native="updatePage(jumpToLeftPageNum)"
+              @click="updatePage(jumpToLeftPageNum)"
               :aria-label="`jump to left page`"
               >...</SquareButton
             >
@@ -155,7 +155,7 @@
               :id="`button-${i}`"
               :class="{ active: props.page === i }"
               :aria-current="props.page === i && 'page'"
-              @click.native="updatePage(i)"
+              @click="updatePage(i)"
               :aria-label="`go to ${i} page`"
               >{{ i }}</SquareButton
             >
@@ -166,7 +166,7 @@
         <ul class="flex">
           <li>
             <SquareButton
-              @click.native="updatePage(jumpToRightPageNum)"
+              @click="updatePage(jumpToRightPageNum)"
               :aria-label="`jump to right page`"
               >...</SquareButton
             >
@@ -174,7 +174,7 @@
           <li>
             <SquareButton
               id="jump-right-button"
-              @click.native="updatePage(props.page_count)"
+              @click="updatePage(props.page_count)"
               :aria-label="`jump to last page`"
               >{{ props.page_count }}</SquareButton
             >
@@ -184,7 +184,7 @@
       <li id="right-page-button">
         <SquareButton
           :class="{ 'adjust-bottom': isMobile }"
-          @click.native="updatePage(props.page + 1)"
+          @click="updatePage(props.page + 1)"
           :disabled="props.page === props.page_count"
         >
           <SvgIcon type="mdi" :path="mdiChevronRight" title="next page" />

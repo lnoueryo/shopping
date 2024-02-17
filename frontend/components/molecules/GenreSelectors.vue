@@ -42,8 +42,8 @@
     },
     type: {
       type: String,
-      default: 'radio'
-    }
+      default: 'radio',
+    },
   });
   const size = ref(0);
   const updateSize = newWidth => {

@@ -79,18 +79,15 @@
       : `calc(var(--vh, 1vh) * 100 - ${store.topLayoutHeight}px - ${store.heightContent}px)`;
   };
   const closeAccordion = () => (contentStyle.value.maxHeight = '0');
-  watch(
-    isAccordionOpen,
-    async newValue => {
-      if (newValue) {
-        openAccordion();
-        return lockPage();
-      }
-      closeAccordion();
-      unLockPage();
-      await booksStore.updateQuery(route.query);
+  watch(isAccordionOpen, async newValue => {
+    if (newValue) {
+      openAccordion();
+      return lockPage();
     }
-  );
+    closeAccordion();
+    unLockPage();
+    await booksStore.updateQuery(route.query);
+  });
 
   onMounted(() => {
     isFixed.value = window.scrollY > store.topLayoutHeight;
@@ -128,10 +125,7 @@
         <div class="h100 title-bottom">
           <div class="vertical-center justify-between h100 margin-horizontal">
             <p class="vertical-center h100">Filter</p>
-            <div
-              class="arrow-box"
-              :class="{ toggle: isAccordionOpen }"
-            >
+            <div class="arrow-box" :class="{ toggle: isAccordionOpen }">
               <div
                 :class="{
                   open: isAccordionOpen,

@@ -8,7 +8,14 @@
   import { useStore } from '@/stores';
   import { useBooksStore } from '@/stores/books';
   import { deviceSize } from '@/assets/js/device-size.js';
-  import { ref, watch, onBeforeMount, onMounted, onBeforeUnmount } from 'vue';
+  import {
+    ref,
+    watch,
+    onBeforeMount,
+    onMounted,
+    onBeforeUnmount,
+    computed,
+  } from 'vue';
 
   definePageMeta({
     middleware: ['books'],
@@ -46,15 +53,18 @@
     booksStore.fetchBooksData();
   });
 
-  onBeforeUnmount(() =>
-    window.removeEventListener('popstate', handleBrowserButton)
-  );
+  onBeforeUnmount(() => {
+    window.removeEventListener('popstate', handleBrowserButton);
+    booksStore.resetBookList();
+  });
 
   const handleBrowserButton = () => {
     isClickedBrowerButton.value = true;
   };
 
-  const isMoreThanSmallDesktop = computed(() => deviceSize.smallDesktop <= store.width)
+  const isMoreThanSmallDesktop = computed(
+    () => deviceSize.smallDesktop <= store.width
+  );
 </script>
 
 <template>

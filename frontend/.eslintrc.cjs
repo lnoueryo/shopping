@@ -3,6 +3,7 @@ module.exports = {
     definePageMeta: 'readonly',
     useRoute: 'readonly',
     useRouter: 'readonly',
+    useError: 'readonly',
     useRuntimeConfig: 'readonly',
     process: 'readonly',
   },
@@ -61,13 +62,16 @@ module.exports = {
       {
         selector: 'variable',
         format: ['camelCase', 'UPPER_CASE', 'PascalCase'],
-        filter: { regex: 'publish_date|page_count', match: false },
+        filter: {
+          regex: 'publish_date|page_count|^__filename$|^__dirname$',
+          match: false,
+        },
       },
     ],
     'no-eval': 'error',
     'no-implied-eval': 'error',
     'no-constant-condition': ['error', { checkLoops: false }],
-    'no-unused-expressions': 'warn',
+    'no-unused-expressions': ['error', { allowShortCircuit: true }],
     'prefer-template': 'error',
     'prefer-destructuring': ['error', { object: true, array: false }],
     // コンソールステートメントを許可（開発中は'off'、本番では'warn'または'error'）

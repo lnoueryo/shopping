@@ -136,16 +136,19 @@
     border-radius: 3px;
     width: 100%;
     z-index: 0;
-    outline: 2px solid var(--color-text-right-gray);
+    border: 2px solid var(--color-text-right-gray);
     transition:
       var(--transition-secondary),
       padding 0s;
   }
 
   #main-search-bar:focus-visible {
-    outline: 2px solid var(--color-class);
-    transition:
-      var(--transition-primary);
+    border: 2px solid var(--color-class);
+    transition: var(--transition-primary);
+  }
+
+  #main-search-bar:focus {
+    outline: none;
   }
 
   .prompt {

@@ -19,7 +19,7 @@ const createRouterInstance = () => {
       {
         path: '/:id',
         name: 'roadmap',
-        props: route => ({id: route.params.id}),
+        props: route => ({ id: route.params.id }),
       },
       {
         path: '/error',
@@ -31,14 +31,14 @@ const createRouterInstance = () => {
 
 describe('[id]', () => {
   describe('Visit', () => {
-    it('Display roadmap', async() => {
-      const id = 'frontend'
+    it('Display roadmap', async () => {
+      const id = 'frontend';
       const router = createRouterInstance();
       await router.push({
         path: `/${id}`,
-        params: {id}
+        params: { id },
       });
-      const wrapper =  mount(RoadMap, {
+      const wrapper = mount(RoadMap, {
         global: {
           plugins: [router, createPinia({})],
         },
@@ -55,17 +55,16 @@ describe('[id]', () => {
       expect(wrapper.vm.isImageReady).toBeFalsy();
       img.trigger('load');
       expect(wrapper.vm.isImageReady).toBeTruthy();
-
     });
 
-    it('Display 404', async() => {
-      const id = '123456789'
+    it('Display 404', async () => {
+      const id = '123456789';
       const router = createRouterInstance();
       await router.push({
         path: `/${id}`,
-        params: {id}
+        params: { id },
       });
-      const wrapper =  mount(RoadMap, {
+      const wrapper = mount(RoadMap, {
         global: {
           plugins: [router, createPinia({})],
         },
@@ -77,18 +76,6 @@ describe('[id]', () => {
       img.trigger('error');
       await flushPromises();
       expect(wrapper.vm.route.fullPath).toBe('/error?status=404');
-
     });
-
   });
-
 });
-
-
-interface GenreData {
-  id?: string;
-  title?: string;
-  icon?: string;
-  disabled?: boolean;
-  size?: number;
-}

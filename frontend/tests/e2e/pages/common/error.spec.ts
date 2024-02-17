@@ -1,10 +1,10 @@
-import { test, expect } from '@playwright/test';
+import { test } from '@playwright/test';
 import * as utils from '../utils';
 const { BASE_IMAGE_PATH, createFileName } = utils;
 let browserName: string;
 let fileName: string;
 test.describe('Error', () => {
-  test.beforeEach(async ({ page }, testInfo) => {
+  test.beforeEach(async (_, testInfo) => {
     browserName = testInfo.project.name;
     fileName = createFileName(testInfo);
     // await page.on('console', msg => {
@@ -15,6 +15,8 @@ test.describe('Error', () => {
     await page.goto('/123');
     await page.waitForLoadState('networkidle');
     await page.waitForSelector('.skeleton', { state: 'hidden' });
-    await page.screenshot({ path: `${BASE_IMAGE_PATH}/${browserName}/${fileName}` });
-  })
+    await page.screenshot({
+      path: `${BASE_IMAGE_PATH}/${browserName}/${fileName}`,
+    });
+  });
 });
