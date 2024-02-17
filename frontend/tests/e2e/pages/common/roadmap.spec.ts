@@ -1,11 +1,11 @@
-import { test, expect } from '@playwright/test';
+import { test } from '@playwright/test';
 import { navigationData } from '../../../../assets/js/navigation';
 import * as utils from '../utils';
 const { BASE_IMAGE_PATH, createFileName } = utils;
 let browserName: string;
 let fileName: string;
 test.describe('Roadmap', () => {
-  test.beforeEach(async ({ page }, testInfo) => {
+  test.beforeEach(async ({}, testInfo) => {
     browserName = testInfo.project.name;
     fileName = createFileName(testInfo);
     // await page.on('console', msg => {
@@ -18,7 +18,9 @@ test.describe('Roadmap', () => {
       await page.goto(navigation.to);
       await page.waitForLoadState('networkidle');
       await page.waitForSelector('.skeleton', { state: 'hidden' });
-      await page.screenshot({ path: `${BASE_IMAGE_PATH}/${browserName}/${fileName}` });
-    })
+      await page.screenshot({
+        path: `${BASE_IMAGE_PATH}/${browserName}/${fileName}`,
+      });
+    });
   }
 });

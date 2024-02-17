@@ -37,7 +37,12 @@ describe('GenreFloatingSideBar', () => {
       const logoHeight = heightContent;
       const navHeight = heightContent;
       const headerHeight = searchBarHeight + logoHeight;
-      const state = { isHeaderReady: false, heightContent, headerHeight, navHeight };
+      const state = {
+        isHeaderReady: false,
+        heightContent,
+        headerHeight,
+        navHeight,
+      };
       const wrapper = mount(GenreFloatingSideBar, {
         global: {
           plugins: [createRouterInstance(), createPinia(state)],

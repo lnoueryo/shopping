@@ -1,5 +1,6 @@
 <script setup lang="ts">
   import { ref, watch, watchEffect, computed, onMounted, nextTick } from 'vue';
+  import { getDarkerAndLighterColor } from '@/utils';
   const props = defineProps({
     modelValue: {
       type: Boolean,
@@ -48,7 +49,7 @@
       clearTimeout(timer.value);
       nextTick(() => {
         snackbar.value.focus();
-      })
+      });
       timer.value = setTimeout(() => {
         isSnackbarShowed.value = false;
         emit('update:modelValue', false);
@@ -59,12 +60,12 @@
   watch(
     () => props.color,
     newValue => {
-    const { current, darker } = getDarkerAndLighterColor(newValue);
-    snackbarStyle.value = {
-      '--snackbar-background-color': current,
-      '--snackbar-border-color': darker,
-      '--snackbar-transform': snackbarTransform.value,
-    };
+      const { current, darker } = getDarkerAndLighterColor(newValue);
+      snackbarStyle.value = {
+        '--snackbar-background-color': current,
+        '--snackbar-border-color': darker,
+        '--snackbar-transform': snackbarTransform.value,
+      };
     }
   );
 
@@ -87,7 +88,14 @@
       class="visually-hidden"
       style="display: none"
     />
-    <label class="center card-shadow" for="snackbar" :style="snackbarStyle" ref="snackbar" role="alert" aria-live="assertive">
+    <label
+      class="center card-shadow"
+      for="snackbar"
+      :style="snackbarStyle"
+      ref="snackbar"
+      role="alert"
+      aria-live="assertive"
+    >
       <span class="snackbar-text content-padding">{{ props.message }}</span>
     </label>
   </div>

@@ -15,7 +15,7 @@
     },
     type: {
       type: String,
-      default: 'radio'
+      default: 'radio',
     },
     panelLine: Boolean,
   });

@@ -10,7 +10,7 @@
   const booksStore = useBooksStore();
   const searchBooks = useSearchBooks();
   const searchNextBooks = async nextPage => {
-    const query = searchBooks.searchNextBooks(nextPage);
+    const query = await searchBooks.goToNextPage(nextPage);
     await booksStore.updateQuery(query);
   };
 </script>

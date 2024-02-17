@@ -8,11 +8,13 @@ RUN npm install -g pnpm
 
 RUN pnpm install
 
-RUN pnpm playwright install-deps
+RUN pnpm exec playwright install
 
-RUN pnpm exec playwright install chrome
+RUN pnpm playwright install --with-deps
 
 RUN pnpm exec playwright install msedge
+
+RUN pnpm exec playwright install chrome
 
 COPY ./frontend .
 

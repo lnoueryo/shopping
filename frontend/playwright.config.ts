@@ -88,11 +88,6 @@ export default defineConfig({
 
 const createPageScreenshotDir = () => {
   const screenshotDir = `./tests/e2e/pages/screenshots/${process.env.GITHUB_REF_NAME}`;
-  const paths = [
-    'home',
-    'books',
-    '[id]',
-  ]
   if (!fs.existsSync(`${screenshotDir}/diff`)) {
     fs.mkdirSync(`${screenshotDir}/diff`, { recursive: true });
   }

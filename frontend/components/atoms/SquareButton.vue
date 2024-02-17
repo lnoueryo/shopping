@@ -1,5 +1,6 @@
 <script setup lang="ts">
   import { ref, watch, onMounted } from 'vue';
+  import { getDarkerAndLighterColor } from '@/utils';
   const props = defineProps({
     disabled: {
       type: Boolean,
@@ -7,20 +8,20 @@
     },
     color: {
       type: String,
-      default: 'var(--color-class)'
-    }
+      default: 'var(--color-class)',
+    },
   });
 
-  const buttonStyle = ref({})
+  const buttonStyle = ref({});
 
   watch(
     () => props.color,
     newValue => {
       const { current, darker } = getDarkerAndLighterColor(newValue);
       buttonStyle.value = {
-      '--button-color': current,
-      '--button-hover-color': current,
-      '--button-active-color': darker,
+        '--button-color': current,
+        '--button-hover-color': current,
+        '--button-active-color': darker,
       };
     }
   );

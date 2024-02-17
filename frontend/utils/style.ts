@@ -30,7 +30,7 @@ const isRgbColor = (color: string) => {
 const isCssVariable = (str: string) => {
   const cssVarPattern = /^var\(--[\w-]+\)$/;
   return cssVarPattern.test(str);
-}
+};
 
 const hexToRgb = (hex: string) => {
   if (!isHexColor(hex)) return { r: 0, g: 0, b: 0 };
@@ -170,7 +170,10 @@ const rgbToHex = ({ r, g, b }: { r: number; g: number; b: number }) => {
   return `#${hex}`;
 };
 
-const getDarkerAndLighterColor = (color: string, el = document.documentElement) => {
+const getDarkerAndLighterColor = (
+  color: string,
+  el = document.documentElement
+) => {
   const hex = isCssVariable(color) ? getCssVariableValue(color, el) : color;
   return calculateAdjacentColors(hex);
 };

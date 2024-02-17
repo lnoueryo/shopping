@@ -35,7 +35,7 @@ describe('FilterAccordion', () => {
           rate: 0,
           levels: [],
           genre: '',
-          page: 1
+          page: 1,
         },
       };
       const wrapper = mount(FilterAccordion, {

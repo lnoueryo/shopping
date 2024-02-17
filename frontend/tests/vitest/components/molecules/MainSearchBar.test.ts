@@ -23,7 +23,9 @@ describe('MainSearchBar', () => {
       };
       expect(wrapper.vm.promptWidth).toBe(0);
       expect(wrapper.vm.isInputSizeBelowLimit).toBeFalsy();
-      wrapper.vm.wrapperRef = { getBoundingClientRect: () => ({ left: wrapperLeft }) };
+      wrapper.vm.wrapperRef = {
+        getBoundingClientRect: () => ({ left: wrapperLeft }),
+      };
       wrapper.vm.promptRef = {
         getBoundingClientRect: () => ({ left: propmptLeft, width: 100 }),
       };
@@ -46,7 +48,9 @@ describe('MainSearchBar', () => {
       };
       expect(wrapper.vm.promptWidth).toBe(0);
       expect(wrapper.vm.isInputSizeBelowLimit).toBeFalsy();
-      wrapper.vm.wrapperRef = { getBoundingClientRect: () => ({ left: wrapperLeft }) };
+      wrapper.vm.wrapperRef = {
+        getBoundingClientRect: () => ({ left: wrapperLeft }),
+      };
       wrapper.vm.promptRef = {
         getBoundingClientRect: () => ({ left: propmptLeft, width: 100 }),
       };

@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import SvgIcon from '@jamescoyle/vue-icon';
   import RippleButton from '@/components/wrappers/RippleButton.vue';
-  import { ref, onBeforeMount, watch } from 'vue';
+  import { ref, onBeforeMount } from 'vue';
   import { mdiChevronLeft } from '@mdi/js';
   import { getImageFromCache } from '@/utils';
   const props = defineProps({
@@ -18,7 +18,6 @@
       type: String,
     },
   });
-  const route = useRoute();
   const imageSrc = ref(props.imagePath);
   const isReady = ref(false);
   const imageStyle = ref({});
@@ -41,11 +40,7 @@
       <img width="100%" :src="imageSrc" :alt="props.message" v-if="isReady" />
     </picture>
     <div class="center content-padding-horizontal">
-      <RippleButton
-        color="#0d2b45"
-        change
-        borderRadius="3px"
-      >
+      <RippleButton color="#0d2b45" change borderRadius="3px">
         <NuxtLink class="button-padding" :to="path">
           <div class="button-content ripple-text">
             <SvgIcon type="mdi" :path="mdiChevronLeft" />
@@ -61,7 +56,6 @@
 </template>
 
 <style lang="scss" scoped>
-
   picture {
     display: block;
   }
@@ -84,10 +78,9 @@
       display: flex;
       align-items: center;
       span {
-        padding-right: var(--space-sm)
+        padding-right: var(--space-sm);
       }
     }
-
   }
 
   @media (hover: hover) and (pointer: fine) {
@@ -99,7 +92,7 @@
 
   a:active {
     opacity: 1;
-    transition: all 0s
+    transition: all 0s;
   }
 
   img {

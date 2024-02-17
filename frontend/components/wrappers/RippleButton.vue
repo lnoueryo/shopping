@@ -17,7 +17,7 @@
     borderRadius: {
       type: String,
       default: '3px',
-    }
+    },
   });
 
   const isActive = ref(false);
@@ -73,7 +73,7 @@
     :class="['ripple-wrapper', 'overflow-hidden']"
     @mousedown="applyRippleEffect"
     @touchstart.passive="applyRippleEffect"
-    :style="{borderRadius: props.borderRadius}"
+    :style="{ borderRadius: props.borderRadius }"
   >
     <div class="h100">
       <slot></slot>
